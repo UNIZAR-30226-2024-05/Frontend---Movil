@@ -1,4 +1,4 @@
-package com.example.myapplicationa;
+package com.example.narratives;
 
 import androidx.appcompat.app.AppCompatActivity;
 

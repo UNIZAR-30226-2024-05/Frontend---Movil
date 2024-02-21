@@ -1,4 +1,4 @@
-package com.example.myapplicationa;
+package com.example.narratives;
 
 import org.junit.Test;
 
