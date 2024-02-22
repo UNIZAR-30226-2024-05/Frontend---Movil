@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/inicio"
+        android:title="Inicio"
+        android:icon="@drawable/icono_inicio"/>
+
+    <item
+        android:id="@+id/biblioteca"
+        android:title="Biblioteca"
+        android:icon="@drawable/icono_biblioteca"/>
+
+    <item
+        android:id="@+id/escuchando"
+        android:title=""
+        android:icon="@drawable/icono_auriculares"/>
+
+    <item
+        android:id="@+id/amigos"
+        android:title="Amigos"
+        android:icon="@drawable/icono_amigos"/>
+
+    <item
+        android:id="@+id/clubs"
+        android:title="Clubs"
+        android:icon="@drawable/icono_clubs"/>
+
+
+
+
+</menu>

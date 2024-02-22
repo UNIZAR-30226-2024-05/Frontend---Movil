@@ -25,7 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/imagen_de_whatsapp_2024_02_08_a_las_19_34_10_2f9898ec" />
+        app:srcCompat="@drawable/narratives_limpio" />
 
     <EditText
         android:id="@+id/editTextTextPersonName3"
