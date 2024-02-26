@@ -13,8 +13,7 @@
 
     <item
         android:id="@+id/escuchando"
-        android:title=""
-        android:icon="@drawable/icono_auriculares"/>
+        android:title=""/>
 
     <item
         android:id="@+id/amigos"
