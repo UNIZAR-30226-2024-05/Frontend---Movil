@@ -21,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
                 abrirHomeSinRegistro();
             }
         });
+
         Button botonIniciarSesion = (Button) findViewById(R.id.botonIniciarSesion);
         botonIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,7 +30,18 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
+
+        Button botonRegistro = (Button) findViewById(R.id.botonRegistrarse);
+        botonRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirMenuRegistro();
+            }
+
+        });
     }
+
+
 
     public void abrirMenuInicio() {
         Intent intent = new Intent(this, MainActivity.class);
@@ -38,6 +50,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void abrirHomeSinRegistro() {
         Intent intent = new Intent(this, HomeSinRegistro.class);
+        startActivity(intent);
+    }
+
+    public void abrirMenuRegistro() {
+        Intent intent = new Intent(this, Registro.class);
         startActivity(intent);
     }
 

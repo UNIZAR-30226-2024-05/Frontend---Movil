@@ -28,109 +28,133 @@
         app:srcCompat="@drawable/narratives_limpio" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/editTextUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        tools:layout_editor_absoluteX="162dp"
-        tools:layout_editor_absoluteY="299dp" />
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNombre"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName6"
+        android:id="@+id/editTextContraseñaRegistroConfirmar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        tools:layout_editor_absoluteX="182dp"
-        tools:layout_editor_absoluteY="461dp" />
+        app:layout_constraintStart_toEndOf="@+id/textView7"
+        app:layout_constraintTop_toBottomOf="@+id/editTextContraseñaRegistro"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/BotonConfirmar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:text="Confirmar"
-        tools:layout_editor_absoluteX="144dp"
-        tools:layout_editor_absoluteY="580dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextContraseñaRegistroConfirmar" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="28dp"
         android:text="Usuario"
-        tools:layout_editor_absoluteX="48dp"
-        tools:layout_editor_absoluteY="309dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName5"
+        android:id="@+id/editTextContraseñaRegistro"
         android:layout_width="222dp"
         android:layout_height="44dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        tools:layout_editor_absoluteX="162dp"
-        tools:layout_editor_absoluteY="400dp" />
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/editTextCorreo"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="36dp"
         android:text="Correo"
-        tools:layout_editor_absoluteX="46dp"
-        tools:layout_editor_absoluteY="362dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName4"
+        android:id="@+id/editTextCorreo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        tools:layout_editor_absoluteX="164dp"
-        tools:layout_editor_absoluteY="355dp" />
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUsuario"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
         android:text="Verificar contraseña"
-        tools:layout_editor_absoluteX="44dp"
-        tools:layout_editor_absoluteY="478dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/editTextNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="36dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        tools:layout_editor_absoluteX="163dp"
-        tools:layout_editor_absoluteY="242dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="32dp"
         android:text="Contraseña"
-        tools:layout_editor_absoluteX="44dp"
-        tools:layout_editor_absoluteY="419dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:text="Nombre"
-        tools:layout_editor_absoluteX="51dp"
-        tools:layout_editor_absoluteY="261dp" />
+        app:layout_constraintEnd_toStartOf="@+id/editTextNombre"
+        app:layout_constraintHorizontal_bias="0.417"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BotonConfirmar"
         app:srcCompat="?attr/actionModeCloseDrawable"
-        tools:layout_editor_absoluteX="17dp"
-        tools:layout_editor_absoluteY="668dp" />
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

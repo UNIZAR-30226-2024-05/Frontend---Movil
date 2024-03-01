@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".HomeSinRegistro"></activity>
+        <activity android:name=".Registro"></activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
