@@ -2,14 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.narratives">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/narratives_limpio"
         android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Narratives">
         <activity
-            android:name="com.example.narratives.LoginActivity"
+            android:name="com.example.narratives.activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,9 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".HomeSinRegistro"></activity>
-        <activity android:name=".Registro"></activity>
+        <activity android:name=".activities.MainActivity"></activity>
+        <activity android:name=".activities.HomeSinRegistroActivity"></activity>
+        <activity android:name=".activities.RegistroActivity"></activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="editNombreUsuario" type="id" />
+    <item name="editTextUsuarioLogin" type="id" />
     <item name="textViewNombreUsuario" type="id" />
     <item name="botonIniciarSesion" type="id" />
-    <item name="editTextContraseña" type="id" />
+    <item name="editTextContraseñaLogin" type="id" />
     <item name="textViewContraseña" type="id" />
     <item name="imageViewLogoNarratives" type="id" />
     <item name="botonRegistrarse" type="id" />

@@ -1,16 +1,20 @@
-package com.example.narratives;
+package com.example.narratives.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.narratives.fragments.FragmentAmigos;
+import com.example.narratives.fragments.FragmentBiblioteca;
+import com.example.narratives.fragments.FragmentClubs;
+import com.example.narratives.fragments.FragmentEscuchando;
+import com.example.narratives.fragments.FragmentInicio;
+import com.example.narratives.R;
 import com.example.narratives.databinding.ActivityMainBinding;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;

@@ -1,4 +1,4 @@
-package com.example.narratives;
+package com.example.narratives.activities;
 
 import android.os.Bundle;
 import android.util.Patterns;
@@ -8,7 +8,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Registro extends AppCompatActivity{
+import com.example.narratives.R;
+
+public class RegistroActivity extends AppCompatActivity{
 
     private EditText editTextNombre;
     private EditText editTextUsuario;
