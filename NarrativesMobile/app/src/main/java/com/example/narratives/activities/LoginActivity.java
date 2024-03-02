@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.inicio_sesion);
         super.onCreate(savedInstanceState);
-
+/*
         retrofit = new Retrofit.Builder()
                 .baseUrl(URL_BASE)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -42,15 +42,15 @@ public class LoginActivity extends AppCompatActivity {
 
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
-        Button botonIniciarSesion = (Button) findViewById(R.id.botonIniciarSesion);
+        Button botonIniciarSesion = (Button) findViewById(R.id.botonConfirmarLogin);
         botonIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 comprobarDatosLogin(botonIniciarSesion);
             }
         });
-
-        Button botonRegistro = (Button) findViewById(R.id.botonRegistrarse);
+*/
+        Button botonRegistro = (Button) findViewById(R.id.botonIrARegistroDesdeLogin);
         botonRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,6 +58,21 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
+
+        findViewById(R.id.botonIrARegistroDesdeLogin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirMenuRegistro();
+            }
+        });
+
+        findViewById(R.id.botonVolverAlInicioLogin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirHomeSinRegistro();
+            }
+        });
+
     }
 
     private void comprobarDatosLogin(Button boton) {
@@ -67,7 +82,9 @@ public class LoginActivity extends AppCompatActivity {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 HashMap<String, String> datos = new HashMap<>();
+
 
                 datos.put("username", usuarioEditText.getText().toString());
                 datos.put("password", passwordEditText.getText().toString());
@@ -86,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                             builder.setMessage(resultado.getCorreo());
 
                             builder.show();
-                            abrirMenuInicio();
+                            abrirMenuMain();
 
                         } else {
                             Toast.makeText(LoginActivity.this, response.errorBody().toString(),
@@ -102,9 +119,10 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
+
     }
 
-    public void abrirMenuInicio() {
+    public void abrirMenuMain() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

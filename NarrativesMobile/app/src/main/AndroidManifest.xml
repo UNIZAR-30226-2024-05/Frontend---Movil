@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Narratives">
         <activity
-            android:name="com.example.narratives.activities.LoginActivity"
+            android:name="com.example.narratives.activities.HomeSinRegistroActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.MainActivity"></activity>
-        <activity android:name=".activities.HomeSinRegistroActivity"></activity>
+        <activity android:name=".activities.LoginActivity"></activity>
         <activity android:name=".activities.RegistroActivity"></activity>
         <meta-data
             android:name="preloaded_fonts"

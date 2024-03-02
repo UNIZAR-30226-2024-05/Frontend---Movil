@@ -1,5 +1,6 @@
 package com.example.narratives.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -12,7 +13,6 @@ import com.example.narratives.R;
 
 public class RegistroActivity extends AppCompatActivity{
 
-    private EditText editTextNombre;
     private EditText editTextUsuario;
     private EditText editTextCorreo;
     private EditText editTextContraseñaRegistro;
@@ -22,53 +22,98 @@ public class RegistroActivity extends AppCompatActivity{
             setContentView(R.layout.registrarse);
             super.onCreate(savedInstanceState);
 
-            editTextNombre = findViewById(R.id.editTextNombre);
-            editTextUsuario = findViewById(R.id.editTextUsuario);
+            editTextUsuario = findViewById(R.id.editTextUsuarioRegistro);
             editTextCorreo = findViewById(R.id.editTextCorreo);
-            editTextContraseñaRegistro = findViewById(R.id.editTextContraseñaRegistro);
-            editTextContraseñaRegistroConfirmar = findViewById(R.id.editTextContraseñaRegistroConfirmar);
+            editTextContraseñaRegistro = findViewById(R.id.editTextPasswordRegistro);
+            editTextContraseñaRegistroConfirmar = findViewById(R.id.editTextPasswordConfirmarRegistro);
 
-            findViewById(R.id.BotonConfirmar).setOnClickListener(new View.OnClickListener() {
+            findViewById(R.id.botonConfirmarRegistro).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (validarCampos()) {
-                        // Aquí puedes realizar acciones adicionales si todos los campos son válidos
+                        abrirMenuMain();
                     }
                 }
             });
+
+            findViewById(R.id.botonIrInicioSesionDesdeRegistro).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    abrirMenuLogin();
+                }
+            });
+
+            findViewById(R.id.botonVolverAlInicioRegistro).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    abrirMenuHomeSinRegistro();
+                }
+            });
         }
+
     private boolean validarCampos() {
-        String nombre = editTextNombre.getText().toString().trim();
         String usuario = editTextUsuario.getText().toString().trim();
         String correo = editTextCorreo.getText().toString().trim();
-        String contraseña = editTextContraseñaRegistro.getText().toString().trim();
+        String password = editTextContraseñaRegistro.getText().toString().trim();
         String confirmarContraseña = editTextContraseñaRegistroConfirmar.getText().toString().trim();
 
         // Verificar si algún campo está vacío
-        if (nombre.isEmpty() || usuario.isEmpty() || correo.isEmpty() || contraseña.isEmpty() || confirmarContraseña.isEmpty()) {
-            Toast.makeText(this, "complete todos los campos", Toast.LENGTH_SHORT).show();
+        if (usuario.isEmpty() || correo.isEmpty() || password.isEmpty() || confirmarContraseña.isEmpty()) {
+            Toast.makeText(this, "Complete todos los campos", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         // Verificar el formato del correo
         if (!Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
-            Toast.makeText(this, "introduzca un correo electrónico válido", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        // Verificar si el correo es de Gmail o Hotmail
-        if (!correo.contains("@gmail.com") && !correo.contains("@hotmail.com")) {
-            Toast.makeText(this, "introduzca un correo de Gmail o Hotmail", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Introduzca un correo electrónico válido", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         // Verificar si las contraseñas coinciden
-        if (!contraseña.equals(confirmarContraseña)) {
+        if (!password.equals(confirmarContraseña) ) {
             Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // Verificar si la password tiene un formato correcto
+        if (password.length() > 20) {
+            Toast.makeText(this, "La contraseña no puede tener más de 20 caracteres", Toast.LENGTH_SHORT).show();
+            return false;
+
+        }
+
+        if (!comprobarCaracteresPassword(password)){
+            Toast.makeText(this, "La contraseña solo puede tener carácteres alfanuméricos o guión bajo (_)", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         return true;
     }
-}
+
+
+    private boolean comprobarCaracteresPassword(String password) {
+        for (int i = 0; i < password.length(); i++) {
+            char c = password.charAt(i);
+            if (!(Character.isLetterOrDigit(c) || c == '_')) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    public void abrirMenuMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void abrirMenuHomeSinRegistro() {
+        Intent intent = new Intent(this, HomeSinRegistroActivity.class);
+        startActivity(intent);
+    }
+
+    public void abrirMenuLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }}
 
