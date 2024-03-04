@@ -2,6 +2,7 @@ package com.example.narratives.activities;
 
 import static android.app.ProgressDialog.show;
 
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,15 +51,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 */
-        Button botonRegistro = (Button) findViewById(R.id.botonIrARegistroDesdeLogin);
-        botonRegistro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                abrirMenuRegistro();
+
+        // PROVISIONAL PARA HACER PRUEBAS
+
+        Button botonConfirmar = (Button) this.findViewById(R.id.botonConfirmarLogin);
+        botonConfirmar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                abrirMenuMain();
             }
-
         });
-
         findViewById(R.id.botonIrARegistroDesdeLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,12 +130,12 @@ public class LoginActivity extends AppCompatActivity {
 
     public void abrirHomeSinRegistro() {
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void abrirMenuRegistro() {
         Intent intent = new Intent(this, RegistroActivity.class);
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
 }

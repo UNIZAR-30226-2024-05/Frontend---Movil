@@ -18,7 +18,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:maxImageSize="60dp"
-        app:tint="@color/teal_700" />
+        app:tint="@color/teal_700"
+        app:borderWidth="1.5dp"
+        app:backgroundTint="@color/teal_claro"
+        />
 
     <TextView
         android:id="@+id/textViewNarrativesRegistro"
@@ -89,7 +92,9 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewYaTienesCuentaRegistro"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="@android:color/white"
+        />
 
     <TextView
         android:id="@+id/textViewUsuarioRegistro"
@@ -176,6 +181,8 @@
         android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="@android:color/white"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

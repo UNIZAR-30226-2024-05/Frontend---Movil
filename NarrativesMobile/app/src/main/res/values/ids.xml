@@ -3,6 +3,7 @@
     <item name="editTextUsuarioLogin" type="id" />
     <item name="textViewNombreUsuario" type="id" />
     <item name="botonConfirmarLogin" type="id" />
+    <item name="botonEscuchando" type="id" />
     <item name="editTextContraseñaLogin" type="id" />
     <item name="textViewContraseña" type="id" />
     <item name="imageViewLogoNarratives" type="id" />

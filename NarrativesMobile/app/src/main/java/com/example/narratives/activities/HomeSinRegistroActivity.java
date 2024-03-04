@@ -1,5 +1,6 @@
 package com.example.narratives.activities;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -32,11 +33,11 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
 
     public void abrirMenuRegistro() {
         Intent intent = new Intent(this, RegistroActivity.class);
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void abrirMenuLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }
