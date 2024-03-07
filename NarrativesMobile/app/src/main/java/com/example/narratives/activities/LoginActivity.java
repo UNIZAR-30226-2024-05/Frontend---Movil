@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     //TODO: Conseguir IP del servidor
-    private String URL_BASE = "http://localhost:5432";
+    private String URL_BASE = "http://10.0.2.2:8000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,46 +81,41 @@ public class LoginActivity extends AppCompatActivity {
         EditText usuarioEditText = (EditText) findViewById(R.id.editTextUsuarioLogin);
         EditText passwordEditText = (EditText) findViewById(R.id.editTextContraseñaLogin);
 
-        boton.setOnClickListener(new View.OnClickListener() {
+
+        HashMap<String, String> datos = new HashMap<>();
+
+
+        datos.put("username", usuarioEditText.getText().toString());
+        datos.put("password", passwordEditText.getText().toString());
+
+        Call<LoginResult> llamada = retrofitInterface.ejecutarInicioSesion(datos);
+        llamada.enqueue(new Callback<LoginResult>() {
             @Override
-            public void onClick(View view) {
-
-                HashMap<String, String> datos = new HashMap<>();
-
-
-                datos.put("username", usuarioEditText.getText().toString());
-                datos.put("password", passwordEditText.getText().toString());
-
-                Call<LoginResult> llamada = retrofitInterface.ejecutarInicioSesion(datos);
-                llamada.enqueue(new Callback<LoginResult>() {
-                    @Override
-                    public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
-                        if(response.code() == 200) {
-
-                            LoginResult resultado = response.body();
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                            builder.setTitle(resultado.getUsuario());
-                            builder.setMessage(resultado.getCorreo());
-
-                            builder.show();
-                            abrirMenuMain();
-
-                        } else {
-                            Toast.makeText(LoginActivity.this, response.errorBody().toString(),
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<LoginResult> call, Throwable t) {
-                        Toast.makeText(LoginActivity.this, "No se ha conectado con el servidor",
+            public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
+                if (response.code() == 200) {
+                    Toast.makeText(LoginActivity.this, "Sesión iniciada correctamente",
                             Toast.LENGTH_LONG).show();
-                    }
-                });
+                    LoginResult resultado = response.body();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setTitle(resultado.getUsuario());
+                    builder.setMessage(resultado.getCorreo());
+
+                    builder.show();
+                    abrirMenuMain();
+
+                } else {
+                    Toast.makeText(LoginActivity.this, "No se ha podido iniciar sesión",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResult> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "No se ha conectado con el servidor",
+                        Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
     public void abrirMenuMain() {

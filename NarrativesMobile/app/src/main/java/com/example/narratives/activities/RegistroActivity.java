@@ -29,7 +29,7 @@ public class RegistroActivity extends AppCompatActivity{
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     //TODO: Conseguir IP del servidor
-    private String URL_BASE = "http://localhost:5432";
+    private String URL_BASE = "http://10.0.2.2:8000";
     private EditText editTextUsuario;
     private EditText editTextCorreo;
     private EditText editTextContraseñaRegistro;
@@ -149,44 +149,42 @@ public class RegistroActivity extends AppCompatActivity{
         EditText correoEditText = (EditText) findViewById(R.id.editTextCorreoRegistro);
 
 
-        boton.setOnClickListener(new View.OnClickListener() {
+
+
+        HashMap<String, String> datos = new HashMap<>();
+
+
+        datos.put("username", usuarioEditText.getText().toString());
+        datos.put("mail", correoEditText.getText().toString());
+        datos.put("password", passwordEditText.getText().toString());
+
+        Call<Void> llamada = retrofitInterface.ejecutarRegistro(datos);
+        llamada.enqueue(new Callback<Void>() {
             @Override
-            public void onClick(View view) {
-
-                HashMap<String, String> datos = new HashMap<>();
-
-
-                datos.put("username", usuarioEditText.getText().toString());
-                datos.put("mail", correoEditText.getText().toString());
-                datos.put("password", passwordEditText.getText().toString());
-
-                Call<Void> llamada = retrofitInterface.ejecutarRegistro(datos);
-                llamada.enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if(response.code() == 200) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.code() == 200) {
 
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
-                            builder.setMessage("Cuenta creada con éxito");
-                            builder.show();
-                            abrirMenuMain();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
+                    builder.setMessage("Cuenta creada con éxito");
+                    builder.show();
+                    abrirMenuMain();
 
-                        } else {
-                            Toast.makeText(RegistroActivity.this, response.errorBody().toString(),
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    }
+                } else {
+                    Toast.makeText(RegistroActivity.this, response.errorBody().toString(),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
 
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(RegistroActivity.this, "No se ha conectado con el servidor",
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(RegistroActivity.this, "No se ha conectado con el servidor",
+                        Toast.LENGTH_LONG).show();
             }
         });
     }
+
+
 
 
 }
