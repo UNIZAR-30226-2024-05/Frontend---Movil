@@ -100,7 +100,6 @@ public class LoginActivity extends AppCompatActivity {
 
                             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                             builder.setTitle(resultado.getUsuario());
-                            builder.setTitle(resultado.getUsuario());
                             builder.setMessage(resultado.getCorreo());
 
                             builder.show();
@@ -114,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<LoginResult> call, Throwable t) {
-                        Toast.makeText(LoginActivity.this, t.getMessage(),
+                        Toast.makeText(LoginActivity.this, "No se ha conectado con el servidor",
                             Toast.LENGTH_LONG).show();
                     }
                 });
