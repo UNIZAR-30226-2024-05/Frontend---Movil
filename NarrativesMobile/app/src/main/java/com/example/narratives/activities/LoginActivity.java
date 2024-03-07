@@ -29,13 +29,13 @@ public class LoginActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     //TODO: Conseguir IP del servidor
-    private String URL_BASE = "";
+    private String URL_BASE = "http://localhost:5432";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.inicio_sesion);
         super.onCreate(savedInstanceState);
-/*
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(URL_BASE)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -50,16 +50,17 @@ public class LoginActivity extends AppCompatActivity {
                 comprobarDatosLogin(botonIniciarSesion);
             }
         });
-*/
+
 
         // PROVISIONAL PARA HACER PRUEBAS
-
+        /*
         Button botonConfirmar = (Button) this.findViewById(R.id.botonConfirmarLogin);
         botonConfirmar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 abrirMenuMain();
             }
         });
+        */
         findViewById(R.id.botonIrARegistroDesdeLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

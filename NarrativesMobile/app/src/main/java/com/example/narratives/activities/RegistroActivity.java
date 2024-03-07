@@ -29,7 +29,7 @@ public class RegistroActivity extends AppCompatActivity{
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     //TODO: Conseguir IP del servidor
-    private String URL_BASE = "";
+    private String URL_BASE = "http://localhost:5432";
     private EditText editTextUsuario;
     private EditText editTextCorreo;
     private EditText editTextContraseñaRegistro;
@@ -51,12 +51,12 @@ public class RegistroActivity extends AppCompatActivity{
 
             retrofitInterface = retrofit.create(RetrofitInterface.class);
 
-            findViewById(R.id.botonConfirmarRegistro).setOnClickListener(new View.OnClickListener() {
+
+            Button botonRegistro = (Button) findViewById(R.id.botonConfirmarRegistro);
+            botonRegistro.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (validarCampos()) {
-                        comprobarDatosRegistro(botonConfirmarRegistro);
-                    }
+                    comprobarDatosRegistro(botonRegistro);
                 }
             });
 
