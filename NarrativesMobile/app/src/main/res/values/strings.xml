@@ -6,4 +6,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Amigos" />
     <string name="volver_atras">volver_atras</string>
+    <string name="menu_ajustes" />
 </resources>

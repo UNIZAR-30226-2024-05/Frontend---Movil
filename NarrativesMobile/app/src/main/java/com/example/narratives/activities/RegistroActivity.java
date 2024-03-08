@@ -1,5 +1,7 @@
 package com.example.narratives.activities;
 
+import static com.example.narratives.regislogin.RetrofitInterface.URL_BASE;
+
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -28,8 +30,6 @@ public class RegistroActivity extends AppCompatActivity{
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    //TODO: Conseguir IP del servidor
-    private String URL_BASE = "http://10.0.2.2:8000";
     private EditText editTextUsuario;
     private EditText editTextCorreo;
     private EditText editTextContraseñaRegistro;
@@ -56,7 +56,9 @@ public class RegistroActivity extends AppCompatActivity{
             botonRegistro.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    comprobarDatosRegistro(botonRegistro);
+                    if (validarCampos()) {
+                        comprobarDatosRegistro(botonRegistro);
+                    }
                 }
             });
 
@@ -170,8 +172,11 @@ public class RegistroActivity extends AppCompatActivity{
                     builder.show();
                     abrirMenuMain();
 
+                }  else if (response.code() == 404){
+                    Toast.makeText(RegistroActivity.this, "Usuario o correo ya existentes",
+                            Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(RegistroActivity.this, response.errorBody().toString(),
+                    Toast.makeText(RegistroActivity.this, "Algo ha fallado",
                             Toast.LENGTH_LONG).show();
                 }
             }

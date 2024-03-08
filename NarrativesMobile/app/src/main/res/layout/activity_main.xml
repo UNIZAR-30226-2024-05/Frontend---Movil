@@ -10,9 +10,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/frame_layout"
-        android:backgroundTint="@color/teal_700"
+        android:backgroundTint="@color/white"
         >
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botonAjustes"
+            android:layout_width="367dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/menu_ajustes"
+            android:layout_gravity="right"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/icono_ajustes"
+            app:backgroundTint="@color/white"
+            app:maxImageSize="28dp"
+            app:tint="@color/gris" />
     </FrameLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
@@ -50,7 +63,6 @@
         app:borderWidth="1.5dp"
         app:backgroundTint="@color/gris_claro"
         android:contentDescription="@string/menu_inferior" />
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

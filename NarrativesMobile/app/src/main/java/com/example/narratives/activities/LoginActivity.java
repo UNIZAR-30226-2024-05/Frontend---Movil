@@ -2,6 +2,8 @@ package com.example.narratives.activities;
 
 import static android.app.ProgressDialog.show;
 
+import static com.example.narratives.regislogin.RetrofitInterface.URL_BASE;
+
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -28,8 +30,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LoginActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    //TODO: Conseguir IP del servidor
-    private String URL_BASE = "http://10.0.2.2:8000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 comprobarDatosLogin(botonIniciarSesion);
+                //abrirMenuMain();
             }
         });
 
@@ -104,15 +105,21 @@ public class LoginActivity extends AppCompatActivity {
                     builder.show();
                     abrirMenuMain();
 
+                } else if (response.code() == 404){
+                    Toast.makeText(LoginActivity.this, "Usuario no encontrado",
+                            Toast.LENGTH_LONG).show();
+                } else if (response.code() == 401){
+                Toast.makeText(LoginActivity.this, "Contraseña incorrecta",
+                        Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(LoginActivity.this, "No se ha podido iniciar sesión",
+                    Toast.makeText(LoginActivity.this, "Algo ha fallado",
                             Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResult> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "No se ha conectado con el servidor",
+                Toast.makeText(LoginActivity.this, "Server error",
                         Toast.LENGTH_LONG).show();
             }
         });
