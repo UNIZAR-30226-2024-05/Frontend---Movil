@@ -7,16 +7,100 @@
     tools:context=".fragments.FragmentEscuchando">
 
     <TextView
-        android:id="@+id/textViewEscuchando"
+        android:id="@+id/textViewReproduciendoAhoraEscuchando"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ESCUCHANDO"
+        android:layout_marginTop="15dp"
+        android:gravity="top"
+        android:text="Reproduciendo ahora..."
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewTituloLibroSuperiorEscuchando"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="top"
+        android:text="TÍTULO LIBRO"
+        android:textSize="20sp"
+
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewReproduciendoAhoraEscuchando" />
+
+
+
+
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/shapeableImageViewPortadaLibroEscuchando"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:shapeAppearanceOverlay="@style/RoundedSquare"
+        android:src="@mipmap/icono_imagen_estandar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="25sp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroSuperiorEscuchando"
+        app:layout_constraintVertical_bias="0.25" />
+
+
+
+    <TextView
+        android:id="@+id/textViewTituloLibroCentralEscuchando"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="TÍTULO LIBRO"
+        android:textSize="35sp"
+        android:fontFamily="sans-serif-black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewPortadaLibroEscuchando"
+        app:layout_constraintVertical_bias="0" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonPlayEscuchando"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:backgroundTint="@color/teal_700"
+        android:src="@drawable/icono_play"
+        app:tint="@color/teal_muy_claro"
+        app:fabCustomSize="85dp"
+        app:maxImageSize="50dp"
+        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewPortadaLibroEscuchando"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonPauseEscuchando"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:backgroundTint="@color/teal_muy_claro"
+        android:src="@drawable/icono_pause"
+        app:tint="@color/teal_700"
+        app:fabCustomSize="85dp"
+        app:maxImageSize="50dp"
+        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewPortadaLibroEscuchando"
+
         />
 
 

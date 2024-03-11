@@ -47,8 +47,9 @@ public class LoginActivity extends AppCompatActivity {
         botonIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                comprobarDatosLogin(botonIniciarSesion);
-                //abrirMenuMain();
+                // MODIFICAR PARA PODER ENTRAR SIN VERIFICACION DE USUARIO
+                //comprobarDatosLogin(botonIniciarSesion);
+                abrirMenuMain();
             }
         });
 

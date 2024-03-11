@@ -9,4 +9,5 @@
     <item name="imageViewLogoNarratives" type="id" />
     <item name="botonRegistrarse" type="id" />
     <item name="textViewLogoNarratives" type="id" />
+    <item name="materialCardViewPortadaLibroEscuchando" type="id" />
 </resources>

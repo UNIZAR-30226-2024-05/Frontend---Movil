@@ -10,4 +10,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gris">#666666</color>
     <color name="gris_claro">#DFDFDF</color>
+    <color name="teal_muy_claro">#D9FEFD</color>
+
 </resources>
