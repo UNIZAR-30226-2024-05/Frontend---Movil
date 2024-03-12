@@ -7,4 +7,8 @@
     <string name="Amigos" />
     <string name="volver_atras">volver_atras</string>
     <string name="menu_ajustes" />
+    <string name="menu_config" />
+    <string name="mi_perfil" />
+    <string name="ajustesAdicionales" />
+    <string name="miperfil" />
 </resources>

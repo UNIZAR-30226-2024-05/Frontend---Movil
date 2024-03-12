@@ -23,10 +23,4 @@
         android:title="Cerrar sesión"
         android:icon="@drawable/icono_cerrar_sesion"/>
 
-
-
-
-
-
-
 </menu>

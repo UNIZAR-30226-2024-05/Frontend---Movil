@@ -2,6 +2,7 @@ package com.example.narratives.activities;
 
 import static com.example.narratives.regislogin.RetrofitInterface.URL_BASE;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -39,15 +40,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
-    int fragmentoActual;
-<<<<<<< Updated upstream
-=======
+
+
+    int fragmentoActual = 0;
     FragmentManager fragManager = getSupportFragmentManager();
 
->>>>>>> Stashed changes
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
+
+
+    private Fragment fragmentoInicioAbierto;
+    private Fragment fragmentoBibliotecaAbierto;
+    private Fragment fragmentoEscuchandoAbierto;
+    private Fragment fragmentoAmigosAbierto;
+    private Fragment fragmentoClubsAbierto;
 
 
     @Override
@@ -61,18 +68,30 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         retrofitInterface = retrofit.create(RetrofitInterface.class);
-
-        FloatingActionButton botonIniciarSesion = (FloatingActionButton) findViewById(R.id.botonAjustes);
+        /*
+        FloatingActionButton botonIniciarSesion = (FloatingActionButton) findViewById(R.id.cerrarsesión);
         botonIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 cerrarSesion();
             }
         });
+        */
+
+        fragmentoInicioAbierto = new FragmentInicio();
+        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragmentoInicioAbierto).commit();
+        fragmentoBibliotecaAbierto = new FragmentBiblioteca();
+        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragmentoBibliotecaAbierto).commit();
+        fragmentoEscuchandoAbierto = new FragmentEscuchando();
+        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragmentoEscuchandoAbierto).commit();
+        fragmentoAmigosAbierto = new FragmentAmigos();
+        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragmentoAmigosAbierto).commit();
+        fragmentoClubsAbierto = new FragmentClubs();
+        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragmentoClubsAbierto).commit();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        reemplazarFragmento(new FragmentInicio());
+        reemplazarFragmentoInicial();
         binding.bottomNavigatorView.getMenu().getItem(2).setEnabled(false);
         binding.bottomNavigatorView.setBackground(null);
         binding.bottomNavigatorView.setOnItemSelectedListener(item -> {
@@ -143,14 +162,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void reemplazarFragmento(Fragment fragmento){
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.botonEscuchando);
         fab.setImageTintList(ColorStateList.valueOf((0xFF) << 24 | (0x66) << 16 | (0x66) << 8 | (0x66)));
         binding.bottomNavigatorView.getMenu().getItem(fragmentoActual).setCheckable(true);
-<<<<<<< Updated upstream
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout, fragmento);
-=======
+
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         switch(fragmentoActual){
@@ -176,7 +193,8 @@ public class MainActivity extends AppCompatActivity {
         }
         fragmentTransaction.show(fragmento);
 
->>>>>>> Stashed changes
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.show(fragmento);
         fragmentTransaction.commit();
     }
 
@@ -184,11 +202,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
         startActivity(intent);
     }
-<<<<<<< Updated upstream
-=======
 
     private void reemplazarFragmentoInicial(){
         fragmentoActual = 0;
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.show(fragmentoInicioAbierto);
         fragmentTransaction.hide(fragmentoBibliotecaAbierto);
@@ -197,5 +214,4 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.hide(fragmentoClubsAbierto);
         fragmentTransaction.commit();
     }
->>>>>>> Stashed changes
 }
