@@ -10,7 +10,7 @@
         android:id="@+id/textViewReproduciendoAhoraEscuchando"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="60dp"
         android:gravity="top"
         android:text="Reproduciendo ahora..."
         android:textSize="12sp"
@@ -51,7 +51,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroSuperiorEscuchando"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="0.2" />
 
 
 

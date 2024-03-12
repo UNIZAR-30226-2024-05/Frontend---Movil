@@ -41,7 +41,7 @@
             android:contentDescription="@string/miperfil"
             android:src="@drawable/icono_tres_puntos"
             app:borderWidth="2dp"
-            app:backgroundTint="@color/teal_muy_claro"
+            app:backgroundTint="@color/gris_claro"
             app:maxImageSize="30dp"
             app:tint="@color/gris"
             app:fabCustomSize="45dp"
@@ -85,5 +85,14 @@
         app:backgroundTint="@color/gris_claro"
         android:contentDescription="@string/menu_inferior" />
 
+    <TextView
+        android:id="@+id/textViewNarrativesRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="7dp"
+        android:fontFamily="sans-serif-black"
+        android:text="NARRATIVES"
+        android:textSize="40sp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

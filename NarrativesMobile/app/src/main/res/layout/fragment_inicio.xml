@@ -23,18 +23,12 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textViewNarrativesTituloHome"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="50dp"
-                    android:text="NARRATIVES" />
-
-                <TextView
                     android:id="@+id/mejorvaloradtextview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="MEJORES VALORADOS" />
+                    android:text="MEJORES VALORADOS"
+                    android:layout_marginTop="85dp"
+                    />
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
