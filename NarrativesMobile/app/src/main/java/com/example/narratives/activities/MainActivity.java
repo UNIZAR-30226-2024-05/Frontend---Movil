@@ -192,9 +192,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         fragmentTransaction.show(fragmento);
-
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.show(fragmento);
         fragmentTransaction.commit();
     }
 
