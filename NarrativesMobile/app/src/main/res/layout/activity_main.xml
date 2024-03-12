@@ -14,17 +14,33 @@
         >
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/botonAjustes"
+            android:id="@+id/botonAjustesAdicionales"
             android:layout_width="367dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            android:contentDescription="@string/menu_ajustes"
+            android:contentDescription="@string/ajustesAdicionales"
             android:layout_gravity="right"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/icono_ajustes"
-            app:backgroundTint="@color/white"
-            app:maxImageSize="28dp"
+            android:src="@drawable/icono_perfil"
+            app:borderWidth="2dp"
+            app:backgroundTint="@color/teal_muy_claro"
+            app:maxImageSize="35dp"
+            app:tint="@color/gris" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botonMiPerfil"
+            android:layout_width="367dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/miperfil"
+            android:src="@drawable/icono_tres_puntos"
+            app:borderWidth="2dp"
+            app:backgroundTint="@color/teal_muy_claro"
+            app:maxImageSize="35dp"
             app:tint="@color/gris" />
     </FrameLayout>
 
@@ -61,6 +77,7 @@
         app:maxImageSize="28dp"
         app:tint="@color/gris"
         app:borderWidth="1.5dp"
+        app:fabCustomSize="65dp"
         app:backgroundTint="@color/gris_claro"
         android:contentDescription="@string/menu_inferior" />
 
