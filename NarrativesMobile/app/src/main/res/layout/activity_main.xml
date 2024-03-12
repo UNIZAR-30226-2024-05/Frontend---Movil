@@ -20,12 +20,41 @@
             android:backgroundTint="@color/white"
             android:contentDescription="@string/menu_ajustes"
             android:layout_gravity="right"
+<<<<<<< Updated upstream
             android:layout_marginEnd="10dp"
             android:layout_marginTop="10dp"
             android:src="@drawable/icono_ajustes"
             app:backgroundTint="@color/white"
             app:maxImageSize="28dp"
             app:tint="@color/gris" />
+=======
+            android:layout_marginEnd="7dp"
+            android:layout_marginTop="7dp"
+            android:src="@drawable/icono_perfil"
+            app:borderWidth="2dp"
+            app:backgroundTint="@color/teal_muy_claro"
+            app:maxImageSize="28dp"
+            app:tint="@color/gris"
+            app:fabCustomSize="45dp"
+            />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botonMiPerfil"
+            android:layout_width="367dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="7dp"
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/miperfil"
+            android:src="@drawable/icono_tres_puntos"
+            app:borderWidth="2dp"
+            app:backgroundTint="@color/teal_muy_claro"
+            app:maxImageSize="30dp"
+            app:tint="@color/gris"
+            app:fabCustomSize="45dp"
+            />
+>>>>>>> Stashed changes
     </FrameLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar

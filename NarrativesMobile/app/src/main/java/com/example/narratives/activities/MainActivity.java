@@ -40,6 +40,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     int fragmentoActual;
+<<<<<<< Updated upstream
+=======
+    FragmentManager fragManager = getSupportFragmentManager();
+
+>>>>>>> Stashed changes
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
@@ -74,22 +79,22 @@ public class MainActivity extends AppCompatActivity {
 
             switch(item.getItemId()) {
                 case R.id.inicio:
-                    reemplazarFragmento(new FragmentInicio());
+                    reemplazarFragmento(fragmentoInicioAbierto);
                     fragmentoActual = 0;
                     break;
 
                 case R.id.biblioteca:
-                    reemplazarFragmento(new FragmentBiblioteca());
+                    reemplazarFragmento(fragmentoBibliotecaAbierto);
                     fragmentoActual = 1;
                     break;
 
                 case R.id.amigos:
-                    reemplazarFragmento(new FragmentAmigos());
+                    reemplazarFragmento(fragmentoAmigosAbierto);
                     fragmentoActual = 3;
                     break;
 
                 case R.id.clubs:
-                    reemplazarFragmento(new FragmentClubs());
+                    reemplazarFragmento(fragmentoClubsAbierto);
                     fragmentoActual = 4;
                     break;
 
@@ -102,9 +107,10 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.botonEscuchando).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reemplazarFragmento(new FragmentEscuchando());
+                reemplazarFragmento(fragmentoEscuchandoAbierto);
                 binding.bottomNavigatorView.getMenu().getItem(fragmentoActual).setCheckable(false);
                 fabEscuchando.setImageTintList(ColorStateList.valueOf((0xff) << 24 | (0x01) << 16 | (0x87) << 8 | (0x86)));
+                fragmentoActual = 2;
             }
         });
     }
@@ -140,9 +146,37 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.botonEscuchando);
         fab.setImageTintList(ColorStateList.valueOf((0xFF) << 24 | (0x66) << 16 | (0x66) << 8 | (0x66)));
         binding.bottomNavigatorView.getMenu().getItem(fragmentoActual).setCheckable(true);
+<<<<<<< Updated upstream
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragmento);
+=======
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        switch(fragmentoActual){
+            case 0:
+                fragmentTransaction.hide(fragmentoInicioAbierto);
+                break;
+
+            case 1:
+                fragmentTransaction.hide(fragmentoBibliotecaAbierto);
+                break;
+
+            case 2:
+                fragmentTransaction.hide(fragmentoEscuchandoAbierto);
+                break;
+
+            case 3:
+                fragmentTransaction.hide(fragmentoAmigosAbierto);
+                break;
+
+            case 4:
+                fragmentTransaction.hide(fragmentoClubsAbierto);
+                break;
+        }
+        fragmentTransaction.show(fragmento);
+
+>>>>>>> Stashed changes
         fragmentTransaction.commit();
     }
 
@@ -150,4 +184,18 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
         startActivity(intent);
     }
+<<<<<<< Updated upstream
+=======
+
+    private void reemplazarFragmentoInicial(){
+        fragmentoActual = 0;
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.show(fragmentoInicioAbierto);
+        fragmentTransaction.hide(fragmentoBibliotecaAbierto);
+        fragmentTransaction.hide(fragmentoEscuchandoAbierto);
+        fragmentTransaction.hide(fragmentoAmigosAbierto);
+        fragmentTransaction.hide(fragmentoClubsAbierto);
+        fragmentTransaction.commit();
+    }
+>>>>>>> Stashed changes
 }
