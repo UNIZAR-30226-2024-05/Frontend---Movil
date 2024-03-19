@@ -48,8 +48,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // MODIFICAR PARA PODER ENTRAR SIN VERIFICACION DE USUARIO
-                //comprobarDatosLogin(botonIniciarSesion);
-                abrirMenuMain();
+                comprobarDatosLogin(botonIniciarSesion);
+                //abrirMenuMain();
             }
         });
 

@@ -68,15 +68,15 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         retrofitInterface = retrofit.create(RetrofitInterface.class);
-        /*
-        FloatingActionButton botonIniciarSesion = (FloatingActionButton) findViewById(R.id.cerrarsesión);
-        botonIniciarSesion.setOnClickListener(new View.OnClickListener() {
+
+        FloatingActionButton botonCerrarSesion = (FloatingActionButton) findViewById(R.id.botonAjustesAdicionales);
+        botonCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 cerrarSesion();
             }
         });
-        */
+
 
         fragmentoInicioAbierto = new FragmentInicio();
         getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragmentoInicioAbierto).commit();
