@@ -14,7 +14,7 @@
         >
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/botonAjustesAdicionales"
+            android:id="@+id/botonMiPerfil"
             android:layout_width="367dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
@@ -31,8 +31,8 @@
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/botonMiPerfil"
-            android:layout_width="367dp"
+            android:id="@+id/botonAjustesAdicionales"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_marginStart="7dp"
@@ -40,12 +40,11 @@
             android:backgroundTint="@color/white"
             android:contentDescription="@string/miperfil"
             android:src="@drawable/icono_tres_puntos"
-            app:borderWidth="2dp"
             app:backgroundTint="@color/gris_claro"
-            app:maxImageSize="30dp"
-            app:tint="@color/gris"
+            app:borderWidth="2dp"
             app:fabCustomSize="45dp"
-            />
+            app:maxImageSize="30dp"
+            app:tint="@color/gris" />
     </FrameLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
