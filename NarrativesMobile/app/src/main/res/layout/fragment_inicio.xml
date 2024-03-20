@@ -52,7 +52,7 @@
                                 android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                app:srcCompat="@drawable/narratives_limpio" />
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
 
                             <TextView
                                 android:id="@+id/textView12"
@@ -73,16 +73,15 @@
 
                             <ImageView
                                 android:id="@+id/imageView11"
-                                android:layout_width="185dp"
-                                android:layout_height="130dp"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                app:srcCompat="@drawable/narratives_limpio" />
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
 
                             <TextView
                                 android:id="@+id/textView11"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:text="7.5" />
                         </LinearLayout>
 
@@ -101,17 +100,16 @@
 
                             <ImageView
                                 android:id="@+id/imageView13"
-                                android:layout_width="185dp"
-                                android:layout_height="130dp"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                app:srcCompat="@drawable/narratives_limpio" />
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
 
                             <TextView
                                 android:id="@+id/textView14"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="TextView" />
+                                android:text="7.5" />
                         </LinearLayout>
 
                         <Space
@@ -127,17 +125,16 @@
 
                             <ImageView
                                 android:id="@+id/imageView15"
-                                android:layout_width="178dp"
+                                android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                app:srcCompat="@drawable/narratives_limpio" />
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
 
                             <TextView
                                 android:id="@+id/textView16"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="TextView" />
+                                android:text="7.5" />
                         </LinearLayout>
 
 
@@ -157,7 +154,7 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="149dp"
+                    android:layout_height="150dp"
                     tools:ignore="SpeakableTextPresentCheck">
 
                     <LinearLayout
@@ -173,14 +170,14 @@
                             android:orientation="vertical">
 
                             <ImageView
-                                android:id="@+id/imageView17"
+                                android:id="@+id/imageViewRomance1"
                                 android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                app:srcCompat="@drawable/narratives_limpio" />
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
 
                             <TextView
-                                android:id="@+id/textView18"
+                                android:id="@+id/textViewRomance1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="9.0" />
@@ -196,12 +193,18 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/textView20"
-                                android:layout_width="match_parent"
+                            <ImageView
+                                android:id="@+id/imageViewRomance2"
+                                android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="10.0" />
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewRomance2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
                         </LinearLayout>
 
 
@@ -217,12 +220,18 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/textView21"
-                                android:layout_width="match_parent"
+                            <ImageView
+                                android:id="@+id/imageViewRomance3"
+                                android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="TextView" />
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewRomance3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
                         </LinearLayout>
 
                         <Space
@@ -236,12 +245,18 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/textView23"
-                                android:layout_width="match_parent"
+                            <ImageView
+                                android:id="@+id/imageViewRomance4"
+                                android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="TextView" />
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewRomance4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
                         </LinearLayout>
 
 
@@ -261,7 +276,7 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="131dp"
+                    android:layout_height="150dp"
                     tools:ignore="SpeakableTextPresentCheck">
 
                     <LinearLayout
@@ -277,14 +292,14 @@
                             android:orientation="vertical">
 
                             <ImageView
-                                android:id="@+id/imageView5"
+                                android:id="@+id/imageViewCienciaFiccion1"
                                 android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                app:srcCompat="@drawable/narratives_limpio" />
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
 
                             <TextView
-                                android:id="@+id/textView1"
+                                android:id="@+id/textViewCienciaFiccion1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="9.0" />
@@ -300,12 +315,18 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/textView2"
-                                android:layout_width="match_parent"
+                            <ImageView
+                                android:id="@+id/imageViewCienciaFiccion2"
+                                android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="TextView" />
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewCienciaFiccion2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
                         </LinearLayout>
 
 
@@ -321,12 +342,18 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/textView8"
-                                android:layout_width="match_parent"
+                            <ImageView
+                                android:id="@+id/imageViewCienciaFiccion3"
+                                android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="TextView" />
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewCienciaFiccion3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
                         </LinearLayout>
 
                         <Space
@@ -340,18 +367,22 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/textView10"
-                                android:layout_width="match_parent"
+                            <ImageView
+                                android:id="@+id/imageViewCienciaFiccion4"
+                                android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="TextView" />
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewCienciaFiccion4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
                         </LinearLayout>
 
 
                     </LinearLayout>
-
-
 
                 </HorizontalScrollView>
 

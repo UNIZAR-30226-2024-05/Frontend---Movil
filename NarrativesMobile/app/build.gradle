@@ -32,6 +32,9 @@ android {
 
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '7.0.3' // Cambia esto a la versión de Gradle que deseas usar
+}
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
