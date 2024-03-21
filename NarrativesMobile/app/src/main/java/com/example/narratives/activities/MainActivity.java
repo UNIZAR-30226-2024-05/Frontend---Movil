@@ -24,6 +24,7 @@ import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 reemplazarFragmento(fragmentoEscuchandoAbierto);
-                binding.bottomNavigatorView.getMenu().getItem(fragmentoActual).setCheckable(false);
+                binding.bottomNavigatorView.getMenu().getItem(2).setChecked(true);
                 fabEscuchando.setImageTintList(ColorStateList.valueOf((0xff) << 24 | (0x01) << 16 | (0x87) << 8 | (0x86)));
                 fragmentoActual = 2;
             }
@@ -162,13 +163,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void reemplazarFragmento(Fragment fragmento){
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.botonEscuchando);
-        fab.setImageTintList(ColorStateList.valueOf((0xFF) << 24 | (0x66) << 16 | (0x66) << 8 | (0x66)));
-        binding.bottomNavigatorView.getMenu().getItem(fragmentoActual).setCheckable(true);
-
-
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         switch(fragmentoActual){
             case 0:
@@ -181,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
 
             case 2:
                 fragmentTransaction.hide(fragmentoEscuchandoAbierto);
+                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.botonEscuchando);
+                fab.setImageTintList(ColorStateList.valueOf((0xFF) << 24 | (0x66) << 16 | (0x66) << 8 | (0x66)));
                 break;
 
             case 3:
