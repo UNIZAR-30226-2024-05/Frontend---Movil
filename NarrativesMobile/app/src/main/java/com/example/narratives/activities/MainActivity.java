@@ -31,6 +31,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -70,13 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
-        FloatingActionButton botonCerrarSesion = (FloatingActionButton) findViewById(R.id.botonAjustesAdicionales);
-        botonCerrarSesion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cerrarSesion();
-            }
-        });
 
 
         fragmentoInicioAbierto = new FragmentInicio();
@@ -133,23 +128,42 @@ public class MainActivity extends AppCompatActivity {
                 fragmentoActual = 2;
             }
         });
+
+        FloatingActionButton botonCerrarSesion = (FloatingActionButton) findViewById(R.id.botonAjustesAdicionales);
+        botonCerrarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cerrarSesion();
+            }
+        });
+
     }
 
     private void cerrarSesion() {
-
         Call<Void> llamada = retrofitInterface.ejecutarSalirSesion();
         llamada.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
+                int codigo = response.code();
+
                 if (response.code() == 200) {
                     Toast.makeText(MainActivity.this, "Sesión cerrada correctamente",
                             Toast.LENGTH_LONG).show();
 
                     abrirMenuHomeSinRegistro();
 
-                } else if (response.code() == 409){
+                } else if (response.code() == 401){
                     Toast.makeText(MainActivity.this, "No había sesión iniciada",
                             Toast.LENGTH_LONG).show();
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String error = jObjError.getString("error");
+                        Toast.makeText(MainActivity.this, error, Toast.LENGTH_LONG).show();
+
+                    } catch (Exception e) {
+                        Toast.makeText(MainActivity.this, "Algo ha fallado obteniendo el error", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
 

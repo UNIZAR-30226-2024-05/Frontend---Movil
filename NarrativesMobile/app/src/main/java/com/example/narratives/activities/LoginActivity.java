@@ -105,11 +105,13 @@ public class LoginActivity extends AppCompatActivity {
                     builder.setTitle("ERROR");
                     builder.setMessage("Usuario no encontrado");
                     builder.show();
+
                 } else if (response.code() == 401){
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                     builder.setTitle("ERROR");
                     builder.setMessage("Contraseña incorrecta");
                     builder.show();
+
                 } else {
                     Toast.makeText(LoginActivity.this, "Algo ha fallado",
                             Toast.LENGTH_LONG).show();
