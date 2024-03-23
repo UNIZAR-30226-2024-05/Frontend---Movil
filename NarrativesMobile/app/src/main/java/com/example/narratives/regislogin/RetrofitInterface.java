@@ -12,7 +12,7 @@ public interface RetrofitInterface {
     Call<LoginResult> ejecutarInicioSesion(@Body HashMap<String, String> datos);
 
     @POST("/users/register")
-    Call<Void> ejecutarRegistro(@Body HashMap<String, String> datos);
+    Call<RegisterResult> ejecutarRegistro(@Body HashMap<String, String> datos);
 
     @POST("/users/logout")
     Call<Void> ejecutarSalirSesion();

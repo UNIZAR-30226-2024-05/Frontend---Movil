@@ -2,18 +2,23 @@ package com.example.narratives.regislogin;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class LoginResult {
-    public String getUsuario() {
-        return usuario;
+    private String message;
+
+    private User user;
+
+    public String getMessage() {
+        return message;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getUsername(){
+        return user.getUsername();
     }
 
-    @SerializedName("username")
-    private String usuario;
-
-    @SerializedName("mail")
-    private String correo;
+    public String getRole(){
+        return user.getRole();
+    }
 }
+

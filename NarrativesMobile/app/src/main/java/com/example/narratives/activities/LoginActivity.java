@@ -95,23 +95,21 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
                 if (response.code() == 200) {
+                    LoginResult resultado = response.body();
                     Toast.makeText(LoginActivity.this, "Sesión iniciada correctamente",
                             Toast.LENGTH_LONG).show();
-                    LoginResult resultado = response.body();
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                    builder.setTitle(resultado.getUsuario());
-                    builder.setMessage(resultado.getCorreo());
-
-                    builder.show();
                     abrirMenuMain();
 
                 } else if (response.code() == 404){
-                    Toast.makeText(LoginActivity.this, "Usuario no encontrado",
-                            Toast.LENGTH_LONG).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setTitle("ERROR");
+                    builder.setMessage("Usuario no encontrado");
+                    builder.show();
                 } else if (response.code() == 401){
-                Toast.makeText(LoginActivity.this, "Contraseña incorrecta",
-                        Toast.LENGTH_LONG).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setTitle("ERROR");
+                    builder.setMessage("Contraseña incorrecta");
+                    builder.show();
                 } else {
                     Toast.makeText(LoginActivity.this, "Algo ha fallado",
                             Toast.LENGTH_LONG).show();

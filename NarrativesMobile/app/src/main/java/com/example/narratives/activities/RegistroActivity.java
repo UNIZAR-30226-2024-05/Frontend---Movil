@@ -2,6 +2,8 @@ package com.example.narratives.activities;
 
 import static com.example.narratives.regislogin.RetrofitInterface.URL_BASE;
 
+import static java.security.AccessController.getContext;
+
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -13,13 +15,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.narratives.regislogin.LoginResult;
+import com.example.narratives.regislogin.RegisterResult;
 import com.example.narratives.regislogin.RetrofitInterface;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
+
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -160,29 +167,50 @@ public class RegistroActivity extends AppCompatActivity{
         datos.put("mail", correoEditText.getText().toString());
         datos.put("password", passwordEditText.getText().toString());
 
-        Call<Void> llamada = retrofitInterface.ejecutarRegistro(datos);
-        llamada.enqueue(new Callback<Void>() {
+        Call<RegisterResult> llamada = retrofitInterface.ejecutarRegistro(datos);
+        llamada.enqueue(new Callback<RegisterResult>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<RegisterResult> call, Response<RegisterResult> response) {
+
+
                 if(response.code() == 200) {
+                    Toast.makeText(RegistroActivity.this, "Cuenta creada con éxito",
+                            Toast.LENGTH_LONG).show();
 
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
-                    builder.setMessage("Cuenta creada con éxito");
-                    builder.show();
                     abrirMenuMain();
 
-                }  else if (response.code() == 404){
-                    Toast.makeText(RegistroActivity.this, "Usuario o correo ya existentes",
+                }  else if (response.code() == 409){
+                    /*Toast.makeText(RegistroActivity.this, "Usuario o correo ya existentes",
                             Toast.LENGTH_LONG).show();
+                    */
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String error = jObjError.getString("error");
+
+                        if(error.equals("Existing username")){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
+                            builder.setTitle("ERROR");
+                            builder.setMessage("Ya existe una cuenta con este nombre");
+                            builder.show();
+                        } else if(error.equals("Existing email")) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
+                            builder.setTitle("ERROR");
+                            builder.setMessage("Ya existe una cuenta con este correo");
+                            builder.show();
+                        } else {
+                            Toast.makeText(RegistroActivity.this, error, Toast.LENGTH_LONG).show();
+                        }
+                        } catch (Exception e) {
+                        Toast.makeText(RegistroActivity.this, "Algo ha fallado obteniendo el error", Toast.LENGTH_LONG).show();
+                    }
                 } else {
-                    Toast.makeText(RegistroActivity.this, "Algo ha fallado",
+                    Toast.makeText(RegistroActivity.this, "Código de error no reconocido",
                             Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<RegisterResult> call, Throwable t) {
                 Toast.makeText(RegistroActivity.this, "No se ha conectado con el servidor",
                         Toast.LENGTH_LONG).show();
             }
