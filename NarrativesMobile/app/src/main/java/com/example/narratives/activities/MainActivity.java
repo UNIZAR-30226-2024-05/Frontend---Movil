@@ -1,45 +1,35 @@
 package com.example.narratives.activities;
 
-import static com.example.narratives.regislogin.RetrofitInterface.URL_BASE;
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.narratives.R;
+import com.example.narratives.databinding.ActivityMainBinding;
 import com.example.narratives.fragments.FragmentAmigos;
 import com.example.narratives.fragments.FragmentBiblioteca;
 import com.example.narratives.fragments.FragmentClubs;
 import com.example.narratives.fragments.FragmentEscuchando;
 import com.example.narratives.fragments.FragmentInicio;
-import com.example.narratives.R;
-import com.example.narratives.databinding.ActivityMainBinding;
-import com.example.narratives.regislogin.LoginResult;
+import com.example.narratives.regislogin.ApiClient;
 import com.example.narratives.regislogin.RetrofitInterface;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import android.app.ActivityOptions;
-import android.app.AlertDialog;
-import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
 import org.json.JSONObject;
-
-import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -65,12 +55,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(URL_BASE)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        retrofitInterface = retrofit.create(RetrofitInterface.class);
+        retrofit = ApiClient.getRetrofit();
+        retrofitInterface = ApiClient.getRetrofitInterface();
 
 
 
@@ -140,20 +126,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cerrarSesion() {
-        Call<Void> llamada = retrofitInterface.ejecutarSalirSesion();
+        Call<Void> llamada = retrofitInterface.ejecutarSalirSesion(ApiClient.getUserCookie());
         llamada.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 int codigo = response.code();
 
                 if (response.code() == 200) {
-                    Toast.makeText(MainActivity.this, "Sesión cerrada correctamente",
-                            Toast.LENGTH_LONG).show();
-
-                    abrirMenuHomeSinRegistro();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage("Cerrando sesión...");
+                    builder.show();
+                    ApiClient.setUserCookie(null);
+                    new Handler().postDelayed(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                abrirMenuHomeSinRegistro();
+                            }
+                        }
+                        , 500);
 
                 } else if (response.code() == 401){
-                    Toast.makeText(MainActivity.this, "No había sesión iniciada",
+                    Toast.makeText(MainActivity.this, "No hay sesión iniciada",
                             Toast.LENGTH_LONG).show();
                 } else {
                     try {

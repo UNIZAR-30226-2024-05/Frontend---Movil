@@ -1,13 +1,10 @@
 package com.example.narratives.activities;
 
-import static android.app.ProgressDialog.show;
-
-import static com.example.narratives.regislogin.RetrofitInterface.URL_BASE;
-
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,16 +13,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
-import com.example.narratives.regislogin.LoginResult;
+import com.example.narratives.peticiones.LoginRequest;
+import com.example.narratives.peticiones.LoginResult;
+import com.example.narratives.regislogin.ApiClient;
 import com.example.narratives.regislogin.RetrofitInterface;
-
-import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
     private Retrofit retrofit;
@@ -36,19 +32,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.inicio_sesion);
         super.onCreate(savedInstanceState);
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(URL_BASE)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        retrofitInterface = retrofit.create(RetrofitInterface.class);
+        retrofit = ApiClient.getLoginRetrofit();
+        retrofitInterface = ApiClient.getRetrofitInterface();
 
         Button botonIniciarSesion = (Button) findViewById(R.id.botonConfirmarLogin);
         botonIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // MODIFICAR PARA PODER ENTRAR SIN VERIFICACION DE USUARIO
-                comprobarDatosLogin(botonIniciarSesion);
+                comprobarDatosLogin();
                 //abrirMenuMain();
             }
         });
@@ -79,26 +71,37 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void comprobarDatosLogin(Button boton) {
+    private void comprobarDatosLogin() {
         EditText usuarioEditText = (EditText) findViewById(R.id.editTextUsuarioLogin);
         EditText passwordEditText = (EditText) findViewById(R.id.editTextContraseñaLogin);
 
+        LoginRequest request = new LoginRequest();
+        request.setUsername(usuarioEditText.getText().toString());
+        request.setPassword(passwordEditText.getText().toString());
 
-        HashMap<String, String> datos = new HashMap<>();
-
-
-        datos.put("username", usuarioEditText.getText().toString());
-        datos.put("password", passwordEditText.getText().toString());
-
-        Call<LoginResult> llamada = retrofitInterface.ejecutarInicioSesion(datos);
+        Call<LoginResult> llamada = retrofitInterface.ejecutarInicioSesion(ApiClient.getUserCookie(), request);
         llamada.enqueue(new Callback<LoginResult>() {
             @Override
             public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
                 if (response.code() == 200) {
-                    LoginResult resultado = response.body();
-                    Toast.makeText(LoginActivity.this, "Sesión iniciada correctamente",
-                            Toast.LENGTH_LONG).show();
-                    abrirMenuMain();
+                    if(response.isSuccessful()){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                        builder.setMessage("Iniciando sesión...");
+                        builder.show();
+                        String cookie = response.headers().get("Set-Cookie");
+                        ApiClient.setUserCookie(cookie);
+                        new Handler().postDelayed(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        abrirMenuMain();
+                                    }
+                                }
+                                , 500);
+                    }else{
+                        Toast.makeText(LoginActivity.this, "Código correcto, pero sesión no exitosa", Toast.LENGTH_LONG).show();
+                    }
+
 
                 } else if (response.code() == 404){
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);

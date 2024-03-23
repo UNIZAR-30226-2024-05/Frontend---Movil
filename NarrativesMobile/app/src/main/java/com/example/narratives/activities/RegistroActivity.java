@@ -1,37 +1,30 @@
 package com.example.narratives.activities;
 
-import static com.example.narratives.regislogin.RetrofitInterface.URL_BASE;
-
-import static java.security.AccessController.getContext;
-
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.narratives.regislogin.LoginResult;
-import com.example.narratives.regislogin.RegisterResult;
-import com.example.narratives.regislogin.RetrofitInterface;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
+import com.example.narratives.peticiones.RegisterRequest;
+import com.example.narratives.peticiones.RegisterResult;
+import com.example.narratives.regislogin.ApiClient;
+import com.example.narratives.regislogin.RetrofitInterface;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegistroActivity extends AppCompatActivity{
 
@@ -51,12 +44,9 @@ public class RegistroActivity extends AppCompatActivity{
             editTextContraseñaRegistro = findViewById(R.id.editTextPasswordRegistro);
             editTextContraseñaRegistroConfirmar = findViewById(R.id.editTextPasswordConfirmarRegistro);
 
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(URL_BASE)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
+            retrofit = ApiClient.getRetrofit();
 
-            retrofitInterface = retrofit.create(RetrofitInterface.class);
+            retrofitInterface = ApiClient.getRetrofitInterface();
 
 
             Button botonRegistro = (Button) findViewById(R.id.botonConfirmarRegistro);
@@ -158,26 +148,32 @@ public class RegistroActivity extends AppCompatActivity{
         EditText correoEditText = (EditText) findViewById(R.id.editTextCorreoRegistro);
 
 
+        RegisterRequest request = new RegisterRequest();
+        request.setUsername(usuarioEditText.getText().toString());
+        request.setMail(correoEditText.getText().toString());
+        request.setPassword(passwordEditText.getText().toString());
 
 
-        HashMap<String, String> datos = new HashMap<>();
-
-
-        datos.put("username", usuarioEditText.getText().toString());
-        datos.put("mail", correoEditText.getText().toString());
-        datos.put("password", passwordEditText.getText().toString());
-
-        Call<RegisterResult> llamada = retrofitInterface.ejecutarRegistro(datos);
+        Call<RegisterResult> llamada = retrofitInterface.ejecutarRegistro(request);
         llamada.enqueue(new Callback<RegisterResult>() {
             @Override
             public void onResponse(Call<RegisterResult> call, Response<RegisterResult> response) {
 
 
                 if(response.code() == 200) {
-                    Toast.makeText(RegistroActivity.this, "Cuenta creada con éxito",
-                            Toast.LENGTH_LONG).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
+                    builder.setTitle("ÉXITO");
+                    builder.setMessage("La cuenta ha sido creada correctamente");
+                    builder.show();
+                    new Handler().postDelayed(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    abrirMenuLogin();
+                                }
+                            }
 
-                    abrirMenuMain();
+                    , 1000);
 
                 }  else if (response.code() == 409){
                     /*Toast.makeText(RegistroActivity.this, "Usuario o correo ya existentes",

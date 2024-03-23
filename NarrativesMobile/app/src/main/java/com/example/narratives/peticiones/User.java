@@ -1,4 +1,4 @@
-package com.example.narratives.regislogin;
+package com.example.narratives.peticiones;
 
 public class User {
     private String username;

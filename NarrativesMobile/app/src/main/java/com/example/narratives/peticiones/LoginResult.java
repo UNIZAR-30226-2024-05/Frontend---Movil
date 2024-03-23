@@ -1,8 +1,4 @@
-package com.example.narratives.regislogin;
-
-import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
+package com.example.narratives.peticiones;
 
 public class LoginResult {
     private String message;
