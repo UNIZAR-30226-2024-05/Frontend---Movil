@@ -1,6 +1,7 @@
 package com.example.narratives.activities;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -115,14 +116,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton botonCerrarSesion = (FloatingActionButton) findViewById(R.id.botonAjustesAdicionales);
+
+
+        FloatingActionButton botonCerrarSesion = (FloatingActionButton) findViewById(R.id.botonCerrarSesion);
         botonCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                abrirAlertaCerrarSesion();
+            }
+        });
+
+    }
+
+    public void abrirAlertaCerrarSesion() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Cerrar sesión");
+        builder.setMessage("¿Estás seguro de que quieres cerrar la sesión?");
+
+        builder.setPositiveButton("Cerrar sesión", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
                 cerrarSesion();
             }
         });
 
+        builder.setNegativeButton("Cancelar    |", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void cerrarSesion() {

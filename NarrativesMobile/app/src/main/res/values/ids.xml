@@ -10,5 +10,5 @@
     <item name="botonRegistrarse" type="id" />
     <item name="textViewLogoNarratives" type="id" />
     <item name="materialCardViewPortadaLibroEscuchando" type="id" />
-    <item name="botonAjustesAdicionales" type="id" />
+    <item name="botonCerrarSesion" type="id" />
 </resources>

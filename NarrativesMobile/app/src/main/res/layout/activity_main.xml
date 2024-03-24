@@ -23,15 +23,17 @@
             android:layout_marginEnd="7dp"
             android:layout_marginTop="7dp"
             android:src="@drawable/icono_perfil"
-            app:borderWidth="2dp"
+            app:borderWidth="3dp"
             app:backgroundTint="@color/teal_muy_claro"
             app:maxImageSize="28dp"
             app:tint="@color/gris"
-            app:fabCustomSize="45dp"/>
+            app:fabCustomSize="45dp"
+            app:elevation="0.1dp"
+            />
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/botonAjustesAdicionales"
+            android:id="@+id/botonCerrarSesion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -39,12 +41,14 @@
             android:layout_marginTop="7dp"
             android:backgroundTint="@color/white"
             android:contentDescription="@string/miperfil"
-            android:src="@drawable/icono_tres_puntos"
+            android:src="@drawable/icono_cerrar_sesion"
             app:backgroundTint="@color/gris_claro"
-            app:borderWidth="2dp"
+            app:borderWidth="3dp"
             app:fabCustomSize="45dp"
-            app:maxImageSize="30dp"
-            app:tint="@color/gris" />
+            app:maxImageSize="21dp"
+            app:tint="@color/gris_medio"
+            app:elevation="0.1dp"
+            />
     </FrameLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
@@ -79,10 +83,12 @@
         app:layout_anchor="@id/barra_menu_inferior"
         app:maxImageSize="28dp"
         app:tint="@color/gris"
-        app:borderWidth="1.5dp"
+        app:borderWidth="2dp"
         app:fabCustomSize="65dp"
         app:backgroundTint="@color/gris_claro"
-        android:contentDescription="@string/menu_inferior" />
+        android:contentDescription="@string/menu_inferior"
+        app:elevation="2dp"
+        />
 
     <TextView
         android:id="@+id/textViewNarrativesRegistro"

@@ -19,8 +19,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:maxImageSize="60dp"
         app:tint="@color/teal_700"
-        app:borderWidth="1.5dp"
+        app:borderWidth="2.5dp"
         app:backgroundTint="@color/teal_claro"
+        app:elevation="2dp"
         />
 
     <TextView
