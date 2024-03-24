@@ -6,17 +6,19 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.narratives.R;
@@ -42,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     int fragmentoActual = 0;
-    FragmentManager fragManager = getSupportFragmentManager();
-
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentoClubsAbierto = new FragmentClubs();
         getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoClubsAbierto).commit();
 
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         reemplazarFragmentoInicial();
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
+
 
         FloatingActionButton fabEscuchando = (FloatingActionButton) findViewById(R.id.botonEscuchando);
         findViewById(R.id.botonEscuchando).setOnClickListener(new View.OnClickListener() {
@@ -216,6 +218,13 @@ public class MainActivity extends AppCompatActivity {
         int width= ViewGroup.LayoutParams.MATCH_PARENT;
         int height= ViewGroup.LayoutParams.MATCH_PARENT;
 
+
+        TextView textViewCambiarContrasena = viewMiPerfil.findViewById(R.id.textViewCambiarContrasenaMiPerfil) ;
+        SpannableString content = new SpannableString( "Cambiar contraseña" ) ;
+        content.setSpan( new UnderlineSpan() , 0 , content.length() , 0 ) ;
+        textViewCambiarContrasena.setText(content);
+
+
         PopupWindow popupWindow=new PopupWindow(viewMiPerfil,width,height, true);
         popupWindow.setAnimationStyle(1);
 
@@ -233,6 +242,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
+            }
+        });
+
+        textViewCambiarContrasena.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirCambioContrasena();
             }
         });
     }
@@ -268,6 +284,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void abrirMenuHomeSinRegistro() {
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
+        startActivity(intent);
+    }
+
+
+    private void abrirCambioContrasena() {
+        Intent intent = new Intent(this, CambioContrasenaActivity.class);
         startActivity(intent);
     }
 

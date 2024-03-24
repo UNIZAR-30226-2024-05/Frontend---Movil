@@ -1,9 +1,11 @@
 package com.example.narratives.regislogin;
 
+import com.example.narratives.peticiones.CambioContrasenaRequest;
 import com.example.narratives.peticiones.LoginRequest;
 import com.example.narratives.peticiones.LoginResult;
 import com.example.narratives.peticiones.RegisterRequest;
 import com.example.narratives.peticiones.RegisterResult;
+import com.example.narratives.peticiones.StandardMessageRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,5 +22,8 @@ public interface RetrofitInterface {
 
     @POST("/users/logout")
     Call<Void> ejecutarSalirSesion(@Header("Cookie") String userCookie);
+
+    @POST("/users/change_pass")
+    Call<StandardMessageRequest> ejecutarCambioContrasena(@Header("Cookie") String userCookie, @Body CambioContrasenaRequest request);
 
 }

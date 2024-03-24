@@ -23,6 +23,8 @@
         <activity android:name=".activities.MainActivity"></activity>
         <activity android:name=".activities.LoginActivity"></activity>
         <activity android:name=".activities.RegistroActivity"></activity>
+        <activity android:name=".activities.CambioContrasenaActivity"></activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

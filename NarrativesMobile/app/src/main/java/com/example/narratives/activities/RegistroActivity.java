@@ -125,11 +125,6 @@ public class RegistroActivity extends AppCompatActivity{
 
     }
 
-    public void abrirMenuMain() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
     public void abrirMenuHomeSinRegistro() {
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
@@ -142,17 +137,10 @@ public class RegistroActivity extends AppCompatActivity{
 
     public void comprobarDatosRegistro(Button boton){
 
-        EditText usuarioEditText = (EditText) findViewById(R.id.editTextUsuarioRegistro);
-        EditText passwordEditText = (EditText) findViewById(R.id.editTextPasswordRegistro);
-
-        EditText correoEditText = (EditText) findViewById(R.id.editTextCorreoRegistro);
-
-
         RegisterRequest request = new RegisterRequest();
-        request.setUsername(usuarioEditText.getText().toString());
-        request.setMail(correoEditText.getText().toString());
-        request.setPassword(passwordEditText.getText().toString());
-
+        request.setUsername(editTextUsuario.getText().toString());
+        request.setMail(editTextCorreo.getText().toString());
+        request.setPassword(editTextContraseñaRegistro.getText().toString());
 
         Call<RegisterResult> llamada = retrofitInterface.ejecutarRegistro(request);
         llamada.enqueue(new Callback<RegisterResult>() {

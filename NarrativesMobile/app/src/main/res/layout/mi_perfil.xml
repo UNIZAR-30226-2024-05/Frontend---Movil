@@ -1,61 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gris_trans"
     >
 
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutMiPerfil"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="500dp"
         android:layout_centerInParent="true"
         android:layout_marginHorizontal="40dp"
         android:background="@drawable/mi_perfil_background"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textViewMiPerfilTitulo"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="-1dp"
-            android:layout_marginTop="-545dp"
-            android:layout_marginEnd="1dp">
+            android:layout_marginTop="15dp"
+            android:fontFamily="sans-serif-black"
+            android:text="Mi Perfil"
+            android:textSize="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/botonCerrarMiPerfil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botonCerrarMiPerfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/icono_cruz_cerrar"
+            android:text="@string/cerrar_popup"
+            app:borderWidth="0dp"
+            app:elevation="0.01dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:maxImageSize="30dp"
+            app:tint="@color/gris" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageViewMiPerfil"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.20"
+            app:shapeAppearanceOverlay="@style/RoundedSquare"
+            android:src="@mipmap/icono_imagen_estandar"/>
+
+        <TextView
+            android:id="@+id/textViewTituloNombreUsuarioMiPerfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="12dp"
+            android:text="Nombre de usuario:"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewMiPerfil"
+            />
+
+        <TextView
+            android:id="@+id/textViewRealNombreUsuarioMiPerfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="16dp"
+            android:text="USUARIO"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTituloNombreUsuarioMiPerfil"
+            />
+
+        <TextView
+            android:id="@+id/textViewTituloCorreoElectronicoMiPerfil"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textSize="12dp"
+            android:text="Correo electrónico:"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewRealNombreUsuarioMiPerfil"
+            />
+
+        <TextView
+            android:id="@+id/textViewRealCorreoElectronicoMiPerfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="16dp"
+            android:text="CORREO ELECTRÓNICO"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTituloCorreoElectronicoMiPerfil"
+            />
 
 
-                android:layout_marginBottom="0dp"
-                android:backgroundTint="@color/white"
-                android:src="@drawable/icono_cruz_cerrar"
-                android:text="@string/cerrar_popup"
-                app:borderWidth="0dp"
-                app:elevation="0.01dp"
-                app:maxImageSize="30dp"
-                app:tint="@color/gris" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:fontFamily="sans-serif-black"
-                android:text="Mi Perfil"
-                android:textSize="25dp" />
-
-        </RelativeLayout>
-
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/textViewCambiarContrasenaMiPerfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="Cambiar contraseña"
+            android:textStyle="bold"
+            android:layout_marginBottom="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
-</RelativeLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
