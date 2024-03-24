@@ -6,7 +6,12 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -62,15 +67,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         fragmentoInicioAbierto = new FragmentInicio();
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragmentoInicioAbierto).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoInicioAbierto).commit();
         fragmentoBibliotecaAbierto = new FragmentBiblioteca();
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragmentoBibliotecaAbierto).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoBibliotecaAbierto).commit();
         fragmentoEscuchandoAbierto = new FragmentEscuchando();
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragmentoEscuchandoAbierto).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoEscuchandoAbierto).commit();
         fragmentoAmigosAbierto = new FragmentAmigos();
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragmentoAmigosAbierto).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoAmigosAbierto).commit();
         fragmentoClubsAbierto = new FragmentClubs();
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragmentoClubsAbierto).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoClubsAbierto).commit();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -123,6 +128,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 abrirAlertaCerrarSesion();
+            }
+        });
+
+        FloatingActionButton botonMiPerfil = (FloatingActionButton) findViewById(R.id.botonMiPerfil);
+        botonMiPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirMiPerfil();
             }
         });
 
@@ -196,6 +209,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void abrirMiPerfil(){
+        LayoutInflater inflater= (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View viewMiPerfil=inflater.inflate(R.layout.mi_perfil, null);
+
+        int width= ViewGroup.LayoutParams.MATCH_PARENT;
+        int height= ViewGroup.LayoutParams.MATCH_PARENT;
+
+        PopupWindow popupWindow=new PopupWindow(viewMiPerfil,width,height, true);
+        popupWindow.setAnimationStyle(1);
+
+        FrameLayout layout = findViewById(R.id.main_layout);
+        layout.post(new Runnable(){
+            @Override
+            public void run(){
+                popupWindow.showAtLocation(layout, Gravity.BOTTOM,0,0);
+            }
+        });
+
+
+        FloatingActionButton botonCerrar = (FloatingActionButton) viewMiPerfil.findViewById(R.id.botonCerrarMiPerfil);
+        botonCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+    }
 
     private void reemplazarFragmento(Fragment fragmento){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
