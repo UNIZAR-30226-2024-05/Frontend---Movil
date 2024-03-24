@@ -36,7 +36,7 @@ public class RegistroActivity extends AppCompatActivity{
     private EditText editTextContraseñaRegistroConfirmar;
 
         protected void onCreate(Bundle savedInstanceState) {
-            setContentView(R.layout.registrarse);
+            setContentView(R.layout.registro);
             super.onCreate(savedInstanceState);
 
             editTextUsuario = findViewById(R.id.editTextUsuarioRegistro);

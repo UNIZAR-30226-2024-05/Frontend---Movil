@@ -1,5 +1,6 @@
 package com.example.narratives.activities;
 
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -290,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void abrirCambioContrasena() {
         Intent intent = new Intent(this, CambioContrasenaActivity.class);
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     private void reemplazarFragmentoInicial(){

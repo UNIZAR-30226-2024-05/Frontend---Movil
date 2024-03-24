@@ -124,6 +124,7 @@
             android:clickable="true"
             android:text="Cambiar contraseña"
             android:textStyle="bold"
+            android:textSize="14dp"
             android:layout_marginBottom="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

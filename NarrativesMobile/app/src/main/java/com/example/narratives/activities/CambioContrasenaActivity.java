@@ -1,5 +1,6 @@
 package com.example.narratives.activities;
 
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,7 +60,7 @@ public class CambioContrasenaActivity extends AppCompatActivity {
         botonAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                abrirMenuLogin();
+                abrirMenuMain();
             }
         });
 
@@ -79,15 +80,16 @@ public class CambioContrasenaActivity extends AppCompatActivity {
 
 
                 if(response.code() == 200) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CambioContrasenaActivity.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CambioContrasenaActivity.this, R.style.ExitoAlertDialogStyle);
                     builder.setTitle("ÉXITO");
                     builder.setMessage("Contraseña cambiada correctamente");
+
                     builder.show();
                     new Handler().postDelayed(
                             new Runnable() {
                                 @Override
                                 public void run() {
-                                    abrirMenuLogin();
+                                    abrirMenuMain();
                                 }
                             }
 
@@ -99,7 +101,7 @@ public class CambioContrasenaActivity extends AppCompatActivity {
                         String error = jObjError.getString("error");
 
                         if(error.equals("Incorrect password")){
-                            AlertDialog.Builder builder = new AlertDialog.Builder(CambioContrasenaActivity.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(CambioContrasenaActivity.this, R.style.ErrorAlertDialogStyle);
                             builder.setTitle("ERROR");
                             builder.setMessage("La contraseña es incorrecta");
                             builder.show();
@@ -130,15 +132,19 @@ public class CambioContrasenaActivity extends AppCompatActivity {
 
         // Verificar si algún campo está vacío
         if (antigua.isEmpty() || nueva.isEmpty() || verificarNueva.isEmpty()) {
-            Toast.makeText(CambioContrasenaActivity.this, "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
-            Toast.makeText(CambioContrasenaActivity.this, "Complete todos los campos", Toast.LENGTH_LONG).show();
+            Toast.makeText(CambioContrasenaActivity.this, "Se deben completar todos los campos", Toast.LENGTH_LONG).show();
             return false;
         }
 
-        // Verificar si las contraseñas coinciden
+        // Verificar si la contraseña nueva y la de verificación coinciden
         if (!nueva.equals(verificarNueva) ) {
-            Toast.makeText(CambioContrasenaActivity.this, "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
-            Toast.makeText(CambioContrasenaActivity.this, "La contraseña nueva no coincide con la de verificación", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CambioContrasenaActivity.this, "La contraseña nueva debe coincidir con la de verificación", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // Verificar si la contraseña antigua y nueva NO coinciden
+        if (antigua.equals(nueva) ) {
+            Toast.makeText(CambioContrasenaActivity.this, "La contraseña nueva no puede ser igual que la antigua", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -168,10 +174,10 @@ public class CambioContrasenaActivity extends AppCompatActivity {
     }
 
 
-    public void abrirMenuLogin() {
-        ApiClient.setUserCookie(null);
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+    public void abrirMenuMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
 }

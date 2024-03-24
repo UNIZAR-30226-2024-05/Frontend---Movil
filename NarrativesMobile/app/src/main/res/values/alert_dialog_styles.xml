@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ErrorAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:colorAccent">#BF0000</item>
+        <item name="android:textColor">#BF0000</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:background">#FDB4B4</item>
+    </style>
+
+    <style name="ExitoAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:colorAccent">#428102</item>
+        <item name="android:textColor">#428102</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:background">#D6FDB4</item>
+    </style>
+
+
+
+
+</resources>
