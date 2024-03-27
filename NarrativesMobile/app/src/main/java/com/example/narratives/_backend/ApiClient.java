@@ -1,6 +1,6 @@
-package com.example.narratives.regislogin;
+package com.example.narratives._backend;
 
-import static com.example.narratives.regislogin.RetrofitInterface.URL_BASE;
+import static com.example.narratives._backend.RetrofitInterface.URL_BASE;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

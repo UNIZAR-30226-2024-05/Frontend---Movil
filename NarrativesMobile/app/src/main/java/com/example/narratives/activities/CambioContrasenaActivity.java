@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.transition.TransitionSet;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,8 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives.peticiones.CambioContrasenaRequest;
 import com.example.narratives.peticiones.StandardMessageRequest;
-import com.example.narratives.regislogin.ApiClient;
-import com.example.narratives.regislogin.RetrofitInterface;
+import com.example.narratives._backend.ApiClient;
+import com.example.narratives._backend.RetrofitInterface;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
@@ -36,6 +38,9 @@ public class CambioContrasenaActivity extends AppCompatActivity {
 
 
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        getWindow().setExitTransition(new TransitionSet());
+
         setContentView(R.layout.cambio_contrasena);
         super.onCreate(savedInstanceState);
 
@@ -152,25 +157,49 @@ public class CambioContrasenaActivity extends AppCompatActivity {
         if (nueva.length() > 20) {
             Toast.makeText(CambioContrasenaActivity.this, "La contraseña no puede tener más de 20 caracteres", Toast.LENGTH_SHORT).show();
             return false;
-
         }
 
-        if (!comprobarCaracteresPassword(nueva)){
-            Toast.makeText(CambioContrasenaActivity.this, "La contraseña solo puede tener carácteres alfanuméricos o guión bajo (_)", Toast.LENGTH_SHORT).show();
+        if (nueva.length() < 8) {
+            Toast.makeText(CambioContrasenaActivity.this, "La contraseña no puede tener menos de 8 caracteres", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        int comprobacionCaracteres = comprobarCaracteresPassword(nueva);
+
+        if (comprobacionCaracteres == 1){
+            Toast.makeText(CambioContrasenaActivity.this, "La contraseña solo puede tener carácteres alfanuméricos", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (comprobacionCaracteres == 2){
+            Toast.makeText(CambioContrasenaActivity.this, "La contraseña debe contener los caracteres requeridos*", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         return true;
     }
 
-    private boolean comprobarCaracteresPassword(String password) {
+    private int comprobarCaracteresPassword(String password) {
+        boolean numero = false;
+        boolean mayus = false;
+        boolean minus = false;
+
         for (int i = 0; i < password.length(); i++) {
             char c = password.charAt(i);
-            if (!(Character.isLetterOrDigit(c) || c == '_')) {
-                return false;
+            if (!(Character.isLetterOrDigit(c))) {
+                return 1;
             }
+
+            if (!numero && Character.isDigit(c)) numero = true;
+            if (!minus && Character.isLowerCase(c)) minus = true;
+            if (!mayus && Character.isUpperCase(c)) mayus = true;
+
         }
-        return true;
+        if(numero && mayus && minus){
+            return 0;
+        } else {
+            return 2;
+        }
     }
 
 

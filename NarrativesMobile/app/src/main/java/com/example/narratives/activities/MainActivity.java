@@ -9,11 +9,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
+import android.transition.TransitionSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,8 +32,9 @@ import com.example.narratives.fragments.FragmentBiblioteca;
 import com.example.narratives.fragments.FragmentClubs;
 import com.example.narratives.fragments.FragmentEscuchando;
 import com.example.narratives.fragments.FragmentInicio;
-import com.example.narratives.regislogin.ApiClient;
-import com.example.narratives.regislogin.RetrofitInterface;
+import com.example.narratives._backend.ApiClient;
+import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.informacion.MiPerfil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
@@ -59,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        getWindow().setExitTransition(new TransitionSet());
+
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
@@ -144,6 +151,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
     public void abrirAlertaCerrarSesion() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -225,6 +238,17 @@ public class MainActivity extends AppCompatActivity {
         content.setSpan( new UnderlineSpan() , 0 , content.length() , 0 ) ;
         textViewCambiarContrasena.setText(content);
 
+        ImageView imageViewFotoPerfil = viewMiPerfil.findViewById(R.id.imageViewMiPerfil);
+        imageViewFotoPerfil.setImageResource(MiPerfil.getPhotoResource());
+        imageViewFotoPerfil.setClickable(true);
+
+        imageViewFotoPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirCambioFotoPerfil();
+            }
+        });
+
 
         PopupWindow popupWindow=new PopupWindow(viewMiPerfil,width,height, true);
         popupWindow.setAnimationStyle(1);
@@ -285,12 +309,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void abrirMenuHomeSinRegistro() {
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
 
     private void abrirCambioContrasena() {
         Intent intent = new Intent(this, CambioContrasenaActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    private void abrirCambioFotoPerfil() {
+        Intent intent = new Intent(this, CambioFotoPerfilActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 

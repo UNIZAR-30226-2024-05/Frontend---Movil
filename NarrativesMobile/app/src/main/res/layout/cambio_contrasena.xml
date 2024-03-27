@@ -8,6 +8,17 @@
     android:background="@color/white">
 
 
+    <TextView
+        android:id="@+id/textViewLaContrasenaDebeContener"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="* La contraseña debe contener:\n              - Entre 8 y 20 caracteres\n              - 1 número\n              - 1 mayúscula\n              - 1 minúscula"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextVerificarContrasenaNueva" />
+
     <Button
         android:id="@+id/botonConfirmarCambioContrasena"
         android:layout_width="wrap_content"
@@ -17,7 +28,7 @@
         android:text="Confirmar"
         android:textColor="@color/white"
         android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@id/editTextVerificarContrasenaNueva"
+        app:layout_constraintTop_toBottomOf="@id/textViewLaContrasenaDebeContener"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:rippleColor="@android:color/white" />
@@ -62,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Contraseña nueva:"
+        android:text="Contraseña nueva*:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

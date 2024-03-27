@@ -3,7 +3,9 @@ package com.example.narratives.activities;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.TransitionSet;
 import android.view.View;
+import android.view.Window;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +14,9 @@ import com.example.narratives.R;
 public class HomeSinRegistroActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        getWindow().setExitTransition(new TransitionSet());
+
         setContentView(R.layout.homesinregistro);
         super.onCreate(savedInstanceState);
 

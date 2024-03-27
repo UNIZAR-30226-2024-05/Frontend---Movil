@@ -1,4 +1,4 @@
-package com.example.narratives.regislogin;
+package com.example.narratives._backend;
 
 import com.example.narratives.peticiones.CambioContrasenaRequest;
 import com.example.narratives.peticiones.LoginRequest;

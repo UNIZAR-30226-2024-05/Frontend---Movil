@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background">
 
+    <TextView
+        android:id="@+id/textViewLaContrasenaDebeContener"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="* La contraseña debe contener:\n              - Entre 8 y 20 caracteres\n              - 1 número\n              - 1 mayúscula\n              - 1 minúscula"
+        android:textSize="11sp"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordConfirmarRegistro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/botonVolverAlInicioRegistro"
         android:text="@string/volver_atras"
@@ -157,7 +168,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="46dp"
         android:layout_marginEnd="15dp"
-        android:text="Contraseña"
+        android:text="Contraseña*"
         app:layout_constraintEnd_toStartOf="@+id/editTextPasswordRegistro"
         app:layout_constraintTop_toBottomOf="@+id/textViewCorreoRegistro" />
 

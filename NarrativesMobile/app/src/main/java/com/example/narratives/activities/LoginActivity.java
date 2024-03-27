@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.transition.TransitionSet;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,8 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives.peticiones.LoginRequest;
 import com.example.narratives.peticiones.LoginResult;
-import com.example.narratives.regislogin.ApiClient;
-import com.example.narratives.regislogin.RetrofitInterface;
+import com.example.narratives._backend.ApiClient;
+import com.example.narratives._backend.RetrofitInterface;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +31,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        getWindow().setExitTransition(new TransitionSet());
+
         setContentView(R.layout.inicio_sesion);
         super.onCreate(savedInstanceState);
 
@@ -45,16 +50,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
-        // PROVISIONAL PARA HACER PRUEBAS
-        /*
-        Button botonConfirmar = (Button) this.findViewById(R.id.botonConfirmarLogin);
-        botonConfirmar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                abrirMenuMain();
-            }
-        });
-        */
         findViewById(R.id.botonIrARegistroDesdeLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
                 if (response.code() == 200) {
                     if(response.isSuccessful()){
-                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.ExitoAlertDialogStyle);
                         builder.setMessage("Iniciando sesión...");
                         builder.show();
                         String cookie = response.headers().get("Set-Cookie");
@@ -104,13 +99,13 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 } else if (response.code() == 404){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.ErrorAlertDialogStyle);
                     builder.setTitle("ERROR");
                     builder.setMessage("Usuario no encontrado");
                     builder.show();
 
                 } else if (response.code() == 401){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.ErrorAlertDialogStyle);
                     builder.setTitle("ERROR");
                     builder.setMessage("Contraseña incorrecta");
                     builder.show();
@@ -131,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void abrirMenuMain() {
         Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void abrirHomeSinRegistro() {
