@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
 
+    private static MiPerfil miPerfil;
+
+    private static ImageView imageViewFotoPerfil;
 
     private Fragment fragmentoInicioAbierto;
     private Fragment fragmentoBibliotecaAbierto;
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         retrofit = ApiClient.getRetrofit();
         retrofitInterface = ApiClient.getRetrofitInterface();
 
-
+        obtenerDatosMiPerfil();
 
         fragmentoInicioAbierto = new FragmentInicio();
         getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoInicioAbierto).commit();
@@ -238,8 +241,8 @@ public class MainActivity extends AppCompatActivity {
         content.setSpan( new UnderlineSpan() , 0 , content.length() , 0 ) ;
         textViewCambiarContrasena.setText(content);
 
-        ImageView imageViewFotoPerfil = viewMiPerfil.findViewById(R.id.imageViewMiPerfil);
-        imageViewFotoPerfil.setImageResource(MiPerfil.getPhotoResource());
+        imageViewFotoPerfil = viewMiPerfil.findViewById(R.id.imageViewMiPerfil);
+        imageViewFotoPerfil.setImageResource(MainActivity.getMiPerfil().getPhotoResource());
         imageViewFotoPerfil.setClickable(true);
 
         imageViewFotoPerfil.setOnClickListener(new View.OnClickListener() {
@@ -320,6 +323,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void abrirCambioFotoPerfil() {
         Intent intent = new Intent(this, CambioFotoPerfilActivity.class);
+        intent.putExtra("foto_perfil_actual", miPerfil.getPhotoResource());
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
@@ -333,5 +337,19 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.hide(fragmentoAmigosAbierto);
         fragmentTransaction.hide(fragmentoClubsAbierto);
         fragmentTransaction.commit();
+    }
+
+    private void obtenerDatosMiPerfil(){
+        miPerfil = new MiPerfil();
+    }
+
+
+    public static MiPerfil getMiPerfil() {
+        return miPerfil;
+    }
+
+
+    public static void actualizarFotoPerfil(){
+        imageViewFotoPerfil.setImageResource(miPerfil.getPhotoResource());
     }
 }

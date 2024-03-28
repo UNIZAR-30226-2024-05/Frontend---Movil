@@ -4,157 +4,212 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/pfp_perro"
-        android:background="@color/teal_200"
-        android:padding="0dp"
-        app:layout_constraintVertical_bias="0.1"
-        app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/pfp_rana"
-        android:background="@color/teal_200"
-        android:padding="0dp"
-        app:layout_constraintVertical_bias="0.27"
-        app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/pfp_pollo"
-        android:background="@color/teal_200"
-        android:padding="0dp"
-        app:layout_constraintVertical_bias="0.44"
-        app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/pfp_buho"
-        android:background="@color/teal_200"
-        android:padding="0dp"
-        app:layout_constraintVertical_bias="0.61"
-        app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/pfp_doraemon"
-        android:background="@color/teal_200"
-        android:padding="0dp"
-        app:layout_constraintVertical_bias="0.78"
-        app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/pfp_gato"
-        android:background="@color/teal_200"
-        android:padding="0dp"
-        app:layout_constraintVertical_bias="0.1"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@color/teal_200"
-        android:padding="0dp"
-        android:src="@drawable/pfp_leon"
-        app:layout_constraintVertical_bias="0.27"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/pfp_vaca"
-        android:background="@color/teal_200"
-        android:padding="0dp"
-        app:layout_constraintVertical_bias="0.44"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/pfp_perezoso"
-        android:background="@color/teal_200"
-        android:padding="0dp"
-        app:layout_constraintVertical_bias="0.61"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/pfp_pikachu"
-        android:background="@color/teal_200"
-        android:padding="0dp"
-        app:layout_constraintVertical_bias="0.78"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
 
     <TextView
+        android:id="@+id/textViewEligeFotoPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Elige una foto de perfil"
         android:textColor="@color/gris_medio"
-        app:layout_constraintVertical_bias="0.85"
+        app:layout_constraintVertical_bias="0.05"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <ImageView
+        android:id="@+id/imageViewFotoPerfilPerro"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/pfp_perro"
+        android:background="@color/teal_200"
+        android:padding="0dp"
+        android:clickable="true"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/imageViewFotoPerfilGato"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/pfp_gato"
+        android:background="@color/teal_200"
+        android:padding="0dp"
+        android:clickable="true"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/imageViewFotoPerfilRana"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/pfp_rana"
+        android:background="@color/teal_200"
+        android:padding="0dp"
+        android:clickable="true"
+        app:layout_constraintVertical_bias="0.27"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/imageViewFotoPerfilLeon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/teal_200"
+        android:padding="0dp"
+        android:src="@drawable/pfp_leon"
+        android:clickable="true"
+        app:layout_constraintVertical_bias="0.27"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/imageViewFotoPerfilPollo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/pfp_pollo"
+        android:background="@color/teal_200"
+        android:padding="0dp"
+        android:clickable="true"
+        app:layout_constraintVertical_bias="0.44"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/imageViewFotoPerfilVaca"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/pfp_vaca"
+        android:background="@color/teal_200"
+        android:padding="0dp"
+        android:clickable="true"
+        app:layout_constraintVertical_bias="0.44"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/imageViewFotoPerfilBuho"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/pfp_buho"
+        android:background="@color/teal_200"
+        android:padding="0dp"
+        android:clickable="true"
+        app:layout_constraintVertical_bias="0.61"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/imageViewFotoPerfilPerezoso"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/pfp_perezoso"
+        android:background="@color/teal_200"
+        android:padding="0dp"
+        android:clickable="true"
+        app:layout_constraintVertical_bias="0.61"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/imageViewFotoPerfilDoraemon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/pfp_doraemon"
+        android:background="@color/teal_200"
+        android:padding="0dp"
+        android:clickable="true"
+        app:layout_constraintVertical_bias="0.78"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/imageViewFotoPerfilPikachu"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/pfp_pikachu"
+        android:background="@color/teal_200"
+        android:padding="0dp"
+        android:clickable="true"
+        app:layout_constraintVertical_bias="0.78"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+    <Button
+        android:id="@+id/botonConfirmarCambioFotoPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/teal_700"
+        android:text="Confirmar"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewFotoPerfilDoraemon"
+        app:rippleColor="@android:color/white" />
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonVolverDesdeCambioFotoPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/icono_back_foreground"
+        android:text="@string/volver_atras"
+        app:backgroundTint="@color/teal_claro"
+        app:borderWidth="2.5dp"
+        app:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:maxImageSize="60dp"
+        app:tint="@color/teal_700" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
