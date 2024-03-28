@@ -6,6 +6,72 @@
     android:layout_height="match_parent"
     tools:context=".fragments.FragmentEscuchando">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonReplayEscuchando"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_700"
+        android:src="@drawable/icono_replay"
+        app:borderWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toEndOf="@+id/botonPauseEscuchando"
+        app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewPortadaLibroEscuchando"
+        app:layout_constraintVertical_bias="0.45"
+        app:maxImageSize="30dp"
+        app:tint="@color/teal_casi_blanco" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonAnteriorLibroEscuchando"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_700"
+        android:src="@drawable/icono_anterior_libro"
+        app:borderWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/botonPlayEscuchando"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toEndOf="@+id/botonPauseEscuchando"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewPortadaLibroEscuchando"
+        app:layout_constraintVertical_bias="0.45"
+        app:maxImageSize="39dp"
+        app:tint="@color/teal_casi_blanco" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonMinutoConcretoEscuchando"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_700"
+        android:src="@drawable/icono_reloj"
+        app:borderWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/botonPauseEscuchando"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewPortadaLibroEscuchando"
+        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:maxImageSize="34dp"
+        app:tint="@color/teal_casi_blanco" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonSiguienteLibroEscuchando"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_700"
+        android:src="@drawable/icono_siguiente_libro"
+        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:borderWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/botonPauseEscuchando"
+        app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewPortadaLibroEscuchando"
+        app:maxImageSize="39dp"
+        app:tint="@color/teal_casi_blanco" />
+
+
     <TextView
         android:id="@+id/textViewReproduciendoAhoraEscuchando"
         android:layout_width="wrap_content"
@@ -36,22 +102,18 @@
         app:layout_constraintTop_toBottomOf="@id/textViewReproduciendoAhoraEscuchando" />
 
 
-
-
-
-
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/shapeableImageViewPortadaLibroEscuchando"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        app:shapeAppearanceOverlay="@style/RoundedSquare"
         android:src="@drawable/icono_imagen_estandar_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroSuperiorEscuchando"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.2"
+        app:shapeAppearanceOverlay="@style/RoundedSquare" />
 
 
 
@@ -76,9 +138,10 @@
         android:layout_height="85dp"
         android:backgroundTint="@color/teal_700"
         android:src="@drawable/icono_play"
-        app:tint="@color/teal_muy_claro"
+        app:tint="@color/teal_casi_blanco"
         app:fabCustomSize="85dp"
         app:maxImageSize="50dp"
+        app:borderWidth="0dp"
         app:layout_constraintVertical_bias="0.45"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,11 +153,12 @@
         android:id="@+id/botonPauseEscuchando"
         android:layout_width="85dp"
         android:layout_height="85dp"
-        android:backgroundTint="@color/teal_muy_claro"
+        android:backgroundTint="@color/teal_casi_blanco"
         android:src="@drawable/icono_pause"
         app:tint="@color/teal_700"
         app:fabCustomSize="85dp"
         app:maxImageSize="50dp"
+        app:borderWidth="0dp"
         app:layout_constraintVertical_bias="0.45"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
