@@ -6,70 +6,83 @@
     android:layout_height="match_parent"
     tools:context=".fragments.FragmentEscuchando">
 
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/botonReplayEscuchando"
+        android:id="@+id/botonAvanzarDiezEscuchando"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/teal_700"
-        android:src="@drawable/icono_replay"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/icono_avanzar_diez"
+        app:backgroundTint="@color/teal_casi_blanco"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toEndOf="@+id/botonPauseEscuchando"
         app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewPortadaLibroEscuchando"
-        app:layout_constraintVertical_bias="0.45"
-        app:maxImageSize="30dp"
-        app:tint="@color/teal_casi_blanco" />
+        app:layout_constraintVertical_bias="0.5"
+        app:maxImageSize="45dp"
+        app:tint="@color/teal_700"
+        app:elevation="0.0001dp"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/botonAnteriorLibroEscuchando"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/teal_700"
+        android:backgroundTint="@color/white"
         android:src="@drawable/icono_anterior_libro"
-        app:borderWidth="0dp"
+        app:borderWidth="3dp"
+        app:backgroundTint="@color/teal_casi_blanco"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/botonPlayEscuchando"
         app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toEndOf="@+id/botonPauseEscuchando"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewPortadaLibroEscuchando"
-        app:layout_constraintVertical_bias="0.45"
-        app:maxImageSize="39dp"
-        app:tint="@color/teal_casi_blanco" />
+        app:layout_constraintVertical_bias="0.5"
+        app:maxImageSize="40dp"
+        app:tint="@color/teal_700"
+        app:elevation="0.0001dp"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/botonMinutoConcretoEscuchando"
+        android:id="@+id/botonRetrasarDiezEscuchando"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/teal_700"
-        android:src="@drawable/icono_reloj"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/icono_retrasar_diez"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/botonPauseEscuchando"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewPortadaLibroEscuchando"
-        app:layout_constraintVertical_bias="0.45"
-        app:layout_constraintHorizontal_bias="0.85"
-        app:maxImageSize="34dp"
-        app:tint="@color/teal_casi_blanco" />
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:maxImageSize="45dp"
+        app:tint="@color/teal_700"
+        app:elevation="0.0001dp"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/botonSiguienteLibroEscuchando"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/teal_700"
+        android:backgroundTint="@color/white"
         android:src="@drawable/icono_siguiente_libro"
-        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintVertical_bias="0.5"
         app:layout_constraintHorizontal_bias="0.8"
-        app:borderWidth="0dp"
+        app:backgroundTint="@color/teal_casi_blanco"
+        app:borderWidth="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/botonPauseEscuchando"
         app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewPortadaLibroEscuchando"
-        app:maxImageSize="39dp"
-        app:tint="@color/teal_casi_blanco" />
+        app:maxImageSize="40dp"
+        app:tint="@color/teal_700"
+        app:elevation="0.0001dp"
+        />
 
 
     <TextView
@@ -142,11 +155,12 @@
         app:fabCustomSize="85dp"
         app:maxImageSize="50dp"
         app:borderWidth="0dp"
-        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintVertical_bias="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewPortadaLibroEscuchando"
+        app:elevation="2dp"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -159,13 +173,55 @@
         app:fabCustomSize="85dp"
         app:maxImageSize="50dp"
         app:borderWidth="0dp"
-        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintVertical_bias="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewPortadaLibroEscuchando"
-
+        app:elevation="2dp"
         />
+
+    <SeekBar
+        android:id="@+id/seekbarEscuchando"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressTint="@color/teal_claro"
+        android:thumbTint="@color/teal_700"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroCentralEscuchando" />
+
+    <TextView
+        android:id="@+id/textViewSeekBarIzquierdaEscuchando"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:text="00:00"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/seekbarEscuchando"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroCentralEscuchando"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintHorizontal_bias="0.9"/>
+
+    <TextView
+        android:id="@+id/textViewSeekBarDerechaEscuchando"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:text="00:00"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toEndOf="@+id/seekbarEscuchando"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroCentralEscuchando"
+        app:layout_constraintVertical_bias="0.1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

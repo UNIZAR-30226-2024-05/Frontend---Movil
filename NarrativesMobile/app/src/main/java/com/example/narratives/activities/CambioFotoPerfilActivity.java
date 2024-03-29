@@ -68,17 +68,9 @@ public class CambioFotoPerfilActivity extends AppCompatActivity {
 
                 if(viejo != nuevo){
 
-                    if(viejo == null){
-                        Toast.makeText(CambioFotoPerfilActivity.this, "Viejo nulo", Toast.LENGTH_LONG).show();
-                    } else {
-                        viejo.setPadding(0,0,0,0);
-                    }
+                    if(viejo != null) viejo.setPadding(0,0,0,0);
 
-                    if(nuevo == null){
-                        Toast.makeText(CambioFotoPerfilActivity.this, "Nuevo nulo", Toast.LENGTH_LONG).show();
-                    } else {
-                        nuevo.setPadding(10, 10, 10, 10);
-                    }
+                    if(nuevo != null) nuevo.setPadding(10, 10, 10, 10);
 
                     actualImageViewId = newImageViewId;
                 }
@@ -126,7 +118,6 @@ public class CambioFotoPerfilActivity extends AppCompatActivity {
             Toast.makeText(CambioFotoPerfilActivity.this, "Elige una foto distinta a la actual", Toast.LENGTH_LONG).show();
         } else {
             String nuevaFoto = MiPerfil.getPhotoString(actualImageViewId);
-            Toast.makeText(CambioFotoPerfilActivity.this, "Foto cambiada a: " + nuevaFoto, Toast.LENGTH_LONG).show();
             MainActivity.getMiPerfil().setPhoto(nuevaFoto);
             MainActivity.actualizarFotoPerfil();
             abrirMenuMain();

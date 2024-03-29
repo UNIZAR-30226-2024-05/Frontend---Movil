@@ -57,11 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
     private static ImageView imageViewFotoPerfil;
 
-    private Fragment fragmentoInicioAbierto;
-    private Fragment fragmentoBibliotecaAbierto;
-    private Fragment fragmentoEscuchandoAbierto;
-    private Fragment fragmentoAmigosAbierto;
-    private Fragment fragmentoClubsAbierto;
+    private FragmentInicio fragmentoInicioAbierto;
+    private FragmentBiblioteca fragmentoBibliotecaAbierto;
+    private FragmentEscuchando fragmentoEscuchandoAbierto;
+    private FragmentAmigos fragmentoAmigosAbierto;
+    private FragmentClubs fragmentoClubsAbierto;
 
 
     @Override
@@ -185,6 +185,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cerrarSesion() {
+        fragmentoEscuchandoAbierto.pararMusica();
+        fragmentoEscuchandoAbierto.reiniciarMusica();
+
         Call<Void> llamada = retrofitInterface.ejecutarSalirSesion(ApiClient.getUserCookie());
         llamada.enqueue(new Callback<Void>() {
             @Override
