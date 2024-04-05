@@ -6,17 +6,87 @@
     android:layout_height="match_parent"
     tools:context=".fragments.FragmentAmigos">
 
-    <TextView
-        android:id="@+id/textViewPaginaDeInicio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="AMIGOS"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/botonSolicitudesEnviadasAmigos"
+        android:layout_width="175dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintEnd_toStartOf="@id/botonSolicitudesRecibidasAmigos"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textSize="25sp"
+        android:backgroundTint="@color/teal_casi_blanco"
+        android:drawableTop="@drawable/icono_soli_enviadas"
+        android:drawableTint="@color/teal_700"
+        app:cornerRadius="8dp"
+        app:strokeColor="@color/teal_claro"
+        app:strokeWidth="2dp"
+        android:textAllCaps="false"
+        android:text="Enviados"
+        android:textSize="14sp"
+        android:textColor="@color/teal_700"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/botonSolicitudesRecibidasAmigos"
+        android:layout_width="175dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintStart_toEndOf="@id/botonSolicitudesEnviadasAmigos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/teal_casi_blanco"
+        android:drawableTop="@drawable/icono_inbox"
+        android:drawableTint="@color/teal_700"
+        app:cornerRadius="8dp"
+        app:strokeColor="@color/teal_claro"
+        app:strokeWidth="2dp"
+        android:textAllCaps="false"
+        android:text="Recibidos"
+        android:textSize="14sp"
+        android:textColor="@color/teal_700"
+        />
+
+    <EditText
+        android:id="@+id/editTextBuscadorListaAmigos"
+
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginHorizontal="30dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/botonSolicitudesRecibidasAmigos"
+        android:hint="Buscar amigos..."
+        android:textColorHint="@color/gris_claro"
+
+        android:backgroundTint="@color/teal_claro"
+        />
+
+    <ListView
+        android:id="@+id/listViewListaAmigos"
+
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="40dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextBuscadorListaAmigos"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintVertical_bias="0.05"
+
+        android:paddingBottom="35dp"
+        android:clipToPadding="false"
         />
 
 
