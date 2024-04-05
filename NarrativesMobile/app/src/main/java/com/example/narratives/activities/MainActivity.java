@@ -34,7 +34,8 @@ import com.example.narratives.fragments.FragmentEscuchando;
 import com.example.narratives.fragments.FragmentInicio;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.informacion.MiPerfil;
+import com.example.narratives.informacion.InfoMiPerfil;
+import com.example.narratives.peticiones.StandardMessageResult;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
 
-    private static MiPerfil miPerfil;
+    private static InfoMiPerfil miPerfil;
 
     private static ImageView imageViewFotoPerfil;
 
@@ -188,10 +189,10 @@ public class MainActivity extends AppCompatActivity {
         fragmentoEscuchandoAbierto.pararMusica();
         fragmentoEscuchandoAbierto.reiniciarMusica();
 
-        Call<Void> llamada = retrofitInterface.ejecutarSalirSesion(ApiClient.getUserCookie());
-        llamada.enqueue(new Callback<Void>() {
+        Call<StandardMessageResult> llamada = retrofitInterface.ejecutarSalirSesion(ApiClient.getUserCookie());
+        llamada.enqueue(new Callback<StandardMessageResult>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<StandardMessageResult> call, Response<StandardMessageResult> response) {
                 int codigo = response.code();
 
                 if (response.code() == 200) {
@@ -224,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<StandardMessageResult> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "No se ha conectado con el servidor",
                         Toast.LENGTH_LONG).show();
             }
@@ -343,11 +344,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void obtenerDatosMiPerfil(){
-        miPerfil = new MiPerfil();
+        miPerfil = new InfoMiPerfil();
     }
 
 
-    public static MiPerfil getMiPerfil() {
+    public static InfoMiPerfil getMiPerfil() {
         return miPerfil;
     }
 

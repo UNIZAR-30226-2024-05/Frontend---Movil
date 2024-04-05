@@ -1,6 +1,6 @@
 package com.example.narratives.peticiones;
 
-public class StandardMessageRequest {
+public class StandardMessageResult {
 
     private String message;
 

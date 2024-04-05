@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.informacion.MiPerfil;
+import com.example.narratives.informacion.InfoMiPerfil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import retrofit2.Retrofit;
@@ -117,7 +117,7 @@ public class CambioFotoPerfilActivity extends AppCompatActivity {
         if(initialImageViewId == actualImageViewId){
             Toast.makeText(CambioFotoPerfilActivity.this, "Elige una foto distinta a la actual", Toast.LENGTH_LONG).show();
         } else {
-            String nuevaFoto = MiPerfil.getPhotoString(actualImageViewId);
+            String nuevaFoto = InfoMiPerfil.getPhotoString(actualImageViewId);
             MainActivity.getMiPerfil().setPhoto(nuevaFoto);
             MainActivity.actualizarFotoPerfil();
             abrirMenuMain();
@@ -127,10 +127,10 @@ public class CambioFotoPerfilActivity extends AppCompatActivity {
             request.setOldPassword(editTextContrasenaAntigua.getText().toString());
             request.setNewPassword(editTextContrasenaNueva.getText().toString());
 
-            Call<StandardMessageRequest> llamada = retrofitInterface.ejecutarCambioContrasena(ApiClient.getUserCookie(), request);
-            llamada.enqueue(new Callback<StandardMessageRequest>() {
+            Call<StandardMessageResult> llamada = retrofitInterface.ejecutarCambioContrasena(ApiClient.getUserCookie(), request);
+            llamada.enqueue(new Callback<StandardMessageResult>() {
                 @Override
-                public void onResponse(Call<StandardMessageRequest> call, Response<StandardMessageRequest> response) {
+                public void onResponse(Call<StandardMessageResult> call, Response<StandardMessageResult> response) {
 
 
                     if(response.code() == 200) {
@@ -172,7 +172,7 @@ public class CambioFotoPerfilActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<StandardMessageRequest> call, Throwable t) {
+                public void onFailure(Call<StandardMessageResult> call, Throwable t) {
                     Toast.makeText(CambioFotoPerfilActivity.this, "No se ha conectado con el servidor",
                             Toast.LENGTH_LONG).show();
                 }

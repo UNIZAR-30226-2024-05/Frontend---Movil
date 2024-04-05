@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                         ApiClient.setUserCookie(cookie);
                         new Handler().postDelayed(
                                 new Runnable() {
-                                    @Override 
+                                    @Override
                                     public void run() {
                                         abrirMenuMain();
                                     }

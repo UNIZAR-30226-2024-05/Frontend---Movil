@@ -2,7 +2,7 @@ package com.example.narratives.informacion;
 
 import com.example.narratives.R;
 
-public class MiPerfil {
+public class InfoMiPerfil {
 
     private String username;
     private String mail;
