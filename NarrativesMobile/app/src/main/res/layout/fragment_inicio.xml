@@ -23,10 +23,10 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/mejorvaloradtextview"
+                    android:id="@+id/SeguirEscucandoText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="MEJORES VALORADOS"
+                    android:text="Seguir escuchando"
                     android:layout_marginTop="85dp"
                     />
 
@@ -48,14 +48,14 @@
                             android:orientation="vertical">
 
                             <ImageView
-                                android:id="@+id/imageView10"
+                                android:id="@+id/imageViewSeguirEscuchando1"
                                 android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
 
                             <TextView
-                                android:id="@+id/textView12"
+                                android:id="@+id/textViewSeguirEscuchando1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="9.0" />
@@ -72,25 +72,182 @@
                             android:orientation="vertical">
 
                             <ImageView
-                                android:id="@+id/imageView11"
+                                android:id="@+id/imageViewSeguirEscuchando2"
                                 android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
 
                             <TextView
-                                android:id="@+id/textView11"
+                                android:id="@+id/textViewSeguirEscuchando2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewSeguirEscuchando3"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewSeguirEscuchando3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewSeguirEscuchando4"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewSeguirEscuchando4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewSeguirEscuchando5"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewSeguirEscuchando5"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewSeguirEscuchando6"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewSeguirEscuchando6"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewSeguirEscuchando7"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewSeguirEscuchando7"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewSeguirEscuchando8"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewSeguirEscuchando8"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="7.5" />
                         </LinearLayout>
 
 
-                        <!-- Espacio de 16dp, ajusta según necesites -->
 
-                        <Space
-                            android:layout_width="20dp"
-                            android:layout_height="3dp" /> <!-- Espacio de 16dp, ajusta según necesites -->
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+
+                <TextView
+                    android:id="@+id/RecomendadosText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Recomendados"
+                    android:layout_marginTop="85dp"
+                    />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    tools:ignore="SpeakableTextPresentCheck">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -99,14 +256,38 @@
                             android:orientation="vertical">
 
                             <ImageView
-                                android:id="@+id/imageView13"
+                                android:id="@+id/imageViewRecomendados1"
                                 android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
 
                             <TextView
-                                android:id="@+id/textView14"
+                                android:id="@+id/textViewRecomendados1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="9.0" />
+
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewRecomendados2"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewRecomendados2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="7.5" />
@@ -114,28 +295,142 @@
 
                         <Space
                             android:layout_width="20dp"
-                            android:layout_height="3dp" /> <!-- Espacio de 16dp, ajusta según necesites -->
-
+                            android:layout_height="3dp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <ImageView
-                                android:id="@+id/imageView15"
+                                android:id="@+id/imageViewRecomendados3"
                                 android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
 
                             <TextView
-                                android:id="@+id/textView16"
+                                android:id="@+id/textViewRecomendados3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="7.5" />
                         </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewRecomendados4"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewRecomendados4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewRecomendados5"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewRecomendados5"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewRecomendados6"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewRecomendados6"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewRecomendados7"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewRecomendados7"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewRecomendados8"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewRecomendados8"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
 
 
                     </LinearLayout>
@@ -269,6 +564,658 @@
                     android:layout_height="30dp" />
 
                 <TextView
+                    android:id="@+id/TERRORTEXT"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:text="TERROR" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    tools:ignore="SpeakableTextPresentCheck">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewTerror1"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewTerror1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="9.0" />
+
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewTerror2"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewTerror2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+
+                        <!-- Espacio de 16dp, ajusta según necesites -->
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" /> <!-- Espacio de 16dp, ajusta según necesites -->
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewTerror3"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewTerror3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" /> <!-- Espacio de 16dp, ajusta según necesites -->
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewTerror4"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewTerror4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" /> <!-- Espacio de 16dp, ajusta según necesites -->
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewTerror5"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewTerror5"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" /> <!-- Espacio de 16dp, ajusta según necesites -->
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewTerror6"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewTerror6"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" /> <!-- Espacio de 16dp, ajusta según necesites -->
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewTerror7"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewTerror7"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" /> <!-- Espacio de 16dp, ajusta según necesites -->
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewTerror8"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewTerror8"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+
+                </HorizontalScrollView>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp" />
+
+                <TextView
+                    android:id="@+id/PoliciacaText"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:text="POLICIACA" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    tools:ignore="SpeakableTextPresentCheck">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewPoliciaca1"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewPoliciaca1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="9.0" />
+
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewPoliciaca2"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewPoliciaca2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+
+                        <!-- Espacio de 16dp, ajusta según necesites -->
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" /> <!-- Espacio de 16dp, ajusta según necesites -->
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewPoliciaca3"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewPoliciaca3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewPoliciaca4"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewPoliciaca4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewPoliciaca5"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewPoliciaca5"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewPoliciaca6"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewPoliciaca6"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewPoliciaca7"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewPoliciaca7"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewPoliciaca8"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewPoliciaca8"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp" />
+
+                <TextView
+                    android:id="@+id/AventurasText"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:text="AVENTURAS" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    tools:ignore="SpeakableTextPresentCheck">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewAventuras1"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewAventuras1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="9.0" />
+
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewAventuras2"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewAventuras2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+
+                        <!-- Espacio de 16dp, ajusta según necesites -->
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewAventuras3"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewAventuras3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewAventuras4"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewAventuras4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewAventuras5"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewAventuras5"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewAventuras6"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewAventuras6"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewAventuras7"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewAventuras7"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewAventuras8"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icono_imagen_estandar_foreground" />
+
+                            <TextView
+                                android:id="@+id/textViewAventuras8"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7.5" />
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp" />
+
+                <TextView
                     android:id="@+id/CIENCIAFICCIONTEXT"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
@@ -385,6 +1332,8 @@
                     </LinearLayout>
 
                 </HorizontalScrollView>
+
+
 
                 <!-- Espacio de 16dp, ajusta según necesites -->
 
