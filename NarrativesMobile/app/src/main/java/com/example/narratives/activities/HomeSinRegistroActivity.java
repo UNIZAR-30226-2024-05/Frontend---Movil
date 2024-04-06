@@ -20,6 +20,14 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
         setContentView(R.layout.homesinregistro);
         super.onCreate(savedInstanceState);
 
+
+        findViewById(R.id.logoHomeSinRegistro).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirMenuMain();
+            }
+        });
+
         findViewById(R.id.botonIrLoginDesdeInicio).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,6 +51,11 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
 
     public void abrirMenuLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    public void abrirMenuMain() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }

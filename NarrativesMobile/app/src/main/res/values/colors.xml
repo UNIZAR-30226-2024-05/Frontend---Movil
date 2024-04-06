@@ -13,6 +13,7 @@
     <color name="gris_claro">#DFDFDF</color>
     <color name="teal_muy_claro">#A6E3E1</color>
     <color name="teal_casi_blanco">#BFE6E5</color>
+    <color name="teal_blanco">#E4FDFC</color>
     <color name="gris_trans">#86373737</color>
 
 </resources>

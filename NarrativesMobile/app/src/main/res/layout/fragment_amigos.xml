@@ -64,6 +64,7 @@
         android:hint="Buscar amigos..."
         android:textColorHint="@color/gris_claro"
 
+        android:drawableStart="@drawable/icono_lupa"
         android:backgroundTint="@color/teal_claro"
         />
 
@@ -71,21 +72,19 @@
         android:id="@+id/listViewListaAmigos"
 
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="wrap_content"
 
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="40dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextBuscadorListaAmigos"
-        app:layout_constraintBottom_toBottomOf="parent"
 
         app:layout_constraintVertical_bias="0.05"
 
-        android:paddingBottom="35dp"
+        android:paddingBottom="320dp"
         android:clipToPadding="false"
         />
 

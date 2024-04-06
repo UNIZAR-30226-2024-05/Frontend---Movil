@@ -22,9 +22,11 @@
     </ScrollView>
 
     <ImageView
+        android:id="@+id/logoHomeSinRegistro"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:src="@drawable/narratives_limpio"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
