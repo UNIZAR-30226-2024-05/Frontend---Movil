@@ -68,33 +68,11 @@ public class FragmentEscuchando extends Fragment {
 
         handler = new Handler();
         //mediaPlayer = MediaPlayer.create(getContext(), R.raw.zowi);
-        mediaPlayer = MediaPlayer.create(getContext(), R.raw.exclusive);
+        //mediaPlayer = MediaPlayer.create(getContext(), R.raw.exclusive);
 
 
-        actualizarDuracionAudio();
+        prepararPrimerAudio("https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_1.mp3");
 
-        seekBar = getView().findViewById(R.id.seekbarEscuchando);
-        seekBar.setMax(mediaPlayer.getDuration());
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(fromUser){
-                    mediaPlayer.seekTo(progress);
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-
-        updateSeekBar = new UpdateSeekBar();
-
-        handler.post(updateSeekBar);
 
         fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,8 +108,16 @@ public class FragmentEscuchando extends Fragment {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 // TODO: Habrá que crear un método para que se reproduzca el siguiente capítulo
-                mediaPlayer.seekTo(0);
-                pararMusica();
+                int cp = mp.getCurrentPosition();
+                mp.seekTo(0);
+
+
+                if(cp < mediaPlayer.getDuration() - 1000){
+                    Toast.makeText(getContext(), "ERROR: no hagas saltos de audio tan grandes", Toast.LENGTH_LONG).show();
+                    pararMusica();
+                } else {
+                    prepararSiguienteAudio("https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_2.mp3");
+                }
             }
         });
     }
@@ -166,7 +152,7 @@ public class FragmentEscuchando extends Fragment {
         }
     }
 
-    public void prepararAudio(String url){
+    public void prepararPrimerAudio(String url){
         //url es http://......
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioAttributes(
@@ -184,12 +170,42 @@ public class FragmentEscuchando extends Fragment {
                 public void onPrepared(MediaPlayer mp) {
 
                     fabPlay.setEnabled(true);
+                    actualizarDuracionAudio();
+                    setActualizacionSeekBar();
                 }
             });
         } catch (Exception e){
             Toast.makeText(getContext(), "Error preparando audio", Toast.LENGTH_LONG).show();
         }
     }
+
+    public void prepararSiguienteAudio(String url){
+        //url es http://......
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioAttributes(
+                new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build()
+        );
+
+        try{
+            mediaPlayer.setDataSource(url);
+            mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    actualizarDuracionAudio();
+                    setActualizacionSeekBar();
+                    reanudarMusica();
+                }
+            });
+        } catch (Exception e){
+            Toast.makeText(getContext(), "Error preparando audio", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
 
     public void reanudarMusica(){
         fabPause.setEnabled(true);
@@ -214,6 +230,31 @@ public class FragmentEscuchando extends Fragment {
             actualizarAudioReproducido();
             handler.postDelayed(this, 100);
         }
+    }
+
+    private void setActualizacionSeekBar() {
+        seekBar = getView().findViewById(R.id.seekbarEscuchando);
+        seekBar.setMax(mediaPlayer.getDuration());
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(fromUser){
+                    mediaPlayer.seekTo(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        updateSeekBar = new UpdateSeekBar();
+
+        handler.post(updateSeekBar);
     }
 
 }
