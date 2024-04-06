@@ -52,6 +52,8 @@ public class FragmentBiblioteca extends Fragment {
         gridView = (GridView) getView().findViewById(R.id.gridViewBibliotecaGeneral);
         buscador = (EditText) getView().findViewById(R.id.editTextBuscadorGeneralBiblioteca);
 
+
+
         obtenerAudiolibrosEjemplo();
         //obtenerTodosLosAudiolibros();
         bibliotecaGridAdapter = new BibliotecaGridAdapter(getContext(), InfoAudiolibros.getTodosLosAudiolibros());
@@ -60,17 +62,13 @@ public class FragmentBiblioteca extends Fragment {
         buscador.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 (FragmentBiblioteca.this).bibliotecaGridAdapter.getFilter().filter(charSequence);
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
         });
     }

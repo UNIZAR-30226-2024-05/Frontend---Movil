@@ -51,7 +51,7 @@ public class FragmentAmigos extends Fragment {
             usuarios.add(new User(nombres[i], role));
         }
 
-        userAdapter = new UserAdapter(getContext(),R.layout.usuario_prueba,usuarios);
+        userAdapter = new UserAdapter(getContext(),R.layout.item_usuario_prueba,usuarios);
         listaAmigos.setAdapter(userAdapter);
 
         buscador.addTextChangedListener(new TextWatcher() {

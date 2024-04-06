@@ -55,7 +55,7 @@ public class BibliotecaGridAdapter extends BaseAdapter implements Filterable {
         }
 
         if (view == null){
-            view = layoutInflater.inflate(R.layout.biblioteca_libro_portada, null);
+            view = layoutInflater.inflate(R.layout.item_biblioteca_libro_portada, null);
         }
 
         ImageView imageView = view.findViewById(R.id.imageViewLibroBiblioteca);
