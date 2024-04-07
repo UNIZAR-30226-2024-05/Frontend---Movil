@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/info_libro_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    >
+
+
+    <TextView
+        android:id="@+id/textViewTituloGeneroInfoLibro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Género:"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toStartOf="@+id/textViewGeneroInfoLibro"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNombreAutorInfoLibro" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonVolverDesdeInfoLibro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/icono_back_foreground"
+        android:text="@string/volver_atras"
+        app:backgroundTint="@color/teal_claro"
+        app:borderWidth="2.5dp"
+        app:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:maxImageSize="60dp"
+        app:tint="@color/teal_700" />
+
+    <TextView
+        android:id="@+id/textViewTituloInfoLibro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:layout_marginHorizontal="40dp"
+        android:fontFamily="sans-serif-black"
+        android:text="TITULO"
+        android:textSize="35dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageViewPortadaInfoLibro"
+        android:layout_width="130dp"
+        android:layout_height="206dp"
+        android:layout_marginVertical="15dp"
+        android:layout_marginHorizontal="15dp"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTituloInfoLibro"
+        android:src="@drawable/icono_imagen_estandar_foreground"/>
+
+    <ScrollView
+        android:id="@+id/scrollViewDescripcionInfoLibro"
+        android:layout_width="175dp"
+        android:layout_height="206dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="15dp"
+        app:layout_constraintHorizontal_bias="0.9"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTituloInfoLibro" >
+
+        <TextView
+            android:id="@+id/textViewDescripcionInfoLibro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="12dp"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu porta neque. Morbi sed lectus non ante imperdiet tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Donec nisi sapien, laoreet quis lacinia nec, pulvinar et turpis. Cras at mi quis libero fringilla porttitor id non risus. Donec et tortor lorem. Aenean at justo id tellus consequat porttitor nec sit amet ante. Integer ultrices lacus vitae sapien maximus, sit amet varius ligula dictum. Donec porttitor faucibus tempor. Maecenas quis luctus purus. Curabitur id nisl urna. Nullam efficitur arcu id magna aliquet, a pretium libero porta. Donec in nisi."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewMiPerfil"
+            />
+
+    </ScrollView>
+
+
+    <TextView
+        android:id="@+id/textViewTituloAutorInfoLibro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="Autor:"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toStartOf="@+id/textViewNombreAutorInfoLibro"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewPortadaInfoLibro" />
+
+    <TextView
+        android:id="@+id/textViewNombreAutorInfoLibro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="NOMBRE APELLIDO1 APELLIDO"
+        android:textSize="18sp"
+        android:gravity="start"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="80dp"
+        android:paddingStart="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewPortadaInfoLibro" />
+
+
+    <TextView
+        android:id="@+id/textViewGeneroInfoLibro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="GÉNERO"
+        android:textSize="18dp"
+        android:paddingStart="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/textViewNombreAutorInfoLibro"
+        app:layout_constraintStart_toEndOf="@+id/textViewTituloAutorInfoLibro"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNombreAutorInfoLibro" />
+
+    <LinearLayout
+
+        android:id="@+id/linearLayoutValoracionInfoLibro"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="25dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGeneroInfoLibro" >
+
+        <ImageView
+            android:id="@+id/imageViewEstrella1ValoracionInfoLibro"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella"/>
+
+
+        <ImageView
+            android:id="@+id/imageViewEstrella2ValoracionInfoLibro"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella"/>
+
+        <ImageView
+            android:id="@+id/imageViewEstrella3ValoracionInfoLibro"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella"/>
+
+        <ImageView
+            android:id="@+id/imageViewEstrella4ValoracionInfoLibro"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella"/>
+
+
+        <ImageView
+            android:id="@+id/imageViewEstrella5ValoracionInfoLibro"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella"/>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,28 +19,28 @@ import java.util.ArrayList;
 public class BibliotecaGridAdapter extends BaseAdapter implements Filterable {
 
     private LibroFilter libroFilter;
-    private ArrayList<Audiolibro> todosLosAudiolibros;
-    private ArrayList<Audiolibro> tempTodosLosAudiolibros;
+    private ArrayList<Audiolibro> audiolibros;
+    private ArrayList<Audiolibro> tempAudiolibros;
 
     private Context context;
 
     private LayoutInflater layoutInflater;
 
-    public BibliotecaGridAdapter(Context context, ArrayList<Audiolibro> todosLosAudiolibros) {
+    public BibliotecaGridAdapter(Context context, ArrayList<Audiolibro> audiolibros) {
         this.context = context;
-        this.todosLosAudiolibros = todosLosAudiolibros;
-        this.tempTodosLosAudiolibros = todosLosAudiolibros;
+        this.audiolibros = audiolibros;
+        this.tempAudiolibros = audiolibros;
     }
 
 
     @Override   
     public int getCount() {
-        return todosLosAudiolibros.size();
+        return audiolibros.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return audiolibros.get(i);
     }
 
     @Override
@@ -61,10 +61,12 @@ public class BibliotecaGridAdapter extends BaseAdapter implements Filterable {
         ImageView imageView = view.findViewById(R.id.imageViewLibroBiblioteca);
         TextView textView = view.findViewById(R.id.textViewLibroBiblioteca);
 
-        textView.setText(todosLosAudiolibros.get(i).getTitulo());
+        textView.setText(audiolibros.get(i).getTitulo());
+
+
         Glide
                 .with(context)
-                .load(todosLosAudiolibros.get(i).getImg())
+                .load(audiolibros.get(i).getImg())
                 .centerCrop()
                 .placeholder(R.drawable.icono_imagen_estandar_foreground)
                 .into(imageView);
@@ -91,9 +93,9 @@ public class BibliotecaGridAdapter extends BaseAdapter implements Filterable {
                 charSequence = charSequence.toString().toUpperCase();
                 ArrayList<Audiolibro> filtros = new ArrayList<>();
 
-                for (int i = 0; i < tempTodosLosAudiolibros.size(); i++) {
-                    if (tempTodosLosAudiolibros.get(i).getTitulo().toUpperCase().contains(charSequence)) {
-                        filtros.add(tempTodosLosAudiolibros.get(i));
+                for (int i = 0; i < tempAudiolibros.size(); i++) {
+                    if (tempAudiolibros.get(i).getTitulo().toUpperCase().contains(charSequence)) {
+                        filtros.add(tempAudiolibros.get(i));
                     }
                 }
 
@@ -101,15 +103,15 @@ public class BibliotecaGridAdapter extends BaseAdapter implements Filterable {
                 filterResults.values = filtros;
 
             } else {
-                filterResults.count = tempTodosLosAudiolibros.size();
-                filterResults.values = tempTodosLosAudiolibros;
+                filterResults.count = tempAudiolibros.size();
+                filterResults.values = tempAudiolibros;
             }
             return filterResults;
         }
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            todosLosAudiolibros = (ArrayList<Audiolibro>) filterResults.values;
+            audiolibros = (ArrayList<Audiolibro>) filterResults.values;
             notifyDataSetChanged();
         }
     }

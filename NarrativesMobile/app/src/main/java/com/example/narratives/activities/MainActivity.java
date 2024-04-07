@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void abrirMiPerfil(){
         LayoutInflater inflater= (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View viewMiPerfil=inflater.inflate(R.layout.mi_perfil, null);
+        View viewMiPerfil=inflater.inflate(R.layout.popup_mi_perfil, null);
 
         int width= ViewGroup.LayoutParams.MATCH_PARENT;
         int height= ViewGroup.LayoutParams.MATCH_PARENT;

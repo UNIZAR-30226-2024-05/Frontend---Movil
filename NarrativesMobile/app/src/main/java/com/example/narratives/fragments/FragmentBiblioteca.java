@@ -1,19 +1,28 @@
 package com.example.narratives.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
@@ -21,6 +30,7 @@ import com.example.narratives.biblioteca.BibliotecaGridAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.Audiolibro;
 import com.example.narratives.peticiones.AudiolibrosResult;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
 
@@ -41,6 +51,7 @@ public class FragmentBiblioteca extends Fragment {
     EditText buscador;
     AutoCompleteTextView filtros;
     ArrayAdapter<String> adapterFiltros;
+    String generoLibrosMostrados;
 
 
     @Override
@@ -58,13 +69,22 @@ public class FragmentBiblioteca extends Fragment {
         filtros = (AutoCompleteTextView) getView().findViewById(R.id.autoCompleteTextViewFiltrosBiblioteca);
         adapterFiltros = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, InfoAudiolibros.getGeneros());
         filtros.setText("Todos");
+        generoLibrosMostrados = "todos";
+
 
         filtros.setAdapter(adapterFiltros);
 
         obtenerAudiolibrosEjemplo();
         //obtenerTodosLosAudiolibros();
         bibliotecaGridAdapter = new BibliotecaGridAdapter(getContext(), InfoAudiolibros.getTodosLosAudiolibros());
+
         gridView.setAdapter(bibliotecaGridAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                mostrarPopupInfoLibro(position);
+            }
+        });
 
         buscador.addTextChangedListener(new TextWatcher() {
             @Override
@@ -152,7 +172,58 @@ public class FragmentBiblioteca extends Fragment {
         }
 
         InfoAudiolibros.setTodosLosAudiolibros(audiolibros);
+    }
 
+    private void mostrarPopupInfoLibro(int position){
+        esconderTeclado();
+
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View viewInfoLibro = inflater.inflate(R.layout.popup_info_libro, null);
+
+        int width= ViewGroup.LayoutParams.MATCH_PARENT;
+        int height= ViewGroup.LayoutParams.MATCH_PARENT;
+
+        //PRUEBA, habrá que conseguir el libro según el género en 'generoLibrosMostrados'
+        Audiolibro audiolibro = (Audiolibro) bibliotecaGridAdapter.getItem(position);
+
+        ImageView imageViewPortada = viewInfoLibro.findViewById(R.id.imageViewPortadaInfoLibro);
+        Glide
+                .with(getContext())
+                .load(audiolibro.getImg())
+                .centerCrop()
+                .placeholder(R.drawable.icono_imagen_estandar_foreground)
+                .into(imageViewPortada);
+
+        TextView textViewTitulo = viewInfoLibro.findViewById(R.id.textViewTituloInfoLibro);
+        textViewTitulo.setText(audiolibro.getTitulo());
+
+
+        PopupWindow popupWindow=new PopupWindow(viewInfoLibro,width,height, true);
+        popupWindow.setAnimationStyle(0);
+
+        FrameLayout layout = getActivity().findViewById(R.id.main_layout);
+        layout.post(new Runnable(){
+            @Override
+            public void run(){
+                popupWindow.showAtLocation(layout, Gravity.BOTTOM,0,0);
+            }
+        });
+
+
+        FloatingActionButton botonCerrar = (FloatingActionButton) viewInfoLibro.findViewById(R.id.botonVolverDesdeInfoLibro);
+        botonCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+    }
+
+    private void esconderTeclado() {
+        if(getActivity().getCurrentFocus() != null){
+            InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
 }
