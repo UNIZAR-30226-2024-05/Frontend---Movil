@@ -6,6 +6,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -37,6 +39,8 @@ public class FragmentBiblioteca extends Fragment {
     GridView gridView;
     BibliotecaGridAdapter bibliotecaGridAdapter;
     EditText buscador;
+    AutoCompleteTextView filtros;
+    ArrayAdapter<String> adapterFiltros;
 
 
     @Override
@@ -51,8 +55,11 @@ public class FragmentBiblioteca extends Fragment {
         retrofitInterface = ApiClient.getRetrofitInterface();
         gridView = (GridView) getView().findViewById(R.id.gridViewBibliotecaGeneral);
         buscador = (EditText) getView().findViewById(R.id.editTextBuscadorGeneralBiblioteca);
+        filtros = (AutoCompleteTextView) getView().findViewById(R.id.autoCompleteTextViewFiltrosBiblioteca);
+        adapterFiltros = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, InfoAudiolibros.getGeneros());
+        filtros.setText("Todos");
 
-
+        filtros.setAdapter(adapterFiltros);
 
         obtenerAudiolibrosEjemplo();
         //obtenerTodosLosAudiolibros();

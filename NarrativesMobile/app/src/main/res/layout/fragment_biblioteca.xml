@@ -16,8 +16,11 @@
 
         android:backgroundTint="@color/teal_claro"
         android:drawableStart="@drawable/icono_lupa"
+        android:drawablePadding="7dp"
+        android:drawableTint="@color/gris_medio"
         android:hint="Buscar audiolibros..."
         android:textColorHint="@color/gris_claro"
+
 
 
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,9 +45,16 @@
             android:id="@+id/autoCompleteTextViewFiltrosBiblioteca"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:inputType="none"
+            android:background="@drawable/button_filtros"
+            android:drawableStart="@drawable/icono_filtro"
+            android:padding="0dp"
+            android:textColor="@color/gris_medio"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/gris_medio"
             />
-        
-        
+
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <GridView
@@ -53,6 +63,7 @@
         android:layout_height="wrap_content"
         android:numColumns="3"
         android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
