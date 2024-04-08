@@ -70,7 +70,8 @@ public class FragmentEscuchando extends Fragment {
         //mediaPlayer = MediaPlayer.create(getContext(), R.raw.zowi);
         //mediaPlayer = MediaPlayer.create(getContext(), R.raw.exclusive);
 
-
+        fabPlay.setClickable(false);
+        fabPause.setClickable(false);
         prepararPrimerAudio("https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_1.mp3");
 
 
@@ -102,7 +103,6 @@ public class FragmentEscuchando extends Fragment {
                 mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 10000);
             }
         });
-
 
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -162,9 +162,23 @@ public class FragmentEscuchando extends Fragment {
                         .build()
         );
 
+
         try{
             mediaPlayer.setDataSource(url);
             mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
+            mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
+                @Override
+                public void onBufferingUpdate(MediaPlayer mediaPlayer, int i) {
+                    if(i == 100){
+                        Toast.makeText(getContext(), "Audio 100%", Toast.LENGTH_LONG).show();
+                        fabPlay.setClickable(true);
+                        fabPause.setClickable(true);
+                        actualizarDuracionAudio();
+                        setActualizacionSeekBar();
+                        reanudarMusica();
+                    }
+                }
+            });
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
@@ -192,7 +206,10 @@ public class FragmentEscuchando extends Fragment {
         try{
             mediaPlayer.setDataSource(url);
             mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
+
+            /*
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     actualizarDuracionAudio();
@@ -200,6 +217,7 @@ public class FragmentEscuchando extends Fragment {
                     reanudarMusica();
                 }
             });
+            */
         } catch (Exception e){
             Toast.makeText(getContext(), "Error preparando audio", Toast.LENGTH_LONG).show();
         }
@@ -253,7 +271,6 @@ public class FragmentEscuchando extends Fragment {
         });
 
         updateSeekBar = new UpdateSeekBar();
-
         handler.post(updateSeekBar);
     }
 

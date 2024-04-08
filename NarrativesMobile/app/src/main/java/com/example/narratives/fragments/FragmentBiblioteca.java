@@ -123,7 +123,7 @@ public class FragmentBiblioteca extends Fragment {
                             Toast.LENGTH_LONG).show();
 
                 } else if (response.code() == 404){
-                    //Toast.makeText(getContext(), "Error 404 /audiolibros", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Error 404 /audiolibros", Toast.LENGTH_LONG).show();
                 } else {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
