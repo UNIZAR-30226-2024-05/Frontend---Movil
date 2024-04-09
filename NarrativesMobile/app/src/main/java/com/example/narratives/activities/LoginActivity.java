@@ -111,8 +111,17 @@ public class LoginActivity extends AppCompatActivity {
                 } else if (response.code() == 401){
                 Toast.makeText(LoginActivity.this, "Contraseña incorrecta",
                         Toast.LENGTH_LONG).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.ErrorAlertDialogStyle);
+                    builder.setTitle("ERROR");
+                    builder.setMessage("Contraseña incorrecta");
+                    builder.show();
+
+                } else if (response.code() == 500){
+                    Toast.makeText(LoginActivity.this, "Error del servidor " + String.valueOf(response.code()),
+                            Toast.LENGTH_LONG).show();
+
                 } else {
-                    Toast.makeText(LoginActivity.this, "Algo ha fallado",
+                    Toast.makeText(LoginActivity.this, "Algo ha fallado: Código " + String.valueOf(response.code()),
                             Toast.LENGTH_LONG).show();
                 }
             }

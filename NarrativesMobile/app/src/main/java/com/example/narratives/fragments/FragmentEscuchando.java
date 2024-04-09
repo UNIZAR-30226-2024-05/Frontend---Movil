@@ -1,20 +1,26 @@
 package com.example.narratives.fragments;
 
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.narratives.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.concurrent.TimeUnit;
 
 
 public class FragmentEscuchando extends Fragment {
 
-<<<<<<< Updated upstream
-=======
     MediaPlayer mediaPlayer;
 
     FloatingActionButton fabPlay;
@@ -36,13 +42,6 @@ public class FragmentEscuchando extends Fragment {
 
     String urlActual;
 
-    int checkpoint = 1380000;
-
-    boolean esperandoBuffer;
-    int bufferCarga5min = 1;
-    int bufferCarga1min = 1;
->>>>>>> Stashed changes
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,8 +49,6 @@ public class FragmentEscuchando extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_escuchando, container, false);
     }
-<<<<<<< Updated upstream
-=======
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -59,7 +56,7 @@ public class FragmentEscuchando extends Fragment {
         numerosIzquierda = getView().findViewById(R.id.textViewSeekBarIzquierdaEscuchando);
         numerosDerecha= getView().findViewById(R.id.textViewSeekBarDerechaEscuchando);
 
-        esperandoBuffer = true;
+        seekBar = getView().findViewById(R.id.seekbarEscuchando);
 
         fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
         fabPause = (FloatingActionButton) getView().findViewById(R.id.botonPauseEscuchando);
@@ -69,17 +66,14 @@ public class FragmentEscuchando extends Fragment {
         fabPause = (FloatingActionButton) view.findViewById(R.id.botonPauseEscuchando);
         fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
         fabPause.setEnabled(false);
-        //fabPlay.setEnabled(false);
 
-        handler = new Handler();
-        inicializarMediaPlayer();
+        //fabPlay.setEnabled(false);
         //mediaPlayer = MediaPlayer.create(getContext(), R.raw.zowi);
         //mediaPlayer = MediaPlayer.create(getContext(), R.raw.exclusive);
 
         fabPlay.setClickable(false);
         fabPause.setClickable(false);
-        urlActual = "https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_1.mp3";
-        prepararPrimerAudio();
+        prepararAudio("https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_1.mp3", false   );
 
 
         fabPlay.setOnClickListener(new View.OnClickListener() {
@@ -115,8 +109,7 @@ public class FragmentEscuchando extends Fragment {
     }
 
     private void inicializarMediaPlayer() {
-        bufferCarga5min = 1;
-        bufferCarga1min = 1;
+
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -124,6 +117,7 @@ public class FragmentEscuchando extends Fragment {
                 // TODO: Habrá que crear un método para que se reproduzca el siguiente capítulo
                 int cp = mp.getCurrentPosition();
                 mp.seekTo(0);
+                mediaPlayer.stop();
 
 
                 if(cp < mediaPlayer.getDuration() - 1000){
@@ -131,7 +125,8 @@ public class FragmentEscuchando extends Fragment {
                     pararMusica();
                     reiniciarMusica();
                 } else {
-                    prepararSiguienteAudio();
+
+                    prepararAudio("https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_2.mp3", true);
                 }
             }
         });
@@ -167,8 +162,10 @@ public class FragmentEscuchando extends Fragment {
         }
     }
 
-    public void prepararPrimerAudio(){
-        //url es http://......
+
+    public void prepararAudio(String url, boolean reproducir_automaticamente){
+        fabPlay.setClickable(false);
+        mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioAttributes(
                 new AudioAttributes.Builder()
                         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -176,21 +173,25 @@ public class FragmentEscuchando extends Fragment {
                         .build()
         );
 
-        inicializarAudio();
+        inicializarAudio(url, reproducir_automaticamente);
     }
 
-    private void inicializarAudio() {
+    private void inicializarAudio(String url, boolean reproducir_automaticamente) {
         try{
-            mediaPlayer.setDataSource(urlActual);
+            mediaPlayer.setDataSource(url);
             mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
 
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
-
-                    fabPlay.setEnabled(true);
+                    fabPlay.setClickable(true);
                     actualizarDuracionAudio();
                     setConfiguracionSeekBar();
+                    if(reproducir_automaticamente){
+                        reanudarMusica();
+                    } else {
+                        pararMusica();
+                    }
                 }
             });
         } catch (Exception e){
@@ -198,13 +199,6 @@ public class FragmentEscuchando extends Fragment {
         }
 
 
-    }
-
-    public void prepararSiguienteAudio(){
-        urlActual = "https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_2.mp3";
-
-        inicializarMediaPlayer();
-        inicializarAudio();
     }
 
 
@@ -223,9 +217,7 @@ public class FragmentEscuchando extends Fragment {
 
     public void reiniciarMusica(){
         mediaPlayer.reset();
-        bufferCarga1min = 1;
-        bufferCarga5min = 1;
-        inicializarAudio();
+        //prepararAudio();
     }
 
     public class UpdateSeekBar implements Runnable {
@@ -239,7 +231,6 @@ public class FragmentEscuchando extends Fragment {
 
     private void setConfiguracionSeekBar() {
         handler = new Handler();
-        seekBar = getView().findViewById(R.id.seekbarEscuchando);
         seekBar.setMax(mediaPlayer.getDuration());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -258,6 +249,7 @@ public class FragmentEscuchando extends Fragment {
             }
         });
 
+        /*
         mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
             public void onBufferingUpdate(MediaPlayer mp, int percent)
             {
@@ -282,10 +274,8 @@ public class FragmentEscuchando extends Fragment {
             }
 
         });
-
+        */
         updateSeekBar = new UpdateSeekBar();
         handler.post(updateSeekBar);
     }
-
->>>>>>> Stashed changes
 }
