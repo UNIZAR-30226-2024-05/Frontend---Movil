@@ -339,6 +339,16 @@ public class FragmentEscuchando extends Fragment {
             }
         });
 
+        mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
+            public void onBufferingUpdate(MediaPlayer mp, int percent)
+            {
+                double ratio = percent / 100.0;
+                int bufferingLevel = (int)(mp.getDuration() * ratio);
+                seekBar.setSecondaryProgress(bufferingLevel);
+            }
+
+        });
+
         updateSeekBar = new UpdateSeekBar();
         handler.post(updateSeekBar);
     }
