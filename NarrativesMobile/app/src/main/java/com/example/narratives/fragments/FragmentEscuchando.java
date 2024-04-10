@@ -41,6 +41,7 @@ public class FragmentEscuchando extends Fragment {
     UpdateSeekBar updateSeekBar;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,7 +55,6 @@ public class FragmentEscuchando extends Fragment {
         numerosIzquierda = getView().findViewById(R.id.textViewSeekBarIzquierdaEscuchando);
         numerosDerecha= getView().findViewById(R.id.textViewSeekBarDerechaEscuchando);
 
-        seekBar = getView().findViewById(R.id.seekbarEscuchando);
 
         fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
         fabPause = (FloatingActionButton) getView().findViewById(R.id.botonPauseEscuchando);
@@ -64,14 +64,15 @@ public class FragmentEscuchando extends Fragment {
         fabPause = (FloatingActionButton) view.findViewById(R.id.botonPauseEscuchando);
         fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
         fabPause.setEnabled(false);
-
         //fabPlay.setEnabled(false);
+
+        handler = new Handler();
         //mediaPlayer = MediaPlayer.create(getContext(), R.raw.zowi);
         //mediaPlayer = MediaPlayer.create(getContext(), R.raw.exclusive);
 
         fabPlay.setClickable(false);
         fabPause.setClickable(false);
-        prepararAudio("https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_1.mp3", false   );
+        prepararPrimerAudio("https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_1.mp3");
 
 
         fabPlay.setOnClickListener(new View.OnClickListener() {
@@ -103,28 +104,19 @@ public class FragmentEscuchando extends Fragment {
             }
         });
 
-
-    }
-
-    private void inicializarMediaPlayer() {
-
-        mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 // TODO: Habrá que crear un método para que se reproduzca el siguiente capítulo
                 int cp = mp.getCurrentPosition();
                 mp.seekTo(0);
-                mediaPlayer.stop();
 
 
                 if(cp < mediaPlayer.getDuration() - 1000){
                     Toast.makeText(getContext(), "ERROR: no hagas saltos de audio tan grandes", Toast.LENGTH_LONG).show();
                     pararMusica();
-                    reiniciarMusica();
                 } else {
-
-                    prepararAudio("https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_2.mp3", true);
+                    prepararSiguienteAudio("https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_2.mp3");
                 }
             }
         });
@@ -160,9 +152,8 @@ public class FragmentEscuchando extends Fragment {
         }
     }
 
-
-    public void prepararAudio(String url, boolean reproducir_automaticamente){
-        fabPlay.setClickable(false);
+    public void prepararPrimerAudio(String url){
+        //url es http://......
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioAttributes(
                 new AudioAttributes.Builder()
@@ -171,32 +162,65 @@ public class FragmentEscuchando extends Fragment {
                         .build()
         );
 
-        inicializarAudio(url, reproducir_automaticamente);
-    }
 
-    private void inicializarAudio(String url, boolean reproducir_automaticamente) {
         try{
             mediaPlayer.setDataSource(url);
             mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
-
+            mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
+                @Override
+                public void onBufferingUpdate(MediaPlayer mediaPlayer, int i) {
+                    if(i == 100){
+                        Toast.makeText(getContext(), "Audio 100%", Toast.LENGTH_LONG).show();
+                        fabPlay.setClickable(true);
+                        fabPause.setClickable(true);
+                        actualizarDuracionAudio();
+                        setActualizacionSeekBar();
+                        reanudarMusica();
+                    }
+                }
+            });
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
-                    fabPlay.setClickable(true);
+
+                    fabPlay.setEnabled(true);
                     actualizarDuracionAudio();
-                    setConfiguracionSeekBar();
-                    if(reproducir_automaticamente){
-                        reanudarMusica();
-                    } else {
-                        pararMusica();
-                    }
+                    setActualizacionSeekBar();
                 }
             });
         } catch (Exception e){
             Toast.makeText(getContext(), "Error preparando audio", Toast.LENGTH_LONG).show();
         }
+    }
 
+    public void prepararSiguienteAudio(String url){
+        //url es http://......
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioAttributes(
+                new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build()
+        );
 
+        try{
+            mediaPlayer.setDataSource(url);
+            mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
+
+            /*
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    actualizarDuracionAudio();
+                    setActualizacionSeekBar();
+                    reanudarMusica();
+                }
+            });
+            */
+        } catch (Exception e){
+            Toast.makeText(getContext(), "Error preparando audio", Toast.LENGTH_LONG).show();
+        }
     }
 
 
@@ -215,7 +239,6 @@ public class FragmentEscuchando extends Fragment {
 
     public void reiniciarMusica(){
         mediaPlayer.reset();
-        //prepararAudio();
     }
 
     public class UpdateSeekBar implements Runnable {
@@ -227,8 +250,8 @@ public class FragmentEscuchando extends Fragment {
         }
     }
 
-    private void setConfiguracionSeekBar() {
-        handler = new Handler();
+    private void setActualizacionSeekBar() {
+        seekBar = getView().findViewById(R.id.seekbarEscuchando);
         seekBar.setMax(mediaPlayer.getDuration());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -247,33 +270,8 @@ public class FragmentEscuchando extends Fragment {
             }
         });
 
-        /*
-        mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
-            public void onBufferingUpdate(MediaPlayer mp, int percent)
-            {
-                double ratio = percent / 100.0;
-                int bufferingLevel = (int)(mp.getDuration() * ratio);
-                seekBar.setSecondaryProgress(bufferingLevel);
-                if(esperandoBuffer){
-                    if(bufferingLevel > checkpoint){
-                        esperandoBuffer = false;
-                        mp.seekTo(checkpoint);
-                        bufferCarga1min = 1;
-                        bufferCarga5min = 1;
-                    } else if(bufferingLevel > 300000*bufferCarga5min + 60000*bufferCarga1min){
-                        mp.seekTo(300000*bufferCarga5min + 60000*bufferCarga1min);
-                        bufferCarga5min += 1;
-                    } else if(bufferingLevel > 300000*(bufferCarga5min-1) + 60000*bufferCarga1min) {
-                        mp.seekTo(300000*(bufferCarga5min-1) + 60000*bufferCarga1min);
-                        bufferCarga1min += 1;
-                    }
-                }
-
-            }
-
-        });
-        */
         updateSeekBar = new UpdateSeekBar();
         handler.post(updateSeekBar);
     }
+
 }
