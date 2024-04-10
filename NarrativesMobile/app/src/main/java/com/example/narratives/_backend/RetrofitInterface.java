@@ -15,7 +15,9 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface RetrofitInterface {
-    String URL_BASE = "http://20.199.84.234:8000";
+    //String URL_BASE = "http://20.199.84.234:8000";
+
+    String URL_BASE = "https://narratives-backend.azurewebsites.net";
     @POST("/users/login")
     Call<LoginResult> ejecutarInicioSesion(@Header("Cookie") String userCookie, @Body LoginRequest request);
 

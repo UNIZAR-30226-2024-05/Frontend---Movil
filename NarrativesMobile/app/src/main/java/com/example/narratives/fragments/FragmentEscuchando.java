@@ -40,6 +40,10 @@ public class FragmentEscuchando extends Fragment {
 
     UpdateSeekBar updateSeekBar;
 
+    String[] audios = {"https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_1.mp3", "https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_2.mp3", "https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_3.mp3"};
+    int captiuloActual = 0;
+
+
 
 
     @Override
@@ -55,6 +59,7 @@ public class FragmentEscuchando extends Fragment {
         numerosIzquierda = getView().findViewById(R.id.textViewSeekBarIzquierdaEscuchando);
         numerosDerecha= getView().findViewById(R.id.textViewSeekBarDerechaEscuchando);
 
+        handler = new Handler();
 
         fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
         fabPause = (FloatingActionButton) getView().findViewById(R.id.botonPauseEscuchando);
@@ -72,7 +77,7 @@ public class FragmentEscuchando extends Fragment {
 
         fabPlay.setClickable(false);
         fabPause.setClickable(false);
-        prepararPrimerAudio("https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_1.mp3");
+        prepararPrimerAudio();
 
 
         fabPlay.setOnClickListener(new View.OnClickListener() {
@@ -101,23 +106,6 @@ public class FragmentEscuchando extends Fragment {
             @Override
             public void onClick(View view) {
                 mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 10000);
-            }
-        });
-
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                // TODO: Habrá que crear un método para que se reproduzca el siguiente capítulo
-                int cp = mp.getCurrentPosition();
-                mp.seekTo(0);
-
-
-                if(cp < mediaPlayer.getDuration() - 1000){
-                    Toast.makeText(getContext(), "ERROR: no hagas saltos de audio tan grandes", Toast.LENGTH_LONG).show();
-                    pararMusica();
-                } else {
-                    prepararSiguienteAudio("https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_2.mp3");
-                }
             }
         });
     }
@@ -152,8 +140,9 @@ public class FragmentEscuchando extends Fragment {
         }
     }
 
-    public void prepararPrimerAudio(String url){
-        //url es http://......
+    public void prepararPrimerAudio(){
+        fabPlay.setClickable(false);
+        fabPause.setClickable(false);
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioAttributes(
                 new AudioAttributes.Builder()
@@ -164,28 +153,34 @@ public class FragmentEscuchando extends Fragment {
 
 
         try{
-            mediaPlayer.setDataSource(url);
+            mediaPlayer.setDataSource(audios[captiuloActual]);
             mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
-            mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
-                @Override
-                public void onBufferingUpdate(MediaPlayer mediaPlayer, int i) {
-                    if(i == 100){
-                        Toast.makeText(getContext(), "Audio 100%", Toast.LENGTH_LONG).show();
-                        fabPlay.setClickable(true);
-                        fabPause.setClickable(true);
-                        actualizarDuracionAudio();
-                        setActualizacionSeekBar();
-                        reanudarMusica();
-                    }
-                }
-            });
+
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
 
-                    fabPlay.setEnabled(true);
+                    fabPlay.setClickable(true);
+                    fabPause.setClickable(true);
                     actualizarDuracionAudio();
                     setActualizacionSeekBar();
+                }
+            });
+
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    // TODO: Habrá que crear un método para que se reproduzca el siguiente capítulo
+                    int cp = mp.getCurrentPosition();
+                    mp.seekTo(0);
+
+
+                    if(cp < mediaPlayer.getDuration() - 1000){
+                        Toast.makeText(getContext(), "ERROR: no hagas saltos de audio tan grandes", Toast.LENGTH_LONG).show();
+                        pararMusica();
+                    } else {
+                        prepararSiguienteAudio();
+                    }
                 }
             });
         } catch (Exception e){
@@ -193,8 +188,14 @@ public class FragmentEscuchando extends Fragment {
         }
     }
 
-    public void prepararSiguienteAudio(String url){
+    public void prepararSiguienteAudio(){
         //url es http://......
+        if(captiuloActual >= audios.length-1){
+            captiuloActual = 0;
+        } else {
+            captiuloActual++;
+        }
+
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioAttributes(
                 new AudioAttributes.Builder()
@@ -204,10 +205,9 @@ public class FragmentEscuchando extends Fragment {
         );
 
         try{
-            mediaPlayer.setDataSource(url);
+            mediaPlayer.setDataSource(audios[captiuloActual]);
             mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
 
-            /*
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 
                 @Override
@@ -217,7 +217,24 @@ public class FragmentEscuchando extends Fragment {
                     reanudarMusica();
                 }
             });
-            */
+
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    // TODO: Habrá que crear un método para que se reproduzca el siguiente capítulo
+                    int cp = mp.getCurrentPosition();
+                    mp.seekTo(0);
+
+
+                    if(cp < mediaPlayer.getDuration() - 1000){
+                        Toast.makeText(getContext(), "ERROR: no hagas saltos de audio tan grandes", Toast.LENGTH_LONG).show();
+                        pararMusica();
+                    } else {
+                        prepararSiguienteAudio();
+                    }
+                }
+            });
+
         } catch (Exception e){
             Toast.makeText(getContext(), "Error preparando audio", Toast.LENGTH_LONG).show();
         }

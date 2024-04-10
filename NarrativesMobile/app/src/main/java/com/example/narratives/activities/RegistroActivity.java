@@ -216,7 +216,7 @@ public class RegistroActivity extends AppCompatActivity{
                         Toast.makeText(RegistroActivity.this, "Algo ha fallado obteniendo el error", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(RegistroActivity.this, "Código de error no reconocido",
+                    Toast.makeText(RegistroActivity.this, "Código de error no reconocido: " + String.valueOf(response.code()),
                             Toast.LENGTH_LONG).show();
                 }
             }
