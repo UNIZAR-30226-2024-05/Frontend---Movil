@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                 abrirHomeSinRegistro();
             }
         });
-        findViewById(R.id.botondirecto).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.botonDirecto).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
