@@ -110,15 +110,18 @@ public class LoginActivity extends AppCompatActivity {
                     builder.setMessage("Contraseña incorrecta");
                     builder.show();
 
+                } else if (response.code() == 500){
+                    Toast.makeText(LoginActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+
                 } else {
-                    Toast.makeText(LoginActivity.this, "Algo ha fallado",
+                    Toast.makeText(LoginActivity.this, "Código error " + String.valueOf(response.code()),
                             Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResult> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "Server error",
+                Toast.makeText(LoginActivity.this, "Algo ha fallado",
                         Toast.LENGTH_LONG).show();
             }
         });

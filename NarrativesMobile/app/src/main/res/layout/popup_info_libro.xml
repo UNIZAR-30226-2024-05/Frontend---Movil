@@ -8,6 +8,83 @@
     android:background="@color/white"
     >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="55dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutValoracionInfoLibro"
+        app:layout_constraintVertical_bias="0.1"
+        >
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/botonEscucharAudiolibroInfoLibro"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:backgroundTint="@color/teal_700"
+            android:drawableLeft="@drawable/icono_escuchar_audiolibro"
+            android:drawableTint="@color/teal_casi_blanco"
+            android:paddingStart="28dp"
+            android:text="ESCUCHAR"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/teal_casi_blanco"
+            android:textSize="28sp"
+            app:iconPadding="5dp"
+            app:cornerRadius="8dp"
+            app:strokeColor="@color/teal_casi_blanco"
+            app:strokeWidth="2dp"
+            android:layout_gravity="center"
+            app:elevation="2dp"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/botonAñadirAColeccionInfoLibro"
+            android:layout_width="220dp"
+            android:layout_height="60dp"
+            android:backgroundTint="@color/teal_casi_blanco"
+            android:drawableLeft="@drawable/icono_anadir_coleccion"
+            android:drawableTint="@color/teal_700"
+            android:paddingStart="12dp"
+            android:text="Añadir a colección"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/teal_700"
+            android:textSize="15sp"
+            app:cornerRadius="8dp"
+            app:strokeColor="@color/teal_200"
+            app:strokeWidth="2dp"
+            android:layout_gravity="center"
+            app:elevation="2dp"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/botonComprarEnAmazonInfoLibro"
+            android:layout_width="220dp"
+            android:layout_height="60dp"
+            android:backgroundTint="@color/teal_casi_blanco"
+            android:drawableLeft="@drawable/icono_comprar"
+            android:drawableTint="@color/teal_700"
+            android:paddingStart="12dp"
+            android:text="Comprar en Amazon"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/teal_700"
+            android:textSize="15sp"
+            app:cornerRadius="8dp"
+            app:strokeColor="@color/teal_200"
+            app:strokeWidth="2dp"
+            android:layout_gravity="center"
+            />
+
+
+    </LinearLayout>
+
+
 
     <TextView
         android:id="@+id/textViewTituloGeneroInfoLibro"
@@ -133,7 +210,7 @@
         android:id="@+id/linearLayoutValoracionInfoLibro"
         android:layout_width="200dp"
         android:layout_height="40dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
