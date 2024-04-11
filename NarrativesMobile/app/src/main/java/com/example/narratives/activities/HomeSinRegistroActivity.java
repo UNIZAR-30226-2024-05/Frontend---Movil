@@ -55,16 +55,14 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
         rvNovela.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this, LinearLayoutManager.HORIZONTAL, false));
         rvNovela.setAdapter(adaptador);
 
-        ;
-
-        findViewById(R.id.menu_sinregistro_1).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.botonIrLoginDesdeInicio).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 abrirMenuLogin();
             }
         });
 
-        findViewById(R.id.menu_sinregistro_2).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.botonIrRegistroDesdeInicio).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 abrirMenuRegistro();

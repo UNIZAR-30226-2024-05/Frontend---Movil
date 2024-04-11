@@ -5,6 +5,8 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_claro">#83D3D3</color>
     <color name="teal_200">#1AB6B5</color>
+    <color name="teal_300">#16B1B0</color>
+    <color name="teal_500">#079F9E</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -15,5 +17,6 @@
     <color name="teal_casi_blanco">#BFE6E5</color>
     <color name="teal_blanco">#E4FDFC</color>
     <color name="gris_trans">#86373737</color>
+    <color name="transparente">#00FFFFFF</color>
 
 </resources>

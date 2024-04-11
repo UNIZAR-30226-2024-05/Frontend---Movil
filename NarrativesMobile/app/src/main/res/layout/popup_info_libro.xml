@@ -117,14 +117,16 @@
         android:id="@+id/textViewTituloInfoLibro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
         android:layout_marginHorizontal="40dp"
+        android:layout_marginBottom="10dp"
         android:fontFamily="sans-serif-black"
+        android:gravity="center"
         android:text="TITULO"
         android:textSize="35dp"
-        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewPortadaInfoLibro"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -132,12 +134,13 @@
         android:id="@+id/imageViewPortadaInfoLibro"
         android:layout_width="130dp"
         android:layout_height="206dp"
-        android:layout_marginVertical="15dp"
+        android:layout_marginTop="125dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginHorizontal="15dp"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTituloInfoLibro"
+        app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/icono_imagen_estandar_foreground"/>
 
     <ScrollView
@@ -145,12 +148,13 @@
         android:layout_width="175dp"
         android:layout_height="206dp"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginVertical="15dp"
+        android:layout_marginTop="125dp"
+        android:layout_marginBottom="15dp"
         app:layout_constraintHorizontal_bias="0.9"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTituloInfoLibro" >
+        app:layout_constraintTop_toTopOf="parent" >
 
         <TextView
             android:id="@+id/textViewDescripcionInfoLibro"
@@ -161,7 +165,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewMiPerfil"
+            app:layout_constraintTop_toTopOf="@+id/imageViewMiPerfil"
             />
 
     </ScrollView>

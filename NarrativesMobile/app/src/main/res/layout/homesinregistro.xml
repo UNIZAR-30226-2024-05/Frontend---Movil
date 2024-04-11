@@ -1,129 +1,214 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/main_layout"
-        android:backgroundTint="@color/teal_700">
-        <TextView
-            android:id="@+id/textViewNarrativesRegistro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="7dp"
-            android:fontFamily="sans-serif-black"
-            android:text="NARRATIVES"
-            android:textSize="40sp"
-            android:elevation="8dp" />
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ScrollView
+        <FrameLayout
+            android:id="@+id/main_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/teal_700">
 
+            <TextView
+                android:id="@+id/textViewNarrativesRegistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="7dp"
+                android:elevation="8dp"
+                android:fontFamily="sans-serif-black"
+                android:text="NARRATIVES"
+                android:textSize="40sp" />
 
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingTop="7dp">
+                android:clipToPadding="false"
+                android:paddingBottom="25dp"
+                >
 
-                <TextView
-                    android:id="@+id/RecomendadosText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Recomendados"
-                    android:layout_marginTop="85dp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/RecyclerViewRecomendados"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:scrollbars="horizontal" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingTop="7dp">
 
-                <TextView
-                    android:id="@+id/Genero1Text1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Terror"
-                    android:layout_marginTop="85dp" />
+                    <TextView
+                        android:id="@+id/RecomendadosText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="65dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Recomendados"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/RecyclerViewTerror1"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:scrollbars="horizontal" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/RecyclerViewRecomendados"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:scrollbars="horizontal" />
 
-                <TextView
-                    android:id="@+id/Genero2Text1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fantasia"
-                    android:layout_marginTop="85dp" />
+                    <TextView
+                        android:id="@+id/Genero1Text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Terror"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/RecyclerFantasia1"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:scrollbars="horizontal" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/RecyclerViewTerror1"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:scrollbars="horizontal" />
 
-                <TextView
-                    android:id="@+id/Genero3Text1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Poesia"
-                    android:layout_marginTop="85dp" />
+                    <TextView
+                        android:id="@+id/Genero2Text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Fantasia"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/RecyclerPoesia1"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:scrollbars="horizontal" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/RecyclerFantasia1"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:scrollbars="horizontal" />
 
-                <TextView
-                    android:id="@+id/Genero4Text1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Novela"
-                    android:layout_marginTop="85dp" />
+                    <TextView
+                        android:id="@+id/Genero3Text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Poesia"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/RecyclerNovela1"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:scrollbars="horizontal" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/RecyclerPoesia1"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:scrollbars="horizontal" />
 
+                    <TextView
+                        android:id="@+id/Genero4Text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Novela"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/Genero6Text1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mitologia"
-                    android:layout_marginTop="85dp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/RecyclerMitologia1"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:scrollbars="horizontal" />
-
-                <Space
-                    android:layout_width="50dp"
-                    android:layout_height="85dp">
-
-                </Space>
-            </LinearLayout>
-        </ScrollView>
-
-    </FrameLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/RecyclerNovela1"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:scrollbars="horizontal" />
 
 
+                    <TextView
+                        android:id="@+id/Genero6Text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Mitologia"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/RecyclerMitologia1"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:scrollbars="horizontal" />
+
+                </LinearLayout>
+            </ScrollView>
+        </FrameLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/teal_500"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout">
+
+        <TextView
+            android:id="@+id/textViewCentroMenuInferiorHomeSinRegistro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/botonIrLoginDesdeInicio"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:outlineAmbientShadowColor="@color/transparente"
+            android:outlineSpotShadowColor="@color/transparente"
+            android:text="Inicia Sesión"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:rippleColor="@color/teal_700" />
+
+        <Button
+            android:id="@+id/botonIrRegistroDesdeInicio"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:outlineAmbientShadowColor="@color/transparente"
+            android:outlineSpotShadowColor="@color/transparente"
+            android:text="Registrate"
+            android:textColor="@color/teal_blanco"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 
-    
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
-
+</androidx.constraintlayout.widget.ConstraintLayout>
