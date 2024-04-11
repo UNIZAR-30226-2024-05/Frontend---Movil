@@ -4,19 +4,36 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.narratives.R;
+import com.example.narratives._backend.ApiClient;
+import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.biblioteca.BibliotecaGridAdapter;
+import com.example.narratives.informacion.InfoAudiolibros;
+import com.example.narratives.menuprincipal.MenuPrincipalGridAdapter;
 
 import java.util.ArrayList;
+
+import retrofit2.Retrofit;
 
 
 public class FragmentInicio extends Fragment {
 
+    private Retrofit retrofit;
+    private RetrofitInterface retrofitInterface;
 
+    GridView gridView;
+    MenuPrincipalGridAdapter MenuPrincipalGridAdapter;
+    String generoLibrosMostrados;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,6 +42,22 @@ public class FragmentInicio extends Fragment {
         return inflater.inflate(R.layout.fragment_inicio, container, false);
     }
 
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        retrofit = ApiClient.getRetrofit();
+        retrofitInterface = ApiClient.getRetrofitInterface();
+        gridView = (GridView) getView().findViewById(R.id.gridViewBibliotecaGeneral);
+
+        obtenerAudiolibrosEjemplo();
+        //obtenerTodosLosAudiolibros();
+        MenuPrincipalGridAdapter = new MenuPrincipalGridAdapter(getContext(), InfoAudiolibros.getTodosLosAudiolibros());
+
+        gridView.setAdapter(MenuPrincipalGridAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                mostrarPopupInfoLibro(position);
+            }
+        });
 
     public void setMejoresValorados(){
 
