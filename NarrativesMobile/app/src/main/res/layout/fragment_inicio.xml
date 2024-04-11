@@ -13,7 +13,9 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="85dp">
 
 
             <LinearLayout
@@ -26,7 +28,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Seguir escuchando"
-                    android:layout_marginTop="85dp" />
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginTop="85dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="5dp"
+                    />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/RecyclerViewSeguirEscuchando"
@@ -39,7 +46,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Terror"
-                    android:layout_marginTop="85dp" />
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="5dp"
+                    />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/RecyclerViewTerror"
@@ -52,7 +64,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fantasia"
-                    android:layout_marginTop="85dp" />
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="5dp"
+                    />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/RecyclerFantasia"
@@ -65,7 +82,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Poesia"
-                    android:layout_marginTop="85dp" />
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="5dp"
+                    />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/RecyclerPoesia"
@@ -78,7 +100,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Novela"
-                    android:layout_marginTop="85dp" />
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="5dp"
+                    />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/RecyclerNovela"
@@ -92,19 +119,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mitologia"
-                    android:layout_marginTop="85dp" />
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="5dp"
+                    />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/RecyclerMitologia"
                     android:layout_width="match_parent"
                     android:layout_height="220dp"
                     android:scrollbars="horizontal" />
-                
-                <Space
-                    android:layout_width="50dp"
-                    android:layout_height="85dp">
 
-                </Space>
             </LinearLayout>
         </ScrollView>
     </FrameLayout>
