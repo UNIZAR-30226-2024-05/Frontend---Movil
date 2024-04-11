@@ -1,67 +1,121 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="409dp"
-        android:layout_height="729dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main_layout"
+        android:backgroundTint="@color/teal_700">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+            android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/logoHomeSinRegistro"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:src="@drawable/narratives_limpio"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/scrollView2"></ImageView>
 
-    <Button
-        android:id="@+id/botonIrLoginDesdeInicio"
-        android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/RecomendadosText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Recomendados"
+                    android:layout_marginTop="85dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerViewRecomendados"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:scrollbars="horizontal" />
+
+                <TextView
+                    android:id="@+id/Genero1Text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Terror"
+                    android:layout_marginTop="85dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerViewTerror1"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:scrollbars="horizontal" />
+
+                <TextView
+                    android:id="@+id/Genero2Text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fantasia"
+                    android:layout_marginTop="85dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerFantasia1"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:scrollbars="horizontal" />
+
+                <TextView
+                    android:id="@+id/Genero3Text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Poesia"
+                    android:layout_marginTop="85dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerPoesia1"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:scrollbars="horizontal" />
+
+                <TextView
+                    android:id="@+id/Genero4Text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Novela"
+                    android:layout_marginTop="85dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerNovela1"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:scrollbars="horizontal" />
+
+
+                <TextView
+                    android:id="@+id/Genero6Text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mitologia"
+                    android:layout_marginTop="85dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerMitologia1"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:scrollbars="horizontal" />
+
+                <Space
+                    android:layout_width="50dp"
+                    android:layout_height="85dp">
+
+                </Space>
+            </LinearLayout>
+        </ScrollView>
+
+    </FrameLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/teal_claro"
-        android:layout_marginBottom="10dp"
-        android:text="Inicia Sesión"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.17"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        android:layout_gravity="bottom"
+    app:menu="@menu/menu_inferior_sin_registro"
+    app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior" /> <!-- Esta propiedad animará el BottomNavigationView al hacer scroll -->
 
-    <Button
-        android:id="@+id/botonIrRegistroDesdeInicio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/teal_700"
-        android:textColor="@color/white"
-        android:text="Registrate"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.83"
-        app:layout_constraintStart_toStartOf="parent"
-        app:rippleColor="@android:color/transparent"
-        />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
