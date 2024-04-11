@@ -4,17 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.narratives.R;
-import com.example.narratives._backend.ApiClient;
 import com.example.narratives.informacion.InfoAudiolibros;
-import com.example.narratives.menuprincipal.MenuPrincipalGridAdapter;
 import com.example.narratives.peticiones.Audiolibro;
 import com.example.narratives.menuprincipal.adaptador;
 
