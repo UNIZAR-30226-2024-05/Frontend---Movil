@@ -1,5 +1,7 @@
 package com.example.narratives.menuprincipal;
 
+import static android.provider.Settings.System.getString;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,8 +60,9 @@ public class MenuPrincipalGridAdapter extends BaseAdapter {
         TextView textViewNombre = view.findViewById(R.id.textViewNombreLibro);
         TextView textViewValoracion = view.findViewById(R.id.textViewValoracion);
 
-        textViewNombre.setText(audiolibros.get(i).getTitulo());
-        textViewValoracion.setText(audiolibros.get(i).getId());//CAMBIAR ESTO POR VALORACION
+        //textViewNombre.setText(audiolibros.get(i).getTitulo());
+
+        //textViewValoracion.setText(audiolibros.get(i).getId());//CAMBIAR ESTO POR VALORACION
 
 
         Glide.with(context).load(audiolibros.get(i).getImg()).centerCrop().placeholder(R.drawable.icono_imagen_estandar_foreground).into(imageView);

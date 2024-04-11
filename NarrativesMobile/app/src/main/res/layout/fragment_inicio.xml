@@ -28,15 +28,23 @@
                     android:text="Seguir escuchando"
                     android:layout_marginTop="85dp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/horizontalRecyclerView"
+                <GridView
+                    android:id="@+id/gridViewMenuPrincipal"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:numColumns="8"
+                    android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="10dp"
-                    android:scrollbars="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_menu_principal" />
 
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+
+                    android:paddingBottom="260dp"
+                    android:clipToPadding="false"
+                    >
+
+                </GridView>
             </LinearLayout>
         </ScrollView>
     </FrameLayout>

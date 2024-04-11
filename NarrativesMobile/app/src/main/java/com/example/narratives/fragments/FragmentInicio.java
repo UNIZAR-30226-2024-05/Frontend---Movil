@@ -58,14 +58,12 @@ public class FragmentInicio extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         retrofit = ApiClient.getRetrofit();
         retrofitInterface = ApiClient.getRetrofitInterface();
-        RecyclerView = (androidx.recyclerview.widget.RecyclerView) getView().findViewById(R.id.horizontalRecyclerView);
-
 
         obtenerAudiolibrosEjemplo();
         //obtenerTodosLosAudiolibros();
         MenuPrincipalGridAdapter = new MenuPrincipalGridAdapter(getContext(), InfoAudiolibros.getTodosLosAudiolibros());
 
-        GridView gridView = getView().findViewById(R.id.horizontalRecyclerView);
+        GridView gridView = (GridView) getView().findViewById(R.id.gridViewMenuPrincipal);
         gridView.setAdapter(MenuPrincipalGridAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -74,8 +72,6 @@ public class FragmentInicio extends Fragment {
                 mostrarPopupInfoLibro(position);
             }
         });
-
-
 
     }
 
