@@ -28,7 +28,7 @@
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/botonAnteriorLibroEscuchando"
+        android:id="@+id/botonAnteriorCapituloEscuchando"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
@@ -66,7 +66,7 @@
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/botonSiguienteLibroEscuchando"
+        android:id="@+id/botonSiguienteCapituloEscuchando"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
