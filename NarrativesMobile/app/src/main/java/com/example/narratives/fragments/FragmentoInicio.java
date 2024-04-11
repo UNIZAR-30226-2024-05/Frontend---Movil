@@ -20,8 +20,8 @@ import com.example.narratives.menuprincipal.adaptador;
 
 import java.util.ArrayList;
 
-public class FragmentInicio extends Fragment {
-    RecyclerView rv, rvTerror, rvFantasia, rvMitologia, rvNovela, rvPoesia;
+public class FragmentoInicio extends Fragment {
+    RecyclerView rv;
     adaptador adaptador;
     private ArrayList<Audiolibro> audiolibros;
     @Override
@@ -32,32 +32,12 @@ public class FragmentInicio extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        obtenerAudiolibrosEjemplo();
         rv = getView().findViewById(R.id.RecyclerViewSeguirEscuchando);
         rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        obtenerAudiolibrosEjemplo();
+
         adaptador = new adaptador(getContext(), audiolibros);
         rv.setAdapter(adaptador);
-
-        rvTerror = getView().findViewById(R.id.RecyclerViewTerror);
-        rvTerror.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvTerror.setAdapter(adaptador);
-
-        rvFantasia = getView().findViewById(R.id.RecyclerFantasia);
-        rvFantasia.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvFantasia.setAdapter(adaptador);
-
-        rvMitologia = getView().findViewById(R.id.RecyclerMitologia);
-        rvMitologia.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvMitologia.setAdapter(adaptador);
-
-        rvPoesia = getView().findViewById(R.id.RecyclerPoesia);
-        rvPoesia.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvPoesia.setAdapter(adaptador);
-
-        rvNovela = getView().findViewById(R.id.RecyclerNovela);
-        rvNovela.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvNovela.setAdapter(adaptador);
-
     }
 
 
@@ -82,7 +62,7 @@ public class FragmentInicio extends Fragment {
                 "Popsy"
         };
 
-        audiolibros = new ArrayList<>();
+        ArrayList<Audiolibro> audiolibros = new ArrayList<>();
         for(int i = 0; i < titulos.length; i++){
             Audiolibro a = new Audiolibro(i, titulos[i], i, "descripcion", portadas[i]);
             audiolibros.add(a);

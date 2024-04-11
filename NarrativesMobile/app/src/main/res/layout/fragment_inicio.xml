@@ -28,23 +28,83 @@
                     android:text="Seguir escuchando"
                     android:layout_marginTop="85dp" />
 
-                <GridView
-                    android:id="@+id/gridViewMenuPrincipal"
-
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerViewSeguirEscuchando"
                     android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:scrollbars="horizontal" />
+
+                <TextView
+                    android:id="@+id/Genero1Text"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:numColumns="8"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp"
+                    android:text="Terror"
+                    android:layout_marginTop="85dp" />
 
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerViewTerror"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:scrollbars="horizontal" />
 
-                    android:paddingBottom="260dp"
-                    android:clipToPadding="false"
-                    >
+                <TextView
+                    android:id="@+id/Genero2Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fantasia"
+                    android:layout_marginTop="85dp" />
 
-                </GridView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerFantasia"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:scrollbars="horizontal" />
+
+                <TextView
+                    android:id="@+id/Genero3Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Poesia"
+                    android:layout_marginTop="85dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerPoesia"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:scrollbars="horizontal" />
+
+                <TextView
+                    android:id="@+id/Genero4Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Novela"
+                    android:layout_marginTop="85dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerNovela"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:scrollbars="horizontal" />
+
+
+                <TextView
+                    android:id="@+id/Genero6Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mitologia"
+                    android:layout_marginTop="85dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerMitologia"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:scrollbars="horizontal" />
+                
+                <Space
+                    android:layout_width="50dp"
+                    android:layout_height="85dp">
+
+                </Space>
             </LinearLayout>
         </ScrollView>
     </FrameLayout>
