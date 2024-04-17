@@ -8,44 +8,46 @@
     android:background="@color/white"
     >
 
+
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginHorizontal="55dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.633"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutValoracionInfoLibro"
-        app:layout_constraintVertical_bias="0.1"
-        >
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/botonEscucharAudiolibroInfoLibro"
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:layout_gravity="center"
             android:backgroundTint="@color/teal_700"
             android:drawableLeft="@drawable/icono_escuchar_audiolibro"
             android:drawableTint="@color/teal_casi_blanco"
             android:paddingStart="28dp"
             android:text="ESCUCHAR"
-            android:textStyle="bold"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/teal_casi_blanco"
             android:textSize="28sp"
-            app:iconPadding="5dp"
+            android:textStyle="bold"
             app:cornerRadius="8dp"
-            app:strokeColor="@color/teal_casi_blanco"
-            app:strokeWidth="2dp"
-            android:layout_gravity="center"
             app:elevation="2dp"
-            />
+            app:iconPadding="5dp"
+            app:strokeColor="@color/teal_casi_blanco"
+            app:strokeWidth="2dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/botonAñadirAColeccionInfoLibro"
             android:layout_width="220dp"
             android:layout_height="60dp"
+            android:layout_gravity="center"
             android:backgroundTint="@color/teal_casi_blanco"
             android:drawableLeft="@drawable/icono_anadir_coleccion"
             android:drawableTint="@color/teal_700"
@@ -56,16 +58,15 @@
             android:textColor="@color/teal_700"
             android:textSize="15sp"
             app:cornerRadius="8dp"
-            app:strokeColor="@color/teal_200"
-            app:strokeWidth="2dp"
-            android:layout_gravity="center"
             app:elevation="2dp"
-            />
+            app:strokeColor="@color/teal_200"
+            app:strokeWidth="2dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/botonComprarEnAmazonInfoLibro"
             android:layout_width="220dp"
             android:layout_height="60dp"
+            android:layout_gravity="center"
             android:backgroundTint="@color/teal_casi_blanco"
             android:drawableLeft="@drawable/icono_comprar"
             android:drawableTint="@color/teal_700"
@@ -77,24 +78,10 @@
             android:textSize="15sp"
             app:cornerRadius="8dp"
             app:strokeColor="@color/teal_200"
-            app:strokeWidth="2dp"
-            android:layout_gravity="center"
-            />
+            app:strokeWidth="2dp" />
 
 
     </LinearLayout>
-
-
-
-    <TextView
-        android:id="@+id/textViewTituloGeneroInfoLibro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Género:"
-        android:textSize="14dp"
-        app:layout_constraintEnd_toStartOf="@+id/textViewGeneroInfoLibro"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNombreAutorInfoLibro" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/botonVolverDesdeInfoLibro"
@@ -201,57 +188,35 @@
         android:id="@+id/textViewGeneroInfoLibro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
+        android:paddingStart="10dp"
         android:text="GÉNERO"
         android:textSize="18dp"
-        android:paddingStart="10dp"
         app:layout_constraintEnd_toEndOf="@+id/textViewNombreAutorInfoLibro"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toEndOf="@+id/textViewTituloAutorInfoLibro"
         app:layout_constraintTop_toBottomOf="@+id/textViewNombreAutorInfoLibro" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/textViewTituloGeneroInfoLibro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Género:"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toStartOf="@+id/textViewGeneroInfoLibro"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNombreAutorInfoLibro" />
 
-        android:id="@+id/linearLayoutValoracionInfoLibro"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="15dp"
-
+    <RatingBar
+        android:id="@+id/ratingBar4"
+        android:layout_width="246dp"
+        android:layout_height="44dp"
+        android:numStars="5"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewGeneroInfoLibro" >
-
-        <ImageView
-            android:id="@+id/imageViewEstrella1ValoracionInfoLibro"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella"/>
-
-
-        <ImageView
-            android:id="@+id/imageViewEstrella2ValoracionInfoLibro"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella"/>
-
-        <ImageView
-            android:id="@+id/imageViewEstrella3ValoracionInfoLibro"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella"/>
-
-        <ImageView
-            android:id="@+id/imageViewEstrella4ValoracionInfoLibro"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella"/>
-
-
-        <ImageView
-            android:id="@+id/imageViewEstrella5ValoracionInfoLibro"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella"/>
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/textViewGeneroInfoLibro" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
