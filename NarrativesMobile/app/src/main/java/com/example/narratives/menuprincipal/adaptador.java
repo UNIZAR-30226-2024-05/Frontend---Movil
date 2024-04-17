@@ -6,12 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.narratives.R;
+import com.example.narratives.fragments.FragmentInicio;
 import com.example.narratives.peticiones.Audiolibro;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class adaptador extends RecyclerView.Adapter<adaptador.AdaptadorViewHolde
     Context context;
     private LayoutInflater layoutInflater;
     private ArrayList<Audiolibro> audiolibros;
+
 
     public adaptador(Context context, ArrayList<Audiolibro> audiolibros) {
         this.context = context;
@@ -32,6 +35,10 @@ public class adaptador extends RecyclerView.Adapter<adaptador.AdaptadorViewHolde
     public adaptador.AdaptadorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_menu_principal,null,false);
         return new adaptador.AdaptadorViewHolder(v);
+    }
+
+    public Object getItem(int i) {
+        return audiolibros.get(i);
     }
 
     @Override
@@ -63,8 +70,25 @@ public class adaptador extends RecyclerView.Adapter<adaptador.AdaptadorViewHolde
         public AdaptadorViewHolder(@NonNull View itemView) {
             super(itemView);
 
+
             imageView = itemView.findViewById(R.id.imageViewLibro);
             tvTitulo = itemView.findViewById(R.id.textViewNombreLibro);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Obtener la posición del elemento clickeado
+                    int position = getAdapterPosition();
+
+                    // Verificar que la posición sea válida
+                    if (position != RecyclerView.NO_POSITION) {
+                        // Obtener el audiolibro en la posición clickeada
+                        Audiolibro audiolibro = audiolibros.get(position);
+                        // Mostrar un Toast con el título del audiolibro
+                        Toast.makeText(itemView.getContext(), "Audiolibro seleccionado: " + audiolibro.getTitulo(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
+
 }

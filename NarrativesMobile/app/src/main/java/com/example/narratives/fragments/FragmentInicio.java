@@ -1,18 +1,28 @@
 package com.example.narratives.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.Audiolibro;
 import com.example.narratives.menuprincipal.adaptador;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -33,6 +43,7 @@ public class FragmentInicio extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         adaptador = new adaptador(getContext(), audiolibros);
         rv.setAdapter(adaptador);
+
 
         rvTerror = getView().findViewById(R.id.RecyclerViewTerror);
         rvTerror.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -86,6 +97,10 @@ public class FragmentInicio extends Fragment {
 
         InfoAudiolibros.setTodosLosAudiolibros(audiolibros);
     }
+
+
+
 }
+
 
 
