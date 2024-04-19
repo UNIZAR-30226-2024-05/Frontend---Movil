@@ -20,6 +20,7 @@ import java.util.ArrayList;
 public class ListAdapter extends ArrayAdapter<Resenia> {
 
     public ListAdapter(Context context, ArrayList<Resenia> reseniArrayList){
+
         super(context, R.layout.item_lista_resenias, reseniArrayList);
     }
 
@@ -36,13 +37,13 @@ public class ListAdapter extends ArrayAdapter<Resenia> {
         TextView nombrePersona = convertView.findViewById(R.id.textViewNombrePersona);
         TextView textoReseña = convertView.findViewById(R.id.textViewDescripcionReseña);
         RatingBar valoracion = convertView.findViewById(R.id.ratingBar);
-
+        valoracion.setNumStars(5);
         float num = (float) resenia.valoracion;
 
         nombrePersona.setText(resenia.nombre);
         textoReseña.setText(resenia.descripcion);
         valoracion.setRating(num);
 
-        return super.getView(position, convertView, parent);
+        return convertView;
     }
 }

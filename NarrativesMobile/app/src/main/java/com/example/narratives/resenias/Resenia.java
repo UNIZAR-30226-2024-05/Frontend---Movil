@@ -3,9 +3,9 @@ package com.example.narratives.resenias;
 public class Resenia {
 
     String nombre, descripcion;
-    int valoracion;
+    float valoracion;
 
-    public Resenia(String nombre, String descripcion, int valoracion){
+    public Resenia(String nombre, String descripcion, float valoracion){
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.valoracion = valoracion;
