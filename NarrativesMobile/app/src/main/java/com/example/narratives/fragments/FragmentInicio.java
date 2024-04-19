@@ -1,32 +1,26 @@
 package com.example.narratives.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives.informacion.InfoAudiolibros;
+import com.example.narratives.menuprincipal.RecyclerViewInterface;
 import com.example.narratives.peticiones.Audiolibro;
 import com.example.narratives.menuprincipal.adaptador;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class FragmentInicio extends Fragment {
+public class FragmentInicio extends Fragment implements RecyclerViewInterface {
     RecyclerView rv, rvTerror, rvFantasia, rvMitologia, rvNovela, rvPoesia;
     adaptador adaptador;
     private ArrayList<Audiolibro> audiolibros;
@@ -41,7 +35,7 @@ public class FragmentInicio extends Fragment {
         obtenerAudiolibrosEjemplo();
         rv = getView().findViewById(R.id.RecyclerViewSeguirEscuchando);
         rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        adaptador = new adaptador(getContext(), audiolibros);
+        adaptador = new adaptador(this, getContext(), audiolibros);
         rv.setAdapter(adaptador);
 
 
@@ -99,7 +93,20 @@ public class FragmentInicio extends Fragment {
     }
 
 
+    @Override
+    public void onItemClick(int pos) {
+        View popupView = getLayoutInflater().inflate(R.layout.popup_info_libro, null);
 
+        // Crea una instancia de PopupWindow
+        PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+
+        // Muestra el popup en el centro de la pantalla
+        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+    }
 }
 
 

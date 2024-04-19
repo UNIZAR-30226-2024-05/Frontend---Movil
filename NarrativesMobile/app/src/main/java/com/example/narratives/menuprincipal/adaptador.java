@@ -13,19 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.narratives.R;
-import com.example.narratives.fragments.FragmentInicio;
 import com.example.narratives.peticiones.Audiolibro;
 
 import java.util.ArrayList;
 
-public class adaptador extends RecyclerView.Adapter<adaptador.AdaptadorViewHolder> {
-
+public class adaptador extends RecyclerView.Adapter<adaptador.AdaptadorViewHolder>  {
+    private final RecyclerViewInterface rvi;
     Context context;
     private LayoutInflater layoutInflater;
     private ArrayList<Audiolibro> audiolibros;
 
 
-    public adaptador(Context context, ArrayList<Audiolibro> audiolibros) {
+    public adaptador(RecyclerViewInterface rvi, Context context, ArrayList<Audiolibro> audiolibros) {
+        this.rvi = rvi;
         this.context = context;
         this.audiolibros = audiolibros;
     }
@@ -75,16 +75,12 @@ public class adaptador extends RecyclerView.Adapter<adaptador.AdaptadorViewHolde
             tvTitulo = itemView.findViewById(R.id.textViewNombreLibro);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    // Obtener la posición del elemento clickeado
-                    int position = getAdapterPosition();
-
-                    // Verificar que la posición sea válida
-                    if (position != RecyclerView.NO_POSITION) {
-                        // Obtener el audiolibro en la posición clickeada
-                        Audiolibro audiolibro = audiolibros.get(position);
-                        // Mostrar un Toast con el título del audiolibro
-                        Toast.makeText(itemView.getContext(), "Audiolibro seleccionado: " + audiolibro.getTitulo(), Toast.LENGTH_SHORT).show();
+                public void onClick(View view) {
+                    if(rvi != null){
+                        int pos = getAdapterPosition();
+                        if(pos != RecyclerView.NO_POSITION){
+                            rvi.onItemClick(pos);
+                        }
                     }
                 }
             });

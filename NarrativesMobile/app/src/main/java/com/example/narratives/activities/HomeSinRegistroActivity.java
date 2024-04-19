@@ -4,10 +4,13 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.transition.TransitionSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,12 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.narratives.R;
 import com.example.narratives.informacion.InfoAudiolibros;
+import com.example.narratives.menuprincipal.RecyclerViewInterface;
 import com.example.narratives.menuprincipal.adaptador;
 import com.example.narratives.peticiones.Audiolibro;
 
 import java.util.ArrayList;
 
-public class HomeSinRegistroActivity extends AppCompatActivity {
+public class HomeSinRegistroActivity extends AppCompatActivity implements RecyclerViewInterface {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
@@ -32,7 +37,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
         obtenerAudiolibrosEjemplo();
         rv = findViewById(R.id.RecyclerViewRecomendados);
         rv.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        adaptador = new adaptador(HomeSinRegistroActivity.this, audiolibros);
+        adaptador = new adaptador(this, HomeSinRegistroActivity.this, audiolibros);
         rv.setAdapter(adaptador);
 
         rvTerror = findViewById(R.id.RecyclerViewTerror1);
@@ -124,6 +129,23 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
 
         InfoAudiolibros.setTodosLosAudiolibros(audiolibros);
     }
+
+    @Override
+    public void onItemClick(int pos) {
+        Toast.makeText(getApplicationContext(), "Se abre el libro", Toast.LENGTH_SHORT).show();
+        View popupView = getLayoutInflater().inflate(R.layout.popup_info_libro, null);
+
+        // Crea una instancia de PopupWindow
+        PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+
+        // Muestra el popup en el centro de la pantalla
+        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+    }
+
 }
 
 
