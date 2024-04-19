@@ -46,23 +46,25 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
-    ActivityMainBinding binding;
+    public static ActivityMainBinding binding;
 
 
-    int fragmentoActual = 0;
+    static public int fragmentoActual = 0;
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
+
+    public static FloatingActionButton fabEscuchando;
 
     private static InfoMiPerfil miPerfil;
 
     private static ImageView imageViewFotoPerfil;
 
-    private FragmentInicio fragmentoInicioAbierto;
-    private FragmentBiblioteca fragmentoBibliotecaAbierto;
-    private FragmentEscuchando fragmentoEscuchandoAbierto;
-    private FragmentAmigos fragmentoAmigosAbierto;
-    private FragmentClubs fragmentoClubsAbierto;
+    static public FragmentInicio fragmentoInicioAbierto;
+    static public FragmentBiblioteca fragmentoBibliotecaAbierto;
+    static public FragmentEscuchando fragmentoEscuchandoAbierto;
+    static public FragmentAmigos fragmentoAmigosAbierto;
+    static public FragmentClubs fragmentoClubsAbierto;
 
 
     @Override
@@ -99,22 +101,22 @@ public class MainActivity extends AppCompatActivity {
 
             switch(item.getItemId()) {
                 case R.id.inicio:
-                    reemplazarFragmento(fragmentoInicioAbierto);
+                    reemplazarFragmento(fragmentoInicioAbierto, getSupportFragmentManager().beginTransaction());
                     fragmentoActual = 0;
                     break;
 
                 case R.id.biblioteca:
-                    reemplazarFragmento(fragmentoBibliotecaAbierto);
+                    reemplazarFragmento(fragmentoBibliotecaAbierto, getSupportFragmentManager().beginTransaction());
                     fragmentoActual = 1;
                     break;
 
                 case R.id.amigos:
-                    reemplazarFragmento(fragmentoAmigosAbierto);
+                    reemplazarFragmento(fragmentoAmigosAbierto, getSupportFragmentManager().beginTransaction());
                     fragmentoActual = 3;
                     break;
 
                 case R.id.clubs:
-                    reemplazarFragmento(fragmentoClubsAbierto);
+                    reemplazarFragmento(fragmentoClubsAbierto, getSupportFragmentManager().beginTransaction());
                     fragmentoActual = 4;
                     break;
 
@@ -123,12 +125,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-
-        FloatingActionButton fabEscuchando = (FloatingActionButton) findViewById(R.id.botonEscuchando);
+        fabEscuchando = (FloatingActionButton) findViewById(R.id.botonEscuchando);
         findViewById(R.id.botonEscuchando).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reemplazarFragmento(fragmentoEscuchandoAbierto);
+                reemplazarFragmento(fragmentoEscuchandoAbierto, getSupportFragmentManager().beginTransaction());
                 binding.bottomNavigatorView.getMenu().getItem(2).setChecked(true);
                 fabEscuchando.setImageTintList(ColorStateList.valueOf((0xff) << 24 | (0x01) << 16 | (0x87) << 8 | (0x86)));
                 fragmentoActual = 2;
@@ -285,8 +286,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void reemplazarFragmento(Fragment fragmento){
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+    static public void reemplazarFragmento(Fragment fragmento, FragmentTransaction fragmentTransaction){
+
         switch(fragmentoActual){
             case 0:
                 fragmentTransaction.hide(fragmentoInicioAbierto);
@@ -298,8 +299,8 @@ public class MainActivity extends AppCompatActivity {
 
             case 2:
                 fragmentTransaction.hide(fragmentoEscuchandoAbierto);
-                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.botonEscuchando);
-                fab.setImageTintList(ColorStateList.valueOf((0xFF) << 24 | (0x66) << 16 | (0x66) << 8 | (0x66)));
+
+                fabEscuchando.setImageTintList(ColorStateList.valueOf((0xFF) << 24 | (0x66) << 16 | (0x66) << 8 | (0x66)));
                 break;
 
             case 3:

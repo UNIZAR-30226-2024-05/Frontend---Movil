@@ -7,10 +7,12 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.narratives.R;
@@ -35,6 +37,12 @@ public class FragmentEscuchando extends Fragment {
     TextView numerosIzquierda;
     TextView numerosDerecha;
 
+    static ConstraintLayout reproduceUnAudiolibro;
+    static ConstraintLayout cargandoAudiolibro;
+
+    ConstraintLayout reproductor;
+
+    ImageView iconoCargando;
 
     SeekBar seekBar;
 
@@ -42,8 +50,11 @@ public class FragmentEscuchando extends Fragment {
 
     UpdateSeekBar updateSeekBar;
 
-    String[] audios = {"https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_1.mp3", "https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_2.mp3", "https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_3.mp3"};
+    String[] capitulos = {"https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_1.mp3", "https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_2.mp3", "https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_3.mp3"};
     boolean primerAudio = true;
+    boolean irAMinutoConcreto = false;
+
+    boolean reproductorCargado = false;
 
     boolean libroReiniciado = false;
     int capituloActual = 0;
@@ -60,31 +71,19 @@ public class FragmentEscuchando extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        inicializarElementosReproductor();
 
-        numerosIzquierda = getView().findViewById(R.id.textViewSeekBarIzquierdaEscuchando);
-        numerosDerecha= getView().findViewById(R.id.textViewSeekBarDerechaEscuchando);
+        //mostrarReproduceUnAudiolibro();
+        esconderReproduceUnAudiolibro();
+        esconderReproductor();
+        esconderCargandoAudiolibro();
 
 
-        fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
-        fabPause = (FloatingActionButton) getView().findViewById(R.id.botonPauseEscuchando);
-        fabAvanzar = (FloatingActionButton) getView().findViewById(R.id.botonAvanzarDiezEscuchando);
-        fabRetrasar = (FloatingActionButton) getView().findViewById(R.id.botonRetrasarDiezEscuchando);
-        fabSiguienteCap = (FloatingActionButton) getView().findViewById(R.id.botonSiguienteCapituloEscuchando);
-        fabAnteriorCap = (FloatingActionButton) getView().findViewById(R.id.botonAnteriorCapituloEscuchando);
 
-        fabPause = (FloatingActionButton) view.findViewById(R.id.botonPauseEscuchando);
-        fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
-        fabPause.setEnabled(false);
-        //fabPlay.setEnabled(false);
+        //prepararAudio(capituloActual);
+        //esconderReproduceUnAudiolibro();
 
-        handler = new Handler();
-        //mediaPlayer = MediaPlayer.create(getContext(), R.raw.zowi);
-        //mediaPlayer = MediaPlayer.create(getContext(), R.raw.exclusive);
-
-        fabPlay.setClickable(false);
-        fabPause.setClickable(false);
-        prepararAudio(capituloActual);
-
+        //mostrarCargandoAudiolibro();
 
         fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +130,87 @@ public class FragmentEscuchando extends Fragment {
             }
         });
     }
+
+
+
+    private void inicializarElementosReproductor() {
+        numerosIzquierda = getView().findViewById(R.id.textViewSeekBarIzquierdaEscuchando);
+        numerosDerecha= getView().findViewById(R.id.textViewSeekBarDerechaEscuchando);
+
+
+        fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
+        fabPause = (FloatingActionButton) getView().findViewById(R.id.botonPauseEscuchando);
+        fabAvanzar = (FloatingActionButton) getView().findViewById(R.id.botonAvanzarDiezEscuchando);
+        fabRetrasar = (FloatingActionButton) getView().findViewById(R.id.botonRetrasarDiezEscuchando);
+        fabSiguienteCap = (FloatingActionButton) getView().findViewById(R.id.botonSiguienteCapituloEscuchando);
+        fabAnteriorCap = (FloatingActionButton) getView().findViewById(R.id.botonAnteriorCapituloEscuchando);
+
+        fabPause = (FloatingActionButton) getView().findViewById(R.id.botonPauseEscuchando);
+        fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
+        fabPause.setEnabled(false);
+
+        reproductor = getView().findViewById(R.id.constraintLayoutReproductor);
+        reproduceUnAudiolibro = getView().findViewById(R.id.constraintLayoutReproduceUnAudiolibro);
+        cargandoAudiolibro = getView().findViewById(R.id.constraintLayoutCargandoAudiolibro);
+
+        iconoCargando = (ImageView) getView().findViewById(R.id.imageViewCargandoAudiolibro);
+
+        handler = new Handler();
+    }
+
+
+    private void mostrarReproductor(){
+        reproductor.setEnabled(true);
+        fabPause.setEnabled(true);
+        fabPlay.setEnabled(true);
+        fabRetrasar.setEnabled(true);
+        fabAvanzar.setEnabled(true);
+        fabAnteriorCap.setEnabled(true);
+        fabSiguienteCap.setEnabled(true);
+    }
+
+    private void esconderReproductor() {
+        if(reproductor.isEnabled()) {
+            reproductor.setEnabled(false);
+        }
+
+        fabPause.setEnabled(false);
+        fabPlay.setEnabled(false);
+        fabRetrasar.setEnabled(false);
+        fabAvanzar.setEnabled(false);
+        fabAnteriorCap.setEnabled(false);
+        fabSiguienteCap.setEnabled(false);
+    }
+
+    private void mostrarReproduceUnAudiolibro(){
+        reproduceUnAudiolibro.setEnabled(true);
+    }
+
+    private void esconderReproduceUnAudiolibro() {
+        if(reproduceUnAudiolibro.isEnabled()) {
+            reproduceUnAudiolibro.setEnabled(false);
+        }
+    }
+
+    private void mostrarCargandoAudiolibro(){
+        cargandoAudiolibro.setEnabled(true);
+        iconoCargando.animate().rotation(-720f).setDuration(3000).start();
+    }
+
+    private void esconderCargandoAudiolibro() {
+        if(cargandoAudiolibro.isEnabled()) {
+            cargandoAudiolibro.setEnabled(false);
+        }
+    }
+
+
+    public static void reproducirNuevoLibro(int idAudiolibro){
+        // TODO: petición de audiolibro concreto, guardar capitulos, si es el primero hacer petición del minuto concreto
+
+    }
+
+
+
 
     public void actualizarDuracionAudio(){
         int duracion = mediaPlayer.getDuration();
@@ -193,7 +273,7 @@ public class FragmentEscuchando extends Fragment {
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    // TODO: Habrá que crear un método para que se reproduzca el siguiente capítulo
+
                     int cp = mp.getCurrentPosition();
                     mp.seekTo(0);
 
@@ -220,7 +300,7 @@ public class FragmentEscuchando extends Fragment {
 
         if(capitulo < 0){
             capituloActual = 0;
-        } else if(capitulo >= audios.length){
+        } else if(capitulo >= capitulos.length){
             Toast.makeText(getContext(), "FIN DEL LIBRO", Toast.LENGTH_LONG).show();
             libroReiniciado = true;
             capituloActual = 0;
@@ -243,7 +323,7 @@ public class FragmentEscuchando extends Fragment {
         );
 
         try{
-            mediaPlayer.setDataSource(audios[capituloActual]);
+            mediaPlayer.setDataSource(capitulos[capituloActual]);
             mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
 
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {

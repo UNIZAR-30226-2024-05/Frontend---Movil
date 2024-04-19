@@ -1,6 +1,8 @@
 package com.example.narratives.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -30,6 +32,7 @@ import com.example.narratives.biblioteca.BibliotecaGridAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.Audiolibro;
 import com.example.narratives.peticiones.AudiolibrosResult;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
@@ -74,8 +77,8 @@ public class FragmentBiblioteca extends Fragment {
 
         filtros.setAdapter(adapterFiltros);
 
-        obtenerAudiolibrosEjemplo();
-        //obtenerTodosLosAudiolibros();
+        //obtenerAudiolibrosEjemplo();
+        obtenerTodosLosAudiolibros();
         bibliotecaGridAdapter = new BibliotecaGridAdapter(getContext(), InfoAudiolibros.getTodosLosAudiolibros());
 
         gridView.setAdapter(bibliotecaGridAdapter);
@@ -114,7 +117,7 @@ public class FragmentBiblioteca extends Fragment {
                     if(audiolibrosResult == null){
                         Toast.makeText(getContext(), "Resultado de audiolibros nulo", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getContext(), "Audiolibros recibidos OK", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getContext(), "Audiolibros recibidos OK", Toast.LENGTH_LONG).show();
                         InfoAudiolibros.setTodosLosAudiolibros(audiolibrosResult);
                     }
 
@@ -167,7 +170,7 @@ public class FragmentBiblioteca extends Fragment {
 
         ArrayList<Audiolibro> audiolibros = new ArrayList<>();
         for(int i = 0; i < titulos.length; i++){
-            Audiolibro a = new Audiolibro(i, titulos[i], i, "descripcion", portadas[i]);
+            Audiolibro a = new Audiolibro(i, titulos[i], i, " >>> Descripcion personalizada de " + titulos[i], portadas[i]);
             audiolibros.add(a);
         }
 
@@ -176,6 +179,7 @@ public class FragmentBiblioteca extends Fragment {
 
     private void mostrarPopupInfoLibro(int position){
         esconderTeclado();
+
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View viewInfoLibro = inflater.inflate(R.layout.popup_info_libro, null);
@@ -186,6 +190,7 @@ public class FragmentBiblioteca extends Fragment {
         //PRUEBA, habrá que conseguir el libro según el género en 'generoLibrosMostrados'
         Audiolibro audiolibro = (Audiolibro) bibliotecaGridAdapter.getItem(position);
 
+        // TODO: RECIBIR INFORMACIÓN ESPECÍFICA DEL AUDIOLIBRO A PARTIR DE SU ID
         ImageView imageViewPortada = viewInfoLibro.findViewById(R.id.imageViewPortadaInfoLibro);
         Glide
                 .with(getContext())
@@ -197,8 +202,12 @@ public class FragmentBiblioteca extends Fragment {
         TextView textViewTitulo = viewInfoLibro.findViewById(R.id.textViewTituloInfoLibro);
         textViewTitulo.setText(audiolibro.getTitulo());
 
+        TextView textViewDescripcion = viewInfoLibro.findViewById(R.id.textViewDescripcionInfoLibro);
+        textViewDescripcion.setText(audiolibro.getDescripcion());
 
-        PopupWindow popupWindow=new PopupWindow(viewInfoLibro,width,height, true);
+
+
+        PopupWindow popupWindow = new PopupWindow(viewInfoLibro,width,height, true);
         popupWindow.setAnimationStyle(0);
 
         FrameLayout layout = getActivity().findViewById(R.id.main_layout);
@@ -215,6 +224,29 @@ public class FragmentBiblioteca extends Fragment {
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
+            }
+        });
+
+        MaterialButton escucharAudiolibro = (MaterialButton) viewInfoLibro.findViewById(R.id.botonEscucharAudiolibroInfoLibro);
+        escucharAudiolibro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Dirígete al REPRODUCTOR...");
+                builder.setMessage("El libro estará disponible en cuanto termine la carga.");
+                builder.setIcon(R.drawable.icono_auriculares_pequeno);
+
+                builder.setPositiveButton("De acuerdo", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        popupWindow.dismiss();;
+                    }
+                });
+
+
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
     }

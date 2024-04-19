@@ -6,223 +6,338 @@
     android:layout_height="match_parent"
     tools:context=".fragments.FragmentEscuchando">
 
-
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/botonAvanzarDiezEscuchando"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/icono_avanzar_diez"
-        app:backgroundTint="@color/teal_casi_blanco"
-        app:borderWidth="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toEndOf="@+id/botonPauseEscuchando"
-        app:layout_constraintTop_toBottomOf="@+id/seekbarEscuchando"
-        app:layout_constraintVertical_bias="0.16"
-        app:maxImageSize="45dp"
-        app:tint="@color/teal_700"
-        app:elevation="0.0001dp"
-        />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/botonAnteriorCapituloEscuchando"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/icono_anterior_libro"
-        app:borderWidth="3dp"
-        app:backgroundTint="@color/teal_casi_blanco"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/botonPlayEscuchando"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toEndOf="@+id/botonPauseEscuchando"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekbarEscuchando"
-        app:layout_constraintVertical_bias="0.16"
-        app:maxImageSize="40dp"
-        app:tint="@color/teal_700"
-        app:elevation="0.0001dp"
-        />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/botonRetrasarDiezEscuchando"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/icono_retrasar_diez"
-        app:borderWidth="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/botonPauseEscuchando"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekbarEscuchando"
-        app:layout_constraintVertical_bias="0.16"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:maxImageSize="45dp"
-        app:tint="@color/teal_700"
-        app:elevation="0.0001dp"
-        />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/botonSiguienteCapituloEscuchando"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/icono_siguiente_libro"
-        app:layout_constraintVertical_bias="0.16"
-        app:layout_constraintHorizontal_bias="0.8"
-        app:backgroundTint="@color/teal_casi_blanco"
-        app:borderWidth="3dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/botonPauseEscuchando"
-        app:layout_constraintTop_toBottomOf="@+id/seekbarEscuchando"
-        app:maxImageSize="40dp"
-        app:tint="@color/teal_700"
-        app:elevation="0.0001dp"
-        />
-
-
-    <TextView
-        android:id="@+id/textViewReproduciendoAhoraEscuchando"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:gravity="top"
-        android:text="Reproduciendo ahora..."
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewTituloLibroSuperiorEscuchando"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="top"
-        android:text="TÍTULO LIBRO"
-        android:textSize="20sp"
-
-
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewReproduciendoAhoraEscuchando" />
-
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/shapeableImageViewPortadaLibroEscuchando"
-        android:layout_width="220dp"
-        android:layout_height="match_parent"
-        android:src="@drawable/icono_imagen_estandar_foreground"
-        android:layout_marginTop="140dp"
-        android:layout_marginBottom="350dp"
-        app:layout_constraintBottom_toTopOf="@id/textViewTituloLibroCentralEscuchando"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroSuperiorEscuchando"
-        app:layout_constraintVertical_bias="0.1"
-        app:shapeAppearanceOverlay="@style/RoundedSquare" />
-
-
-    <TextView
-        android:id="@+id/textViewTituloLibroCentralEscuchando"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:gravity="center"
-        android:text="TÍTULO LIBRO"
-        android:textSize="35sp"
-        android:layout_marginBottom="250dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/botonPlayEscuchando"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:backgroundTint="@color/teal_700"
-        android:src="@drawable/icono_play"
-        app:tint="@color/teal_casi_blanco"
-        app:fabCustomSize="85dp"
-        app:maxImageSize="50dp"
-        app:borderWidth="0dp"
-        app:layout_constraintVertical_bias="0.1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekbarEscuchando"
-        app:elevation="2dp"
-        />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/botonPauseEscuchando"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:backgroundTint="@color/teal_casi_blanco"
-        android:src="@drawable/icono_pause"
-        app:tint="@color/teal_700"
-        app:fabCustomSize="85dp"
-        app:maxImageSize="50dp"
-        app:borderWidth="0dp"
-        app:layout_constraintVertical_bias="0.1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekbarEscuchando"
-        app:elevation="2dp"
-        />
-
-    <SeekBar
-        android:id="@+id/seekbarEscuchando"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutReproduceUnAudiolibro"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:progressTint="@color/teal_claro"
-        android:thumbTint="@color/teal_700"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        app:layout_constraintVertical_bias="0.1"
+        android:layout_height="match_parent"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroCentralEscuchando" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="5dp">
 
-    <TextView
-        android:id="@+id/textViewSeekBarIzquierdaEscuchando"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="top"
-        android:text="00:00"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/seekbarEscuchando"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroCentralEscuchando"
-        app:layout_constraintVertical_bias="0.1"
-        app:layout_constraintHorizontal_bias="0.9"/>
+        <TextView
+            android:id="@+id/textViewReproduceUnAudiolibro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textColor="@color/gris_medio"
+            android:gravity="center"
+            android:text="¡Reproduce el primer audiolibro!"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintVertical_bias="0.45"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewSeekBarDerechaEscuchando"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="top"
-        android:text="00:00"
-        android:textSize="12sp"
+        <ImageView
+            android:id="@+id/imageViewReproduceUnAudiolibro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icono_libro"
+            app:layout_constraintVertical_bias="0"
+            android:layout_marginTop="10dp"
+
+            app:tint="@color/gris_medio"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewReproduceUnAudiolibro" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutCargandoAudiolibro"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toEndOf="@+id/seekbarEscuchando"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroCentralEscuchando"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="4dp">
+
+        <TextView
+            android:id="@+id/textViewCargandoAudiolibro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textColor="@color/gris_medio"
+            android:gravity="center"
+            android:text="Cargando audiolibro..."
+            android:textSize="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageViewCargandoAudiolibro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icono_cargando"
+            app:layout_constraintVertical_bias="0"
+            android:layout_marginTop="10dp"
+
+            app:tint="@color/gris_medio"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewCargandoAudiolibro"
+            />
+
+        <TextView
+            android:id="@+id/textViewUnMomento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textColor="@color/gris_medio"
+            android:gravity="center"
+            android:text="Un momento por favor"
+            android:textSize="18dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageViewCargandoAudiolibro" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutReproductor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="3dp">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botonAvanzarDiezEscuchando"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/icono_avanzar_diez"
+            app:backgroundTint="@color/teal_casi_blanco"
+            app:borderWidth="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toEndOf="@+id/botonPauseEscuchando"
+            app:layout_constraintTop_toBottomOf="@+id/seekbarEscuchando"
+            app:layout_constraintVertical_bias="0.16"
+            app:maxImageSize="45dp"
+            app:tint="@color/teal_700"
+            app:elevation="0.0001dp"
+            />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botonAnteriorCapituloEscuchando"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/icono_anterior_libro"
+            app:borderWidth="3dp"
+            app:backgroundTint="@color/teal_casi_blanco"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/botonPlayEscuchando"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toEndOf="@+id/botonPauseEscuchando"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekbarEscuchando"
+            app:layout_constraintVertical_bias="0.16"
+            app:maxImageSize="40dp"
+            app:tint="@color/teal_700"
+            app:elevation="0.0001dp"
+            />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botonRetrasarDiezEscuchando"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/icono_retrasar_diez"
+            app:borderWidth="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/botonPauseEscuchando"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekbarEscuchando"
+            app:layout_constraintVertical_bias="0.16"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:maxImageSize="45dp"
+            app:tint="@color/teal_700"
+            app:elevation="0.0001dp"
+            />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botonSiguienteCapituloEscuchando"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/icono_siguiente_libro"
+            app:layout_constraintVertical_bias="0.16"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:backgroundTint="@color/teal_casi_blanco"
+            app:borderWidth="3dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/botonPauseEscuchando"
+            app:layout_constraintTop_toBottomOf="@+id/seekbarEscuchando"
+            app:maxImageSize="40dp"
+            app:tint="@color/teal_700"
+            app:elevation="0.0001dp"
+            />
+
+
+        <TextView
+            android:id="@+id/textViewReproduciendoAhoraEscuchando"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:gravity="top"
+            android:text="Reproduciendo ahora..."
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewTituloLibroSuperiorEscuchando"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="top"
+            android:text="TÍTULO LIBRO"
+            android:textSize="20sp"
+
+
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewReproduciendoAhoraEscuchando" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/shapeableImageViewPortadaLibroEscuchando"
+            android:layout_width="220dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/icono_imagen_estandar_foreground"
+            android:layout_marginTop="140dp"
+            android:layout_marginBottom="350dp"
+            app:layout_constraintBottom_toTopOf="@id/textViewTituloLibroCentralEscuchando"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroSuperiorEscuchando"
+            app:layout_constraintVertical_bias="0.1"
+            app:shapeAppearanceOverlay="@style/RoundedSquare" />
+
+
+        <TextView
+            android:id="@+id/textViewTituloLibroCentralEscuchando"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:text="TÍTULO LIBRO"
+            android:textSize="35sp"
+            android:layout_marginBottom="250dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botonPlayEscuchando"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:backgroundTint="@color/teal_700"
+            android:src="@drawable/icono_play"
+            app:tint="@color/teal_casi_blanco"
+            app:fabCustomSize="85dp"
+            app:maxImageSize="50dp"
+            app:borderWidth="0dp"
+            app:layout_constraintVertical_bias="0.1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekbarEscuchando"
+            app:elevation="2dp"
+            />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botonPauseEscuchando"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:backgroundTint="@color/teal_casi_blanco"
+            android:src="@drawable/icono_pause"
+            app:tint="@color/teal_700"
+            app:fabCustomSize="85dp"
+            app:maxImageSize="50dp"
+            app:borderWidth="0dp"
+            app:layout_constraintVertical_bias="0.1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekbarEscuchando"
+            app:elevation="2dp"
+            />
+
+        <SeekBar
+            android:id="@+id/seekbarEscuchando"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/teal_claro"
+            android:thumbTint="@color/teal_700"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintVertical_bias="0.1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroCentralEscuchando" />
+
+        <TextView
+            android:id="@+id/textViewSeekBarIzquierdaEscuchando"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:text="00:00"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/seekbarEscuchando"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroCentralEscuchando"
+            app:layout_constraintVertical_bias="0.1"
+            app:layout_constraintHorizontal_bias="0.9"/>
+
+        <TextView
+            android:id="@+id/textViewSeekBarDerechaEscuchando"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:text="00:00"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toEndOf="@+id/seekbarEscuchando"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroCentralEscuchando"
+            app:layout_constraintVertical_bias="0.1" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
