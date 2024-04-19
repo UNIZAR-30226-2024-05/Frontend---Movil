@@ -1,4 +1,7 @@
 package com.example.narratives.resenias;
 
-public class resenias {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class resenias extends AppCompatActivity {
+    
 }
