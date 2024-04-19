@@ -1,9 +1,7 @@
-package com.example.narratives.resenias;
+package com.example.narratives.activities;
 
-import android.databinding.tool.util.L;
 import android.os.Bundle;
 import android.transition.TransitionSet;
-import android.view.View;
 import android.view.Window;
 import android.widget.ListView;
 
@@ -11,10 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
 import com.example.narratives.databinding.ActivityMainBinding;
+import com.example.narratives.resenias.ListAdapter;
+import com.example.narratives.resenias.Resenia;
 
 import java.util.ArrayList;
 
-public class resenias extends AppCompatActivity {
+public class ReseniaActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class resenias extends AppCompatActivity {
         }
 
         ListView lv = findViewById(R.id.listViewListaReseñas);
-        ListAdapter listAdapter = new ListAdapter(resenias.this,arrayListReseñas);
+        ListAdapter listAdapter = new ListAdapter(ReseniaActivity.this,arrayListReseñas);
         lv.setAdapter(listAdapter);
        // lv.setClickable(true);
        /* lv.setOnClickListener(new View.OnClickListener() {

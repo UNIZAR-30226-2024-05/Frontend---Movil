@@ -1,6 +1,7 @@
 package com.example.narratives.activities;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.transition.TransitionSet;
@@ -9,19 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.menuprincipal.RecyclerViewInterface;
 import com.example.narratives.menuprincipal.adaptador;
 import com.example.narratives.peticiones.Audiolibro;
-import com.example.narratives.resenias.resenias;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -146,6 +152,58 @@ public class HomeSinRegistroActivity extends AppCompatActivity implements Recycl
         // Muestra el popup en el centro de la pantalla
         popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
         }
+
+    private void mostrarPopupInfoLibro(int position){
+        esconderTeclado();
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View viewInfoLibro = inflater.inflate(R.layout.popup_info_libro, null);
+
+        int width= ViewGroup.LayoutParams.MATCH_PARENT;
+        int height= ViewGroup.LayoutParams.MATCH_PARENT;
+
+        //PRUEBA, habrá que conseguir el libro según el género en 'generoLibrosMostrados'
+       // Audiolibro audiolibro = (Audiolibro) bibliotecaGridAdapter.getItem(position);
+
+        ImageView imageViewPortada = viewInfoLibro.findViewById(R.id.imageViewPortadaInfoLibro);
+        Glide
+                .with(getContext())
+                .load(audiolibro.getImg())
+                .centerCrop()
+                .placeholder(R.drawable.icono_imagen_estandar_foreground)
+                .into(imageViewPortada);
+
+        TextView textViewTitulo = viewInfoLibro.findViewById(R.id.textViewTituloInfoLibro);
+        textViewTitulo.setText(audiolibro.getTitulo());
+
+
+        PopupWindow popupWindow=new PopupWindow(viewInfoLibro,width,height, true);
+        popupWindow.setAnimationStyle(0);
+
+        FrameLayout layout = findViewById(R.id.main_layout);
+        layout.post(new Runnable(){
+            @Override
+            public void run(){
+                popupWindow.showAtLocation(layout, Gravity.BOTTOM,0,0);
+            }
+        });
+
+
+        FloatingActionButton botonCerrar = (FloatingActionButton) viewInfoLibro.findViewById(R.id.botonVolverDesdeInfoLibro);
+        botonCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+    }
+
+    private void esconderTeclado() {
+        if(getCurrentFocus() != null){
+            InputMethodManager inputManager = (InputMethodManager).getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
 
 }
 
