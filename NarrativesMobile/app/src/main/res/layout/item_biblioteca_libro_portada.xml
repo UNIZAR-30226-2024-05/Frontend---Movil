@@ -23,7 +23,7 @@
     <TextView
         android:id="@+id/textViewLibroBiblioteca"
         android:layout_width="110dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:background="@color/teal_blanco"
         android:gravity="center"
         android:padding="5dp"
