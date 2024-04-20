@@ -78,8 +78,6 @@ public class FragmentEscuchando extends Fragment {
         //fabPlay.setEnabled(false);
 
         handler = new Handler();
-        //mediaPlayer = MediaPlayer.create(getContext(), R.raw.zowi);
-        //mediaPlayer = MediaPlayer.create(getContext(), R.raw.exclusive);
 
         fabPlay.setClickable(false);
         fabPause.setClickable(false);
@@ -304,6 +302,10 @@ public class FragmentEscuchando extends Fragment {
         fabPlay.setEnabled(true);
         fabPause.setEnabled(false);
         mediaPlayer.pause();
+    }
+
+    public void pararPorCierreSesion(){
+        mediaPlayer.stop();
     }
 
     public void reiniciarMusica(){

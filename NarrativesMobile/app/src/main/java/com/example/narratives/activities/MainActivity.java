@@ -186,8 +186,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cerrarSesion() {
-        fragmentoEscuchandoAbierto.pararMusica();
-        fragmentoEscuchandoAbierto.reiniciarMusica();
+        fragmentoEscuchandoAbierto.pararPorCierreSesion();
 
         Call<StandardMessageResult> llamada = retrofitInterface.ejecutarSalirSesion(ApiClient.getUserCookie());
         llamada.enqueue(new Callback<StandardMessageResult>() {
