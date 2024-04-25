@@ -170,7 +170,7 @@ public class RegistroActivity extends AppCompatActivity{
         request.setMail(editTextCorreo.getText().toString());
         request.setPassword(editTextContraseñaRegistro.getText().toString());
 
-        Call<RegisterResult> llamada = retrofitInterface.ejecutarRegistro(request);
+        Call<RegisterResult> llamada = retrofitInterface.ejecutarUsersRegister(request);
         llamada.enqueue(new Callback<RegisterResult>() {
             @Override
             public void onResponse(Call<RegisterResult> call, Response<RegisterResult> response) {

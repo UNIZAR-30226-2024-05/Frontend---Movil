@@ -101,7 +101,7 @@ public class CambioFotoPerfilActivity extends AppCompatActivity {
     }
 
     private void inicializarFotoActual(){
-        initialImageViewId = MainActivity.getMiPerfil().getPhotoImageView();
+        initialImageViewId = MainActivity.getMiPerfil().getImgImageView();
         actualImageViewId = initialImageViewId;
 
         ImageView inicial = (ImageView) findViewById(actualImageViewId);
@@ -117,69 +117,12 @@ public class CambioFotoPerfilActivity extends AppCompatActivity {
         if(initialImageViewId == actualImageViewId){
             Toast.makeText(CambioFotoPerfilActivity.this, "Elige una foto distinta a la actual", Toast.LENGTH_LONG).show();
         } else {
-            String nuevaFoto = InfoMiPerfil.getPhotoString(actualImageViewId);
-            MainActivity.getMiPerfil().setPhoto(nuevaFoto);
+            String nuevaFoto = InfoMiPerfil.getImgString(actualImageViewId);
+            MainActivity.getMiPerfil().setImg(nuevaFoto);
             MainActivity.actualizarFotoPerfil();
-            abrirMenuMain();
 
-            /* TODO: Rellenar cuando backend lo implemente
-            CambioContrasenaRequest request = new CambioContrasenaRequest();
-            request.setOldPassword(editTextContrasenaAntigua.getText().toString());
-            request.setNewPassword(editTextContrasenaNueva.getText().toString());
-
-            Call<StandardMessageResult> llamada = retrofitInterface.ejecutarCambioContrasena(ApiClient.getUserCookie(), request);
-            llamada.enqueue(new Callback<StandardMessageResult>() {
-                @Override
-                public void onResponse(Call<StandardMessageResult> call, Response<StandardMessageResult> response) {
-
-
-                    if(response.code() == 200) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(CambioFotoPerfilActivity.this, R.style.ExitoAlertDialogStyle);
-                        builder.setTitle("ÉXITO");
-                        builder.setMessage("Contraseña cambiada correctamente");
-
-                        builder.show();
-                        new Handler().postDelayed(
-                                new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        abrirMenuMain();
-                                    }
-                                }
-
-                                , 1000);
-
-                    }  else if (response.code() == 401){
-                        try {
-                            JSONObject jObjError = new JSONObject(response.errorBody().string());
-                            String error = jObjError.getString("error");
-
-                            if(error.equals("Incorrect password")){
-                                AlertDialog.Builder builder = new AlertDialog.Builder(CambioFotoPerfilActivity.this, R.style.ErrorAlertDialogStyle);
-                                builder.setTitle("ERROR");
-                                builder.setMessage("La contraseña es incorrecta");
-                                builder.show();
-                            } else {
-                                Toast.makeText(CambioFotoPerfilActivity.this, error, Toast.LENGTH_LONG).show();
-                            }
-                        } catch (Exception e) {
-                            Toast.makeText(CambioFotoPerfilActivity.this, "Algo ha fallado obteniendo el error", Toast.LENGTH_LONG).show();
-                        }
-                    } else {
-                        Toast.makeText(CambioFotoPerfilActivity.this, "Código de error no reconocido",
-                                Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<StandardMessageResult> call, Throwable t) {
-                    Toast.makeText(CambioFotoPerfilActivity.this, "No se ha conectado con el servidor",
-                            Toast.LENGTH_LONG).show();
-                }
-            });
-            */
+            MainActivity.getPeticiones().peticionUsersChange_img(this, nuevaFoto);
         }
-
     }
 
     public void abrirMenuMain() {

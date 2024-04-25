@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.narratives.R;
+import com.example.narratives._backend.Peticiones;
 import com.example.narratives.databinding.ActivityMainBinding;
 import com.example.narratives.fragments.FragmentAmigos;
 import com.example.narratives.fragments.FragmentBiblioteca;
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
 
+    private static Peticiones peticiones;
+
     private static InfoMiPerfil miPerfil;
 
     private static ImageView imageViewFotoPerfil;
@@ -75,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         retrofit = ApiClient.getRetrofit();
         retrofitInterface = ApiClient.getRetrofitInterface();
+        peticiones = new Peticiones();
 
         obtenerDatosMiPerfil();
 
@@ -188,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
     private void cerrarSesion() {
         fragmentoEscuchandoAbierto.pararPorCierreSesion();
 
-        Call<StandardMessageResult> llamada = retrofitInterface.ejecutarSalirSesion(ApiClient.getUserCookie());
+        Call<StandardMessageResult> llamada = retrofitInterface.ejecutarUsersLogout(ApiClient.getUserCookie());
         llamada.enqueue(new Callback<StandardMessageResult>() {
             @Override
             public void onResponse(Call<StandardMessageResult> call, Response<StandardMessageResult> response) {
@@ -245,8 +249,14 @@ public class MainActivity extends AppCompatActivity {
         textViewCambiarContrasena.setText(content);
 
         imageViewFotoPerfil = viewMiPerfil.findViewById(R.id.imageViewMiPerfil);
-        imageViewFotoPerfil.setImageResource(MainActivity.getMiPerfil().getPhotoResource());
+        imageViewFotoPerfil.setImageResource(MainActivity.getMiPerfil().getImgResource());
         imageViewFotoPerfil.setClickable(true);
+
+        TextView textViewUsuarioMiPerfil = viewMiPerfil.findViewById(R.id.textViewRealNombreUsuarioMiPerfil);
+        textViewUsuarioMiPerfil.setText(getMiPerfil().getUsername());
+
+        TextView textViewMailMiPerfil = viewMiPerfil.findViewById(R.id.textViewRealCorreoElectronicoMiPerfil);
+        textViewMailMiPerfil.setText(getMiPerfil().getMail());
 
         imageViewFotoPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void abrirMenuHomeSinRegistro() {
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        startActivity(intent);
     }
 
 
@@ -326,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void abrirCambioFotoPerfil() {
         Intent intent = new Intent(this, CambioFotoPerfilActivity.class);
-        intent.putExtra("foto_perfil_actual", miPerfil.getPhotoResource());
+        intent.putExtra("foto_perfil_actual", miPerfil.getImgResource());
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
@@ -344,6 +354,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void obtenerDatosMiPerfil(){
         miPerfil = new InfoMiPerfil();
+        peticiones.peticionUsersProfile(MainActivity.this);
     }
 
 
@@ -351,8 +362,10 @@ public class MainActivity extends AppCompatActivity {
         return miPerfil;
     }
 
+    public static Peticiones getPeticiones() {return peticiones;}
+
 
     public static void actualizarFotoPerfil(){
-        imageViewFotoPerfil.setImageResource(miPerfil.getPhotoResource());
+        imageViewFotoPerfil.setImageResource(miPerfil.getImgResource());
     }
 }

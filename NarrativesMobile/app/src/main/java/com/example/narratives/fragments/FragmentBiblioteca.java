@@ -102,7 +102,7 @@ public class FragmentBiblioteca extends Fragment {
 
 
     private void obtenerTodosLosAudiolibros(){
-        Call<AudiolibrosResult> llamada = retrofitInterface.ejecutarObtencionGeneralAudiolibros(ApiClient.getUserCookie());
+        Call<AudiolibrosResult> llamada = retrofitInterface.ejecutarAudiolibros(ApiClient.getUserCookie());
         llamada.enqueue(new Callback<AudiolibrosResult>() {
             @Override
             public void onResponse(Call<AudiolibrosResult> call, Response<AudiolibrosResult> response) {

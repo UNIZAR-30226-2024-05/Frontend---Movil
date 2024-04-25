@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
         request.setUsername(usuarioEditText.getText().toString());
         request.setPassword(passwordEditText.getText().toString());
 
-        Call<LoginResult> llamada = retrofitInterface.ejecutarInicioSesion(ApiClient.getUserCookie(), request);
+        Call<LoginResult> llamada = retrofitInterface.ejecutarUsersLogin(ApiClient.getUserCookie(), request);
         llamada.enqueue(new Callback<LoginResult>() {
             @Override
             public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                                         abrirMenuMain();
                                     }
                                 }
-                                , 500);
+                                , 1000);
                     }else{
                         Toast.makeText(LoginActivity.this, "Código correcto, pero sesión no exitosa", Toast.LENGTH_LONG).show();
                     }

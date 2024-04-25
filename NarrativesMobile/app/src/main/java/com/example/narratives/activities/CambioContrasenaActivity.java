@@ -79,7 +79,7 @@ public class CambioContrasenaActivity extends AppCompatActivity {
         request.setOldPassword(editTextContrasenaAntigua.getText().toString());
         request.setNewPassword(editTextContrasenaNueva.getText().toString());
 
-        Call<StandardMessageResult> llamada = retrofitInterface.ejecutarCambioContrasena(ApiClient.getUserCookie(), request);
+        Call<StandardMessageResult> llamada = retrofitInterface.ejecutarUsersChange_pass(ApiClient.getUserCookie(), request);
         llamada.enqueue(new Callback<StandardMessageResult>() {
             @Override
             public void onResponse(Call<StandardMessageResult> call, Response<StandardMessageResult> response) {

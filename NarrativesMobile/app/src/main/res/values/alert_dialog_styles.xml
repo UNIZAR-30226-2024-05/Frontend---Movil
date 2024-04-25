@@ -14,6 +14,13 @@
         <item name="android:background">#D6FDB4</item>
     </style>
 
+    <style name="TealAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:colorAccent">@color/teal_500</item>
+        <item name="android:textColor">@color/teal_500</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:background">@color/teal_muy_claro</item>
+    </style>
+
 
 
 
