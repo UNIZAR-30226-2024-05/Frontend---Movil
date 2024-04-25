@@ -66,12 +66,8 @@ public class FragmentEscuchando extends Fragment {
     UltimoMomento ultimoMomento;
 
 
-    String[] audios = {"https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_1.mp3", "https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_2.mp3", "https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_3.mp3"};
     boolean primerAudio = true;
-    boolean irAMinutoConcreto = false;
-
-    boolean reproductorCargado = false;
-
+    boolean primerLibro = true;
     boolean libroReiniciado = false;
     int capituloActual = 0;
 
@@ -95,12 +91,10 @@ public class FragmentEscuchando extends Fragment {
         titulo_libro = getView().findViewById(R.id.textViewTituloLibroEscuchando);
         titulo_cap = getView().findViewById(R.id.textViewTituloCapituloEscuchando);
         num_cap = getView().findViewById(R.id.textViewNumeroCapituloEscuchando);
-        //mostrarReproduceUnAudiolibro();
-        esconderReproduceUnAudiolibro();
+
+        mostrarReproduceUnAudiolibro();
         esconderReproductor();
         esconderCargandoAudiolibro();
-
-
 
         fabPause = (FloatingActionButton) view.findViewById(R.id.botonPauseEscuchando);
         fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
@@ -236,13 +230,6 @@ public class FragmentEscuchando extends Fragment {
     }
 
 
-    public static void reproducirNuevoLibro(int idAudiolibro){
-        // TODO: petición de audiolibro concreto, guardar capitulos, si es el primero hacer petición del minuto concreto
-
-    }
-
-
-
 
     public void actualizarDuracionAudio(){
         int duracion = mediaPlayer.getDuration();
@@ -275,10 +262,15 @@ public class FragmentEscuchando extends Fragment {
     }
 
     public void inicializarLibro(AudiolibroEspecificoResponse audiolibro){
+        if(primerLibro){
+            esconderReproduceUnAudiolibro();
+            primerLibro = false;
+        }
 
         capituloActual = audiolibro.getUltimoMomento().getCapitulo();
         capitulos = audiolibro.getCapitulos();
         ultimoMomento = audiolibro.getUltimoMomento();
+        primerAudio = true;
 
         titulo_libro.setText(audiolibro.getAudiolibro().getTitulo());
         Glide
@@ -290,6 +282,8 @@ public class FragmentEscuchando extends Fragment {
     }
 
     public void prepararAudio(int capitulo){
+        mostrarCargandoAudiolibro();
+        esconderReproductor();
 
         if(!primerAudio){
             mediaPlayer.reset();
@@ -297,7 +291,7 @@ public class FragmentEscuchando extends Fragment {
 
         if(capitulo < 0){
             capituloActual = 0;
-        } else if(capitulo >= capitulos.length){
+        } else if(capitulo >= capitulos.size()){
             Toast.makeText(getContext(), "FIN DEL LIBRO", Toast.LENGTH_LONG).show();
             libroReiniciado = true;
             capituloActual = 0;
@@ -320,7 +314,7 @@ public class FragmentEscuchando extends Fragment {
         );
 
         try{
-            mediaPlayer.setDataSource(capitulos[capituloActual]);
+            mediaPlayer.setDataSource(capitulos.get(capituloActual).getAudio());
             mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
 
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -347,13 +341,15 @@ public class FragmentEscuchando extends Fragment {
                     if(primerAudio){
                         primerAudio = false;
                     }
+
+                    esconderCargandoAudiolibro();
+                    mostrarReproductor();
                 }
             });
 
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    // TODO: Habrá que crear un método para que se reproduzca el siguiente capítulo
                     int cp = mp.getCurrentPosition();
                     mp.seekTo(0);
 
@@ -362,7 +358,7 @@ public class FragmentEscuchando extends Fragment {
                         Toast.makeText(getContext(), "ERROR: no hagas saltos de audio tan grandes", Toast.LENGTH_LONG).show();
                         pararMusica();
                     } else {
-                        prepararAudio(capituloActual +1);
+                        prepararAudio(capituloActual+1);
                     }
                 }
             });
@@ -374,6 +370,7 @@ public class FragmentEscuchando extends Fragment {
 
     private void iniciarMomentoConcreto(){
         //TODO: cargar momento concreto dado ultimo momento
+
     }
 
 
@@ -441,7 +438,8 @@ public class FragmentEscuchando extends Fragment {
         handler.post(updateSeekBar);
     }
 
-    private String getCapituloWithNumberString(int num){
+    private String getCapituloWithNumberString(int num) {
         return "Capítulo " + String.valueOf(num) + ":";
     }
+
 }
