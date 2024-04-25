@@ -15,7 +15,6 @@ import android.widget.Toast;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
@@ -105,7 +104,6 @@ public class FragmentEscuchando extends Fragment {
 
         fabPlay.setClickable(false);
         fabPause.setClickable(false);
-        prepararAudio(capituloActual);
         //prepararAudio(capituloActual);
         //esconderReproduceUnAudiolibro();
 
@@ -267,6 +265,17 @@ public class FragmentEscuchando extends Fragment {
             primerLibro = false;
         }
 
+        //TODO: actualizar cuando se arregle el obtener todos los audiolibros
+
+        if(audiolibro == null){
+            Toast.makeText(getContext(), "LIBRO NULL", Toast.LENGTH_LONG).show();
+        } else if (audiolibro.getUltimoMomento() == null){
+            Toast.makeText(getContext(), "ULTIMO MOM NULL", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getContext(), "OK", Toast.LENGTH_LONG).show();
+        }
+
+        /*
         capituloActual = audiolibro.getUltimoMomento().getCapitulo();
         capitulos = audiolibro.getCapitulos();
         ultimoMomento = audiolibro.getUltimoMomento();
@@ -279,6 +288,8 @@ public class FragmentEscuchando extends Fragment {
                 .centerCrop()
                 .placeholder(R.drawable.icono_imagen_estandar_foreground)
                 .into(portada);
+
+         */
     }
 
     public void prepararAudio(int capitulo){

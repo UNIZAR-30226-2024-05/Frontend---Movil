@@ -28,8 +28,11 @@ import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.activities.MainActivity;
 import com.example.narratives.biblioteca.BibliotecaGridAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
+import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
+import com.example.narratives.peticiones.audiolibros.especifico.Genero;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
 import com.google.android.material.button.MaterialButton;
@@ -55,6 +58,8 @@ public class FragmentBiblioteca extends Fragment {
     AutoCompleteTextView filtros;
     ArrayAdapter<String> adapterFiltros;
     String generoLibrosMostrados;
+
+    static AudiolibroEspecificoResponse audiolibroActual;
 
 
     @Override
@@ -85,7 +90,7 @@ public class FragmentBiblioteca extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                mostrarPopupInfoLibro(position);
+                peticionAudiolibrosId(position);
             }
         });
 
@@ -111,7 +116,7 @@ public class FragmentBiblioteca extends Fragment {
             public void onResponse(Call<AudiolibrosResult> call, Response<AudiolibrosResult> response) {
                 int codigo = response.code();
 
-                if (response.code() == 200){
+                if (codigo == 200){
                     ArrayList<AudiolibroItem> audiolibrosResult = response.body().getAudiolibros();
 
                     if(audiolibrosResult == null){
@@ -121,11 +126,11 @@ public class FragmentBiblioteca extends Fragment {
                         InfoAudiolibros.setTodosLosAudiolibros(audiolibrosResult);
                     }
 
-                } else if (response.code() == 500){
+                } else if (codigo == 500){
                     Toast.makeText(getContext(), "Error del servidor",
                             Toast.LENGTH_LONG).show();
 
-                } else if (response.code() == 404){
+                } else if (codigo == 404){
                     Toast.makeText(getContext(), "Error 404 /audiolibros", Toast.LENGTH_LONG).show();
                 } else {
                     try {
@@ -141,7 +146,7 @@ public class FragmentBiblioteca extends Fragment {
 
             @Override
             public void onFailure(Call<AudiolibrosResult> call, Throwable t) {
-                Toast.makeText(getContext(), "No se ha conectado con el servidor",
+                Toast.makeText(getContext(), "No se ha conectado con el servidor (obteniendo todos los libros)",
                         Toast.LENGTH_LONG).show();
             }
         });
@@ -170,16 +175,15 @@ public class FragmentBiblioteca extends Fragment {
 
         ArrayList<AudiolibroItem> audiolibros = new ArrayList<>();
         for(int i = 0; i < titulos.length; i++){
-            AudiolibroItem a = new AudiolibroItem(i, titulos[i], i, "descripcion", portadas[i]);
+            AudiolibroItem a = new AudiolibroItem(i, titulos[i], i, "descripcion", portadas[i], "genero", 5);
             audiolibros.add(a);
         }
 
         InfoAudiolibros.setTodosLosAudiolibros(audiolibros);
     }
 
-    private void mostrarPopupInfoLibro(int position){
+    private void mostrarPopupInfoLibro(){
         esconderTeclado();
-
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View viewInfoLibro = inflater.inflate(R.layout.popup_info_libro, null);
@@ -187,25 +191,26 @@ public class FragmentBiblioteca extends Fragment {
         int width= ViewGroup.LayoutParams.MATCH_PARENT;
         int height= ViewGroup.LayoutParams.MATCH_PARENT;
 
-        //PRUEBA, habrá que conseguir el libro según el género en 'generoLibrosMostrados'
-        AudiolibroItem audiolibro = (AudiolibroItem) bibliotecaGridAdapter.getItem(position);
 
-        // TODO: RECIBIR INFORMACIÓN ESPECÍFICA DEL AUDIOLIBRO A PARTIR DE SU ID
         ImageView imageViewPortada = viewInfoLibro.findViewById(R.id.imageViewPortadaInfoLibro);
         Glide
                 .with(getContext())
-                .load(audiolibro.getImg())
+                .load(audiolibroActual.getAudiolibro().getImg())
                 .centerCrop()
                 .placeholder(R.drawable.icono_imagen_estandar_foreground)
                 .into(imageViewPortada);
 
         TextView textViewTitulo = viewInfoLibro.findViewById(R.id.textViewTituloInfoLibro);
-        textViewTitulo.setText(audiolibro.getTitulo());
+        textViewTitulo.setText(audiolibroActual.getAudiolibro().getTitulo());
 
         TextView textViewDescripcion = viewInfoLibro.findViewById(R.id.textViewDescripcionInfoLibro);
-        textViewDescripcion.setText(audiolibro.getDescripcion());
+        textViewDescripcion.setText(audiolibroActual.getAudiolibro().getDescripcion());
 
+        TextView textViewAutor = viewInfoLibro.findViewById(R.id.textViewNombreAutorInfoLibro);
+        textViewAutor.setText(audiolibroActual.getAutor().getNombre());
 
+        TextView textViewGeneros = viewInfoLibro.findViewById(R.id.textViewGeneroInfoLibro);
+        textViewGeneros.setText(getFormattedGenres(audiolibroActual.getGeneros()));
 
         PopupWindow popupWindow = new PopupWindow(viewInfoLibro,width,height, true);
         popupWindow.setAnimationStyle(0);
@@ -231,6 +236,7 @@ public class FragmentBiblioteca extends Fragment {
         escucharAudiolibro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(audiolibroActual);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Dirígete al REPRODUCTOR...");
                 builder.setMessage("El libro estará disponible en cuanto termine la carga.");
@@ -256,6 +262,53 @@ public class FragmentBiblioteca extends Fragment {
             InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    private void peticionAudiolibrosId(int position){
+        AudiolibroItem audiolibro = (AudiolibroItem) bibliotecaGridAdapter.getItem(position);
+
+        Call<AudiolibroEspecificoResponse> llamada = retrofitInterface.ejecutarAudiolibrosId(ApiClient.getUserCookie(), audiolibro.getId());
+        llamada.enqueue(new Callback<AudiolibroEspecificoResponse>() {
+            @Override
+            public void onResponse(Call<AudiolibroEspecificoResponse> call, Response<AudiolibroEspecificoResponse> response) {
+                int codigo = response.code();
+
+                if (response.code() == 200) {
+                    audiolibroActual = response.body();
+                    mostrarPopupInfoLibro();
+
+                } else if(codigo == 409) {
+                    Toast.makeText(getContext(), "No hay ningún audiolibro con ese ID", Toast.LENGTH_LONG).show();
+
+                } else if(codigo == 500) {
+                    Toast.makeText(getContext(), "Error del servidor", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Error desconocido: " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AudiolibroEspecificoResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private String getFormattedGenres(ArrayList<Genero> generos){
+        String result = "";
+
+        for(int i = 0; i < generos.size(); i++){
+            Genero genero = generos.get(i);
+
+            result += genero.getNombre();
+
+            if(i != (generos.size() - 1)){
+                result += ", ";
+            }
+        }
+
+        return result;
     }
 
 }

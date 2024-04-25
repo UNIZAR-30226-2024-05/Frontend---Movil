@@ -1,5 +1,7 @@
 package com.example.narratives._backend;
 
+import com.example.narratives.peticiones.GenericMessageResult;
+import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
 import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequest;
 import com.example.narratives.peticiones.users.cambio_datos.CambioFotoPerfilRequest;
@@ -8,13 +10,13 @@ import com.example.narratives.peticiones.users.login.LoginResult;
 import com.example.narratives.peticiones.users.perfiles.MiPerfilResponse;
 import com.example.narratives.peticiones.users.register.RegisterRequest;
 import com.example.narratives.peticiones.users.register.RegisterResult;
-import com.example.narratives.peticiones.GenericMessageResult;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface RetrofitInterface {
     //String URL_BASE = "http://20.199.84.234:8000";
@@ -41,4 +43,8 @@ public interface RetrofitInterface {
 
     @GET("/audiolibros")
     Call<AudiolibrosResult> ejecutarAudiolibros(@Header("Cookie") String userCookie);
+
+    @GET("/audiolibros/{id}")
+    Call<AudiolibroEspecificoResponse> ejecutarAudiolibrosId(@Header("Cookie") String userCookie, @Path("id") int id);
+
 }

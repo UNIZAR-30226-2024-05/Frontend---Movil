@@ -1,8 +1,10 @@
 package com.example.narratives.activities;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.transition.TransitionSet;
 import android.view.View;
 import android.view.Window;
@@ -16,8 +18,13 @@ import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.informacion.InfoMiPerfil;
+import com.example.narratives.peticiones.GenericMessageResult;
+import com.example.narratives.peticiones.users.cambio_datos.CambioFotoPerfilRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class CambioFotoPerfilActivity extends AppCompatActivity {
@@ -121,7 +128,7 @@ public class CambioFotoPerfilActivity extends AppCompatActivity {
             MainActivity.getMiPerfil().setImg(nuevaFoto);
             MainActivity.actualizarFotoPerfil();
 
-            MainActivity.getPeticiones().peticionUsersChange_img(this, nuevaFoto);
+            peticionUsersChange_img(nuevaFoto);
         }
     }
 
@@ -129,6 +136,50 @@ public class CambioFotoPerfilActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+
+    public void peticionUsersChange_img(String newImg){
+        RetrofitInterface retrofitInterface = ApiClient.getRetrofitInterface();
+        CambioFotoPerfilRequest request = new CambioFotoPerfilRequest();
+        request.setNewImg(newImg);
+        Call<GenericMessageResult> llamada = retrofitInterface.ejecutarUsersChange_img(ApiClient.getUserCookie(), request);
+
+        llamada.enqueue(new Callback<GenericMessageResult>() {
+            @Override
+            public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
+                int codigo = response.code();
+
+                if(codigo == 200) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CambioFotoPerfilActivity.this, R.style.TealAlertDialogStyle);
+                    builder.setMessage("Foto actualizada");
+                    builder.show();
+                    new Handler().postDelayed(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(getParent(), MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getParent()).toBundle());
+                                }
+                            }
+                            , 500);
+
+
+
+                } else if(codigo == 500) {
+                    Toast.makeText(CambioFotoPerfilActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(CambioFotoPerfilActivity.this, "Error desconocido: " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<GenericMessageResult> call, Throwable t) {
+                Toast.makeText(CambioFotoPerfilActivity.this, "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }

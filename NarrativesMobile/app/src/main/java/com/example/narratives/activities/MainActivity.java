@@ -26,17 +26,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.narratives.R;
-import com.example.narratives._backend.Peticiones;
+import com.example.narratives._backend.ApiClient;
+import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.databinding.ActivityMainBinding;
 import com.example.narratives.fragments.FragmentAmigos;
 import com.example.narratives.fragments.FragmentBiblioteca;
 import com.example.narratives.fragments.FragmentClubs;
 import com.example.narratives.fragments.FragmentEscuchando;
 import com.example.narratives.fragments.FragmentInicio;
-import com.example.narratives._backend.ApiClient;
-import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
+import com.example.narratives.peticiones.users.perfiles.MiPerfilResponse;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
 
-    private static Peticiones peticiones;
     public static FloatingActionButton fabEscuchando;
 
     private static InfoMiPerfil miPerfil;
@@ -79,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
 
         retrofit = ApiClient.getRetrofit();
         retrofitInterface = ApiClient.getRetrofitInterface();
-        peticiones = new Peticiones();
 
         obtenerDatosMiPerfil();
 
@@ -229,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<GenericMessageResult> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "No se ha conectado con el servidor",
+                Toast.makeText(MainActivity.this, "No se ha conectado con el servidor (cerrando sesión)",
                         Toast.LENGTH_LONG).show();
             }
         });
@@ -354,7 +352,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void obtenerDatosMiPerfil(){
         miPerfil = new InfoMiPerfil();
-        peticiones.peticionUsersProfile(MainActivity.this);
+        peticionUsersProfile();
     }
 
 
@@ -362,10 +360,36 @@ public class MainActivity extends AppCompatActivity {
         return miPerfil;
     }
 
-    public static Peticiones getPeticiones() {return peticiones;}
-
-
     public static void actualizarFotoPerfil(){
         imageViewFotoPerfil.setImageResource(miPerfil.getImgResource());
+    }
+
+
+    public void peticionUsersProfile(){
+        Call<MiPerfilResponse> llamada = retrofitInterface.ejecutarUsersProfile(ApiClient.getUserCookie());
+        llamada.enqueue(new Callback<MiPerfilResponse>() {
+            @Override
+            public void onResponse(Call<MiPerfilResponse> call, Response<MiPerfilResponse> response) {
+                int codigo = response.code();
+
+                if (response.code() == 200) {
+                    InfoMiPerfil infoMiPerfil = getMiPerfil();
+
+                    infoMiPerfil.setUsername(response.body().getUsername());
+                    infoMiPerfil.setMail(response.body().getMail());
+                    infoMiPerfil.setImg(response.body().getImg());
+
+                } else if(codigo == 500) {
+                    Toast.makeText(MainActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Error desconocido: " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MiPerfilResponse> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

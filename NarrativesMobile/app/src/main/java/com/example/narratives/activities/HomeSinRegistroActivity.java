@@ -118,7 +118,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
 
         audiolibros = new ArrayList<>();
         for(int i = 0; i < titulos.length; i++){
-            AudiolibroItem a = new AudiolibroItem(i, titulos[i], i, "descripcion", portadas[i]);
+            AudiolibroItem a = new AudiolibroItem(i, titulos[i], i, "descripcion", portadas[i], "genero", 5);
             audiolibros.add(a);
         }
 
