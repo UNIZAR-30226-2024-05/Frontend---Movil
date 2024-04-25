@@ -6,6 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".fragments.FragmentEscuchando">
 
+    <TextView
+        android:id="@+id/textViewEstasEscuchando"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:text="Estás escuchando..."
+        android:textSize="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewTituloLibroEscuchando"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:textSize="20dp"
+        android:text="TÍTULO"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewEstasEscuchando" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -87,29 +108,39 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/shapeableImageViewPortadaLibroEscuchando"
-        android:layout_width="250dp"
-        android:layout_height="400dp"
-        android:layout_marginBottom="50dp"
+        android:layout_width="220dp"
+        android:layout_height="350dp"
         android:src="@drawable/icono_imagen_estandar_foreground"
-        app:layout_constraintBottom_toTopOf="@id/textViewTituloLibroEscuchando"
+        app:layout_constraintBottom_toTopOf="@+id/textViewNumeroCapituloEscuchando"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroEscuchando"
         app:shapeAppearanceOverlay="@style/RoundedSquare" />
 
-
     <TextView
-        android:id="@+id/textViewTituloLibroEscuchando"
+        android:id="@+id/textViewTituloCapituloEscuchando"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
-        android:text="TÍTULO LIBRO"
-        android:textSize="35sp"
+        android:text="TÍTULO CAPÍTULO LIBRO"
+        android:textSize="30sp"
         android:layout_marginBottom="250dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0" />
+
+    <TextView
+        android:id="@+id/textViewNumeroCapituloEscuchando"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="NUM CAPÍTULO:"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@id/textViewTituloCapituloEscuchando"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -163,7 +194,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroEscuchando" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewTituloCapituloEscuchando" />
 
     <TextView
         android:id="@+id/textViewSeekBarIzquierdaEscuchando"
@@ -175,7 +206,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/seekbarEscuchando"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroEscuchando"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTituloCapituloEscuchando"
         app:layout_constraintVertical_bias="0.1"
         app:layout_constraintHorizontal_bias="0.9"/>
 
@@ -190,7 +221,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toEndOf="@+id/seekbarEscuchando"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroEscuchando"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTituloCapituloEscuchando"
         app:layout_constraintVertical_bias="0.1" />
 
 

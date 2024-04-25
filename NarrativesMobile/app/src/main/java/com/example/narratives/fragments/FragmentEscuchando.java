@@ -14,8 +14,11 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.narratives.R;
+import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
+import com.example.narratives.peticiones.audiolibros.especifico.UltimoMomento;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -40,7 +43,10 @@ public class FragmentEscuchando extends Fragment {
 
     ImageView portada;
 
-    TextView titulo;
+    TextView titulo_libro;
+    TextView titulo_cap;
+
+    TextView num_cap;
 
 
     SeekBar seekBar;
@@ -50,7 +56,7 @@ public class FragmentEscuchando extends Fragment {
     UpdateSeekBar updateSeekBar;
 
     ArrayList<Capitulo> capitulos;
-
+    UltimoMomento ultimoMomento;
 
 
     String[] audios = {"https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_1.mp3", "https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_2.mp3", "https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_3.mp3"};
@@ -75,7 +81,10 @@ public class FragmentEscuchando extends Fragment {
         numerosIzquierda = getView().findViewById(R.id.textViewSeekBarIzquierdaEscuchando);
         numerosDerecha= getView().findViewById(R.id.textViewSeekBarDerechaEscuchando);
         portada = getView().findViewById(R.id.shapeableImageViewPortadaLibroEscuchando);
-        titulo = getView().findViewById(R.id.textViewTituloLibroEscuchando);
+        titulo_libro = getView().findViewById(R.id.textViewTituloLibroEscuchando);
+        titulo_cap = getView().findViewById(R.id.textViewTituloCapituloEscuchando);
+        num_cap = getView().findViewById(R.id.textViewNumeroCapituloEscuchando);
+
 
         fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
         fabPause = (FloatingActionButton) getView().findViewById(R.id.botonPauseEscuchando);
@@ -172,55 +181,20 @@ public class FragmentEscuchando extends Fragment {
         }
     }
 
-    /*
-    public void prepararPrimerAudio(){
-        fabPlay.setClickable(false);
-        fabPause.setClickable(false);
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioAttributes(
-                new AudioAttributes.Builder()
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
-                        .build()
-        );
+    public void inicializarLibro(AudiolibroEspecificoResponse audiolibro){
 
+        capituloActual = audiolibro.getUltimoMomento().getCapitulo();
+        capitulos = audiolibro.getCapitulos();
+        ultimoMomento = audiolibro.getUltimoMomento();
 
-        try{
-            mediaPlayer.setDataSource(audios[captiuloActual]);
-            mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
-
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-
-                    fabPlay.setClickable(true);
-                    fabPause.setClickable(true);
-                    actualizarDuracionAudio();
-                    setActualizacionSeekBar();
-                }
-            });
-
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    // TODO: Habrá que crear un método para que se reproduzca el siguiente capítulo
-                    int cp = mp.getCurrentPosition();
-                    mp.seekTo(0);
-
-
-                    if(cp < mediaPlayer.getDuration() - 1000){
-                        Toast.makeText(getContext(), "ERROR: no hagas saltos de audio tan grandes", Toast.LENGTH_LONG).show();
-                        pararMusica();
-                    } else {
-                        prepararAudio();
-                    }
-                }
-            });
-        } catch (Exception e){
-            Toast.makeText(getContext(), "Error preparando audio", Toast.LENGTH_LONG).show();
-        }
+        titulo_libro.setText(audiolibro.getAudiolibro().getTitulo());
+        Glide
+                .with(getContext())
+                .load(audiolibro.getAudiolibro().getImg())
+                .centerCrop()
+                .placeholder(R.drawable.icono_imagen_estandar_foreground)
+                .into(portada);
     }
-    */
 
     public void prepararAudio(int capitulo){
 
@@ -238,8 +212,8 @@ public class FragmentEscuchando extends Fragment {
             capituloActual = capitulo;
         }
 
-        Toast.makeText(getContext(), "Capitulo " + String.valueOf(capituloActual+1), Toast.LENGTH_LONG).show();
-
+        titulo_cap.setText(capitulos.get(capituloActual).getNombre());
+        num_cap.setText(getCapituloWithNumberString(capitulos.get(capituloActual).getNumero()));
 
         fabPlay.setClickable(false);
         fabPause.setClickable(false);
@@ -265,7 +239,10 @@ public class FragmentEscuchando extends Fragment {
 
                     actualizarDuracionAudio();
                     setActualizacionSeekBar();
+
                     if(!primerAudio){
+                        iniciarMomentoConcreto();
+                    } else {
                         reanudarMusica();
                     }
 
@@ -300,6 +277,10 @@ public class FragmentEscuchando extends Fragment {
         } catch (Exception e){
             Toast.makeText(getContext(), "Error preparando audio", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void iniciarMomentoConcreto(){
+        //TODO: cargar momento concreto dado ultimo momento
     }
 
 
@@ -367,4 +348,7 @@ public class FragmentEscuchando extends Fragment {
         handler.post(updateSeekBar);
     }
 
+    private String getCapituloWithNumberString(int num){
+        return "Capítulo " + String.valueOf(num) + ":";
+    }
 }
