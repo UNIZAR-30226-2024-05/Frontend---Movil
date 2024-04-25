@@ -1,9 +1,9 @@
-package com.example.narratives.peticiones;
+package com.example.narratives.peticiones.users.login;
 
 public class LoginResult {
     private String message;
 
-    private User user;
+    private LoginUser user;
 
     public String getMessage() {
         return message;

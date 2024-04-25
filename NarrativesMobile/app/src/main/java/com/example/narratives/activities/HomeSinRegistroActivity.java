@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.narratives.R;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.menuprincipal.adaptador;
-import com.example.narratives.peticiones.Audiolibro;
+import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 
 import java.util.ArrayList;
 
@@ -87,7 +87,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
     }
     RecyclerView rv, rvTerror, rvFantasia, rvMitologia, rvNovela, rvPoesia;
     com.example.narratives.menuprincipal.adaptador adaptador;
-    private ArrayList<Audiolibro> audiolibros;
+    private ArrayList<AudiolibroItem> audiolibros;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -118,7 +118,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
 
         audiolibros = new ArrayList<>();
         for(int i = 0; i < titulos.length; i++){
-            Audiolibro a = new Audiolibro(i, titulos[i], i, "descripcion", portadas[i]);
+            AudiolibroItem a = new AudiolibroItem(i, titulos[i], i, "descripcion", portadas[i]);
             audiolibros.add(a);
         }
 

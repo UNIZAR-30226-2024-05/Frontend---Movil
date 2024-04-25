@@ -1,10 +1,10 @@
-package com.example.narratives.peticiones;
+package com.example.narratives.peticiones.users.login;
 
-public class User {
+public class LoginUser {
     private String username;
     private String role;
 
-    public User(String _username, String _role){
+    public LoginUser(String _username, String _role){
         this.username = _username;
         this.role = _role;
     }

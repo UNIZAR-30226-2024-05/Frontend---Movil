@@ -15,8 +15,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
-import com.example.narratives.peticiones.CambioContrasenaRequest;
-import com.example.narratives.peticiones.StandardMessageResult;
+import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequest;
+import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -79,10 +79,10 @@ public class CambioContrasenaActivity extends AppCompatActivity {
         request.setOldPassword(editTextContrasenaAntigua.getText().toString());
         request.setNewPassword(editTextContrasenaNueva.getText().toString());
 
-        Call<StandardMessageResult> llamada = retrofitInterface.ejecutarUsersChange_pass(ApiClient.getUserCookie(), request);
-        llamada.enqueue(new Callback<StandardMessageResult>() {
+        Call<GenericMessageResult> llamada = retrofitInterface.ejecutarUsersChange_pass(ApiClient.getUserCookie(), request);
+        llamada.enqueue(new Callback<GenericMessageResult>() {
             @Override
-            public void onResponse(Call<StandardMessageResult> call, Response<StandardMessageResult> response) {
+            public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
 
 
                 if(response.code() == 200) {
@@ -124,7 +124,7 @@ public class CambioContrasenaActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<StandardMessageResult> call, Throwable t) {
+            public void onFailure(Call<GenericMessageResult> call, Throwable t) {
                 Toast.makeText(CambioContrasenaActivity.this, "No se ha conectado con el servidor",
                         Toast.LENGTH_LONG).show();
             }

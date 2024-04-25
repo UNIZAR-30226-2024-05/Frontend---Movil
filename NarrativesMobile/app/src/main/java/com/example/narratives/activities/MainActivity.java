@@ -36,7 +36,7 @@ import com.example.narratives.fragments.FragmentInicio;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.informacion.InfoMiPerfil;
-import com.example.narratives.peticiones.StandardMessageResult;
+import com.example.narratives.peticiones.GenericMessageResult;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
@@ -192,10 +192,10 @@ public class MainActivity extends AppCompatActivity {
     private void cerrarSesion() {
         fragmentoEscuchandoAbierto.pararPorCierreSesion();
 
-        Call<StandardMessageResult> llamada = retrofitInterface.ejecutarUsersLogout(ApiClient.getUserCookie());
-        llamada.enqueue(new Callback<StandardMessageResult>() {
+        Call<GenericMessageResult> llamada = retrofitInterface.ejecutarUsersLogout(ApiClient.getUserCookie());
+        llamada.enqueue(new Callback<GenericMessageResult>() {
             @Override
-            public void onResponse(Call<StandardMessageResult> call, Response<StandardMessageResult> response) {
+            public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
                 int codigo = response.code();
 
                 if (response.code() == 200) {
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<StandardMessageResult> call, Throwable t) {
+            public void onFailure(Call<GenericMessageResult> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "No se ha conectado con el servidor",
                         Toast.LENGTH_LONG).show();
             }

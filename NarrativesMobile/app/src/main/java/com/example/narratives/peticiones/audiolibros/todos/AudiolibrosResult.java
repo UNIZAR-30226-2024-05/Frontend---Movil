@@ -1,10 +1,10 @@
-package com.example.narratives.peticiones;
+package com.example.narratives.peticiones.audiolibros.todos;
 
 import java.util.ArrayList;
 
 public class AudiolibrosResult {
     String message;
-    ArrayList<Audiolibro> audiolibros;
+    ArrayList<AudiolibroItem> audiolibros;
 
     public String getMessage() {
         return message;
@@ -14,11 +14,11 @@ public class AudiolibrosResult {
         this.message = message;
     }
 
-    public ArrayList<Audiolibro> getAudiolibros() {
+    public ArrayList<AudiolibroItem> getAudiolibros() {
         return audiolibros;
     }
 
-    public void setAudiolibros(ArrayList<Audiolibro> audiolibros) {
+    public void setAudiolibros(ArrayList<AudiolibroItem> audiolibros) {
         this.audiolibros = audiolibros;
     }
 }

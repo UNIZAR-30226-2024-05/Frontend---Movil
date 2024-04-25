@@ -16,8 +16,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
-import com.example.narratives.peticiones.RegisterRequest;
-import com.example.narratives.peticiones.RegisterResult;
+import com.example.narratives.peticiones.users.register.RegisterRequest;
+import com.example.narratives.peticiones.users.register.RegisterResult;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 

@@ -12,21 +12,21 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.narratives.R;
-import com.example.narratives.peticiones.Audiolibro;
+import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 
 import java.util.ArrayList;
 
 public class BibliotecaGridAdapter extends BaseAdapter implements Filterable {
 
     private LibroFilter libroFilter;
-    private ArrayList<Audiolibro> audiolibros;
-    private ArrayList<Audiolibro> tempAudiolibros;
+    private ArrayList<AudiolibroItem> audiolibros;
+    private ArrayList<AudiolibroItem> tempAudiolibros;
 
     private Context context;
 
     private LayoutInflater layoutInflater;
 
-    public BibliotecaGridAdapter(Context context, ArrayList<Audiolibro> audiolibros) {
+    public BibliotecaGridAdapter(Context context, ArrayList<AudiolibroItem> audiolibros) {
         this.context = context;
         this.audiolibros = audiolibros;
         this.tempAudiolibros = audiolibros;
@@ -91,7 +91,7 @@ public class BibliotecaGridAdapter extends BaseAdapter implements Filterable {
 
             if (charSequence != null && charSequence.length() > 0) {
                 charSequence = charSequence.toString().toUpperCase();
-                ArrayList<Audiolibro> filtros = new ArrayList<>();
+                ArrayList<AudiolibroItem> filtros = new ArrayList<>();
 
                 for (int i = 0; i < tempAudiolibros.size(); i++) {
                     if (tempAudiolibros.get(i).getTitulo().toUpperCase().contains(charSequence)) {
@@ -111,7 +111,7 @@ public class BibliotecaGridAdapter extends BaseAdapter implements Filterable {
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            audiolibros = (ArrayList<Audiolibro>) filterResults.values;
+            audiolibros = (ArrayList<AudiolibroItem>) filterResults.values;
             notifyDataSetChanged();
         }
     }

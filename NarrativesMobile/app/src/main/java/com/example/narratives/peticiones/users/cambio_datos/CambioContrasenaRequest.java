@@ -1,4 +1,4 @@
-package com.example.narratives.peticiones;
+package com.example.narratives.peticiones.users.cambio_datos;
 
 public class CambioContrasenaRequest {
     private String oldPassword;

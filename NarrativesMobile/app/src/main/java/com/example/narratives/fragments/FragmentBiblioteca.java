@@ -28,8 +28,8 @@ import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.biblioteca.BibliotecaGridAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
-import com.example.narratives.peticiones.Audiolibro;
-import com.example.narratives.peticiones.AudiolibrosResult;
+import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
+import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
@@ -109,7 +109,7 @@ public class FragmentBiblioteca extends Fragment {
                 int codigo = response.code();
 
                 if (response.code() == 200){
-                    ArrayList<Audiolibro> audiolibrosResult = response.body().getAudiolibros();
+                    ArrayList<AudiolibroItem> audiolibrosResult = response.body().getAudiolibros();
 
                     if(audiolibrosResult == null){
                         Toast.makeText(getContext(), "Resultado de audiolibros nulo", Toast.LENGTH_LONG).show();
@@ -165,9 +165,9 @@ public class FragmentBiblioteca extends Fragment {
                 "Popsy"
         };
 
-        ArrayList<Audiolibro> audiolibros = new ArrayList<>();
+        ArrayList<AudiolibroItem> audiolibros = new ArrayList<>();
         for(int i = 0; i < titulos.length; i++){
-            Audiolibro a = new Audiolibro(i, titulos[i], i, "descripcion", portadas[i]);
+            AudiolibroItem a = new AudiolibroItem(i, titulos[i], i, "descripcion", portadas[i]);
             audiolibros.add(a);
         }
 
@@ -184,7 +184,7 @@ public class FragmentBiblioteca extends Fragment {
         int height= ViewGroup.LayoutParams.MATCH_PARENT;
 
         //PRUEBA, habrá que conseguir el libro según el género en 'generoLibrosMostrados'
-        Audiolibro audiolibro = (Audiolibro) bibliotecaGridAdapter.getItem(position);
+        AudiolibroItem audiolibro = (AudiolibroItem) bibliotecaGridAdapter.getItem(position);
 
         ImageView imageViewPortada = viewInfoLibro.findViewById(R.id.imageViewPortadaInfoLibro);
         Glide

@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,8 +15,10 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.narratives.R;
+import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 
@@ -35,12 +38,20 @@ public class FragmentEscuchando extends Fragment {
     TextView numerosIzquierda;
     TextView numerosDerecha;
 
+    ImageView portada;
+
+    TextView titulo;
+
 
     SeekBar seekBar;
 
     Handler handler;
 
     UpdateSeekBar updateSeekBar;
+
+    ArrayList<Capitulo> capitulos;
+
+
 
     String[] audios = {"https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_1.mp3", "https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_2.mp3", "https://narrativesarchivos.blob.core.windows.net/audios/LaOdisea_3.mp3"};
     boolean primerAudio = true;
@@ -63,7 +74,8 @@ public class FragmentEscuchando extends Fragment {
 
         numerosIzquierda = getView().findViewById(R.id.textViewSeekBarIzquierdaEscuchando);
         numerosDerecha= getView().findViewById(R.id.textViewSeekBarDerechaEscuchando);
-
+        portada = getView().findViewById(R.id.shapeableImageViewPortadaLibroEscuchando);
+        titulo = getView().findViewById(R.id.textViewTituloLibroEscuchando);
 
         fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
         fabPause = (FloatingActionButton) getView().findViewById(R.id.botonPauseEscuchando);

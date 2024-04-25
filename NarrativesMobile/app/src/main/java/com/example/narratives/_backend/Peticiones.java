@@ -13,9 +13,9 @@ import android.widget.Toast;
 import com.example.narratives.R;
 import com.example.narratives.activities.MainActivity;
 import com.example.narratives.informacion.InfoMiPerfil;
-import com.example.narratives.peticiones.CambioFotoPerfilRequest;
-import com.example.narratives.peticiones.MiPerfilResponse;
-import com.example.narratives.peticiones.StandardMessageResult;
+import com.example.narratives.peticiones.users.cambio_datos.CambioFotoPerfilRequest;
+import com.example.narratives.peticiones.users.perfiles.MiPerfilResponse;
+import com.example.narratives.peticiones.GenericMessageResult;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,11 +55,11 @@ public class Peticiones {
         RetrofitInterface retrofitInterface = ApiClient.getRetrofitInterface();
         CambioFotoPerfilRequest request = new CambioFotoPerfilRequest();
         request.setNewImg(newImg);
-        Call<StandardMessageResult> llamada = retrofitInterface.ejecutarUsersChange_img(ApiClient.getUserCookie(), request);
+        Call<GenericMessageResult> llamada = retrofitInterface.ejecutarUsersChange_img(ApiClient.getUserCookie(), request);
 
-        llamada.enqueue(new Callback<StandardMessageResult>() {
+        llamada.enqueue(new Callback<GenericMessageResult>() {
             @Override
-            public void onResponse(Call<StandardMessageResult> call, Response<StandardMessageResult> response) {
+            public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
                 int codigo = response.code();
 
                 if(codigo == 200) {
@@ -88,11 +88,14 @@ public class Peticiones {
             }
 
             @Override
-            public void onFailure(Call<StandardMessageResult> call, Throwable t) {
+            public void onFailure(Call<GenericMessageResult> call, Throwable t) {
                 Toast.makeText(context, "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
             }
         });
     }
+
+
+
 
 
 }

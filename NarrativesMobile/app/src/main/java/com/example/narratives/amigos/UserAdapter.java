@@ -13,24 +13,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.narratives.R;
-import com.example.narratives.peticiones.User;
+import com.example.narratives.peticiones.users.login.LoginUser;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserAdapter extends ArrayAdapter<User> implements Filterable {
+public class UserAdapter extends ArrayAdapter<LoginUser> implements Filterable {
 
 
-    private List<User> userList;
-    private List<User> tempUserList;
+    private List<LoginUser> userList;
+    private List<LoginUser> tempUserList;
 
     private Context context;
     private int resourceLayout;
 
     private UserFilter userFilter;
 
-    public UserAdapter(@NonNull Context _context, int _resource, @NonNull List <User> _objects) {
+    public UserAdapter(@NonNull Context _context, int _resource, @NonNull List <LoginUser> _objects) {
         super(_context, _resource, _objects);
         this.userList = _objects;
         this.tempUserList = _objects;
@@ -47,7 +47,7 @@ public class UserAdapter extends ArrayAdapter<User> implements Filterable {
             view = LayoutInflater.from(context).inflate(resourceLayout, null);
         }
 
-        User user = userList.get(position);
+        LoginUser user = userList.get(position);
 
         TextView nombre = view.findViewById(R.id.textViewUsuarioNombrePrueba);
         nombre.setText(user.getUsername());
@@ -78,7 +78,7 @@ public class UserAdapter extends ArrayAdapter<User> implements Filterable {
 
     @Nullable
     @Override
-    public User getItem(int position) {
+    public LoginUser getItem(int position) {
         return userList.get(position);
     }
 
@@ -95,7 +95,7 @@ public class UserAdapter extends ArrayAdapter<User> implements Filterable {
 
             if(charSequence != null && charSequence.length() > 0) {
                 charSequence = charSequence.toString().toUpperCase();
-                ArrayList<User> filtros = new ArrayList<>();
+                ArrayList<LoginUser> filtros = new ArrayList<>();
 
                 for (int i = 0; i < tempUserList.size(); i++) {
                     if (tempUserList.get(i).getUsername().toUpperCase().contains(charSequence)) {
@@ -115,7 +115,7 @@ public class UserAdapter extends ArrayAdapter<User> implements Filterable {
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            userList = (ArrayList<User>)filterResults.values;
+            userList = (ArrayList<LoginUser>)filterResults.values;
             notifyDataSetChanged();
         }
     }

@@ -15,8 +15,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
-import com.example.narratives.peticiones.LoginRequest;
-import com.example.narratives.peticiones.LoginResult;
+import com.example.narratives.peticiones.users.login.LoginRequest;
+import com.example.narratives.peticiones.users.login.LoginResult;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 
@@ -44,9 +44,14 @@ public class LoginActivity extends AppCompatActivity {
         botonIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // MODIFICAR PARA PODER ENTRAR SIN VERIFICACION DE USUARIO
-                comprobarDatosLogin();
-                //abrirMenuMain();
+                EditText usuarioEditText = (EditText) findViewById(R.id.editTextUsuarioLogin);
+                EditText passwordEditText = (EditText) findViewById(R.id.editTextContraseñaLogin);
+
+                LoginRequest request = new LoginRequest();
+                request.setUsername(usuarioEditText.getText().toString());
+                request.setPassword(passwordEditText.getText().toString());
+
+                comprobarDatosLogin(request);
             }
         });
 
@@ -66,18 +71,17 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.botonDirecto).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                abrirMenuMain();
+                LoginRequest request = new LoginRequest();
+                request.setUsername("directo");
+                request.setPassword("Directo1");
+
+                comprobarDatosLogin(request);
             }
         });
     }
 
-    private void comprobarDatosLogin() {
-        EditText usuarioEditText = (EditText) findViewById(R.id.editTextUsuarioLogin);
-        EditText passwordEditText = (EditText) findViewById(R.id.editTextContraseñaLogin);
+    private void comprobarDatosLogin(LoginRequest request) {
 
-        LoginRequest request = new LoginRequest();
-        request.setUsername(usuarioEditText.getText().toString());
-        request.setPassword(passwordEditText.getText().toString());
 
         Call<LoginResult> llamada = retrofitInterface.ejecutarUsersLogin(ApiClient.getUserCookie(), request);
         llamada.enqueue(new Callback<LoginResult>() {

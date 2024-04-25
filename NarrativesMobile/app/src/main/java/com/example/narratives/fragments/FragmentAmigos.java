@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.narratives.R;
 import com.example.narratives.amigos.UserAdapter;
-import com.example.narratives.peticiones.User;
+import com.example.narratives.peticiones.users.login.LoginUser;
 
 import java.util.ArrayList;
 
@@ -40,7 +40,7 @@ public class FragmentAmigos extends Fragment {
 
         String[] nombres = {"Manu", "Ismael", "Pablo", "Alicia", "Luis", "Lilai", "Curro", "Dani", "paula", "pepe", "María", "victor", "Jaume", "David", "Alba", "cristina"};
 
-        ArrayList<User> usuarios = new ArrayList<User>();
+        ArrayList<LoginUser> usuarios = new ArrayList<LoginUser>();
         for (int i = 0; i < nombres.length; i++){
             String role;
             if(i % 2 == 0) {
@@ -48,7 +48,7 @@ public class FragmentAmigos extends Fragment {
             } else {
                 role = "especial";
             }
-            usuarios.add(new User(nombres[i], role));
+            usuarios.add(new LoginUser(nombres[i], role));
         }
 
         userAdapter = new UserAdapter(getContext(),R.layout.item_usuario_prueba,usuarios);

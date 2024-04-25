@@ -1,17 +1,14 @@
 package com.example.narratives.peticiones;
 
-public class RegisterResult {
+public class GenericMessageResult {
 
     private String message;
-
-    private String error;
 
     public String getMessage() {
         return message;
     }
 
-    public String getError(){
-        return error;
+    public void setMessage(String message) {
+        this.message = message;
     }
-
 }

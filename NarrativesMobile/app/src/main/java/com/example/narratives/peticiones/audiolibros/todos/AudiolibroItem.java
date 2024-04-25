@@ -1,13 +1,13 @@
-package com.example.narratives.peticiones;
+package com.example.narratives.peticiones.audiolibros.todos;
 
-public class Audiolibro {
+public class AudiolibroItem {
     int id;
     String titulo;
     int autor;
     String descripcion;
     String img;
 
-    public Audiolibro(int id, String titulo, int autor, String descripcion, String img){
+    public AudiolibroItem(int id, String titulo, int autor, String descripcion, String img){
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;

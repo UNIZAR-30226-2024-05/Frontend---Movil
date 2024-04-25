@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.narratives.R;
-import com.example.narratives.peticiones.Audiolibro;
+import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 
 import java.util.ArrayList;
 
@@ -20,9 +20,9 @@ public class adaptador extends RecyclerView.Adapter<adaptador.AdaptadorViewHolde
 
     Context context;
     private LayoutInflater layoutInflater;
-    private ArrayList<Audiolibro> audiolibros;
+    private ArrayList<AudiolibroItem> audiolibros;
 
-    public adaptador(Context context, ArrayList<Audiolibro> audiolibros) {
+    public adaptador(Context context, ArrayList<AudiolibroItem> audiolibros) {
         this.context = context;
         this.audiolibros = audiolibros;
     }

@@ -1,14 +1,14 @@
 package com.example.narratives._backend;
 
-import com.example.narratives.peticiones.AudiolibrosResult;
-import com.example.narratives.peticiones.CambioContrasenaRequest;
-import com.example.narratives.peticiones.CambioFotoPerfilRequest;
-import com.example.narratives.peticiones.LoginRequest;
-import com.example.narratives.peticiones.LoginResult;
-import com.example.narratives.peticiones.MiPerfilResponse;
-import com.example.narratives.peticiones.RegisterRequest;
-import com.example.narratives.peticiones.RegisterResult;
-import com.example.narratives.peticiones.StandardMessageResult;
+import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
+import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequest;
+import com.example.narratives.peticiones.users.cambio_datos.CambioFotoPerfilRequest;
+import com.example.narratives.peticiones.users.login.LoginRequest;
+import com.example.narratives.peticiones.users.login.LoginResult;
+import com.example.narratives.peticiones.users.perfiles.MiPerfilResponse;
+import com.example.narratives.peticiones.users.register.RegisterRequest;
+import com.example.narratives.peticiones.users.register.RegisterResult;
+import com.example.narratives.peticiones.GenericMessageResult;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -28,13 +28,13 @@ public interface RetrofitInterface {
     Call<RegisterResult> ejecutarUsersRegister(@Body RegisterRequest request);
 
     @POST("/users/logout")
-    Call<StandardMessageResult> ejecutarUsersLogout(@Header("Cookie") String userCookie);
+    Call<GenericMessageResult> ejecutarUsersLogout(@Header("Cookie") String userCookie);
 
     @POST("/users/change_pass")
-    Call<StandardMessageResult> ejecutarUsersChange_pass(@Header("Cookie") String userCookie, @Body CambioContrasenaRequest request);
+    Call<GenericMessageResult> ejecutarUsersChange_pass(@Header("Cookie") String userCookie, @Body CambioContrasenaRequest request);
 
     @POST("/users/change_img")
-    Call<StandardMessageResult> ejecutarUsersChange_img(@Header("Cookie") String userCookie, @Body CambioFotoPerfilRequest request);
+    Call<GenericMessageResult> ejecutarUsersChange_img(@Header("Cookie") String userCookie, @Body CambioFotoPerfilRequest request);
 
     @GET("/users/profile")
     Call<MiPerfilResponse> ejecutarUsersProfile(@Header("Cookie") String userCookie);

@@ -1,4 +1,4 @@
-package com.example.narratives.peticiones;
+package com.example.narratives.peticiones.users.perfiles;
 
 public class MiPerfilResponse {
     String username;
