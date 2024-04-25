@@ -161,7 +161,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="12dp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu porta neque. Morbi sed lectus non ante imperdiet tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Donec nisi sapien, laoreet quis lacinia nec, pulvinar et turpis. Cras at mi quis libero fringilla porttitor id non risus. Donec et tortor lorem. Aenean at justo id tellus consequat porttitor nec sit amet ante. Integer ultrices lacus vitae sapien maximus, sit amet varius ligula dictum. Donec porttitor faucibus tempor. Maecenas quis luctus purus. Curabitur id nisl urna. Nullam efficitur arcu id magna aliquet, a pretium libero porta. Donec in nisi."
+            android:text="Descripción vacía."
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
