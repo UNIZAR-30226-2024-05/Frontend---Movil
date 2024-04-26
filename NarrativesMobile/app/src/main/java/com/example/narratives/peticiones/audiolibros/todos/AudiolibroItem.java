@@ -3,7 +3,7 @@ package com.example.narratives.peticiones.audiolibros.todos;
 public class AudiolibroItem {
     int id;
     String titulo;
-    int autor;
+    String autor;
     String descripcion;
     String img;
 
@@ -11,7 +11,7 @@ public class AudiolibroItem {
 
     float puntuacion;
 
-    public AudiolibroItem(int id, String titulo, int autor, String descripcion, String img, String genero, float puntuacion){
+    public AudiolibroItem(int id, String titulo, String autor, String descripcion, String img, String genero, float puntuacion){
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
@@ -37,11 +37,11 @@ public class AudiolibroItem {
         this.titulo = titulo;
     }
 
-    public int getAutor() {
+    public String getAutor() {
         return autor;
     }
 
-    public void setAutor(int autor) {
+    public void setAutor(String autor) {
         this.autor = autor;
     }
 

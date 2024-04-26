@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class InfoAudiolibros {
     private static ArrayList<AudiolibroItem> todosLosAudiolibros;
+    private static ArrayList<AudiolibroItem> todosLosAudiolibrosEjemplo;
+
     private static String[] generos = {"Todos", "Romance", "Terror", "Infantil", "Misterio"};
 
     public static ArrayList<AudiolibroItem> getTodosLosAudiolibros() {
@@ -22,5 +24,13 @@ public class InfoAudiolibros {
 
     public static void setGeneros(String[] generos) {
         InfoAudiolibros.generos = generos;
+    }
+
+    public static ArrayList<AudiolibroItem> getTodosLosAudiolibrosEjemplo() {
+        return todosLosAudiolibrosEjemplo;
+    }
+
+    public static void setTodosLosAudiolibrosEjemplo(ArrayList<AudiolibroItem> todosLosAudiolibrosEjemplo) {
+        InfoAudiolibros.todosLosAudiolibrosEjemplo = todosLosAudiolibrosEjemplo;
     }
 }

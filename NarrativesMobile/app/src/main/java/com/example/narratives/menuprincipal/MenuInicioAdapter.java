@@ -16,26 +16,26 @@ import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 
 import java.util.ArrayList;
 
-public class adaptador extends RecyclerView.Adapter<adaptador.AdaptadorViewHolder> {
+public class MenuInicioAdapter extends RecyclerView.Adapter<MenuInicioAdapter.AdaptadorViewHolder> {
 
     Context context;
     private LayoutInflater layoutInflater;
     private ArrayList<AudiolibroItem> audiolibros;
 
-    public adaptador(Context context, ArrayList<AudiolibroItem> audiolibros) {
+    public MenuInicioAdapter(Context context, ArrayList<AudiolibroItem> audiolibros) {
         this.context = context;
         this.audiolibros = audiolibros;
     }
 
     @NonNull
     @Override
-    public adaptador.AdaptadorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MenuInicioAdapter.AdaptadorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_menu_principal,null,false);
-        return new adaptador.AdaptadorViewHolder(v);
+        return new MenuInicioAdapter.AdaptadorViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull adaptador.AdaptadorViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MenuInicioAdapter.AdaptadorViewHolder holder, int position) {
         if(layoutInflater == null){
             layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }

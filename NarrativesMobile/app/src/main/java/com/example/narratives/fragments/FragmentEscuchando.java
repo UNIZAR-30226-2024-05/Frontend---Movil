@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
@@ -242,8 +243,14 @@ public class FragmentEscuchando extends Fragment {
     }
 
     private String getFormattedTime(int duration){
-
-        if(duration >= 600000){
+        if(duration >= 6000000){
+            return String.format("%01d:%02d:%02d",
+                    TimeUnit.MILLISECONDS.toHours(duration),
+                    TimeUnit.MILLISECONDS.toMinutes(duration),
+                    TimeUnit.MILLISECONDS.toSeconds(duration) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration))
+            );
+        } else if(duration < 6000000 && duration >= 600000){
             return String.format("%02d:%02d",
                     TimeUnit.MILLISECONDS.toMinutes(duration),
                     TimeUnit.MILLISECONDS.toSeconds(duration) -
@@ -265,20 +272,14 @@ public class FragmentEscuchando extends Fragment {
             primerLibro = false;
         }
 
-        //TODO: actualizar cuando se arregle el obtener todos los audiolibros
-
-        if(audiolibro == null){
-            Toast.makeText(getContext(), "LIBRO NULL", Toast.LENGTH_LONG).show();
-        } else if (audiolibro.getUltimoMomento() == null){
-            Toast.makeText(getContext(), "ULTIMO MOM NULL", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getContext(), "OK", Toast.LENGTH_LONG).show();
-        }
-
-        /*
-        capituloActual = audiolibro.getUltimoMomento().getCapitulo();
-        capitulos = audiolibro.getCapitulos();
         ultimoMomento = audiolibro.getUltimoMomento();
+        if(ultimoMomento != null){
+            capituloActual = audiolibro.getUltimoMomento().getCapitulo();
+
+        } else {
+            capituloActual = 0;
+        }
+        capitulos = audiolibro.getCapitulos();
         primerAudio = true;
 
         titulo_libro.setText(audiolibro.getAudiolibro().getTitulo());
@@ -288,8 +289,6 @@ public class FragmentEscuchando extends Fragment {
                 .centerCrop()
                 .placeholder(R.drawable.icono_imagen_estandar_foreground)
                 .into(portada);
-
-         */
     }
 
     public void prepararAudio(int capitulo){
@@ -381,6 +380,8 @@ public class FragmentEscuchando extends Fragment {
 
     private void iniciarMomentoConcreto(){
         //TODO: cargar momento concreto dado ultimo momento
+        //TODO: convertir fecha de ultimoMomento a ms
+
 
     }
 
