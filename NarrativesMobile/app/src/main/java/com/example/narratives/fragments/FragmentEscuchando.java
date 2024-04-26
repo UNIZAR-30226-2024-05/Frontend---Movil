@@ -185,7 +185,8 @@ public class FragmentEscuchando extends Fragment {
 
 
     private void mostrarReproductor(){
-        reproductor.setEnabled(true);
+        reproductor.setVisibility(View.VISIBLE);
+
         fabPause.setEnabled(true);
         fabPlay.setEnabled(true);
         fabRetrasar.setEnabled(true);
@@ -195,9 +196,7 @@ public class FragmentEscuchando extends Fragment {
     }
 
     private void esconderReproductor() {
-        if(reproductor.isEnabled()) {
-            reproductor.setEnabled(false);
-        }
+        reproductor.setVisibility(View.INVISIBLE);
 
         fabPause.setEnabled(false);
         fabPlay.setEnabled(false);
@@ -208,24 +207,20 @@ public class FragmentEscuchando extends Fragment {
     }
 
     private void mostrarReproduceUnAudiolibro(){
-        reproduceUnAudiolibro.setEnabled(true);
+        reproduceUnAudiolibro.setVisibility(View.VISIBLE);
     }
 
     private void esconderReproduceUnAudiolibro() {
-        if(reproduceUnAudiolibro.isEnabled()) {
-            reproduceUnAudiolibro.setEnabled(false);
-        }
+        reproduceUnAudiolibro.setVisibility(View.INVISIBLE);
     }
 
     private void mostrarCargandoAudiolibro(){
-        cargandoAudiolibro.setEnabled(true);
+        cargandoAudiolibro.setVisibility(View.VISIBLE);
         iconoCargando.animate().rotation(-720f).setDuration(3000).start();
     }
 
     private void esconderCargandoAudiolibro() {
-        if(cargandoAudiolibro.isEnabled()) {
-            cargandoAudiolibro.setEnabled(false);
-        }
+        cargandoAudiolibro.setVisibility(View.INVISIBLE);
     }
 
 
@@ -267,10 +262,6 @@ public class FragmentEscuchando extends Fragment {
     }
 
     public void inicializarLibro(AudiolibroEspecificoResponse audiolibro){
-        if(primerLibro){
-            esconderReproduceUnAudiolibro();
-            primerLibro = false;
-        }
 
         ultimoMomento = audiolibro.getUltimoMomento();
         if(ultimoMomento != null){
@@ -289,6 +280,12 @@ public class FragmentEscuchando extends Fragment {
                 .centerCrop()
                 .placeholder(R.drawable.icono_imagen_estandar_foreground)
                 .into(portada);
+
+        if(primerLibro){
+            esconderReproduceUnAudiolibro();
+        }
+
+        prepararAudio(capituloActual);
     }
 
     public void prepararAudio(int capitulo){
