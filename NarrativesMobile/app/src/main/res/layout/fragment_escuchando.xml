@@ -219,8 +219,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/shapeableImageViewPortadaLibroEscuchando"
-        android:layout_width="220dp"
-        android:layout_height="350dp"
+        android:layout_width="190dp"
+        android:layout_height="300dp"
         android:src="@drawable/icono_imagen_estandar_foreground"
         app:layout_constraintBottom_toTopOf="@+id/textViewNumeroCapituloEscuchando"
         app:layout_constraintEnd_toEndOf="parent"
@@ -231,12 +231,13 @@
 
     <TextView
         android:id="@+id/textViewTituloCapituloEscuchando"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:text="TÍTULO CAPÍTULO LIBRO"
         android:textSize="30sp"
+        android:layout_marginHorizontal="15dp"
         android:layout_marginBottom="250dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

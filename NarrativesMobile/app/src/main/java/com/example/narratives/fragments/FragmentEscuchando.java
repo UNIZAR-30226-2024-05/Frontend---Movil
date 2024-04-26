@@ -7,6 +7,9 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -65,6 +68,8 @@ public class FragmentEscuchando extends Fragment {
     ArrayList<Capitulo> capitulos;
     UltimoMomento ultimoMomento;
 
+    Animation animacionCargando;
+
 
     boolean primerAudio = true;
     boolean primerLibro = true;
@@ -85,30 +90,12 @@ public class FragmentEscuchando extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         inicializarElementosReproductor();
 
-        numerosIzquierda = getView().findViewById(R.id.textViewSeekBarIzquierdaEscuchando);
-        numerosDerecha= getView().findViewById(R.id.textViewSeekBarDerechaEscuchando);
-        portada = getView().findViewById(R.id.shapeableImageViewPortadaLibroEscuchando);
-        titulo_libro = getView().findViewById(R.id.textViewTituloLibroEscuchando);
-        titulo_cap = getView().findViewById(R.id.textViewTituloCapituloEscuchando);
-        num_cap = getView().findViewById(R.id.textViewNumeroCapituloEscuchando);
-
         mostrarReproduceUnAudiolibro();
         esconderReproductor();
         esconderCargandoAudiolibro();
 
-        fabPause = (FloatingActionButton) view.findViewById(R.id.botonPauseEscuchando);
-        fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
-        fabPause.setEnabled(false);
-        //fabPlay.setEnabled(false);
-
-        handler = new Handler();
-
         fabPlay.setClickable(false);
         fabPause.setClickable(false);
-        //prepararAudio(capituloActual);
-        //esconderReproduceUnAudiolibro();
-
-        //mostrarCargandoAudiolibro();
 
         fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,6 +149,10 @@ public class FragmentEscuchando extends Fragment {
         numerosIzquierda = getView().findViewById(R.id.textViewSeekBarIzquierdaEscuchando);
         numerosDerecha= getView().findViewById(R.id.textViewSeekBarDerechaEscuchando);
 
+        portada = getView().findViewById(R.id.shapeableImageViewPortadaLibroEscuchando);
+        titulo_libro = getView().findViewById(R.id.textViewTituloLibroEscuchando);
+        titulo_cap = getView().findViewById(R.id.textViewTituloCapituloEscuchando);
+        num_cap = getView().findViewById(R.id.textViewNumeroCapituloEscuchando);
 
         fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
         fabPause = (FloatingActionButton) getView().findViewById(R.id.botonPauseEscuchando);
@@ -179,6 +170,11 @@ public class FragmentEscuchando extends Fragment {
         cargandoAudiolibro = getView().findViewById(R.id.constraintLayoutCargandoAudiolibro);
 
         iconoCargando = (ImageView) getView().findViewById(R.id.imageViewCargandoAudiolibro);
+        iconoCargando.animate().rotation(-720f).setDuration(3000);
+
+        animacionCargando = AnimationUtils.loadAnimation(getContext(), R.anim.rotation_animation);
+        animacionCargando.setInterpolator(new LinearInterpolator());
+        animacionCargando.setDuration(1400);
 
         handler = new Handler();
     }
@@ -187,23 +183,23 @@ public class FragmentEscuchando extends Fragment {
     private void mostrarReproductor(){
         reproductor.setVisibility(View.VISIBLE);
 
-        fabPause.setEnabled(true);
-        fabPlay.setEnabled(true);
-        fabRetrasar.setEnabled(true);
-        fabAvanzar.setEnabled(true);
-        fabAnteriorCap.setEnabled(true);
-        fabSiguienteCap.setEnabled(true);
+        fabPause.setClickable(true);
+        fabPlay.setClickable(true);
+        fabRetrasar.setClickable(true);
+        fabAvanzar.setClickable(true);
+        fabAnteriorCap.setClickable(true);
+        fabSiguienteCap.setClickable(true);
     }
 
     private void esconderReproductor() {
         reproductor.setVisibility(View.INVISIBLE);
 
-        fabPause.setEnabled(false);
-        fabPlay.setEnabled(false);
-        fabRetrasar.setEnabled(false);
-        fabAvanzar.setEnabled(false);
-        fabAnteriorCap.setEnabled(false);
-        fabSiguienteCap.setEnabled(false);
+        fabPause.setClickable(false);
+        fabPlay.setClickable(false);
+        fabRetrasar.setClickable(false);
+        fabAvanzar.setClickable(false);
+        fabAnteriorCap.setClickable(false);
+        fabSiguienteCap.setClickable(false);
     }
 
     private void mostrarReproduceUnAudiolibro(){
@@ -216,7 +212,7 @@ public class FragmentEscuchando extends Fragment {
 
     private void mostrarCargandoAudiolibro(){
         cargandoAudiolibro.setVisibility(View.VISIBLE);
-        iconoCargando.animate().rotation(-720f).setDuration(3000).start();
+        iconoCargando.startAnimation(animacionCargando);
     }
 
     private void esconderCargandoAudiolibro() {
@@ -299,7 +295,7 @@ public class FragmentEscuchando extends Fragment {
         if(capitulo < 0){
             capituloActual = 0;
         } else if(capitulo >= capitulos.size()){
-            Toast.makeText(getContext(), "FIN DEL LIBRO", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "FIN DEL LIBRO | Reiniciando...", Toast.LENGTH_LONG).show();
             libroReiniciado = true;
             capituloActual = 0;
         } else {
@@ -334,11 +330,13 @@ public class FragmentEscuchando extends Fragment {
                     actualizarDuracionAudio();
                     setActualizacionSeekBar();
 
-                    if(!primerAudio){
+
+                    if(primerAudio){
                         iniciarMomentoConcreto();
                     } else {
                         reanudarMusica();
                     }
+
 
                     if(libroReiniciado){
                         libroReiniciado = false;
@@ -386,13 +384,26 @@ public class FragmentEscuchando extends Fragment {
 
     public void reanudarMusica(){
         fabPause.setEnabled(true);
+        fabPause.setVisibility(View.VISIBLE);
+        fabPause.setClickable(true);
+
         fabPlay.setEnabled(false);
+        fabPlay.setVisibility(View.INVISIBLE);
+        fabPlay.setClickable(false);
+
+
         mediaPlayer.start();
     }
 
     public void pararMusica(){
         fabPlay.setEnabled(true);
+        fabPlay.setVisibility(View.VISIBLE);
+        fabPlay.setClickable(true);
+
         fabPause.setEnabled(false);
+        fabPause.setVisibility(View.INVISIBLE);
+        fabPause.setClickable(false);
+
         mediaPlayer.pause();
     }
 
