@@ -301,7 +301,7 @@ public class FragmentEscuchando extends Fragment {
         } else {
             capituloActual = capitulo;
         }
-
+   
         titulo_cap.setText(capitulos.get(capituloActual).getNombre());
         num_cap.setText(getCapituloWithNumberString(capitulos.get(capituloActual).getNumero()));
 
@@ -408,7 +408,9 @@ public class FragmentEscuchando extends Fragment {
     }
 
     public void pararPorCierreSesion(){
-        mediaPlayer.stop();
+        if(mediaPlayer != null){
+            mediaPlayer.stop();
+        }
     }
 
     public void reiniciarMusica(){

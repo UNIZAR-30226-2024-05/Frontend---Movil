@@ -24,113 +24,118 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/SeguirEscucandoText"
+                    android:id="@+id/textViewSeguirEscuchando"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Seguir escuchando"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
+                    android:layout_marginStart="12dp"
                     android:layout_marginTop="65dp"
-                    android:layout_marginStart="12dp"
                     android:layout_marginBottom="5dp"
-                    />
+                    android:text="Recomendados"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/RecyclerViewSeguirEscuchando"
+                    android:id="@+id/recyclerViewSeguirEscuchando"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:scrollbars="horizontal" />
+                    android:layout_height="235dp"
+                    android:scrollbars="horizontal"
+                    android:background="@color/teal_clarito"
+                    />
 
                 <TextView
-                    android:id="@+id/Genero1Text"
+                    android:id="@+id/textViewGenero1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Terror"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginStart="12dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="5dp"
-                    />
+                    android:text="Género 1"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/RecyclerViewTerror"
+                    android:id="@+id/recyclerViewGenero1"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:scrollbars="horizontal" />
+                    android:layout_height="235dp"
+                    android:scrollbars="horizontal"
+                    android:background="@color/teal_clarito"
+                    />
 
                 <TextView
-                    android:id="@+id/Genero2Text"
+                    android:id="@+id/textViewGenero2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fantasia"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginStart="12dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="5dp"
-                    />
+                    android:text="Género 2"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/RecyclerFantasia"
+                    android:id="@+id/recyclerViewGenero2"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:scrollbars="horizontal" />
+                    android:layout_height="235dp"
+                    android:scrollbars="horizontal"
+                    android:background="@color/teal_clarito"
+                    />
 
                 <TextView
-                    android:id="@+id/Genero3Text"
+                    android:id="@+id/textViewGenero3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Poesia"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginStart="12dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="5dp"
-                    />
+                    android:text="Género 3"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/RecyclerPoesia"
+                    android:id="@+id/recyclerViewGenero3"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:scrollbars="horizontal" />
+                    android:layout_height="235dp"
+                    android:scrollbars="horizontal"
+                    android:background="@color/teal_clarito"
+                    />
 
                 <TextView
-                    android:id="@+id/Genero4Text"
+                    android:id="@+id/textViewGenero4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Novela"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginStart="12dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="5dp"
-                    />
+                    android:text="Género 4"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/RecyclerNovela"
+                    android:id="@+id/recyclerViewGenero4"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:scrollbars="horizontal" />
-
+                    android:layout_height="235dp"
+                    android:scrollbars="horizontal"
+                    android:background="@color/teal_clarito"
+                    />
 
                 <TextView
-                    android:id="@+id/Genero6Text"
+                    android:id="@+id/textViewGenero5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mitologia"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginStart="12dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="5dp"
-                    />
+                    android:text="Género 5"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/RecyclerMitologia"
+                    android:id="@+id/recyclerViewGenero5"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:scrollbars="horizontal" />
+                    android:layout_height="235dp"
+                    android:scrollbars="horizontal"
+                    android:background="@color/teal_clarito"
+                    />
 
             </LinearLayout>
         </ScrollView>

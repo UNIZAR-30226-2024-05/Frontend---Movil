@@ -15,7 +15,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="3dp"
+        >
 
         <FrameLayout
             android:id="@+id/main_layout"
@@ -49,7 +51,7 @@
                     android:paddingTop="7dp">
 
                     <TextView
-                        android:id="@+id/RecomendadosText"
+                        android:id="@+id/textViewRecomendados"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -60,96 +62,107 @@
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/RecyclerViewRecomendados"
+                        android:id="@+id/recyclerViewRecomendados"
                         android:layout_width="match_parent"
-                        android:layout_height="220dp"
-                        android:scrollbars="horizontal" />
+                        android:layout_height="235dp"
+                        android:scrollbars="horizontal"
+                        android:background="@color/teal_clarito"
+                        />
 
                     <TextView
-                        android:id="@+id/Genero1Text1"
+                        android:id="@+id/textViewGenero1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginBottom="5dp"
-                        android:text="Terror"
+                        android:text="Género 1"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/RecyclerViewTerror1"
+                        android:id="@+id/recyclerViewGenero1"
                         android:layout_width="match_parent"
-                        android:layout_height="220dp"
-                        android:scrollbars="horizontal" />
+                        android:layout_height="235dp"
+                        android:scrollbars="horizontal"
+                        android:background="@color/teal_clarito"
+                        />
 
                     <TextView
-                        android:id="@+id/Genero2Text1"
+                        android:id="@+id/textViewGenero2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginBottom="5dp"
-                        android:text="Fantasia"
+                        android:text="Género 2"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/RecyclerFantasia1"
+                        android:id="@+id/recyclerViewGenero2"
                         android:layout_width="match_parent"
-                        android:layout_height="220dp"
-                        android:scrollbars="horizontal" />
+                        android:layout_height="235dp"
+                        android:scrollbars="horizontal"
+                        android:background="@color/teal_clarito"
+                        />
 
                     <TextView
-                        android:id="@+id/Genero3Text1"
+                        android:id="@+id/textViewGenero3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginBottom="5dp"
-                        android:text="Poesia"
+                        android:text="Género 3"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/RecyclerPoesia1"
+                        android:id="@+id/recyclerViewGenero3"
                         android:layout_width="match_parent"
-                        android:layout_height="220dp"
-                        android:scrollbars="horizontal" />
+                        android:layout_height="235dp"
+                        android:scrollbars="horizontal"
+                        android:background="@color/teal_clarito"
+                        />
 
                     <TextView
-                        android:id="@+id/Genero4Text1"
+                        android:id="@+id/textViewGenero4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginBottom="5dp"
-                        android:text="Novela"
+                        android:text="Género 4"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/RecyclerNovela1"
+                        android:id="@+id/recyclerViewGenero4"
                         android:layout_width="match_parent"
-                        android:layout_height="220dp"
-                        android:scrollbars="horizontal" />
-
+                        android:layout_height="235dp"
+                        android:scrollbars="horizontal"
+                        android:background="@color/teal_clarito"
+                        />
 
                     <TextView
-                        android:id="@+id/Genero6Text1"
+                        android:id="@+id/textViewGenero5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginBottom="5dp"
-                        android:text="Mitologia"
+                        android:text="Género 5"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/RecyclerMitologia1"
+                        android:id="@+id/recyclerViewGenero5"
                         android:layout_width="match_parent"
-                        android:layout_height="220dp"
-                        android:scrollbars="horizontal" />
+                        android:layout_height="235dp"
+                        android:scrollbars="horizontal"
+                        android:background="@color/teal_clarito"
+                        />
 
                 </LinearLayout>
             </ScrollView>
@@ -157,6 +170,7 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayoutBotones"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/teal_500"
@@ -165,7 +179,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout">
+        app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout"
+        android:elevation="3dp"
+        >
 
         <TextView
             android:id="@+id/textViewCentroMenuInferiorHomeSinRegistro"
@@ -206,9 +222,40 @@
             android:text="Registrate"
             android:textColor="@color/teal_blanco"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
 
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutCargandoNarratives"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="5dp"
+        >
+
+        <ImageView
+            android:id="@+id/imageViewLogoCargandoNarratives"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/narratives_limpio"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:layout_marginTop="10dp"
+
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

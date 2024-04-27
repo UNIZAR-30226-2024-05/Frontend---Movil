@@ -2,6 +2,7 @@ package com.example.narratives.activities;
 
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -292,8 +294,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    static public void reemplazarFragmento(Fragment fragmento, FragmentTransaction fragmentTransaction){
-
+    public void reemplazarFragmento(Fragment fragmento, FragmentTransaction fragmentTransaction){
+        esconderTeclado();
         switch(fragmentoActual){
             case 0:
                 fragmentTransaction.hide(fragmentoInicioAbierto);
@@ -323,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void abrirMenuHomeSinRegistro() {
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
@@ -365,6 +368,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     public void peticionUsersProfile(){
         Call<MiPerfilResponse> llamada = retrofitInterface.ejecutarUsersProfile(ApiClient.getUserCookie());
         llamada.enqueue(new Callback<MiPerfilResponse>() {
@@ -382,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if(codigo == 500) {
                     Toast.makeText(MainActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "Error desconocido: " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Error desconocido (UsersProfile): " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -392,4 +396,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void esconderTeclado() {
+        if(this.getCurrentFocus() != null){
+            InputMethodManager inputManager = (InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
 }

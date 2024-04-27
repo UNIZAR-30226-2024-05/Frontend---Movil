@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.botonDirecto).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoginRequest request = new LoginRequest();
+                LoginRequest request = new LoginRequest(); // hace un login automático con una cuenta de prueba
                 request.setUsername("directo");
                 request.setPassword("Directo1");
 

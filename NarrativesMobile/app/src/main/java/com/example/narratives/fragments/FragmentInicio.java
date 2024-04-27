@@ -12,14 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.narratives.R;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.menuprincipal.MenuInicioAdapter;
-import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
-
-import java.util.ArrayList;
 
 public class FragmentInicio extends Fragment {
-    RecyclerView rv, rvTerror, rvFantasia, rvMitologia, rvNovela, rvPoesia;
-    MenuInicioAdapter MenuInicioAdapter;
-    private ArrayList<AudiolibroItem> audiolibros;
+    RecyclerView rvSeguirEscuchando, rvGenero1, rvGenero2, rvGenero3, rvGenero4, rvGenero5;
+    MenuInicioAdapter menuInicioAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -28,33 +24,36 @@ public class FragmentInicio extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        audiolibros = InfoAudiolibros.getTodosLosAudiolibrosEjemplo();
+        rvSeguirEscuchando = getView().findViewById(R.id.recyclerViewSeguirEscuchando);
+        rvSeguirEscuchando.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        rv = getView().findViewById(R.id.RecyclerViewSeguirEscuchando);
-        rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        MenuInicioAdapter = new MenuInicioAdapter(getContext(), audiolibros);
-        rv.setAdapter(MenuInicioAdapter);
+        if(InfoAudiolibros.getTodosLosAudiolibros() != null){
+            menuInicioAdapter = new MenuInicioAdapter(getContext(), InfoAudiolibros.getTodosLosAudiolibros());
+        } else {
+            menuInicioAdapter = new MenuInicioAdapter(getContext(), InfoAudiolibros.getTodosLosAudiolibrosEjemplo());
+        }
 
-        rvTerror = getView().findViewById(R.id.RecyclerViewTerror);
-        rvTerror.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvTerror.setAdapter(MenuInicioAdapter);
+        rvSeguirEscuchando.setAdapter(menuInicioAdapter);
 
-        rvFantasia = getView().findViewById(R.id.RecyclerFantasia);
-        rvFantasia.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvFantasia.setAdapter(MenuInicioAdapter);
+        rvGenero1 = getView().findViewById(R.id.recyclerViewGenero1);
+        rvGenero1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvGenero1.setAdapter(menuInicioAdapter);
 
-        rvMitologia = getView().findViewById(R.id.RecyclerMitologia);
-        rvMitologia.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvMitologia.setAdapter(MenuInicioAdapter);
+        rvGenero2 = getView().findViewById(R.id.recyclerViewGenero2);
+        rvGenero2.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvGenero2.setAdapter(menuInicioAdapter);
 
-        rvPoesia = getView().findViewById(R.id.RecyclerPoesia);
-        rvPoesia.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvPoesia.setAdapter(MenuInicioAdapter);
+        rvGenero3 = getView().findViewById(R.id.recyclerViewGenero3);
+        rvGenero3.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvGenero3.setAdapter(menuInicioAdapter);
 
-        rvNovela = getView().findViewById(R.id.RecyclerNovela);
-        rvNovela.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvNovela.setAdapter(MenuInicioAdapter);
+        rvGenero5 = getView().findViewById(R.id.recyclerViewGenero4);
+        rvGenero5.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvGenero5.setAdapter(menuInicioAdapter);
 
+        rvGenero4 = getView().findViewById(R.id.recyclerViewGenero5);
+        rvGenero4.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvGenero4.setAdapter(menuInicioAdapter);
     }
 }
 

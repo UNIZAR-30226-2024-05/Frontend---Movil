@@ -34,11 +34,8 @@ import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.Genero;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
-import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -82,80 +79,30 @@ public class FragmentBiblioteca extends Fragment {
 
         filtros.setAdapter(adapterFiltros);
 
-        obtenerTodosLosAudiolibros();
+        if(InfoAudiolibros.getTodosLosAudiolibros() != null){
+            bibliotecaGridAdapter = new BibliotecaGridAdapter(getContext(), InfoAudiolibros.getTodosLosAudiolibros());
+        } else {
+            bibliotecaGridAdapter = new BibliotecaGridAdapter(getContext(), InfoAudiolibros.getTodosLosAudiolibrosEjemplo());
+        }
 
-
-    }
-
-
-    private void obtenerTodosLosAudiolibros(){
-        Call<AudiolibrosResult> llamada = retrofitInterface.ejecutarAudiolibros(ApiClient.getUserCookie());
-        llamada.enqueue(new Callback<AudiolibrosResult>() {
+        gridView.setAdapter(bibliotecaGridAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onResponse(Call<AudiolibrosResult> call, Response<AudiolibrosResult> response) {
-                int codigo = response.code();
-
-                if (codigo == 200){
-                    ArrayList<AudiolibroItem> audiolibrosResult = response.body().getAudiolibros();
-
-                    if(audiolibrosResult == null){
-                        Toast.makeText(getContext(), "Resultado de audiolibros nulo", Toast.LENGTH_LONG).show();
-                    } else {
-                        //Toast.makeText(getContext(), "TodosAudiolibros OK, size = " + String.valueOf(audiolibrosResult.size()), Toast.LENGTH_LONG).show();
-                        InfoAudiolibros.setTodosLosAudiolibros(audiolibrosResult);
-                        if(audiolibrosResult != null){
-                            bibliotecaGridAdapter = new BibliotecaGridAdapter(getContext(), InfoAudiolibros.getTodosLosAudiolibros());
-                        } else {
-                            bibliotecaGridAdapter = new BibliotecaGridAdapter(getContext(), InfoAudiolibros.getTodosLosAudiolibrosEjemplo());
-                        }
-
-                        gridView.setAdapter(bibliotecaGridAdapter);
-                        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                                peticionAudiolibrosId(position, id);
-                            }
-                        });
-
-                        buscador.addTextChangedListener(new TextWatcher() {
-                            @Override
-                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            }
-                            @Override
-                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                                (FragmentBiblioteca.this).bibliotecaGridAdapter.getFilter().filter(charSequence);
-                            }
-                            @Override
-                            public void afterTextChanged(Editable editable) {
-                            }
-                        });
-                    }
-
-                } else if (codigo == 500){
-                    Toast.makeText(getContext(), "Error del servidor",
-                            Toast.LENGTH_LONG).show();
-
-                } else if (codigo == 404){
-                    Toast.makeText(getContext(), "Error 404 /audiolibros", Toast.LENGTH_LONG).show();
-                } else {
-                    try {
-                        JSONObject jObjError = new JSONObject(response.errorBody().string());
-                        String error = jObjError.getString("error");
-                        Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
-
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "Algo ha fallado obteniendo el error " + String.valueOf(response.code()), Toast.LENGTH_LONG).show();
-                    }
-                }
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                peticionAudiolibrosId(position, id);
             }
+        });
 
+        buscador.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onFailure(Call<AudiolibrosResult> call, Throwable t) {
-                Toast.makeText(getContext(), "No se ha conectado con el servidor (obteniendo todos los libros)",
-                        Toast.LENGTH_LONG).show();
-
-                Toast.makeText(getContext(), t.getMessage(),
-                        Toast.LENGTH_LONG).show();
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                (FragmentBiblioteca.this).bibliotecaGridAdapter.getFilter().filter(charSequence);
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
             }
         });
     }
@@ -235,12 +182,7 @@ public class FragmentBiblioteca extends Fragment {
         });
     }
 
-    private void esconderTeclado() {
-        if(getActivity().getCurrentFocus() != null){
-            InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-    }
+
 
     private void peticionAudiolibrosId(int position, long idGrid){
         AudiolibroItem audiolibro = (AudiolibroItem) bibliotecaGridAdapter.getItem(position);
@@ -262,7 +204,7 @@ public class FragmentBiblioteca extends Fragment {
                     Toast.makeText(getContext(), "Error del servidor", Toast.LENGTH_LONG).show();
 
                 } else {
-                    Toast.makeText(getContext(), "Error desconocido: " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Error desconocido (AudiolibrosId): " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -288,5 +230,13 @@ public class FragmentBiblioteca extends Fragment {
 
         return result;
     }
+
+    private void esconderTeclado() {
+        if(getActivity().getCurrentFocus() != null){
+            InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
 
 }

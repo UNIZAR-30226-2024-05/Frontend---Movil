@@ -158,9 +158,8 @@ public class CambioFotoPerfilActivity extends AppCompatActivity {
                             new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent intent = new Intent(getParent(), MainActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getParent()).toBundle());
+                                    abrirMenuMain();
+
                                 }
                             }
                             , 500);
