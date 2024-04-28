@@ -97,6 +97,7 @@ public class FragmentEscuchando extends Fragment {
     boolean primerAudio = true;
     boolean primerLibro = true;
     boolean libroReiniciado = false;
+    //boolean libroEnUltimoMomento = true;
     int capituloActual = 0;
 
 
@@ -349,8 +350,9 @@ public class FragmentEscuchando extends Fragment {
     }
 
     public void prepararAudio(int capitulo){
-        mostrarCargandoAudiolibro();
-        esconderReproductor();
+        //mostrarCargandoAudiolibro();
+        //esconderReproductor();
+        mostrarReproductor();
 
         if(!primerAudio){
             mediaPlayer.reset();
@@ -398,7 +400,7 @@ public class FragmentEscuchando extends Fragment {
                     if(!primerAudio){
                         reanudarMusica();
                     } else if (ultimoMomento != null){  // primer audio y ya escuchado anteriormente
-                        iniciarMomentoConcreto();
+                        //libroEnUltimoMomento = false;
                     }
 
                     if(libroReiniciado){
@@ -414,8 +416,8 @@ public class FragmentEscuchando extends Fragment {
                         primerLibro = false;
                     }
 
-                    esconderCargandoAudiolibro();
-                    mostrarReproductor();
+                    //esconderCargandoAudiolibro();
+                    //mostrarReproductor();
 
                     peticionActualizarUltimoMomento();
                 }
@@ -449,11 +451,6 @@ public class FragmentEscuchando extends Fragment {
             handler.postDelayed(this, 10000);
         }
     }
-
-    private void iniciarMomentoConcreto(){
-        
-    }
-
 
 
 
@@ -534,6 +531,19 @@ public class FragmentEscuchando extends Fragment {
                 double ratio = percent / 100.0;
                 int bufferingLevel = (int)(mp.getDuration() * ratio);
                 seekBar.setSecondaryProgress(bufferingLevel);
+
+                /*
+                if(!libroEnUltimoMomento){
+                    int momentoTarget = getPetitionDeformattedTime(ultimoMomento.getFecha());
+
+                    mp.seekTo(bufferingLevel - 5000);
+
+                    if((bufferingLevel - 5000) > momentoTarget){
+                        mp.seekTo(momentoTarget);
+                        libroEnUltimoMomento = true;
+                    }
+                }
+                */
             }
 
         });
