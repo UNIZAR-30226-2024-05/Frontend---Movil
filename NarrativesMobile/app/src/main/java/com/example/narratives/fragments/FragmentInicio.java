@@ -62,7 +62,6 @@ public class FragmentInicio extends Fragment {
         if(InfoAudiolibros.getTodosLosAudiolibros() != null){
             String[] generos = InfoAudiolibros.getGenerosSeleccionados();
 
-            //TODO: funcion que devuelva los audiolibros cuyo ultimo momento no es null
             adapterRecomendados = new MenuInicioAdapter(getContext(), InfoAudiolibros.getAudiolibrosSeguirEscuchando());
             rvSeguirEscuchando.setAdapter(adapterRecomendados);
 

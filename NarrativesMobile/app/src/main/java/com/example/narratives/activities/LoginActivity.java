@@ -82,7 +82,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void comprobarDatosLogin(LoginRequest request) {
 
-
         Call<LoginResult> llamada = retrofitInterface.ejecutarUsersLogin(ApiClient.getUserCookie(), request);
         llamada.enqueue(new Callback<LoginResult>() {
             @Override

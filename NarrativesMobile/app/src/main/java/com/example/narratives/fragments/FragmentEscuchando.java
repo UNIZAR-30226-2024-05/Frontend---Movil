@@ -20,13 +20,21 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.narratives.R;
+import com.example.narratives._backend.ApiClient;
+import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
 import com.example.narratives.peticiones.audiolibros.especifico.UltimoMomento;
+import com.example.narratives.peticiones.marcapaginas.ListeningRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class FragmentEscuchando extends Fragment {
@@ -64,12 +72,14 @@ public class FragmentEscuchando extends Fragment {
     Handler handler;
 
     UpdateSeekBar updateSeekBar;
+    UpdateUltimoMomento updateUltimoMomento;
 
     ArrayList<Capitulo> capitulos;
     UltimoMomento ultimoMomento;
 
     Animation animacionCargando;
 
+    RetrofitInterface retrofitInterface;
 
     boolean primerAudio = true;
     boolean primerLibro = true;
@@ -177,6 +187,8 @@ public class FragmentEscuchando extends Fragment {
         animacionCargando.setDuration(1400);
 
         handler = new Handler();
+        retrofitInterface = ApiClient.getRetrofitInterface();
+        updateUltimoMomento = new UpdateUltimoMomento();
     }
 
 
@@ -224,38 +236,16 @@ public class FragmentEscuchando extends Fragment {
     public void actualizarDuracionAudio(){
         int duracion = mediaPlayer.getDuration();
 
-        numerosDerecha.setText(getFormattedTime(duracion));
+        numerosDerecha.setText(getBarFormattedTime(duracion));
     }
 
     public void actualizarAudioReproducido(){
         int posicionActual = mediaPlayer.getCurrentPosition();
 
-        numerosIzquierda.setText(getFormattedTime(posicionActual));
+        numerosIzquierda.setText(getBarFormattedTime(posicionActual));
     }
 
-    private String getFormattedTime(int duration){
-        if(duration >= 6000000){
-            return String.format("%01d:%02d:%02d",
-                    TimeUnit.MILLISECONDS.toHours(duration),
-                    TimeUnit.MILLISECONDS.toMinutes(duration),
-                    TimeUnit.MILLISECONDS.toSeconds(duration) -
-                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration))
-            );
-        } else if(duration < 6000000 && duration >= 600000){
-            return String.format("%02d:%02d",
-                    TimeUnit.MILLISECONDS.toMinutes(duration),
-                    TimeUnit.MILLISECONDS.toSeconds(duration) -
-                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration))
-            );
-        } else {
-            return String.format("%01d:%02d",
-                    TimeUnit.MILLISECONDS.toMinutes(duration),
-                    TimeUnit.MILLISECONDS.toSeconds(duration) -
-                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration))
 
-            );
-        }
-    }
 
     public void inicializarLibro(AudiolibroEspecificoResponse audiolibro){
 
@@ -347,8 +337,14 @@ public class FragmentEscuchando extends Fragment {
                         primerAudio = false;
                     }
 
+                    if(primerLibro){
+                        primerLibro = false;
+                    }
+
                     esconderCargandoAudiolibro();
                     mostrarReproductor();
+
+                    peticionActualizarUltimoMomento();
                 }
             });
 
@@ -373,12 +369,21 @@ public class FragmentEscuchando extends Fragment {
         }
     }
 
-    private void iniciarMomentoConcreto(){
-        //TODO: cargar momento concreto dado ultimo momento
-        //TODO: convertir fecha de ultimoMomento a ms
+    public class UpdateUltimoMomento implements Runnable {
+        @Override
+        public void run(){
+            peticionActualizarUltimoMomento();
+            handler.postDelayed(this, 10000);
+        }
+    }
 
+    private void iniciarMomentoConcreto(){
+        int momentoTarget = getPetitionDeformattedTime(ultimoMomento.getFecha());
+        Toast.makeText(getContext(), "Ultimo momento: " + ultimoMomento.getFecha() + ", " + String.valueOf(momentoTarget) + "ms", Toast.LENGTH_LONG).show();
+        //TODO
 
     }
+
 
 
 
@@ -391,11 +396,15 @@ public class FragmentEscuchando extends Fragment {
         fabPlay.setVisibility(View.INVISIBLE);
         fabPlay.setClickable(false);
 
-
         mediaPlayer.start();
+
+        handler.post(updateSeekBar);
+        handler.post(updateUltimoMomento);
     }
 
     public void pararMusica(){
+        peticionActualizarUltimoMomento();
+
         fabPlay.setEnabled(true);
         fabPlay.setVisibility(View.VISIBLE);
         fabPlay.setClickable(true);
@@ -405,6 +414,9 @@ public class FragmentEscuchando extends Fragment {
         fabPause.setClickable(false);
 
         mediaPlayer.pause();
+
+        handler.removeCallbacks(updateSeekBar);
+        handler.removeCallbacks(updateUltimoMomento);
     }
 
     public void pararPorCierreSesion(){
@@ -464,4 +476,85 @@ public class FragmentEscuchando extends Fragment {
         return "Capítulo " + String.valueOf(num) + ":";
     }
 
+
+
+    private void peticionActualizarUltimoMomento() {
+        ListeningRequest request = new ListeningRequest();
+        request.setCapitulo(capitulos.get(capituloActual).getId());
+        request.setTiempo(getPetitionFormattedTime(mediaPlayer.getCurrentPosition()));
+
+        Call<GenericMessageResult> llamada = retrofitInterface.ejecutarMarcapaginasListening(ApiClient.getUserCookie(), request);
+        llamada.enqueue(new Callback<GenericMessageResult>() {
+            @Override
+            public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
+                if (response.code() == 200) {
+                    Toast.makeText(getContext(), "Actualización listening correcta\n" + request.getTiempo(), Toast.LENGTH_LONG).show();
+
+
+                } else if (response.code() == 500){
+                    Toast.makeText(getContext(), "Error del servidor (audiolibros/listening)", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Error desconocido (audiolibros/listening): " + String.valueOf(response.code()),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenericMessageResult> call, Throwable t) {
+                Toast.makeText(getContext(), "Algo ha fallado (audiolibros/listening)",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+
+
+    }
+
+    private String getBarFormattedTime(int duration){
+        if(duration >= 6000000){
+            return String.format("%01d:%02d:%02d",
+                    TimeUnit.MILLISECONDS.toHours(duration),
+                    TimeUnit.MILLISECONDS.toMinutes(duration),
+                    TimeUnit.MILLISECONDS.toSeconds(duration) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration))
+            );
+        } else if(duration < 6000000 && duration >= 600000){
+            return String.format("%02d:%02d",
+                    TimeUnit.MILLISECONDS.toMinutes(duration),
+                    TimeUnit.MILLISECONDS.toSeconds(duration) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration))
+            );
+        } else {
+            return String.format("%01d:%02d",
+                    TimeUnit.MILLISECONDS.toMinutes(duration),
+                    TimeUnit.MILLISECONDS.toSeconds(duration) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration))
+
+            );
+        }
+    }
+
+    private String getPetitionFormattedTime(int duration){
+            return String.format("%02d:%02d:%02d",
+                    TimeUnit.MILLISECONDS.toHours(duration),
+                    TimeUnit.MILLISECONDS.toMinutes(duration),
+                    TimeUnit.MILLISECONDS.toSeconds(duration) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration))
+            );
+    }
+
+    private int getPetitionDeformattedTime(String time){
+        String[] strArray  = time.split(":");
+
+        // strArray tendrá 3 valores: hora, minuto y segundo;
+        int duration = 0;
+
+        duration += Integer.valueOf(strArray[0]) * 60 * 60 * 1000;  // hora
+        duration += Integer.valueOf(strArray[1]) * 60 * 1000;       // min
+        duration += Integer.valueOf(strArray[2]) * 1000;            // seg
+
+        return duration;
+    }
 }

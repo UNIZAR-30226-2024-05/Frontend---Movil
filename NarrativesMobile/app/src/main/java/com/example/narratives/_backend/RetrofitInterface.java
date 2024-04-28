@@ -3,6 +3,7 @@ package com.example.narratives._backend;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
+import com.example.narratives.peticiones.marcapaginas.ListeningRequest;
 import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequest;
 import com.example.narratives.peticiones.users.cambio_datos.CambioFotoPerfilRequest;
 import com.example.narratives.peticiones.users.login.LoginRequest;
@@ -41,10 +42,17 @@ public interface RetrofitInterface {
     @GET("/users/profile")
     Call<MiPerfilResponse> ejecutarUsersProfile(@Header("Cookie") String userCookie);
 
+
+
     @GET("/audiolibros")
     Call<AudiolibrosResult> ejecutarAudiolibros(@Header("Cookie") String userCookie);
 
     @GET("/audiolibros/{id}")
     Call<AudiolibroEspecificoResponse> ejecutarAudiolibrosId(@Header("Cookie") String userCookie, @Path("id") int id);
 
+
+
+
+    @POST("/marcapaginas/listening")
+    Call<GenericMessageResult> ejecutarMarcapaginasListening(@Header("Cookie") String userCookie, @Body ListeningRequest request);
 }
