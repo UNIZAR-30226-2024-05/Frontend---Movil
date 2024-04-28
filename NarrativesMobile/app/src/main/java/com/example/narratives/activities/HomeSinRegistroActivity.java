@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +37,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
 
 
     RecyclerView rvRecomendados, rvGenero1, rvGenero2, rvGenero3, rvGenero4, rvGenero5;
-    MenuInicioAdapter menuInicioAdapter;
+    MenuInicioAdapter adapterRecomendados, adapter1, adapter2, adapter3, adapter4, adapter5;
     RetrofitInterface retrofitInterface;
 
     CoordinatorLayout coordinatorLayout;
@@ -45,6 +46,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
     LinearLayout botonesLayout;
     ImageView logo;
 
+    TextView textViewGenero1, textViewGenero2, textViewGenero3, textViewGenero4, textViewGenero5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,23 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
         retrofitInterface = ApiClient.getRetrofitInterface();
         logo = findViewById(R.id.imageViewLogoCargandoNarratives);
         botonesLayout = findViewById(R.id.linearLayoutBotones);
+
+        rvRecomendados = findViewById(R.id.recyclerViewRecomendados);
+
+        textViewGenero1 = findViewById(R.id.textViewGenero1);
+        rvGenero1 = findViewById(R.id.recyclerViewGenero1);
+
+        textViewGenero2 = findViewById(R.id.textViewGenero2);
+        rvGenero2 = findViewById(R.id.recyclerViewGenero2);
+
+        textViewGenero3 = findViewById(R.id.textViewGenero3);
+        rvGenero3 = findViewById(R.id.recyclerViewGenero3);
+
+        textViewGenero4 = findViewById(R.id.textViewGenero4);
+        rvGenero4 = findViewById(R.id.recyclerViewGenero4);
+
+        textViewGenero5 = findViewById(R.id.textViewGenero5);
+        rvGenero5 = findViewById(R.id.recyclerViewGenero5);
 
         if(InfoAudiolibros.getTodosLosAudiolibrosEjemplo() == null){
             obtenerAudiolibrosEjemplo();
@@ -184,39 +203,48 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
     }
 
     private void cargarCarruselesConGeneros() {
-        //TODO: cargar carruseles con generos etc.
 
-
-        rvRecomendados = findViewById(R.id.recyclerViewRecomendados);
         rvRecomendados.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        rvGenero1.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        rvGenero2.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        rvGenero3.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        rvGenero4.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        rvGenero5.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
         if(InfoAudiolibros.getTodosLosAudiolibros() != null){
-            menuInicioAdapter = new MenuInicioAdapter(HomeSinRegistroActivity.this, InfoAudiolibros.getTodosLosAudiolibros());
+            String[] generos = InfoAudiolibros.getGenerosSeleccionados();
+
+            adapterRecomendados = new MenuInicioAdapter(HomeSinRegistroActivity.this, InfoAudiolibros.getAudiolibrosRecomendados(10));
+            rvRecomendados.setAdapter(adapterRecomendados);
+
+            adapter1 = new MenuInicioAdapter(HomeSinRegistroActivity.this, InfoAudiolibros.getAudiolibrosPorGenero(generos[0]));
+            rvGenero1.setAdapter(adapter1);
+            textViewGenero1.setText(generos[0]);
+
+            adapter2 = new MenuInicioAdapter(HomeSinRegistroActivity.this, InfoAudiolibros.getAudiolibrosPorGenero(generos[1]));
+            rvGenero2.setAdapter(adapter2);
+            textViewGenero2.setText(generos[1]);
+
+            adapter3 = new MenuInicioAdapter(HomeSinRegistroActivity.this, InfoAudiolibros.getAudiolibrosPorGenero(generos[2]));
+            rvGenero3.setAdapter(adapter3);
+            textViewGenero3.setText(generos[2]);
+
+            adapter4 = new MenuInicioAdapter(HomeSinRegistroActivity.this, InfoAudiolibros.getAudiolibrosPorGenero(generos[3]));
+            rvGenero4.setAdapter(adapter4);
+            textViewGenero4.setText(generos[3]);
+
+            adapter5 = new MenuInicioAdapter(HomeSinRegistroActivity.this, InfoAudiolibros.getAudiolibrosPorGenero(generos[4]));
+            rvGenero5.setAdapter(adapter5);
+            textViewGenero5.setText(generos[4]);
+
         } else {
-            menuInicioAdapter = new MenuInicioAdapter(HomeSinRegistroActivity.this, InfoAudiolibros.getTodosLosAudiolibrosEjemplo());
+            adapterRecomendados = new MenuInicioAdapter(HomeSinRegistroActivity.this, InfoAudiolibros.getTodosLosAudiolibrosEjemplo());
+            rvGenero1.setAdapter(adapterRecomendados);
+            rvGenero2.setAdapter(adapterRecomendados);
+            rvGenero3.setAdapter(adapterRecomendados);
+            rvGenero4.setAdapter(adapterRecomendados);
+            rvGenero5.setAdapter(adapterRecomendados);
         }
-
-        rvRecomendados.setAdapter(menuInicioAdapter);
-
-        rvGenero1 = findViewById(R.id.recyclerViewGenero1);
-        rvGenero1.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        rvGenero1.setAdapter(menuInicioAdapter);
-
-        rvGenero2 = findViewById(R.id.recyclerViewGenero2);
-        rvGenero2.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        rvGenero2.setAdapter(menuInicioAdapter);
-
-        rvGenero3 = findViewById(R.id.recyclerViewGenero3);
-        rvGenero3.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        rvGenero3.setAdapter(menuInicioAdapter);
-
-        rvGenero4 = findViewById(R.id.recyclerViewGenero4);
-        rvGenero4.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        rvGenero4.setAdapter(menuInicioAdapter);
-
-        rvGenero5 = findViewById(R.id.recyclerViewGenero5);
-        rvGenero5.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        rvGenero5.setAdapter(menuInicioAdapter);
     }
 }
 
