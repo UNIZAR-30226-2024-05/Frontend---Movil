@@ -29,7 +29,7 @@ import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.activities.MainActivity;
-import com.example.narratives.biblioteca.BibliotecaGridAdapter;
+import com.example.narratives.adaptadores.BibliotecaGridAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.Genero;

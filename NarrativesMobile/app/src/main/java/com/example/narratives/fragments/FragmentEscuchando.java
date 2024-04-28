@@ -1,16 +1,22 @@
 package com.example.narratives.fragments;
 
+import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,11 +28,13 @@ import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.adaptadores.CapitulosAdapter;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
 import com.example.narratives.peticiones.audiolibros.especifico.UltimoMomento;
 import com.example.narratives.peticiones.marcapaginas.ListeningRequest;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -49,6 +57,11 @@ public class FragmentEscuchando extends Fragment {
     FloatingActionButton fabRetrasar;
     FloatingActionButton fabSiguienteCap;
     FloatingActionButton fabAnteriorCap;
+
+    MaterialButton selectorCapitulos;
+    CapitulosAdapter capitulosAdapter;
+    ListView listaCapitulos;
+
 
     TextView numerosIzquierda;
     TextView numerosDerecha;
@@ -151,6 +164,13 @@ public class FragmentEscuchando extends Fragment {
                 prepararAudio(capituloActual - 1);
             }
         });
+
+        selectorCapitulos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirPopupCapitulos();
+            }
+        });
     }
 
 
@@ -164,12 +184,15 @@ public class FragmentEscuchando extends Fragment {
         titulo_cap = getView().findViewById(R.id.textViewTituloCapituloEscuchando);
         num_cap = getView().findViewById(R.id.textViewNumeroCapituloEscuchando);
 
+
+
         fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
         fabPause = (FloatingActionButton) getView().findViewById(R.id.botonPauseEscuchando);
         fabAvanzar = (FloatingActionButton) getView().findViewById(R.id.botonAvanzarDiezEscuchando);
         fabRetrasar = (FloatingActionButton) getView().findViewById(R.id.botonRetrasarDiezEscuchando);
         fabSiguienteCap = (FloatingActionButton) getView().findViewById(R.id.botonSiguienteCapituloEscuchando);
         fabAnteriorCap = (FloatingActionButton) getView().findViewById(R.id.botonAnteriorCapituloEscuchando);
+        selectorCapitulos = (MaterialButton) getView().findViewById(R.id.botonSelectorDeCapitulos);
 
         fabPause = (FloatingActionButton) getView().findViewById(R.id.botonPauseEscuchando);
         fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
@@ -189,6 +212,50 @@ public class FragmentEscuchando extends Fragment {
         handler = new Handler();
         retrofitInterface = ApiClient.getRetrofitInterface();
         updateUltimoMomento = new UpdateUltimoMomento();
+    }
+
+
+    private void abrirPopupCapitulos() {
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View viewCapitulos = inflater.inflate(R.layout.popup_capitulos, null);
+
+        int width= ViewGroup.LayoutParams.MATCH_PARENT;
+        int height= ViewGroup.LayoutParams.MATCH_PARENT;
+
+        listaCapitulos = (ListView) viewCapitulos.findViewById(R.id.listViewListaCapitulos);
+        capitulosAdapter = new CapitulosAdapter(getContext(),R.layout.item_capitulo,capitulos);
+        listaCapitulos.setAdapter(capitulosAdapter);
+
+        PopupWindow popupWindow = new PopupWindow(viewCapitulos,width,height, true);
+        popupWindow.setAnimationStyle(0);
+
+        FrameLayout layout = getActivity().findViewById(R.id.main_layout);
+        layout.post(new Runnable(){
+            @Override
+            public void run(){
+                popupWindow.showAtLocation(layout, Gravity.BOTTOM,0,0);
+            }
+        });
+
+        listaCapitulos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                popupWindow.dismiss();
+                prepararAudio(position);
+                libroReiniciado = true;
+            }
+        });
+
+
+        FloatingActionButton botonCerrar = (FloatingActionButton) viewCapitulos.findViewById(R.id.botonCerrarCapitulos);
+        botonCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+
+
     }
 
 
@@ -248,16 +315,23 @@ public class FragmentEscuchando extends Fragment {
 
 
     public void inicializarLibro(AudiolibroEspecificoResponse audiolibro){
-
-        ultimoMomento = audiolibro.getUltimoMomento();
-        if(ultimoMomento != null){
-            capituloActual = audiolibro.getUltimoMomento().getCapitulo();
-
-        } else {
-            capituloActual = 0;
-        }
         capitulos = audiolibro.getCapitulos();
         primerAudio = true;
+
+        ultimoMomento = audiolibro.getUltimoMomento();
+        if(ultimoMomento == null ) {
+            //Toast.makeText(getContext(), "ultimoMomento es null", Toast.LENGTH_LONG).show();
+            capituloActual = 0;
+
+        } else if (getIndiceCapituloFromId(ultimoMomento.getCapitulo()) < 0){
+            Toast.makeText(getContext(), "Cap con id \"" + ultimoMomento.getCapitulo() + "\" no existe en este audiolibro", Toast.LENGTH_LONG).show();
+            capituloActual = 0;
+
+        } else {
+            int indice = getIndiceCapituloFromId(ultimoMomento.getCapitulo());
+            Toast.makeText(getContext(), "Cap " + (indice+1) + ", " + ultimoMomento.getFecha(), Toast.LENGTH_LONG).show();
+            capituloActual = indice;
+        }
 
         titulo_libro.setText(audiolibro.getAudiolibro().getTitulo());
         Glide
@@ -293,7 +367,7 @@ public class FragmentEscuchando extends Fragment {
         }
    
         titulo_cap.setText(capitulos.get(capituloActual).getNombre());
-        num_cap.setText(getCapituloWithNumberString(capitulos.get(capituloActual).getNumero()));
+        num_cap.setText(getCapituloWithNumberString(capitulos.get(capituloActual).getNumero()) + ":");
 
         fabPlay.setClickable(false);
         fabPause.setClickable(false);
@@ -321,12 +395,11 @@ public class FragmentEscuchando extends Fragment {
                     setActualizacionSeekBar();
 
 
-                    if(primerAudio){
-                        iniciarMomentoConcreto();
-                    } else {
+                    if(!primerAudio){
                         reanudarMusica();
+                    } else if (ultimoMomento != null){  // primer audio y ya escuchado anteriormente
+                        iniciarMomentoConcreto();
                     }
-
 
                     if(libroReiniciado){
                         libroReiniciado = false;
@@ -378,10 +451,7 @@ public class FragmentEscuchando extends Fragment {
     }
 
     private void iniciarMomentoConcreto(){
-        int momentoTarget = getPetitionDeformattedTime(ultimoMomento.getFecha());
-        Toast.makeText(getContext(), "Ultimo momento: " + ultimoMomento.getFecha() + ", " + String.valueOf(momentoTarget) + "ms", Toast.LENGTH_LONG).show();
-        //TODO
-
+        
     }
 
 
@@ -472,8 +542,8 @@ public class FragmentEscuchando extends Fragment {
         handler.post(updateSeekBar);
     }
 
-    private String getCapituloWithNumberString(int num) {
-        return "Capítulo " + String.valueOf(num) + ":";
+    public String getCapituloWithNumberString(int num) {
+        return "Capítulo " + String.valueOf(num);
     }
 
 
@@ -488,8 +558,7 @@ public class FragmentEscuchando extends Fragment {
             @Override
             public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
                 if (response.code() == 200) {
-                    Toast.makeText(getContext(), "Actualización listening correcta\n" + request.getTiempo(), Toast.LENGTH_LONG).show();
-
+                    Toast.makeText(getContext(), "Actualización listening correcta\n" + "Cap " + (getIndiceCapituloFromId(request.getCapitulo())+1) + ", " + request.getTiempo(), Toast.LENGTH_LONG).show();
 
                 } else if (response.code() == 500){
                     Toast.makeText(getContext(), "Error del servidor (audiolibros/listening)", Toast.LENGTH_LONG).show();
@@ -516,7 +585,8 @@ public class FragmentEscuchando extends Fragment {
         if(duration >= 6000000){
             return String.format("%01d:%02d:%02d",
                     TimeUnit.MILLISECONDS.toHours(duration),
-                    TimeUnit.MILLISECONDS.toMinutes(duration),
+                    TimeUnit.MILLISECONDS.toMinutes(duration) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MINUTES.toMinutes(TimeUnit.MILLISECONDS.toHours(duration))),
                     TimeUnit.MILLISECONDS.toSeconds(duration) -
                             TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration))
             );
@@ -556,5 +626,15 @@ public class FragmentEscuchando extends Fragment {
         duration += Integer.valueOf(strArray[2]) * 1000;            // seg
 
         return duration;
+    }
+
+    private int getIndiceCapituloFromId(int id){
+        for(int i = 0; i < capitulos.size(); i++){
+            if(capitulos.get(i).getId() == id){
+                return i;
+            }
+        }
+
+        return -1; //ningún capítulo coincide con el id
     }
 }

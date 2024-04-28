@@ -115,7 +115,7 @@
         android:id="@+id/constraintLayoutReproductor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="3dp">
+        android:elevation="6dp">
 
         <TextView
         android:id="@+id/textViewEstasEscuchando"
@@ -163,10 +163,10 @@
         android:id="@+id/botonAnteriorCapituloEscuchando"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/teal_blanco"
         android:src="@drawable/icono_anterior_libro"
         app:borderWidth="3dp"
-        app:backgroundTint="@color/teal_casi_blanco"
+        app:backgroundTint="@color/teal_clarito"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/botonPlayEscuchando"
         app:layout_constraintHorizontal_bias="0.2"
@@ -201,11 +201,11 @@
         android:id="@+id/botonSiguienteCapituloEscuchando"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/teal_blanco"
         android:src="@drawable/icono_siguiente_libro"
         app:layout_constraintVertical_bias="0.16"
         app:layout_constraintHorizontal_bias="0.8"
-        app:backgroundTint="@color/teal_casi_blanco"
+        app:backgroundTint="@color/teal_clarito"
         app:borderWidth="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -257,6 +257,29 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="0" />
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/botonSelectorDeCapitulos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selector\nde capítulos"
+        android:backgroundTint="@color/teal_blanco"
+        android:textColor="@color/teal_claro"
+        android:textAlignment="textEnd"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        app:strokeColor="@color/teal_clarito"
+        app:strokeWidth="2dp"
+        app:layout_constraintTop_toBottomOf="@+id/botonSiguienteCapituloEscuchando"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0"
+
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/botonPlayEscuchando"

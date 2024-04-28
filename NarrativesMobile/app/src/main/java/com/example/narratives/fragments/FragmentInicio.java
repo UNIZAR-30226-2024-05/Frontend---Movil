@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.narratives.R;
 import com.example.narratives.informacion.InfoAudiolibros;
-import com.example.narratives.menuprincipal.MenuInicioAdapter;
+import com.example.narratives.adaptadores.MenuInicioAdapter;
 
 public class FragmentInicio extends Fragment {
     RecyclerView rvSeguirEscuchando, rvGenero1, rvGenero2, rvGenero3, rvGenero4, rvGenero5;

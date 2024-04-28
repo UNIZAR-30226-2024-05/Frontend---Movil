@@ -21,7 +21,7 @@ import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.informacion.InfoAudiolibros;
-import com.example.narratives.menuprincipal.MenuInicioAdapter;
+import com.example.narratives.adaptadores.MenuInicioAdapter;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
 

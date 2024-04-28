@@ -12,7 +12,7 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import com.example.narratives.R;
-import com.example.narratives.amigos.UserAdapter;
+import com.example.narratives.adaptadores.UserAdapter;
 import com.example.narratives.peticiones.users.login.LoginUser;
 
 import java.util.ArrayList;

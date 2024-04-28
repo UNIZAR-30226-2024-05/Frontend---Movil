@@ -1,4 +1,4 @@
-package com.example.narratives.menuprincipal;
+package com.example.narratives.adaptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
