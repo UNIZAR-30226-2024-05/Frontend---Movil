@@ -97,7 +97,7 @@ public class FragmentEscuchando extends Fragment {
     boolean primerAudio = true;
     boolean primerLibro = true;
     boolean libroReiniciado = false;
-    //boolean libroEnUltimoMomento = true;
+    boolean libroEnUltimoMomento = true;
     int capituloActual = 0;
 
 
@@ -242,8 +242,8 @@ public class FragmentEscuchando extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 popupWindow.dismiss();
-                prepararAudio(position);
                 libroReiniciado = true;
+                prepararAudio(position);
             }
         });
 
@@ -316,6 +316,11 @@ public class FragmentEscuchando extends Fragment {
 
 
     public void inicializarLibro(AudiolibroEspecificoResponse audiolibro){
+
+        if(updateUltimoMomento != null){
+            handler.removeCallbacks(updateUltimoMomento);
+        }
+
         capitulos = audiolibro.getCapitulos();
         primerAudio = true;
 
@@ -330,7 +335,7 @@ public class FragmentEscuchando extends Fragment {
 
         } else {
             int indice = getIndiceCapituloFromId(ultimoMomento.getCapitulo());
-            Toast.makeText(getContext(), "Cap " + (indice+1) + ", " + ultimoMomento.getFecha(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), "Cap " + (indice+1) + ", " + ultimoMomento.getFecha(), Toast.LENGTH_LONG).show();
             capituloActual = indice;
         }
 
@@ -350,11 +355,10 @@ public class FragmentEscuchando extends Fragment {
     }
 
     public void prepararAudio(int capitulo){
-        //mostrarCargandoAudiolibro();
-        //esconderReproductor();
-        mostrarReproductor();
+        mostrarCargandoAudiolibro();
+        esconderReproductor();
 
-        if(!primerAudio){
+        if(!primerLibro){
             mediaPlayer.reset();
         }
 
@@ -397,29 +401,32 @@ public class FragmentEscuchando extends Fragment {
                     setActualizacionSeekBar();
 
 
-                    if(!primerAudio){
+                    if(primerAudio){
+                        primerAudio = false;
+
+                        if (ultimoMomento != null){  // primer audio y ya escuchado anteriormente
+                            libroEnUltimoMomento = false;
+                        } else {
+                            peticionActualizarUltimoMomento();
+                            esconderCargandoAudiolibro();
+                            mostrarReproductor();
+                        }
+
+                    } else {    // no es el primer audio, ya habia otro capítulo antes
                         reanudarMusica();
-                    } else if (ultimoMomento != null){  // primer audio y ya escuchado anteriormente
-                        //libroEnUltimoMomento = false;
                     }
 
                     if(libroReiniciado){
                         libroReiniciado = false;
+                        mediaPlayer.seekTo(0);
+                        ponerBarraACeroManualmente();
                         pararMusica();
                     }
 
-                    if(primerAudio){
-                        primerAudio = false;
-                    }
 
                     if(primerLibro){
                         primerLibro = false;
                     }
-
-                    //esconderCargandoAudiolibro();
-                    //mostrarReproductor();
-
-                    peticionActualizarUltimoMomento();
                 }
             });
 
@@ -444,10 +451,19 @@ public class FragmentEscuchando extends Fragment {
         }
     }
 
+    private void ponerBarraACeroManualmente() {
+        numerosIzquierda.setText(getBarFormattedTime(0));
+        seekBar.setProgress(0);
+        seekBar.setSecondaryProgress(0);
+    }
+
     public class UpdateUltimoMomento implements Runnable {
         @Override
         public void run(){
-            peticionActualizarUltimoMomento();
+            if(libroEnUltimoMomento){
+                peticionActualizarUltimoMomento();
+            }
+
             handler.postDelayed(this, 10000);
         }
     }
@@ -532,7 +548,7 @@ public class FragmentEscuchando extends Fragment {
                 int bufferingLevel = (int)(mp.getDuration() * ratio);
                 seekBar.setSecondaryProgress(bufferingLevel);
 
-                /*
+
                 if(!libroEnUltimoMomento){
                     int momentoTarget = getPetitionDeformattedTime(ultimoMomento.getFecha());
 
@@ -541,12 +557,17 @@ public class FragmentEscuchando extends Fragment {
                     if((bufferingLevel - 5000) > momentoTarget){
                         mp.seekTo(momentoTarget);
                         libroEnUltimoMomento = true;
+                        peticionActualizarUltimoMomento();
+                        esconderCargandoAudiolibro();
+                        mostrarReproductor();
                     }
                 }
-                */
             }
-
         });
+
+        if(updateSeekBar != null){
+            handler.removeCallbacks(updateSeekBar);
+        }
 
         updateSeekBar = new UpdateSeekBar();
         handler.post(updateSeekBar);
@@ -568,7 +589,7 @@ public class FragmentEscuchando extends Fragment {
             @Override
             public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
                 if (response.code() == 200) {
-                    Toast.makeText(getContext(), "Actualización listening correcta\n" + "Cap " + (getIndiceCapituloFromId(request.getCapitulo())+1) + ", " + request.getTiempo(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext(), "Actualización listening correcta\n" + "Cap " + (getIndiceCapituloFromId(request.getCapitulo())+1) + ", " + request.getTiempo(), Toast.LENGTH_LONG).show();
 
                 } else if (response.code() == 500){
                     Toast.makeText(getContext(), "Error del servidor (audiolibros/listening)", Toast.LENGTH_LONG).show();
