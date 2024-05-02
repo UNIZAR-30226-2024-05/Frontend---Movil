@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -292,6 +293,21 @@ public class MainActivity extends AppCompatActivity {
                 abrirCambioContrasena();
             }
         });
+
+        textViewCambiarContrasena.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirCambioContrasena();
+            }
+        });
+
+        Button buttonMisColecciones = viewMiPerfil.findViewById(R.id.botonMisColeccionesMiPerfil);
+        buttonMisColecciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abrirMisColecciones();
+            }
+        });
     }
 
     public void reemplazarFragmento(Fragment fragmento, FragmentTransaction fragmentTransaction){
@@ -338,6 +354,11 @@ public class MainActivity extends AppCompatActivity {
     private void abrirCambioFotoPerfil() {
         Intent intent = new Intent(this, CambioFotoPerfilActivity.class);
         intent.putExtra("foto_perfil_actual", miPerfil.getImgResource());
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    private void abrirMisColecciones() {
+        Intent intent = new Intent(this, ColeccionesActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 

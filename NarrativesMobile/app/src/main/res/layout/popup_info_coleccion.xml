@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    >
+
+    <TextView
+        android:id="@+id/textViewTituloColeccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="40dp"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:text="TITULO"
+        android:textSize="35dp"
+        android:textColor="@color/teal_700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewTextoPropietario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="12dp"
+        android:text="Propietario:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTituloColeccion" />
+
+    <TextView
+        android:id="@+id/textViewNombrePropietarioColeccion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NOMBRE"
+        android:textSize="16sp"
+        android:paddingVertical="12dp"
+        app:layout_constraintStart_toEndOf="@id/textViewTextoPropietario"
+        app:layout_constraintTop_toBottomOf="@id/textViewTituloColeccion" />
+
+    <TextView
+        android:id="@+id/textViewTextoGuardada"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="12dp"
+        android:text="Guardada:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTextoPropietario" />
+
+    <TextView
+        android:id="@+id/textViewGuardadaSiNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SI/NO"
+        android:textSize="16sp"
+        android:paddingVertical="12dp"
+        app:layout_constraintStart_toEndOf="@id/textViewTextoGuardada"
+        app:layout_constraintTop_toBottomOf="@id/textViewNombrePropietarioColeccion" />
+
+    <Button
+        android:id="@+id/buttonGuardarQuitarColeccion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GUARDAR/QUITAR"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toBottomOf="@id/textViewNombrePropietarioColeccion"
+        app:layout_constraintStart_toEndOf="@id/textViewGuardadaSiNo" />
+
+    <TextView
+        android:id="@+id/textViewSinAudiolibrosEnColeccion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="50dp"
+        android:text="Aún no hay ningún audiolibro en la colección"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonGuardarQuitarColeccion" />
+
+    <ListView
+        android:id="@+id/listViewListaAudiolibrosColeccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="320dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonGuardarQuitarColeccion"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonVolverDesdeInfoColeccion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/icono_back_foreground"
+        app:backgroundTint="@color/teal_claro"
+        app:borderWidth="2.5dp"
+        app:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:maxImageSize="60dp"
+        app:tint="@color/teal_700" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
