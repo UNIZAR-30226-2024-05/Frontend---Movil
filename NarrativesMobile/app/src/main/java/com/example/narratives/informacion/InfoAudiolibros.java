@@ -12,13 +12,19 @@ public class InfoAudiolibros {
     private static ArrayList<AudiolibroItem> todosLosAudiolibros;
     private static ArrayList<AudiolibroItem> todosLosAudiolibrosEjemplo;
 
-    private static String[] generos = {"Misterio", "Fantasía", "Romance", "Terror", "Ciencia ficción", "Histórico", "Infantil", "Mitología", "Humor", "Autoayuda", "Poesía", "Aventuras"};
+    private static String[] generos = {"Todos", "Misterio", "Fantasía", "Romance", "Terror", "Ciencia ficción", "Histórico", "Infantil", "Mitología", "Humor", "Autoayuda", "Poesía", "Aventuras"};
 
     public static ArrayList<AudiolibroItem> getTodosLosAudiolibros() {
         return todosLosAudiolibros;
     }
 
     public static void setTodosLosAudiolibros(ArrayList<AudiolibroItem> todosLosAudiolibros) {
+        Collections.sort(todosLosAudiolibros, new Comparator<AudiolibroItem>() {
+            @Override
+            public int compare(AudiolibroItem a1, AudiolibroItem a2) {
+                return a1.getTitulo().compareToIgnoreCase(a2.getTitulo());
+            }
+        });
         InfoAudiolibros.todosLosAudiolibros = todosLosAudiolibros;
     }
 
@@ -39,6 +45,10 @@ public class InfoAudiolibros {
     }
 
     public static ArrayList<AudiolibroItem> getAudiolibrosPorGenero(String genero){
+        if(genero.equals("Todos") || genero.equals("todos")){
+            return todosLosAudiolibros;
+        }
+
         ArrayList<AudiolibroItem> audiolibrosPorGenero = new ArrayList<>();
 
         for(AudiolibroItem audiolibro : todosLosAudiolibros){

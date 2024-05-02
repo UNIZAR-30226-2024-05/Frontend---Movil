@@ -63,17 +63,16 @@ public class FragmentBiblioteca extends Fragment {
         filtros = (AutoCompleteTextView) getView().findViewById(R.id.autoCompleteTextViewFiltrosBiblioteca);
         adapterFiltros = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, InfoAudiolibros.getGeneros());
         filtros.setText("Todos");
-        generoLibrosMostrados = "todos";
+        generoLibrosMostrados = "Todos";
 
         filtros.setAdapter(adapterFiltros);
 
         if (InfoAudiolibros.getTodosLosAudiolibros() != null) {
-            bibliotecaGridAdapter = new BibliotecaGridAdapter(getContext(), InfoAudiolibros.getTodosLosAudiolibros());
+            inicializarAdaptadorBiblioteca(InfoAudiolibros.getTodosLosAudiolibros());
         } else {
-            bibliotecaGridAdapter = new BibliotecaGridAdapter(getContext(), InfoAudiolibros.getTodosLosAudiolibrosEjemplo());
+            inicializarAdaptadorBiblioteca(InfoAudiolibros.getTodosLosAudiolibrosEjemplo());
         }
 
-        gridView.setAdapter(bibliotecaGridAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -93,6 +92,13 @@ public class FragmentBiblioteca extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        filtros.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                inicializarAdaptadorBiblioteca(InfoAudiolibros.getAudiolibrosPorGenero(InfoAudiolibros.getGeneros()[position]));
             }
         });
     }
@@ -141,6 +147,13 @@ public class FragmentBiblioteca extends Fragment {
             InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    private void inicializarAdaptadorBiblioteca(ArrayList<AudiolibroItem> libros){
+        bibliotecaGridAdapter = new BibliotecaGridAdapter(getContext(), libros);
+
+        gridView.setAdapter(bibliotecaGridAdapter);
+
     }
 
 
