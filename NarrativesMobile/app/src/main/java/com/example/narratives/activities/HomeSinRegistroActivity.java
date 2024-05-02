@@ -187,8 +187,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                 Toast.makeText(HomeSinRegistroActivity.this, "No se ha conectado con el servidor (audiolibros)",
                         Toast.LENGTH_LONG).show();
 
-                Toast.makeText(HomeSinRegistroActivity.this, t.getMessage(),
-                        Toast.LENGTH_LONG).show();
+                //Toast.makeText(HomeSinRegistroActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

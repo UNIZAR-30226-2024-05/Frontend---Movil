@@ -1,5 +1,7 @@
 package com.example.narratives.informacion;
 
+import static java.lang.Math.max;
+
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 
 import java.util.ArrayList;
@@ -87,7 +89,8 @@ public class InfoAudiolibros {
             }
         });
 
-        for(int i = 0; i < size; i++){
+        int maxLibros = max(size,todosOrdenados.size());
+        for(int i = 0; i < maxLibros; i++){
             audiolibrosRecomendados.add(todosOrdenados.get(i));
         }
 
