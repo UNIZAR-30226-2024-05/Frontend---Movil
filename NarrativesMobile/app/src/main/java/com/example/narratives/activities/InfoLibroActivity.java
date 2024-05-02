@@ -1,8 +1,6 @@
 package com.example.narratives.activities;
 
 import android.app.ActivityOptions;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.transition.TransitionSet;
@@ -74,23 +72,23 @@ public class InfoLibroActivity extends AppCompatActivity {
         escucharAudiolibro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(audiolibroActual);
+                cargarYAbrirReproductor();
+                /*
                 AlertDialog.Builder builder = new AlertDialog.Builder(InfoLibroActivity.this);
-                builder.setTitle("Dirígete al REPRODUCTOR...");
+                //builder.setTitle("Dirígete al REPRODUCTOR...");
                 builder.setMessage("El libro estará disponible en cuanto termine la carga.");
                 builder.setIcon(R.drawable.icono_auriculares_pequeno);
 
                 builder.setPositiveButton("De acuerdo", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        abrirMenuMain();;
+                        abrirMenuMain();
                     }
                 });
 
-
-
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                */
             }
         });
     }
@@ -99,6 +97,12 @@ public class InfoLibroActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    private void cargarYAbrirReproductor(){
+        MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(audiolibroActual);
+        MainActivity.abrirEscuchando = true;
+        abrirMenuMain();
     }
 
     private String getFormattedGenres(ArrayList<Genero> generos){

@@ -120,6 +120,7 @@
         android:layout_marginBottom="10dp"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
+        android:foregroundGravity="center"
         android:text="TITULO"
         android:textSize="35dp"
         app:layout_constraintBottom_toTopOf="@+id/imageViewPortadaInfoLibro"

@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.narratives.R;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     public static ActivityMainBinding binding;
 
 
+
     static public int fragmentoActual = 0;
 
     private Retrofit retrofit;
@@ -69,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
     static public FragmentAmigos fragmentoAmigosAbierto;
     static public FragmentClubs fragmentoClubsAbierto;
 
+    private FragmentManager fragmentManager = getSupportFragmentManager();
 
+    static boolean abrirEscuchando;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
@@ -78,21 +82,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
+        abrirEscuchando = false;
         retrofit = ApiClient.getRetrofit();
         retrofitInterface = ApiClient.getRetrofitInterface();
 
         obtenerDatosMiPerfil();
 
         fragmentoInicioAbierto = new FragmentInicio();
-        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoInicioAbierto).commit();
+        fragmentManager.beginTransaction().add(R.id.main_layout, fragmentoInicioAbierto).commit();
         fragmentoBibliotecaAbierto = new FragmentBiblioteca();
-        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoBibliotecaAbierto).commit();
+        fragmentManager.beginTransaction().add(R.id.main_layout, fragmentoBibliotecaAbierto).commit();
         fragmentoEscuchandoAbierto = new FragmentEscuchando();
-        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoEscuchandoAbierto).commit();
+        fragmentManager.beginTransaction().add(R.id.main_layout, fragmentoEscuchandoAbierto).commit();
         fragmentoAmigosAbierto = new FragmentAmigos();
-        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoAmigosAbierto).commit();
+        fragmentManager.beginTransaction().add(R.id.main_layout, fragmentoAmigosAbierto).commit();
         fragmentoClubsAbierto = new FragmentClubs();
-        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoClubsAbierto).commit();
+        fragmentManager.beginTransaction().add(R.id.main_layout, fragmentoClubsAbierto).commit();
 
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -104,22 +109,26 @@ public class MainActivity extends AppCompatActivity {
 
             switch(item.getItemId()) {
                 case R.id.inicio:
-                    reemplazarFragmento(fragmentoInicioAbierto, getSupportFragmentManager().beginTransaction());
+                    esconderTeclado();
+                    reemplazarFragmento(fragmentoInicioAbierto, fragmentManager.beginTransaction());
                     fragmentoActual = 0;
                     break;
 
                 case R.id.biblioteca:
-                    reemplazarFragmento(fragmentoBibliotecaAbierto, getSupportFragmentManager().beginTransaction());
+                    esconderTeclado();
+                    reemplazarFragmento(fragmentoBibliotecaAbierto, fragmentManager.beginTransaction());
                     fragmentoActual = 1;
                     break;
 
                 case R.id.amigos:
-                    reemplazarFragmento(fragmentoAmigosAbierto, getSupportFragmentManager().beginTransaction());
+                    esconderTeclado();
+                    reemplazarFragmento(fragmentoAmigosAbierto, fragmentManager.beginTransaction());
                     fragmentoActual = 3;
                     break;
 
                 case R.id.clubs:
-                    reemplazarFragmento(fragmentoClubsAbierto, getSupportFragmentManager().beginTransaction());
+                    esconderTeclado();
+                    reemplazarFragmento(fragmentoClubsAbierto, fragmentManager.beginTransaction());
                     fragmentoActual = 4;
                     break;
 
@@ -132,7 +141,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.botonEscuchando).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reemplazarFragmento(fragmentoEscuchandoAbierto, getSupportFragmentManager().beginTransaction());
+                esconderTeclado();
+                reemplazarFragmento(fragmentoEscuchandoAbierto, fragmentManager.beginTransaction());
                 binding.bottomNavigatorView.getMenu().getItem(2).setChecked(true);
                 fabEscuchando.setImageTintList(ColorStateList.valueOf((0xff) << 24 | (0x01) << 16 | (0x87) << 8 | (0x86)));
                 fragmentoActual = 2;
@@ -163,6 +173,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(abrirEscuchando){
+            fabEscuchando.performClick();
+        }
+
+        abrirEscuchando = false;
     }
 
     public void abrirAlertaCerrarSesion() {
@@ -294,8 +314,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void reemplazarFragmento(Fragment fragmento, FragmentTransaction fragmentTransaction){
-        esconderTeclado();
+    public static void reemplazarFragmento(Fragment fragmento, FragmentTransaction fragmentTransaction){
         switch(fragmentoActual){
             case 0:
                 fragmentTransaction.hide(fragmentoInicioAbierto);
@@ -344,7 +363,7 @@ public class MainActivity extends AppCompatActivity {
     private void reemplazarFragmentoInicial(){
         fragmentoActual = 0;
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.show(fragmentoInicioAbierto);
         fragmentTransaction.hide(fragmentoBibliotecaAbierto);
         fragmentTransaction.hide(fragmentoEscuchandoAbierto);
