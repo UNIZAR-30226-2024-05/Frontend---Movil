@@ -27,6 +27,8 @@
         <activity android:name=".activities.RegistroActivity"></activity>
         <activity android:name=".activities.CambioContrasenaActivity"></activity>
         <activity android:name=".activities.CambioFotoPerfilActivity"></activity>
+        <activity android:name=".activities.InfoLibroActivity"></activity>
+
 
         <meta-data
             android:name="preloaded_fonts"

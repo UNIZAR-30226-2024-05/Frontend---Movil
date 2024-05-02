@@ -142,6 +142,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void abrirHomeSinRegistro() {
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
