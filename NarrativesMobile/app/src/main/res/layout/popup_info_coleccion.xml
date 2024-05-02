@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:paddingHorizontal="10dp"
-        android:paddingVertical="12dp"
+        android:paddingVertical="20dp"
         android:text="Propietario:"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:text="NOMBRE"
         android:textSize="16sp"
-        android:paddingVertical="12dp"
+        android:paddingVertical="20dp"
         app:layout_constraintStart_toEndOf="@id/textViewTextoPropietario"
         app:layout_constraintTop_toBottomOf="@id/textViewTituloColeccion" />
 
@@ -97,7 +97,7 @@
         android:layout_marginHorizontal="30dp"
         android:clipToPadding="false"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:paddingBottom="320dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonGuardarQuitarColeccion"/>

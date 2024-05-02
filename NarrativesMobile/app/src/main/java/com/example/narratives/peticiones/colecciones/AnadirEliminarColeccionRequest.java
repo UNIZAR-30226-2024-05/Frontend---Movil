@@ -1,6 +1,6 @@
 package com.example.narratives.peticiones.colecciones;
 
-public class GestionColeccionRequest {
+public class AnadirEliminarColeccionRequest {
     private int collectionId;
 
     public int getCollectionId() {

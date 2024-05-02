@@ -1,6 +1,9 @@
 package com.example.narratives.activities;
 
+import static java.security.AccessController.getContext;
+
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
@@ -8,7 +11,6 @@ import android.text.TextWatcher;
 import android.transition.TransitionSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -16,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -24,6 +27,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
@@ -32,12 +36,15 @@ import com.example.narratives.adaptadores.AudiolibrosColeccionAdapter;
 import com.example.narratives.informacion.InfoColecciones;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
-import com.example.narratives.peticiones.colecciones.GestionColeccionRequest;
+import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
+import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
+import com.example.narratives.peticiones.colecciones.AnadirEliminarColeccionRequest;
 import com.example.narratives.peticiones.colecciones.AudiolibrosColeccionItem;
 import com.example.narratives.peticiones.colecciones.ColeccionEspecificaResult;
 import com.example.narratives.peticiones.colecciones.ColeccionesItem;
 import com.example.narratives.peticiones.colecciones.ColeccionesRequest;
 import com.example.narratives.peticiones.colecciones.ColeccionesResult;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -46,8 +53,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ColeccionesActivity extends AppCompatActivity {
+public class ColeccionesActivity extends AppCompatActivity implements ColeccionesAdapter.OnMenuItemClickListener, AudiolibrosColeccionAdapter.OnMenuItemClickListener {
     private ColeccionesAdapter coleccionesAdapter;
+    private AudiolibrosColeccionAdapter audiolibrosColeccionAdapter;
     private ArrayList<ColeccionesItem> coleccionesList;
     static ColeccionEspecificaResult coleccionActual;
     private TextView textViewGuardadaSiNo;
@@ -74,7 +82,8 @@ public class ColeccionesActivity extends AppCompatActivity {
             obtenerColecciones();
         }
 
-        coleccionesAdapter = new ColeccionesAdapter(this, android.R.layout.simple_list_item_1, coleccionesList);
+        coleccionesAdapter = new ColeccionesAdapter(this, R.layout.item_lista_colecciones, coleccionesList);
+        coleccionesAdapter.setOnMenuEliminarColeccionClickListener(this);
         listViewListaColecciones.setAdapter(coleccionesAdapter);
 
         listViewListaColecciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -280,47 +289,49 @@ public class ColeccionesActivity extends AppCompatActivity {
 
         textViewGuardadaSiNo = viewInfoColeccion.findViewById(R.id.textViewGuardadaSiNo);
         buttonGuardarQuitarColeccion = viewInfoColeccion.findViewById(R.id.buttonGuardarQuitarColeccion);
-        if (coleccionActual.isGuardada()) {
-            textViewGuardadaSiNo.setText("SI");
-            buttonGuardarQuitarColeccion.setText("QUITAR");
-        } else {
-            textViewGuardadaSiNo.setText("NO");
-            buttonGuardarQuitarColeccion.setText("GUARDAR");
-        }
 
-        buttonGuardarQuitarColeccion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!coleccionActual.isGuardada()) {
-                    guardarColeccion();
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ColeccionesActivity.this);
-                    builder.setTitle("¿Está seguro de eliminar esta colección?");
-                    builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            quitarColeccion();
-                        }
-                    });
-                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.create().show();
-                }
+        if (coleccionActual.getColeccion().getTitulo().equals("Escuchar mas tarde") || coleccionActual.getColeccion().getTitulo().equals("Favoritos")) {
+            TextView textViewTextoGuardada = viewInfoColeccion.findViewById(R.id.textViewTextoGuardada);
+            textViewTextoGuardada.setVisibility(View.GONE);
+            textViewGuardadaSiNo.setVisibility(View.GONE);
+            buttonGuardarQuitarColeccion.setVisibility(View.GONE);
+        } else {
+            if (coleccionActual.isGuardada()) {
+                textViewGuardadaSiNo.setText("SI");
+                buttonGuardarQuitarColeccion.setText("QUITAR");
+            } else {
+                textViewGuardadaSiNo.setText("NO");
+                buttonGuardarQuitarColeccion.setText("GUARDAR");
             }
-        });
+
+            buttonGuardarQuitarColeccion.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!coleccionActual.isGuardada()) {
+                        guardarColeccion();
+                    } else {
+                        mostrarConfirmacionEliminarColeccion();
+                    }
+                }
+            });
+        }
 
         TextView textViewSinAudiolibrosEnColeccion = viewInfoColeccion.findViewById(R.id.textViewSinAudiolibrosEnColeccion);
 
         ArrayList<AudiolibrosColeccionItem> audiolibrosColeccionList = coleccionActual.getAudiolibros();
         if (!audiolibrosColeccionList.isEmpty()) {
             textViewSinAudiolibrosEnColeccion.setVisibility(View.GONE);
-            AudiolibrosColeccionAdapter audiolibrosColeccionAdapter = new AudiolibrosColeccionAdapter(this, R.layout.item_audiolibros_coleccion, audiolibrosColeccionList);
+            audiolibrosColeccionAdapter = new AudiolibrosColeccionAdapter(this, R.layout.item_audiolibros_coleccion, audiolibrosColeccionList);
             ListView listViewListaAudiolibrosColeccion = viewInfoColeccion.findViewById(R.id.listViewListaAudiolibrosColeccion);
+            audiolibrosColeccionAdapter.setOnMenuEliminarAudiolibroClickListener(this);
             listViewListaAudiolibrosColeccion.setAdapter(audiolibrosColeccionAdapter);
+
+            listViewListaAudiolibrosColeccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    mostrarPopupInfoLibro(audiolibrosColeccionList.get(position));
+                }
+            });
         } else {
             textViewSinAudiolibrosEnColeccion.setVisibility(View.VISIBLE);
         }
@@ -335,7 +346,7 @@ public class ColeccionesActivity extends AppCompatActivity {
     }
 
     private void guardarColeccion() {
-        GestionColeccionRequest request = new GestionColeccionRequest();
+        AnadirEliminarColeccionRequest request = new AnadirEliminarColeccionRequest();
         request.setCollectionId(coleccionActual.getColeccion().getId());
 
         Call<GenericMessageResult> call = retrofitInterface.ejecutarColeccionesFriend(ApiClient.getUserCookie(), request);
@@ -368,7 +379,7 @@ public class ColeccionesActivity extends AppCompatActivity {
     }
 
     private void quitarColeccion() {
-        GestionColeccionRequest request = new GestionColeccionRequest();
+        AnadirEliminarColeccionRequest request = new AnadirEliminarColeccionRequest();
         request.setCollectionId(coleccionActual.getColeccion().getId());
 
         Call<GenericMessageResult> call = retrofitInterface.ejecutarColeccionesRemove(ApiClient.getUserCookie(), request);
@@ -402,5 +413,91 @@ public class ColeccionesActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void quitarAudiolibro(AudiolibrosColeccionItem audiolibro) {
+        AnadirEliminarAudiolibroDeColeccionRequest request = new AnadirEliminarAudiolibroDeColeccionRequest();
+        request.setAudiolibroId(audiolibro.getId());
+        request.setColeccionId(coleccionActual.getColeccion().getId());
+
+        Call<GenericMessageResult> call = retrofitInterface.ejecutarColeccionesEliminarAudiolibro(ApiClient.getUserCookie(), request);
+        call.enqueue(new Callback<GenericMessageResult>() {
+            @Override
+            public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
+                if (response.isSuccessful()) {
+                    coleccionActual.getAudiolibros().remove(audiolibro);
+                    audiolibrosColeccionAdapter.notifyDataSetChanged();
+                    Toast.makeText(ColeccionesActivity.this, "Audiolibro eliminado", Toast.LENGTH_LONG).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(ColeccionesActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(ColeccionesActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenericMessageResult> call, @NonNull Throwable t) {
+                Toast.makeText(ColeccionesActivity.this, "No se ha conectado con el servidor",
+                        Toast.LENGTH_LONG).show();
+
+                Toast.makeText(ColeccionesActivity.this, t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void onMenuEliminarColeccionClick(int position) {
+        coleccionActual = new ColeccionEspecificaResult();
+        coleccionActual.setColeccion(coleccionesList.get(position));
+        coleccionActual.setPropietarioUsername(InfoMiPerfil.getUsername());
+        mostrarConfirmacionEliminarColeccion();
+    }
+
+    @Override
+    public void onMenuEliminarAudiolibroClick(int position) {
+        mostrarConfirmacionEliminarAudiolibro(position);
+    }
+
+    private void mostrarConfirmacionEliminarColeccion() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ColeccionesActivity.this);
+        builder.setTitle("¿Está seguro de eliminar la colección " + coleccionActual.getColeccion().getTitulo() + "?");
+        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                quitarColeccion();
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    private void mostrarConfirmacionEliminarAudiolibro(int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ColeccionesActivity.this);
+        builder.setTitle("¿Está seguro de quitar el audiolibro " + coleccionActual.getAudiolibros().get(position).getTitulo() + "?");
+        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                quitarAudiolibro(coleccionActual.getAudiolibros().get(position));
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    private void mostrarPopupInfoLibro(AudiolibrosColeccionItem audiolibro) {
+        // Mirar para reproducir:
+        // obtener audiolibro
+        // inicializar audiolibro (MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(audiolibroActual))
     }
 }

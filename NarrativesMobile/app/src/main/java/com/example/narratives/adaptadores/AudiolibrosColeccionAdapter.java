@@ -2,9 +2,12 @@ package com.example.narratives.adaptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,7 +16,6 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives.peticiones.colecciones.AudiolibrosColeccionItem;
-import com.example.narratives.peticiones.colecciones.ColeccionesItem;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
@@ -22,6 +24,7 @@ public class AudiolibrosColeccionAdapter extends ArrayAdapter<AudiolibrosColecci
     private Context context;
     private int resourceLayout;
     private List<AudiolibrosColeccionItem> audiolibrosList;
+    private AudiolibrosColeccionAdapter.OnMenuItemClickListener listener;
 
     public AudiolibrosColeccionAdapter(@NonNull Context context, int resourceLayout, @NonNull List<AudiolibrosColeccionItem> audiolibrosList) {
         super(context, 0, audiolibrosList);
@@ -44,7 +47,7 @@ public class AudiolibrosColeccionAdapter extends ArrayAdapter<AudiolibrosColecci
         textViewNombreAudiolibroColeccion.setText(audiolibro.getTitulo());
 
         TextView textViewAutorAudiolibroColeccion = view.findViewById(R.id.textViewAutorAudiolibroColeccion);
-        textViewAutorAudiolibroColeccion.setText(audiolibro.getAutor());
+        textViewAutorAudiolibroColeccion.setText(audiolibro.getNombre_autor());
 
         ShapeableImageView imageViewImgAudiolibroColeccion = view.findViewById(R.id.imageViewImgAudiolibroColeccion);
         Glide
@@ -54,6 +57,53 @@ public class AudiolibrosColeccionAdapter extends ArrayAdapter<AudiolibrosColecci
                 .placeholder(R.drawable.icono_imagen_estandar_foreground)
                 .into(imageViewImgAudiolibroColeccion);
 
+        ImageView imageViewEscucharAudiolibroColeccion = view.findViewById(R.id.imageViewEscucharAudiolibroColeccion);
+        imageViewEscucharAudiolibroColeccion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Mirar para reproducir:
+                // obtener audiolibro
+                // inicializar audiolibro (MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(audiolibroActual))
+                //if (listener != null) {
+                //    listener.onReproducirAudiolibroClick(position);
+                //}
+            }
+        });
+
+        ImageView imageViewTresPuntosColeccion = view.findViewById(R.id.imageViewTresPuntosAudiolibroColeccion);
+        imageViewTresPuntosColeccion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(context, v);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_lista_coleccion_audiolibros, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.menu_eliminar:
+                                if (listener != null) {
+                                    listener.onMenuEliminarAudiolibroClick(position);
+                                }
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+
         return view;
+    }
+
+    public interface OnMenuItemClickListener {
+        void onMenuEliminarAudiolibroClick(int position);
+        // void onReproducirAudiolibroClick(int position);
+    }
+
+    public void setOnMenuEliminarAudiolibroClickListener(AudiolibrosColeccionAdapter.OnMenuItemClickListener listener) {
+        this.listener = listener;
     }
 }

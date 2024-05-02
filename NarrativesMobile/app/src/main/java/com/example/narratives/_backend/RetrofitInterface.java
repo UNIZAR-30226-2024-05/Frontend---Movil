@@ -3,7 +3,8 @@ package com.example.narratives._backend;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
-import com.example.narratives.peticiones.colecciones.GestionColeccionRequest;
+import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
+import com.example.narratives.peticiones.colecciones.AnadirEliminarColeccionRequest;
 import com.example.narratives.peticiones.colecciones.ColeccionEspecificaResult;
 import com.example.narratives.peticiones.colecciones.ColeccionesRequest;
 import com.example.narratives.peticiones.colecciones.ColeccionesResult;
@@ -62,10 +63,13 @@ public interface RetrofitInterface {
     Call<GenericMessageResult> ejecutarColeccionesCreate(@Header("Cookie") String userCookie, @Body ColeccionesRequest request);
 
     @POST("/colecciones/remove")
-    Call<GenericMessageResult> ejecutarColeccionesRemove(@Header("Cookie") String userCookie, @Body GestionColeccionRequest request);
+    Call<GenericMessageResult> ejecutarColeccionesRemove(@Header("Cookie") String userCookie, @Body AnadirEliminarColeccionRequest request);
 
     @POST("/colecciones/friend")
-    Call<GenericMessageResult> ejecutarColeccionesFriend(@Header("Cookie") String userCookie, @Body GestionColeccionRequest request);
+    Call<GenericMessageResult> ejecutarColeccionesFriend(@Header("Cookie") String userCookie, @Body AnadirEliminarColeccionRequest request);
+
+    @POST("/colecciones/eliminarAudiolibro")
+    Call<GenericMessageResult> ejecutarColeccionesEliminarAudiolibro(@Header("Cookie") String userCookie, @Body AnadirEliminarAudiolibroDeColeccionRequest request);
 
     @POST("/marcapaginas/listening")
     Call<GenericMessageResult> ejecutarMarcapaginasListening(@Header("Cookie") String userCookie, @Body ListeningRequest request);

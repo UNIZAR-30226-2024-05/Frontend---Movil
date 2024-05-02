@@ -182,8 +182,6 @@ public class FragmentBiblioteca extends Fragment {
         });
     }
 
-
-
     private void peticionAudiolibrosId(int position, long idGrid){
         AudiolibroItem audiolibro = (AudiolibroItem) bibliotecaGridAdapter.getItem(position);
 
