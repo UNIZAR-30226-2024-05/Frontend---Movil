@@ -1,8 +1,10 @@
 package com.example.narratives.fragments;
 
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.activities.InfoLibroActivity;
 import com.example.narratives.activities.MainActivity;
 import com.example.narratives.adaptadores.BibliotecaGridAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
@@ -56,9 +59,6 @@ public class FragmentBiblioteca extends Fragment {
     ArrayAdapter<String> adapterFiltros;
     String generoLibrosMostrados;
     ArrayList<AudiolibroItem> audiolibros;
-
-    static AudiolibroEspecificoResponse audiolibroActual;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -107,81 +107,6 @@ public class FragmentBiblioteca extends Fragment {
         });
     }
 
-    private void mostrarPopupInfoLibro(){
-        esconderTeclado();
-
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View viewInfoLibro = inflater.inflate(R.layout.popup_info_libro, null);
-
-        int width= ViewGroup.LayoutParams.MATCH_PARENT;
-        int height= ViewGroup.LayoutParams.MATCH_PARENT;
-
-
-        ImageView imageViewPortada = viewInfoLibro.findViewById(R.id.imageViewPortadaInfoLibro);
-        Glide
-                .with(getContext())
-                .load(audiolibroActual.getAudiolibro().getImg())
-                .centerCrop()
-                .placeholder(R.drawable.icono_imagen_estandar_foreground)
-                .into(imageViewPortada);
-
-        TextView textViewTitulo = viewInfoLibro.findViewById(R.id.textViewTituloInfoLibro);
-        textViewTitulo.setText(audiolibroActual.getAudiolibro().getTitulo());
-
-        TextView textViewDescripcion = viewInfoLibro.findViewById(R.id.textViewDescripcionInfoLibro);
-        textViewDescripcion.setText(audiolibroActual.getAudiolibro().getDescripcion());
-
-        TextView textViewAutor = viewInfoLibro.findViewById(R.id.textViewNombreAutorInfoLibro);
-        textViewAutor.setText(audiolibroActual.getAutor().getNombre());
-
-        TextView textViewGeneros = viewInfoLibro.findViewById(R.id.textViewGeneroInfoLibro);
-        textViewGeneros.setText(getFormattedGenres(audiolibroActual.getGeneros()));
-
-        PopupWindow popupWindow = new PopupWindow(viewInfoLibro,width,height, true);
-        popupWindow.setAnimationStyle(0);
-
-        FrameLayout layout = getActivity().findViewById(R.id.main_layout);
-        layout.post(new Runnable(){
-            @Override
-            public void run(){
-                popupWindow.showAtLocation(layout, Gravity.BOTTOM,0,0);
-            }
-        });
-
-
-        FloatingActionButton botonCerrar = (FloatingActionButton) viewInfoLibro.findViewById(R.id.botonVolverDesdeInfoLibro);
-        botonCerrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popupWindow.dismiss();
-            }
-        });
-
-        MaterialButton escucharAudiolibro = (MaterialButton) viewInfoLibro.findViewById(R.id.botonEscucharAudiolibroInfoLibro);
-        escucharAudiolibro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(audiolibroActual);
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Dirígete al REPRODUCTOR...");
-                builder.setMessage("El libro estará disponible en cuanto termine la carga.");
-                builder.setIcon(R.drawable.icono_auriculares_pequeno);
-
-                builder.setPositiveButton("De acuerdo", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        popupWindow.dismiss();;
-                    }
-                });
-
-
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
-    }
-
     private void peticionAudiolibrosId(int position, long idGrid){
         AudiolibroItem audiolibro = (AudiolibroItem) bibliotecaGridAdapter.getItem(position);
 
@@ -192,8 +117,8 @@ public class FragmentBiblioteca extends Fragment {
                 int codigo = response.code();
 
                 if (response.code() == 200) {
-                    audiolibroActual = response.body();
-                    mostrarPopupInfoLibro();
+                    InfoLibroActivity.audiolibroActual = response.body();
+                    abrirInfoLibro();
 
                 } else if(codigo == 409) {
                     Toast.makeText(getContext(), "No hay ningún audiolibro con ese ID", Toast.LENGTH_LONG).show();
@@ -213,20 +138,9 @@ public class FragmentBiblioteca extends Fragment {
         });
     }
 
-    private String getFormattedGenres(ArrayList<Genero> generos){
-        String result = "";
-
-        for(int i = 0; i < generos.size(); i++){
-            Genero genero = generos.get(i);
-
-            result += genero.getNombre();
-
-            if(i != (generos.size() - 1)){
-                result += ", ";
-            }
-        }
-
-        return result;
+    private void abrirInfoLibro() {
+        Intent intent = new Intent(getContext(), InfoLibroActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
     }
 
     private void esconderTeclado() {
@@ -235,6 +149,5 @@ public class FragmentBiblioteca extends Fragment {
             inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
-
 
 }

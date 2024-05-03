@@ -61,12 +61,9 @@ public class AudiolibrosColeccionAdapter extends ArrayAdapter<AudiolibrosColecci
         imageViewEscucharAudiolibroColeccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Mirar para reproducir:
-                // obtener audiolibro
-                // inicializar audiolibro (MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(audiolibroActual))
-                //if (listener != null) {
-                //    listener.onReproducirAudiolibroClick(position);
-                //}
+                if (listener != null) {
+                    listener.onReproducirAudiolibroClick(position);
+                }
             }
         });
 
@@ -100,7 +97,7 @@ public class AudiolibrosColeccionAdapter extends ArrayAdapter<AudiolibrosColecci
 
     public interface OnMenuItemClickListener {
         void onMenuEliminarAudiolibroClick(int position);
-        // void onReproducirAudiolibroClick(int position);
+        void onReproducirAudiolibroClick(int position);
     }
 
     public void setOnMenuEliminarAudiolibroClickListener(AudiolibrosColeccionAdapter.OnMenuItemClickListener listener) {
