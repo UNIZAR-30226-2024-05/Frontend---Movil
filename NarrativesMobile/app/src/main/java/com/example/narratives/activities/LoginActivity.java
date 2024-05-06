@@ -15,10 +15,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
-import com.example.narratives.peticiones.users.login.LoginRequest;
-import com.example.narratives.peticiones.users.login.LoginResult;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.peticiones.users.login.LoginRequest;
+import com.example.narratives.peticiones.users.login.LoginResult;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -150,11 +150,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void abrirHomeSinRegistro() {
+
+
+
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void abrirMenuRegistro() {
+
         Intent intent = new Intent(this, RegistroActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }

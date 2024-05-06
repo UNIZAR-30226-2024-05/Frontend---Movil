@@ -2,6 +2,7 @@ package com.example.narratives.activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.transition.TransitionSet;
 import android.view.View;
@@ -24,6 +25,9 @@ import java.util.ArrayList;
 public class InfoLibroActivity extends AppCompatActivity {
 
     public static AudiolibroEspecificoResponse audiolibroActual;
+
+    MaterialButton escucharAudiolibro;
+    MaterialButton comprarAudiolibro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +72,7 @@ public class InfoLibroActivity extends AppCompatActivity {
             }
         });
 
-        MaterialButton escucharAudiolibro = (MaterialButton) findViewById(R.id.botonEscucharAudiolibroInfoLibro);
+        escucharAudiolibro = (MaterialButton) findViewById(R.id.botonEscucharAudiolibroInfoLibro);
         escucharAudiolibro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +95,26 @@ public class InfoLibroActivity extends AppCompatActivity {
                 */
             }
         });
+
+        comprarAudiolibro = (MaterialButton) findViewById(R.id.botonComprarEnAmazonInfoLibro);
+        comprarAudiolibro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirAmazonConLink();
+            }
+        });
+
+
+    }
+
+    private void abrirAmazonConLink() {
+        String urlBusquedaConTitulo = "https://www.amazon.es/s?k=libro+" +
+                                        audiolibroActual.getAudiolibro().getTitulo().replace(" ","+")
+                                        + "+" + audiolibroActual.getAutor().getNombre().replace(" ","+");
+
+        Uri uri = Uri.parse(urlBusquedaConTitulo); // missing 'http://' will cause crashed
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
     }
 
     private void cargarYAbrirReproductor(){
