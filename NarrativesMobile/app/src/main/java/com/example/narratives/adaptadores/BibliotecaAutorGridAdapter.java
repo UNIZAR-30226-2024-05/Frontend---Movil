@@ -16,9 +16,9 @@ import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 
 import java.util.ArrayList;
 
-public class BibliotecaGridAdapter extends BaseAdapter implements Filterable {
+public class BibliotecaAutorGridAdapter extends BaseAdapter implements Filterable {
 
-    private LibroFilter libroFilter;
+    private LibroAutorFilter libroAutorFilter;
     private ArrayList<AudiolibroItem> audiolibros;
     private ArrayList<AudiolibroItem> tempAudiolibros;
 
@@ -26,7 +26,7 @@ public class BibliotecaGridAdapter extends BaseAdapter implements Filterable {
 
     private LayoutInflater layoutInflater;
 
-    public BibliotecaGridAdapter(Context context, ArrayList<AudiolibroItem> audiolibros) {
+    public BibliotecaAutorGridAdapter(Context context, ArrayList<AudiolibroItem> audiolibros) {
         this.context = context;
         this.audiolibros = audiolibros;
         this.tempAudiolibros = audiolibros;
@@ -77,13 +77,14 @@ public class BibliotecaGridAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public Filter getFilter() {
-        if(libroFilter == null){
-            libroFilter = new LibroFilter();
+        if(libroAutorFilter == null){
+            libroAutorFilter = new LibroAutorFilter();
         }
-        return libroFilter;
+        return libroAutorFilter;
     }
 
-    class LibroFilter extends Filter {
+
+    class LibroAutorFilter extends Filter {
 
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
@@ -94,7 +95,7 @@ public class BibliotecaGridAdapter extends BaseAdapter implements Filterable {
                 ArrayList<AudiolibroItem> filtros = new ArrayList<>();
 
                 for (int i = 0; i < tempAudiolibros.size(); i++) {
-                    if (tempAudiolibros.get(i).getTitulo().toUpperCase().contains(charSequence)) {
+                    if (tempAudiolibros.get(i).getAutor().toUpperCase().contains(charSequence)) {
                         filtros.add(tempAudiolibros.get(i));
                     }
                 }

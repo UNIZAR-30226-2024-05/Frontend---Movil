@@ -23,16 +23,14 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dropdownMenuFiltrosBiblioteca"
-
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginHorizontal="80dp"
-
+        android:layout_marginRight="80dp"
+        android:layout_marginLeft="140dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextBuscadorGeneralBiblioteca"
@@ -41,7 +39,6 @@
 
         <AutoCompleteTextView
             android:id="@+id/autoCompleteTextViewFiltrosBiblioteca"
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="none"
@@ -56,24 +53,69 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dropdownMenuBuscarPorBiblioteca"
+
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintBottom_toBottomOf="@+id/dropdownMenuFiltrosBiblioteca"
+        app:layout_constraintEnd_toStartOf="@+id/dropdownMenuFiltrosBiblioteca"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextBuscadorGeneralBiblioteca">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextViewBuscarPorBiblioteca"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_filtros"
+            android:inputType="none"
+            android:padding="0dp"
+            android:textColor="@color/gris_medio" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <GridView
         android:id="@+id/gridViewBibliotecaGeneral"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="3"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dropdownMenuFiltrosBiblioteca"
-
-        android:paddingBottom="260dp"
         android:clipToPadding="false"
-        >
+
+        android:numColumns="3"
+        android:paddingBottom="260dp"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dropdownMenuFiltrosBiblioteca">
 
     </GridView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ordenar por\npuntuación"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/switchCriterioOrdenLibros"
+        app:layout_constraintEnd_toEndOf="@+id/switchCriterioOrdenLibros"
+        app:layout_constraintStart_toStartOf="@+id/switchCriterioOrdenLibros" />
+
+
+    <Switch
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintVertical_bias="0.75"
+        android:id="@+id/switchCriterioOrdenLibros"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/gridViewBibliotecaGeneral"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dropdownMenuFiltrosBiblioteca"
+        app:layout_constraintTop_toBottomOf="@+id/editTextBuscadorGeneralBiblioteca" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

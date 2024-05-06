@@ -67,14 +67,19 @@ public class InfoAudiolibros {
         String[] generosResultado = {"", "", "", "", ""};
         String[] todosLosGeneros = generos.clone();
 
+        // Ponemos 'Todos' al final para no cogerlo
+        String ultimoTemp = todosLosGeneros[todosLosGeneros.length - 1];
+        todosLosGeneros[todosLosGeneros.length - 1] = todosLosGeneros[0];
+        todosLosGeneros[0] = ultimoTemp;
+
         for(int i = 0; i < 5; i++){
             // Cogemos uno aleatorio sin contar los del final, que son los ya elegidos
-            int indice = (int)(System.currentTimeMillis() % (todosLosGeneros.length - i));
+            int indice = (int)(System.currentTimeMillis() % (todosLosGeneros.length - 2 - i));
             String seleccionado = todosLosGeneros[indice];
 
             // Intercambiamos el elegido por el final del string, para no repetir
-            String temp = todosLosGeneros[todosLosGeneros.length-1 - i];
-            todosLosGeneros[todosLosGeneros.length-1 - i] = todosLosGeneros[indice];
+            String temp = todosLosGeneros[todosLosGeneros.length - 2 - i];
+            todosLosGeneros[todosLosGeneros.length - 2 - i] = todosLosGeneros[indice];
             todosLosGeneros[indice] = temp;
 
             // Metemos el elegido en el array resultado
@@ -93,9 +98,9 @@ public class InfoAudiolibros {
             @Override
             public int compare(AudiolibroItem a1, AudiolibroItem a2) {
                 int res = 0;
-                if(a1.getPuntuacion() > a2.getPuntuacion()){
+                if(a1.getPuntuacion() < a2.getPuntuacion()){
                     res = 1;
-                } else if (a1.getPuntuacion() < a2.getPuntuacion()){
+                } else if (a1.getPuntuacion() > a2.getPuntuacion()){
                     res = -1;
                 }
                 return res;

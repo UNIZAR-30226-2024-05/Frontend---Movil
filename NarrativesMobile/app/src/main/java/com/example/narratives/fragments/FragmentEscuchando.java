@@ -556,11 +556,14 @@ public class FragmentEscuchando extends Fragment {
 
                     if((bufferingLevel - 5000) > momentoTarget){
                         mp.seekTo(momentoTarget);
-                        libroEnUltimoMomento = true;
                         peticionActualizarUltimoMomento();
                         esconderCargandoAudiolibro();
                         mostrarReproductor();
+                        libroEnUltimoMomento = true;
                     }
+                } else if(cargandoAudiolibro.getVisibility() == View.VISIBLE){
+                    esconderCargandoAudiolibro();
+                    mostrarReproductor();
                 }
             }
         });

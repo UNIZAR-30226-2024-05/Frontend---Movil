@@ -1,7 +1,6 @@
 package com.example.narratives.fragments;
 
 import android.app.ActivityOptions;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,12 +8,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -23,12 +23,16 @@ import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.activities.InfoLibroActivity;
-import com.example.narratives.adaptadores.BibliotecaGridAdapter;
+import com.example.narratives.adaptadores.BibliotecaAutorGridAdapter;
+import com.example.narratives.adaptadores.BibliotecaTagsGridAdapter;
+import com.example.narratives.adaptadores.BibliotecaTituloGridAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,12 +45,22 @@ public class FragmentBiblioteca extends Fragment {
     private RetrofitInterface retrofitInterface;
 
     GridView gridView;
-    BibliotecaGridAdapter bibliotecaGridAdapter;
+    BibliotecaAutorGridAdapter bibliotecaAutorGridAdapter;
+    BibliotecaTagsGridAdapter bibliotecaTagsGridAdapter;
+
+    BaseAdapter adaptadorActual;
+
     EditText buscador;
+    Switch switchOrdenarPor;
     AutoCompleteTextView filtros;
+    AutoCompleteTextView buscarPor;
+
     ArrayAdapter<String> adapterFiltros;
+    ArrayAdapter<String> adapterBuscarPor;
     String generoLibrosMostrados;
+    String buscarPorActual;
     ArrayList<AudiolibroItem> audiolibros;
+    ArrayList<String> categoriasBuscarPor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,16 +75,26 @@ public class FragmentBiblioteca extends Fragment {
         gridView = (GridView) getView().findViewById(R.id.gridViewBibliotecaGeneral);
         buscador = (EditText) getView().findViewById(R.id.editTextBuscadorGeneralBiblioteca);
         filtros = (AutoCompleteTextView) getView().findViewById(R.id.autoCompleteTextViewFiltrosBiblioteca);
+        buscarPor = (AutoCompleteTextView) getView().findViewById(R.id.autoCompleteTextViewBuscarPorBiblioteca);
+        switchOrdenarPor = (Switch) getView().findViewById(R.id.switchCriterioOrdenLibros);
+
         adapterFiltros = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, InfoAudiolibros.getGeneros());
         filtros.setText("Todos");
         generoLibrosMostrados = "Todos";
-
         filtros.setAdapter(adapterFiltros);
 
+        categoriasBuscarPor = new ArrayList<String>();
+        categoriasBuscarPor.add("Título");
+        categoriasBuscarPor.add("Autor");
+        categoriasBuscarPor.add("Tags");
+        adapterBuscarPor = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, categoriasBuscarPor);
+        buscarPor.setText("Título");
+        buscarPorActual = "Título";
+        buscarPor.setAdapter(adapterBuscarPor);
+
+
         if (InfoAudiolibros.getTodosLosAudiolibros() != null) {
-            inicializarAdaptadorBiblioteca(InfoAudiolibros.getTodosLosAudiolibros());
-        } else {
-            inicializarAdaptadorBiblioteca(InfoAudiolibros.getTodosLosAudiolibrosEjemplo());
+            inicializarAdaptadorBiblioteca();
         }
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -87,7 +111,16 @@ public class FragmentBiblioteca extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                (FragmentBiblioteca.this).bibliotecaGridAdapter.getFilter().filter(charSequence);
+                if(buscarPorActual.equals("Autor")){
+                    BibliotecaAutorGridAdapter tempAdapter = (BibliotecaAutorGridAdapter) (FragmentBiblioteca.this).adaptadorActual;
+                    tempAdapter.getFilter().filter(charSequence);
+                } else if(buscarPorActual.equals("Tags")) {
+                    BibliotecaTagsGridAdapter tempAdapter = (BibliotecaTagsGridAdapter) (FragmentBiblioteca.this).adaptadorActual;
+                    tempAdapter.getFilter().filter(charSequence);
+                } else { // buscarPorActual.equals("Título")
+                    BibliotecaTituloGridAdapter tempAdapter = (BibliotecaTituloGridAdapter) (FragmentBiblioteca.this).adaptadorActual;
+                    tempAdapter.getFilter().filter(charSequence);
+                }
             }
 
             @Override
@@ -98,7 +131,23 @@ public class FragmentBiblioteca extends Fragment {
         filtros.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                inicializarAdaptadorBiblioteca(InfoAudiolibros.getAudiolibrosPorGenero(InfoAudiolibros.getGeneros()[position]));
+                generoLibrosMostrados = InfoAudiolibros.getGeneros()[position];
+                inicializarAdaptadorBiblioteca();
+            }
+        });
+
+        buscarPor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                buscarPorActual = categoriasBuscarPor.get(position);
+                inicializarAdaptadorBiblioteca();
+            }
+        });
+
+        switchOrdenarPor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                inicializarAdaptadorBiblioteca();
             }
         });
     }
@@ -106,7 +155,7 @@ public class FragmentBiblioteca extends Fragment {
 
 
     private void peticionAudiolibrosId(int position, long idGrid){
-        AudiolibroItem audiolibro = (AudiolibroItem) bibliotecaGridAdapter.getItem(position);
+        AudiolibroItem audiolibro = (AudiolibroItem) adaptadorActual.getItem(position);
 
         Call<AudiolibroEspecificoResponse> llamada = retrofitInterface.ejecutarAudiolibrosId(ApiClient.getUserCookie(), audiolibro.getId());
         llamada.enqueue(new Callback<AudiolibroEspecificoResponse>() {
@@ -142,19 +191,39 @@ public class FragmentBiblioteca extends Fragment {
     }
 
 
-    private void esconderTeclado() {
-        if(getActivity().getCurrentFocus() != null){
-            InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    private void inicializarAdaptadorBiblioteca(){
+        ArrayList<AudiolibroItem> libros = InfoAudiolibros.getAudiolibrosPorGenero(generoLibrosMostrados);
+
+        if(switchOrdenarPor.isChecked()){
+            Collections.sort(libros, new Comparator<AudiolibroItem>() {
+                @Override
+                public int compare(AudiolibroItem a1, AudiolibroItem a2) {
+                    int res = 0;
+                    if(a1.getPuntuacion() < a2.getPuntuacion()){
+                        res = 1;
+                    } else if (a1.getPuntuacion() > a2.getPuntuacion()){
+                        res = -1;
+                    }
+                    return res;
+                }
+            });
+        } else {
+            Collections.sort(libros, new Comparator<AudiolibroItem>() {
+                @Override
+                public int compare(AudiolibroItem a1, AudiolibroItem a2) {
+                    return a1.getTitulo().compareToIgnoreCase(a2.getTitulo());
+                }
+            });
         }
+
+        if(buscarPorActual.equals("Autor")){
+            adaptadorActual = new BibliotecaAutorGridAdapter(getContext(), libros);
+        } else if(buscarPorActual.equals("Tags")) {
+            adaptadorActual = new BibliotecaTagsGridAdapter(getContext(), libros);
+        } else { // buscarPorActual.equals("Título")
+            adaptadorActual = new BibliotecaTituloGridAdapter(getContext(), libros);
+        }
+
+        gridView.setAdapter(adaptadorActual);
     }
-
-    private void inicializarAdaptadorBiblioteca(ArrayList<AudiolibroItem> libros){
-        bibliotecaGridAdapter = new BibliotecaGridAdapter(getContext(), libros);
-
-        gridView.setAdapter(bibliotecaGridAdapter);
-
-    }
-
-
 }
