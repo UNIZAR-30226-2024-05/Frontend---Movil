@@ -1,5 +1,6 @@
 package com.example.narratives.activities;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -37,6 +38,7 @@ import com.example.narratives.fragments.FragmentBiblioteca;
 import com.example.narratives.fragments.FragmentClubs;
 import com.example.narratives.fragments.FragmentEscuchando;
 import com.example.narratives.fragments.FragmentInicio;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.users.perfiles.MiPerfilResponse;
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static FloatingActionButton fabEscuchando;
 
-    private static InfoMiPerfil miPerfil;
+    private static InfoMiPerfil infoMiPerfil;
 
     private static ImageView imageViewFotoPerfil;
 
@@ -71,7 +73,12 @@ public class MainActivity extends AppCompatActivity {
     static public FragmentAmigos fragmentoAmigosAbierto;
     static public FragmentClubs fragmentoClubsAbierto;
 
+    private AlertDialog alertDialog;
     private FragmentManager fragmentManager = getSupportFragmentManager();
+
+    Activity cambioFotoPerfilActivity;
+
+    Activity cambioContrasenaActivity;
 
     static boolean abrirEscuchando;
     @Override
@@ -201,12 +208,14 @@ public class MainActivity extends AppCompatActivity {
         builder.setNegativeButton("Cancelar    |", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+                if(alertDialog != null && alertDialog.isShowing()){
+                    alertDialog.dismiss();
+                }
             }
         });
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void cerrarSesion() {
@@ -221,8 +230,11 @@ public class MainActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setMessage("Cerrando sesión...");
-                    builder.show();
-                    ApiClient.setUserCookie(null);
+
+                    alertDialog = builder.create();
+                    alertDialog.show();
+
+                    vaciarInformacionSesionActual();
                     new Handler().postDelayed(
                         new Runnable() {
                             @Override
@@ -269,14 +281,14 @@ public class MainActivity extends AppCompatActivity {
         textViewCambiarContrasena.setText(content);
 
         imageViewFotoPerfil = viewMiPerfil.findViewById(R.id.imageViewMiPerfil);
-        imageViewFotoPerfil.setImageResource(MainActivity.getMiPerfil().getImgResource());
+        imageViewFotoPerfil.setImageResource(MainActivity.getInfoMiPerfil().getImgResource());
         imageViewFotoPerfil.setClickable(true);
 
         TextView textViewUsuarioMiPerfil = viewMiPerfil.findViewById(R.id.textViewRealNombreUsuarioMiPerfil);
-        textViewUsuarioMiPerfil.setText(getMiPerfil().getUsername());
+        textViewUsuarioMiPerfil.setText(getInfoMiPerfil().getUsername());
 
         TextView textViewMailMiPerfil = viewMiPerfil.findViewById(R.id.textViewRealCorreoElectronicoMiPerfil);
-        textViewMailMiPerfil.setText(getMiPerfil().getMail());
+        textViewMailMiPerfil.setText(getInfoMiPerfil().getMail());
 
         imageViewFotoPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -342,23 +354,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    public void abrirMenuHomeSinRegistro() {
-        Intent intent = new Intent(this, HomeSinRegistroActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
-    }
 
-
-    private void abrirCambioContrasena() {
-        Intent intent = new Intent(this, CambioContrasenaActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-    }
-
-    private void abrirCambioFotoPerfil() {
-        Intent intent = new Intent(this, CambioFotoPerfilActivity.class);
-        intent.putExtra("foto_perfil_actual", miPerfil.getImgResource());
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-    }
 
     private void reemplazarFragmentoInicial(){
         fragmentoActual = 0;
@@ -373,17 +369,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void obtenerDatosMiPerfil(){
-        miPerfil = new InfoMiPerfil();
+        infoMiPerfil = new InfoMiPerfil();
         peticionUsersProfile();
     }
 
 
-    public static InfoMiPerfil getMiPerfil() {
-        return miPerfil;
+    public static InfoMiPerfil getInfoMiPerfil() {
+        return infoMiPerfil;
     }
 
     public static void actualizarFotoPerfil(){
-        imageViewFotoPerfil.setImageResource(miPerfil.getImgResource());
+        imageViewFotoPerfil.setImageResource(infoMiPerfil.getImgResource());
     }
 
 
@@ -396,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
                 int codigo = response.code();
 
                 if (response.code() == 200) {
-                    InfoMiPerfil infoMiPerfil = getMiPerfil();
+                    InfoMiPerfil infoMiPerfil = getInfoMiPerfil();
 
                     infoMiPerfil.setUsername(response.body().getUsername());
                     infoMiPerfil.setMail(response.body().getMail());
@@ -416,6 +412,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    private void vaciarInformacionSesionActual(){
+        ApiClient.setUserCookie(null);
+        infoMiPerfil = null;
+        InfoAudiolibros.setTodoANull();
+
+        // toda la informacion de CLUBES a null
+        // toda la informacion de AMIGOS a null
+    }
+
+
     private void esconderTeclado() {
         if(this.getCurrentFocus() != null){
             InputMethodManager inputManager = (InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -423,4 +430,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void abrirMenuHomeSinRegistro() {
+        Intent intent = new Intent(this, HomeSinRegistroActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        if(alertDialog != null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+        }
+        finish();
+    }
+
+
+    private void abrirCambioContrasena() {
+        Intent intent = new Intent(this, CambioContrasenaActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    private void abrirCambioFotoPerfil() {
+        Intent intent = new Intent(this, CambioFotoPerfilActivity.class);
+        intent.putExtra("foto_perfil_actual", infoMiPerfil.getImgResource());
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
 }

@@ -93,12 +93,6 @@ public class InfoLibroActivity extends AppCompatActivity {
         });
     }
 
-    private void abrirMenuMain() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-    }
-
     private void cargarYAbrirReproductor(){
         MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(audiolibroActual);
         MainActivity.abrirEscuchando = true;
@@ -119,5 +113,12 @@ public class InfoLibroActivity extends AppCompatActivity {
         }
 
         return result;
+    }
+
+    private void abrirMenuMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        finish();
     }
 }

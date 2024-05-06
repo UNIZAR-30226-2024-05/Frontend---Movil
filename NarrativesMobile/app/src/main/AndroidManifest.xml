@@ -12,6 +12,7 @@
         android:label="@string/app_name"
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
+        android:enableOnBackInvokedCallback="true"
         android:theme="@style/Theme.Narratives">
         <activity
             android:name="com.example.narratives.activities.HomeSinRegistroActivity"

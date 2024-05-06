@@ -3,9 +3,12 @@ package com.example.narratives.activities;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.transition.TransitionSet;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -86,6 +89,8 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
 
         if(InfoAudiolibros.getTodosLosAudiolibros() == null){
             obtenerTodosLosAudiolibros();
+        } else {
+            mostrarMenuInicio(false);
         }
 
         findViewById(R.id.botonIrLoginDesdeInicio).setOnClickListener(new View.OnClickListener() {
@@ -104,15 +109,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
 
     }
 
-    public void abrirMenuRegistro() {
-        Intent intent = new Intent(this, RegistroActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-    }
 
-    public void abrirMenuLogin() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-    }
 
 
     private void obtenerAudiolibrosEjemplo(){
@@ -160,8 +157,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                     } else {
                         //Toast.makeText(getContext(), "TodosAudiolibros OK, size = " + String.valueOf(audiolibrosResult.size()), Toast.LENGTH_LONG).show();
                         InfoAudiolibros.setTodosLosAudiolibros(audiolibrosResult);
-                        cargarCarruselesConGeneros();
-                        esconderCargandoNarratives();
+                        mostrarMenuInicio(true);
                     }
 
                 } else if (codigo == 500){
@@ -192,13 +188,44 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
         });
     }
 
+    private void mostrarMenuInicio(boolean wait){
+        cargarCarruselesConGeneros();
+
+        if(wait) {
+            new Handler().postDelayed(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            esconderCargandoNarratives();
+                        }
+                    }
+                    , 350);
+        } else {
+            cargandoNarrativesLayout.setAlpha((float) 0);
+        }
+    }
+
     private void esconderCargandoNarratives() {
-        cargandoNarrativesLayout.setElevation(4);
 
-        logo.setAlpha((float) 0.15);
+        Animation fadeOutAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+        fadeOutAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
 
-        botonesLayout.setElevation(7);
-        coordinatorLayout.setElevation(6);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                cargandoNarrativesLayout.setAlpha((float) 0);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        cargandoNarrativesLayout.startAnimation(fadeOutAnim);
     }
 
     private void cargarCarruselesConGeneros() {
@@ -244,6 +271,17 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
             rvGenero4.setAdapter(adapterRecomendados);
             rvGenero5.setAdapter(adapterRecomendados);
         }
+    }
+
+
+    public void abrirMenuRegistro() {
+        Intent intent = new Intent(this, RegistroActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    public void abrirMenuLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }
 

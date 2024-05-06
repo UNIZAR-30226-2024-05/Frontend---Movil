@@ -29,6 +29,8 @@ public class LoginActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
 
+    AlertDialog alertDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
@@ -51,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                 request.setUsername(usuarioEditText.getText().toString());
                 request.setPassword(passwordEditText.getText().toString());
 
-                comprobarDatosLogin(request);
+                peticionLogin(request);
             }
         });
 
@@ -75,12 +77,12 @@ public class LoginActivity extends AppCompatActivity {
                 request.setUsername("directo");
                 request.setPassword("Directo1");
 
-                comprobarDatosLogin(request);
+                peticionLogin(request);
             }
         });
     }
 
-    private void comprobarDatosLogin(LoginRequest request) {
+    private void peticionLogin(LoginRequest request) {
 
         Call<LoginResult> llamada = retrofitInterface.ejecutarUsersLogin(ApiClient.getUserCookie(), request);
         llamada.enqueue(new Callback<LoginResult>() {
@@ -90,7 +92,10 @@ public class LoginActivity extends AppCompatActivity {
                     if(response.isSuccessful()){
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.ExitoAlertDialogStyle);
                         builder.setMessage("Iniciando sesión...");
-                        builder.show();
+
+                        alertDialog = builder.create();
+                        alertDialog.show();
+
                         String cookie = response.headers().get("Set-Cookie");
                         ApiClient.setUserCookie(cookie);
                         new Handler().postDelayed(
@@ -137,12 +142,15 @@ public class LoginActivity extends AppCompatActivity {
 
     public void abrirMenuMain() {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        if(alertDialog != null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+        }
     }
 
     public void abrirHomeSinRegistro() {
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 

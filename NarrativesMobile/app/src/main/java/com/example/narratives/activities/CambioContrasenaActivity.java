@@ -15,10 +15,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
-import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequest;
-import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.peticiones.GenericMessageResult;
+import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
@@ -35,6 +35,8 @@ public class CambioContrasenaActivity extends AppCompatActivity {
     private EditText editTextContrasenaAntigua;
     private EditText editTextContrasenaNueva;
     private EditText editTextVerificarContrasenaNueva;
+
+    AlertDialog alertDialog;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +92,9 @@ public class CambioContrasenaActivity extends AppCompatActivity {
                     builder.setTitle("ÉXITO");
                     builder.setMessage("Contraseña cambiada correctamente");
 
-                    builder.show();
+                    alertDialog = builder.create();
+                    alertDialog.show();
+
                     new Handler().postDelayed(
                             new Runnable() {
                                 @Override
@@ -208,6 +212,10 @@ public class CambioContrasenaActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        if(alertDialog != null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+        }
+        finish();
     }
 
 }

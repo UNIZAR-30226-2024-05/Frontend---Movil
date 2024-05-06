@@ -19,12 +19,15 @@ public class InfoAudiolibros {
     }
 
     public static void setTodosLosAudiolibros(ArrayList<AudiolibroItem> todosLosAudiolibros) {
-        Collections.sort(todosLosAudiolibros, new Comparator<AudiolibroItem>() {
-            @Override
-            public int compare(AudiolibroItem a1, AudiolibroItem a2) {
-                return a1.getTitulo().compareToIgnoreCase(a2.getTitulo());
-            }
-        });
+        if(todosLosAudiolibros != null){
+            Collections.sort(todosLosAudiolibros, new Comparator<AudiolibroItem>() {
+                @Override
+                public int compare(AudiolibroItem a1, AudiolibroItem a2) {
+                    return a1.getTitulo().compareToIgnoreCase(a2.getTitulo());
+                }
+            });
+        }
+
         InfoAudiolibros.todosLosAudiolibros = todosLosAudiolibros;
     }
 
@@ -105,6 +108,11 @@ public class InfoAudiolibros {
         }
 
         return  audiolibrosRecomendados;
+    }
+
+    public static void setTodoANull(){
+        setTodosLosAudiolibros(null);
+        setTodosLosAudiolibrosEjemplo(null);
     }
 
 
