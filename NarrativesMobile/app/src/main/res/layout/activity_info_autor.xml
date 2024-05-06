@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/info_libro_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    >
+
+
+    <GridView
+        android:id="@+id/gridViewBibliotecaAutor"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:clipToPadding="false"
+
+        android:numColumns="3"
+        android:paddingBottom="260dp"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textPuntuacionText">
+
+    </GridView>
+
+    <ScrollView
+        android:id="@+id/scrollViewInformacionAutor"
+        android:layout_width="261dp"
+        android:layout_height="66dp"
+        android:layout_marginHorizontal="15dp"
+
+        android:layout_marginStart="-4dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/textViewGeneroText"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNombreAutor">
+
+        <TextView
+            android:id="@+id/textViewDescripcionInfoLibro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Descripción vacía."
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageViewMiPerfil" />
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/textViewGeneroText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:layout_marginEnd="8dp"
+        android:text="Género:"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewGeneroMasEscrito"
+        app:layout_constraintEnd_toStartOf="@+id/textViewGeneroMasEscrito"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewGeneroMasEscrito"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textViewCiudadText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginEnd="8dp"
+        android:text="Ciudad de nacimiento:"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="@+id/texCiudadNacimiento"
+        app:layout_constraintEnd_toStartOf="@+id/texCiudadNacimiento"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/texCiudadNacimiento"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textPuntuacionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="82dp"
+        android:layout_marginEnd="8dp"
+        android:text="Puntuación Media:"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayoutValoracionMedia"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayoutValoracionMedia"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewGeneroText"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonVolverDesdeInfoLibro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/icono_back_foreground"
+        android:text="@string/volver_atras"
+        app:backgroundTint="@color/teal_claro"
+        app:borderWidth="2.5dp"
+        app:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:maxImageSize="60dp"
+        app:tint="@color/teal_700" />
+
+
+    <TextView
+        android:id="@+id/textViewNombreAutor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="40dp"
+        android:gravity="start"
+        android:paddingStart="10dp"
+        android:text="NOMBRE APELLIDO1 APELLIDO"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewGeneroMasEscrito"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="130dp"
+        android:paddingStart="10dp"
+        android:text="Género mas escrito:"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutValoracionMedia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewGeneroText"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNombreAutor" />
+
+    <TextView
+        android:id="@+id/texCiudadNacimiento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:paddingStart="10dp"
+        android:text="Ciudad_Data"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutValoracionMedia"
+        app:layout_constraintStart_toEndOf="@+id/textViewCiudadText"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGeneroMasEscrito" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutValoracionMedia"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toEndOf="@+id/textPuntuacionText"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGeneroMasEscrito">
+
+
+        <ImageView
+            android:id="@+id/imageViewEstrella4ValoracionInfoAutor"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella" />
+
+
+        <ImageView
+            android:id="@+id/imageViewEstrella5ValoracionInfoAutor"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella" />
+
+        <ImageView
+            android:id="@+id/imageViewEstrella2ValoracionInfoAutor"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella" />
+
+        <ImageView
+            android:id="@+id/imageViewEstrella1ValoracionInfoAutor"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella" />
+
+        <ImageView
+            android:id="@+id/imageViewEstrella3ValoracionInfoAutor"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

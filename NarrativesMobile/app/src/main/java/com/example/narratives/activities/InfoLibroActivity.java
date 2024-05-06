@@ -55,6 +55,13 @@ public class InfoLibroActivity extends AppCompatActivity {
 
         TextView textViewAutor = findViewById(R.id.textViewNombreAutorInfoLibro);
         textViewAutor.setText(audiolibroActual.getAutor().getNombre());
+        textViewAutor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            //Ya lo cambiare a petición pero para probar que va a la pagina
+            public void onClick(View view) {
+                abrirPaginaAutor();
+            }
+        });
 
         TextView textViewGeneros = findViewById(R.id.textViewGeneroInfoLibro);
         textViewGeneros.setText(getFormattedGenres(audiolibroActual.getGeneros()));
@@ -103,6 +110,12 @@ public class InfoLibroActivity extends AppCompatActivity {
         MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(audiolibroActual);
         MainActivity.abrirEscuchando = true;
         abrirMenuMain();
+    }
+
+    public void abrirPaginaAutor() {
+        Intent intent = new Intent(this, InfoAutorActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     private String getFormattedGenres(ArrayList<Genero> generos){
