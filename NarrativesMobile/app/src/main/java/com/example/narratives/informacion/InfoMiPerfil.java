@@ -4,7 +4,7 @@ import com.example.narratives.R;
 
 public class InfoMiPerfil {
 
-    private String username;
+    private static String username;
     private String mail;
 
     private String img = "0";
@@ -135,8 +135,8 @@ public class InfoMiPerfil {
         this.img = _img;
     }
 
-    public String getUsername() {
-        return this.username;
+    public static String getUsername() {
+        return username;
     }
 
     public void setUsername(String _username) {

@@ -1,6 +1,8 @@
 package com.example.narratives.activities;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,15 +10,22 @@ import android.transition.TransitionSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.narratives.R;
+import com.example.narratives._backend.ApiClient;
+import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
+import com.example.narratives.peticiones.audiolibros.especifico.Coleccion;
 import com.example.narratives.peticiones.audiolibros.especifico.Genero;
+import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -29,6 +38,9 @@ public class InfoLibroActivity extends AppCompatActivity {
     MaterialButton escucharAudiolibro;
     MaterialButton comprarAudiolibro;
 
+    private PopupWindow popupWindow;
+    private RetrofitInterface retrofitInterface;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
@@ -40,7 +52,7 @@ public class InfoLibroActivity extends AppCompatActivity {
         int width= ViewGroup.LayoutParams.MATCH_PARENT;
         int height= ViewGroup.LayoutParams.MATCH_PARENT;
 
-
+        retrofitInterface = ApiClient.getRetrofitInterface();
 
         ImageView imageViewPortada = findViewById(R.id.imageViewPortadaInfoLibro);
 
@@ -68,11 +80,11 @@ public class InfoLibroActivity extends AppCompatActivity {
         botonCerrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                abrirMenuMain();
+                finish();
             }
         });
 
-        escucharAudiolibro = (MaterialButton) findViewById(R.id.botonEscucharAudiolibroInfoLibro);
+        escucharAudiolibro = findViewById(R.id.botonEscucharAudiolibroInfoLibro);
         escucharAudiolibro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,5 +156,103 @@ public class InfoLibroActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         finish();
+    }
+
+    private void mostrarListaColecciones() {
+        ArrayList<Coleccion> coleccionesList = audiolibroActual.getColecciones();
+        ArrayList<Coleccion> coleccionesSeleccionadasInicialmente = new ArrayList<>();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Colecciones");
+
+        final String[] titulosColecciones = new String[coleccionesList.size()];
+        final boolean[] checkedItems = new boolean[coleccionesList.size()];
+
+        for (int i = 0; i < coleccionesList.size(); i++) {
+            titulosColecciones[i] = coleccionesList.get(i).getTitulo();
+            checkedItems[i] = coleccionesList.get(i).getPertenece();
+            if (checkedItems[i]) {
+                coleccionesSeleccionadasInicialmente.add(coleccionesList.get(i));
+            }
+        }
+
+        builder.setMultiChoiceItems(titulosColecciones, checkedItems, (dialog, which, isChecked) -> {
+            checkedItems[which] = isChecked;
+        });
+
+        builder.setPositiveButton("Aceptar", (dialog, which) -> {
+            for (int i = 0; i < coleccionesList.size(); i++) {
+                Coleccion coleccion = coleccionesList.get(i);
+                if (checkedItems[i]) {
+                    if (!coleccionesSeleccionadasInicialmente.contains(coleccion)) {
+                        anadirAudiolibroAColeccion(coleccion.getId(), audiolibroActual.getAudiolibro().getId());
+                    }
+                } else {
+                    if (coleccionesSeleccionadasInicialmente.contains(coleccion)) {
+                        eliminarAudiolibroDeColeccion(coleccion.getId(), audiolibroActual.getAudiolibro().getId());
+                    }
+                }
+                coleccionesList.get(i).setPertenece(checkedItems[i]);
+            }
+            Toast.makeText(InfoLibroActivity.this, "Cambios realizados", Toast.LENGTH_LONG).show();
+        });
+
+        builder.setNegativeButton("Cancelar", (dialog, which) -> { });
+
+        builder.create().show();
+    }
+
+    private void anadirAudiolibroAColeccion(int coleccionId, int audiolibroId) {
+        AnadirEliminarAudiolibroDeColeccionRequest request = new AnadirEliminarAudiolibroDeColeccionRequest();
+        request.setAudiolibroId(audiolibroId);
+        request.setColeccionId(coleccionId);
+
+        Call<GenericMessageResult> call = retrofitInterface.ejecutarColeccionesAnadirAudiolibro(ApiClient.getUserCookie(), request);
+        call.enqueue(new Callback<GenericMessageResult>() {
+            @Override
+            public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
+                if (response.code() == 500) {
+                    Toast.makeText(InfoLibroActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+                } else if (response.code() != 200) {
+                    Toast.makeText(InfoLibroActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenericMessageResult> call, @NonNull Throwable t) {
+                Toast.makeText(InfoLibroActivity.this, "No se ha conectado con el servidor",
+                        Toast.LENGTH_LONG).show();
+
+                Toast.makeText(InfoLibroActivity.this, t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void eliminarAudiolibroDeColeccion(int coleccionId, int audiolibroId) {
+        AnadirEliminarAudiolibroDeColeccionRequest request = new AnadirEliminarAudiolibroDeColeccionRequest();
+        request.setAudiolibroId(audiolibroId);
+        request.setColeccionId(coleccionId);
+
+        Call<GenericMessageResult> call = retrofitInterface.ejecutarColeccionesEliminarAudiolibro(ApiClient.getUserCookie(), request);
+        call.enqueue(new Callback<GenericMessageResult>() {
+            @Override
+            public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
+                if (response.code() == 500) {
+                    Toast.makeText(InfoLibroActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+                } else if (response.code() != 200) {
+                    Toast.makeText(InfoLibroActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenericMessageResult> call, @NonNull Throwable t) {
+                Toast.makeText(InfoLibroActivity.this, "No se ha conectado con el servidor",
+                        Toast.LENGTH_LONG).show();
+
+                Toast.makeText(InfoLibroActivity.this, t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

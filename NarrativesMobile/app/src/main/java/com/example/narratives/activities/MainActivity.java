@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -331,6 +332,14 @@ public class MainActivity extends AppCompatActivity {
                 abrirCambioContrasena();
             }
         });
+
+        Button buttonMisColecciones = viewMiPerfil.findViewById(R.id.botonMisColeccionesMiPerfil);
+        buttonMisColecciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abrirMisColecciones();
+            }
+        });
     }
 
     public static void reemplazarFragmento(Fragment fragmento, FragmentTransaction fragmentTransaction){
@@ -361,7 +370,10 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-
+    private void abrirMisColecciones() {
+        Intent intent = new Intent(this, ColeccionesActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
 
     private void reemplazarFragmentoInicial(){
         fragmentoActual = 0;

@@ -43,7 +43,7 @@
             />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/botonAñadirAColeccionInfoLibro"
+            android:id="@+id/botonAnadirAColeccionInfoLibro"
             android:layout_width="220dp"
             android:layout_height="60dp"
             android:backgroundTint="@color/teal_casi_blanco"
