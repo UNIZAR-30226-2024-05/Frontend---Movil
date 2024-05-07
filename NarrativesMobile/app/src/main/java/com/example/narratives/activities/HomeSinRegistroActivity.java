@@ -1,9 +1,13 @@
 package com.example.narratives.activities;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.transition.TransitionSet;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -35,7 +39,7 @@ import retrofit2.Response;
 
 public class HomeSinRegistroActivity extends AppCompatActivity {
 
-
+    private boolean haySesion;
     RecyclerView rvRecomendados, rvGenero1, rvGenero2, rvGenero3, rvGenero4, rvGenero5;
     MenuInicioAdapter adapterRecomendados, adapter1, adapter2, adapter3, adapter4, adapter5;
     RetrofitInterface retrofitInterface;
@@ -50,58 +54,75 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         getWindow().setExitTransition(new TransitionSet());
 
         setContentView(R.layout.home_sin_registro);
         super.onCreate(savedInstanceState);
 
-        coordinatorLayout = findViewById(R.id.coordinatorLayout);
-        cargandoNarrativesLayout = findViewById(R.id.constraintLayoutCargandoNarratives);
         retrofitInterface = ApiClient.getRetrofitInterface();
-        logo = findViewById(R.id.imageViewLogoCargandoNarratives);
-        botonesLayout = findViewById(R.id.linearLayoutBotones);
 
-        rvRecomendados = findViewById(R.id.recyclerViewRecomendados);
-
-        textViewGenero1 = findViewById(R.id.textViewGenero1);
-        rvGenero1 = findViewById(R.id.recyclerViewGenero1);
-
-        textViewGenero2 = findViewById(R.id.textViewGenero2);
-        rvGenero2 = findViewById(R.id.recyclerViewGenero2);
-
-        textViewGenero3 = findViewById(R.id.textViewGenero3);
-        rvGenero3 = findViewById(R.id.recyclerViewGenero3);
-
-        textViewGenero4 = findViewById(R.id.textViewGenero4);
-        rvGenero4 = findViewById(R.id.recyclerViewGenero4);
-
-        textViewGenero5 = findViewById(R.id.textViewGenero5);
-        rvGenero5 = findViewById(R.id.recyclerViewGenero5);
-
-        if(InfoAudiolibros.getTodosLosAudiolibrosEjemplo() == null){
-            obtenerAudiolibrosEjemplo();
-        }
-
-        if(InfoAudiolibros.getTodosLosAudiolibros() == null){
-            obtenerTodosLosAudiolibros();
-        }
-
-        findViewById(R.id.botonIrLoginDesdeInicio).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                abrirMenuLogin();
+        SharedPreferences sharedPreferences = getSharedPreferences("session", Context.MODE_PRIVATE);
+        if (sharedPreferences.contains("cookie")) {
+            haySesion = true;
+            if(InfoAudiolibros.getTodosLosAudiolibros() == null){
+                obtenerTodosLosAudiolibros();
             }
-        });
+            ApiClient.setUserCookie(sharedPreferences.getString("cookie", null));
+            new Handler().postDelayed(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            abrirMenuMain(sharedPreferences);
+                        }
+                    }
+                    , 1000);
+        } else {
+            haySesion = false;
+            cargandoNarrativesLayout = findViewById(R.id.constraintLayoutCargandoNarratives);
+            logo = findViewById(R.id.imageViewLogoCargandoNarratives);
+            coordinatorLayout = findViewById(R.id.coordinatorLayout);
+            botonesLayout = findViewById(R.id.linearLayoutBotones);
+            rvRecomendados = findViewById(R.id.recyclerViewRecomendados);
 
-        findViewById(R.id.botonIrRegistroDesdeInicio).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                abrirMenuRegistro();
+            textViewGenero1 = findViewById(R.id.textViewGenero1);
+            rvGenero1 = findViewById(R.id.recyclerViewGenero1);
+
+            textViewGenero2 = findViewById(R.id.textViewGenero2);
+            rvGenero2 = findViewById(R.id.recyclerViewGenero2);
+
+            textViewGenero3 = findViewById(R.id.textViewGenero3);
+            rvGenero3 = findViewById(R.id.recyclerViewGenero3);
+
+            textViewGenero4 = findViewById(R.id.textViewGenero4);
+            rvGenero4 = findViewById(R.id.recyclerViewGenero4);
+
+            textViewGenero5 = findViewById(R.id.textViewGenero5);
+            rvGenero5 = findViewById(R.id.recyclerViewGenero5);
+            if(InfoAudiolibros.getTodosLosAudiolibros() == null){
+                obtenerTodosLosAudiolibros();
+            } else {
+                cargarCarruselesConGeneros();
+                esconderCargandoNarratives();
             }
-        });
+            if (InfoAudiolibros.getTodosLosAudiolibrosEjemplo() == null) {
+                obtenerAudiolibrosEjemplo();
+            }
 
+            findViewById(R.id.botonIrLoginDesdeInicio).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    abrirMenuLogin();
+                }
+            });
+
+            findViewById(R.id.botonIrRegistroDesdeInicio).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    abrirMenuRegistro();
+                }
+            });
+        }
     }
 
     public void abrirMenuRegistro() {
@@ -145,7 +166,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
         InfoAudiolibros.setTodosLosAudiolibrosEjemplo(audiolibros);
     }
 
-    private void obtenerTodosLosAudiolibros(){
+    public void obtenerTodosLosAudiolibros(){
         Call<AudiolibrosResult> llamada = retrofitInterface.ejecutarAudiolibros(ApiClient.getUserCookie());
         llamada.enqueue(new Callback<AudiolibrosResult>() {
             @Override
@@ -160,8 +181,10 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                     } else {
                         //Toast.makeText(getContext(), "TodosAudiolibros OK, size = " + String.valueOf(audiolibrosResult.size()), Toast.LENGTH_LONG).show();
                         InfoAudiolibros.setTodosLosAudiolibros(audiolibrosResult);
-                        cargarCarruselesConGeneros();
-                        esconderCargandoNarratives();
+                        if (!haySesion) {
+                            cargarCarruselesConGeneros();
+                            esconderCargandoNarratives();
+                        }
                     }
 
                 } else if (codigo == 500){
@@ -245,6 +268,12 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
             rvGenero4.setAdapter(adapterRecomendados);
             rvGenero5.setAdapter(adapterRecomendados);
         }
+    }
+    public void abrirMenuMain(SharedPreferences sharedPreferences) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("user_id", sharedPreferences.getInt("user_id", -1));
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        finish();
     }
 }
 

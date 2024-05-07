@@ -12,4 +12,16 @@
     <string name="ajustesAdicionales" />
     <string name="miperfil" />
     <string name="cerrar_popup" />
+    <string name="nuevo">Nuevo</string>
+    <string name="unirse">Unirse</string>
+    <string name="crear_club">CREAR CLUB DE LECTURA</string>
+    <string name="buscar_club">BUSCAR CLUB DE LECTURA</string>
+    <string name="nombre_club">Nombre del club</string>
+    <string name="descripcion_club">Descripción del club</string>
+    <string name="ref_audiolibro">Audoiolibro de referencia</string>
+    <string name="ninguno">Ninguno</string>
+    <string name="missing_club_name">El nombre del club no puede quedar vacío</string>
+    <string name="mis_clubes">Mis clubes de lectura</string>
+    <string name="send">Enviar</string>
+    <string name="type_your_message">Mensaje</string>
 </resources>

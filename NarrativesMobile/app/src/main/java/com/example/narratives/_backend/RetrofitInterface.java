@@ -3,6 +3,9 @@ package com.example.narratives._backend;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
+import com.example.narratives.peticiones.clubes.ClubRequest;
+import com.example.narratives.peticiones.clubes.ClubesResult;
+import com.example.narratives.peticiones.clubes.ClubResult;
 import com.example.narratives.peticiones.marcapaginas.ListeningRequest;
 import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequest;
 import com.example.narratives.peticiones.users.cambio_datos.CambioFotoPerfilRequest;
@@ -20,8 +23,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface RetrofitInterface {
-    //String URL_BASE = "http://20.199.84.234:8000";
-
+    //String URL_BASE = "https://52.143.153.248";
     //String URL_BASE = "https://narratives-backend.azurewebsites.net";
     String URL_BASE = "https://server.narratives.es";
     @POST("/users/login")
@@ -55,4 +57,13 @@ public interface RetrofitInterface {
 
     @POST("/marcapaginas/listening")
     Call<GenericMessageResult> ejecutarMarcapaginasListening(@Header("Cookie") String userCookie, @Body ListeningRequest request);
+
+    @GET("/club/lista")
+    Call<ClubesResult> ejecutarMyClubes(@Header("Cookie") String userCookie);
+    @POST("/club/create")
+    Call<ClubResult> ejecutarCreateClub(@Header("Cookie") String userCookie, @Body ClubRequest request);
+    @GET("/club/all")
+    Call<ClubesResult> ejecutarBuscarClubes(@Header("Cookie") String userCookie);
+    @GET("/club/datos/{id}")
+    Call<ClubResult> ejecutarInfoClub(@Header("Cookie") String userCookie, @Path("id") int id);
 }

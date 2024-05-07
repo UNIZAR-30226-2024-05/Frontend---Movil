@@ -12,6 +12,7 @@ public class LoginResult {
     public String getUsername(){
         return user.getUsername();
     }
+    public int getId() { return user.getId(); }
 
     public String getRole(){
         return user.getRole();

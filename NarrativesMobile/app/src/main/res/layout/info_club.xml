@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Encabezado -->
+
+    <!-- Imagen de grupo -->
+    <ImageView
+        android:id="@+id/infoClub_img"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icono_libro" />
+
+    <!-- Nombre del grupo -->
+    <TextView
+        android:id="@+id/infoClub_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Group Name"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/infoClub_img"
+        app:layout_constraintTop_toTopOf="@id/infoClub_img"
+        android:layout_marginStart="16dp"/>
+
+    <!-- Descripción del grupo -->
+    <TextView
+        android:id="@+id/infoClub_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Group Description"
+        app:layout_constraintStart_toStartOf="@id/infoClub_name"
+        app:layout_constraintTop_toBottomOf="@id/infoClub_name" />
+
+    <!-- Lista de miembros del grupo -->
+
+    <TextView
+        android:id="@+id/infoClub_audiolibro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Group Description"
+        app:layout_constraintStart_toStartOf="@+id/infoClub_desc"
+        app:layout_constraintTop_toBottomOf="@+id/infoClub_desc" />
+
+    <ListView
+        android:id="@+id/infoClub_members"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/infoClub_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"/>
+
+    <ImageView
+        android:id="@+id/infoClub_contextMenu"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:clickable="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icons8_men__2_90" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

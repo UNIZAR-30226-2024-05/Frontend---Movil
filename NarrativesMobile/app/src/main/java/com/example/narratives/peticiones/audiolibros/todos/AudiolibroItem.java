@@ -11,6 +11,11 @@ public class AudiolibroItem {
 
     float puntuacion;
 
+    public AudiolibroItem(int id, String titulo) {
+        this.id = id;
+        this.titulo = titulo;
+    }
+
     public AudiolibroItem(int id, String titulo, String autor, String descripcion, String img, String genero, float puntuacion){
         this.id = id;
         this.titulo = titulo;

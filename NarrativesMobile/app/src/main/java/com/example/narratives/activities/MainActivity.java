@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
+    public String cookie;
 
     public static FloatingActionButton fabEscuchando;
 
@@ -203,6 +205,12 @@ public class MainActivity extends AppCompatActivity {
                     builder.setMessage("Cerrando sesión...");
                     builder.show();
                     ApiClient.setUserCookie(null);
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("session", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.apply();
+
                     new Handler().postDelayed(
                         new Runnable() {
                             @Override
@@ -210,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                                 abrirMenuHomeSinRegistro();
                             }
                         }
-                        , 500);
+                        , 1000);
 
                 } else if (response.code() == 401){
                     Toast.makeText(MainActivity.this, "No hay sesión iniciada",
@@ -325,8 +333,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void abrirMenuHomeSinRegistro() {
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        finish();
     }
 
 

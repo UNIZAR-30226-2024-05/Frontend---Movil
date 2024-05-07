@@ -7,18 +7,83 @@
     tools:context=".fragments.FragmentClubs">
 
     <TextView
-        android:id="@+id/textViewClubsDeLectura"
+        android:id="@+id/textViewSeguirEscuchando2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CLUBS DE LECTURA"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="65dp"
+        android:text="@string/mis_clubes"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_addClub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="80dp"
+        android:backgroundTint="@color/white"
+        android:src="@android:drawable/ic_input_add"
+        android:text="@string/volver_atras"
+        app:backgroundTint="@color/gris_claro"
+        app:borderWidth="2.5dp"
+        app:elevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="25sp"
-        />
+        app:maxImageSize="30dp"
+        app:tint="@color/gris" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listViewMyClubes"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/fab_addClub"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSeguirEscuchando2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_joinClub"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="28dp"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="@string/unirse"
+        android:backgroundTint="@color/white"
+        app:tint="@color/gris"
+        app:borderWidth="2dp"
+        app:elevation="2dp"
+        app:backgroundTint="@color/gris_claro"
+        app:layout_constraintBottom_toTopOf="@+id/fab_addClub"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_newClub"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="@string/nuevo"
+        android:backgroundTint="@color/white"
+        app:tint="@color/gris"
+        app:borderWidth="2dp"
+        app:elevation="2dp"
+        app:backgroundTint="@color/gris_claro"
+        app:layout_constraintBottom_toTopOf="@id/fab_joinClub"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

@@ -27,6 +27,10 @@
         <activity android:name=".activities.RegistroActivity"></activity>
         <activity android:name=".activities.CambioContrasenaActivity"></activity>
         <activity android:name=".activities.CambioFotoPerfilActivity"></activity>
+        <activity android:name=".activities.CrearClubActivity"></activity>
+        <activity android:name=".activities.BuscarClubActivity"></activity>
+        <activity android:name=".activities.InfoClubActivity"></activity>
+        <activity android:name=".activities.ChatClubActivity"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

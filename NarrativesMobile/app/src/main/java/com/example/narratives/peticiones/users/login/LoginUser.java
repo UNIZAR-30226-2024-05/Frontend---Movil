@@ -1,6 +1,7 @@
 package com.example.narratives.peticiones.users.login;
 
 public class LoginUser {
+    private int user_id;
     private String username;
     private String role;
 
@@ -8,6 +9,7 @@ public class LoginUser {
         this.username = _username;
         this.role = _role;
     }
+    public int getId() { return user_id; }
     public String getUsername() {
         return username;
     }

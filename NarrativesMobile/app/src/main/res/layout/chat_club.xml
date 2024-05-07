@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Banner superior con imagen y nombre del grupo -->
+    <RelativeLayout
+        android:id="@+id/banner_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Botón superior izquierdo para ir atrás -->
+        <ImageButton
+            android:id="@+id/chatClub_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"/>
+
+        <!-- Imagen del grupo -->
+        <ImageView
+            android:id="@+id/chatClub_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icono_libro" />
+
+        <!-- Nombre del grupo -->
+        <TextView
+            android:id="@+id/chatClub_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/chatClub_img"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <!-- RecyclerView para los mensajes -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatClub_msgs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_layout"
+        android:layout_below="@id/banner_layout" />
+
+    <!-- Barra inferior para escribir mensaje -->
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="8dp">
+
+        <!-- Campo de texto para escribir mensaje -->
+        <EditText
+            android:id="@+id/chatClub_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/chatClub_send"
+            android:hint="@string/type_your_message"
+            android:inputType="text" />
+
+        <!-- Botón para enviar mensaje -->
+        <Button
+            android:id="@+id/chatClub_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@string/send" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

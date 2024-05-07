@@ -2,7 +2,9 @@ package com.example.narratives.activities;
 
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.transition.TransitionSet;
@@ -19,15 +21,20 @@ import com.example.narratives.peticiones.users.login.LoginRequest;
 import com.example.narratives.peticiones.users.login.LoginResult;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.sockets.SocketManager;
 
+import io.socket.client.Socket;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+
 public class LoginActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
+    Socket socket;
+    String cookie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +98,12 @@ public class LoginActivity extends AppCompatActivity {
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.ExitoAlertDialogStyle);
                         builder.setMessage("Iniciando sesión...");
                         builder.show();
-                        String cookie = response.headers().get("Set-Cookie");
+                        cookie = response.headers().get("Set-Cookie");
                         ApiClient.setUserCookie(cookie);
+                        SocketManager.setSession(cookie);
+                        socket = SocketManager.getInstance();
+                        socket.connect();
+                        guardarSesion(cookie, response.body().getId());
                         new Handler().postDelayed(
                                 new Runnable() {
                                     @Override
@@ -137,7 +148,10 @@ public class LoginActivity extends AppCompatActivity {
 
     public void abrirMenuMain() {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//
+        intent.putExtra("COOKIE", cookie);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        finish();
     }
 
     public void abrirHomeSinRegistro() {
@@ -148,6 +162,14 @@ public class LoginActivity extends AppCompatActivity {
     public void abrirMenuRegistro() {
         Intent intent = new Intent(this, RegistroActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    private void guardarSesion(String cookie, int user_id) {
+        SharedPreferences sharedPreferences = getSharedPreferences("session", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("cookie", cookie);
+        editor.putInt("user_id", user_id);
+        editor.apply();
     }
 
 }
