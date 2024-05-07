@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.users.cambio_datos.CambioFotoPerfilRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,6 +33,8 @@ public class CambioFotoPerfilActivity extends AppCompatActivity {
 
     private int actualImageViewId;
     private int initialImageViewId;
+
+    AlertDialog alertDialog;
 
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
@@ -108,7 +109,7 @@ public class CambioFotoPerfilActivity extends AppCompatActivity {
     }
 
     private void inicializarFotoActual(){
-        initialImageViewId = MainActivity.getMiPerfil().getImgImageView();
+        initialImageViewId = MainActivity.getInfoMiPerfil().getImgImageView();
         actualImageViewId = initialImageViewId;
 
         ImageView inicial = (ImageView) findViewById(actualImageViewId);
@@ -124,19 +125,14 @@ public class CambioFotoPerfilActivity extends AppCompatActivity {
         if(initialImageViewId == actualImageViewId){
             Toast.makeText(CambioFotoPerfilActivity.this, "Elige una foto distinta a la actual", Toast.LENGTH_LONG).show();
         } else {
-            String nuevaFoto = InfoMiPerfil.getImgString(actualImageViewId);
-            MainActivity.getMiPerfil().setImg(nuevaFoto);
+            String nuevaFoto = MainActivity.getInfoMiPerfil().getImgString(actualImageViewId);
+            MainActivity.getInfoMiPerfil().setImg(nuevaFoto);
             MainActivity.actualizarFotoPerfil();
 
             peticionUsersChange_img(nuevaFoto);
         }
     }
 
-    public void abrirMenuMain() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-    }
 
 
     public void peticionUsersChange_img(String newImg){
@@ -153,7 +149,10 @@ public class CambioFotoPerfilActivity extends AppCompatActivity {
                 if(codigo == 200) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(CambioFotoPerfilActivity.this, R.style.TealAlertDialogStyle);
                     builder.setMessage("Foto actualizada");
-                    builder.show();
+
+                    alertDialog = builder.create();
+                    alertDialog.show();
+
                     new Handler().postDelayed(
                             new Runnable() {
                                 @Override
@@ -180,5 +179,16 @@ public class CambioFotoPerfilActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void abrirMenuMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        if(alertDialog != null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+        }
+        finish();
+    }
+
 
 }

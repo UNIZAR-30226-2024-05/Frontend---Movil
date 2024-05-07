@@ -10,6 +10,8 @@ import android.transition.TransitionSet;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -125,15 +127,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
         }
     }
 
-    public void abrirMenuRegistro() {
-        Intent intent = new Intent(this, RegistroActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-    }
 
-    public void abrirMenuLogin() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-    }
 
 
     private void obtenerAudiolibrosEjemplo(){
@@ -182,8 +176,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                         //Toast.makeText(getContext(), "TodosAudiolibros OK, size = " + String.valueOf(audiolibrosResult.size()), Toast.LENGTH_LONG).show();
                         InfoAudiolibros.setTodosLosAudiolibros(audiolibrosResult);
                         if (!haySesion) {
-                            cargarCarruselesConGeneros();
-                            esconderCargandoNarratives();
+                            mostrarMenuInicio(true);
                         }
                     }
 
@@ -210,19 +203,49 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                 Toast.makeText(HomeSinRegistroActivity.this, "No se ha conectado con el servidor (audiolibros)",
                         Toast.LENGTH_LONG).show();
 
-                Toast.makeText(HomeSinRegistroActivity.this, t.getMessage(),
-                        Toast.LENGTH_LONG).show();
+                //Toast.makeText(HomeSinRegistroActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
+    private void mostrarMenuInicio(boolean wait){
+        cargarCarruselesConGeneros();
+
+        if(wait) {
+            new Handler().postDelayed(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            esconderCargandoNarratives();
+                        }
+                    }
+                    , 350);
+        } else {
+            cargandoNarrativesLayout.setAlpha((float) 0);
+        }
+    }
+
     private void esconderCargandoNarratives() {
-        cargandoNarrativesLayout.setElevation(4);
 
-        logo.setAlpha((float) 0.15);
+        Animation fadeOutAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+        fadeOutAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
 
-        botonesLayout.setElevation(7);
-        coordinatorLayout.setElevation(6);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                cargandoNarrativesLayout.setAlpha((float) 0);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        cargandoNarrativesLayout.startAnimation(fadeOutAnim);
     }
 
     private void cargarCarruselesConGeneros() {
@@ -274,6 +297,16 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
         intent.putExtra("user_id", sharedPreferences.getInt("user_id", -1));
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         finish();
+    }
+
+    public void abrirMenuRegistro() {
+        Intent intent = new Intent(this, RegistroActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    public void abrirMenuLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }
 

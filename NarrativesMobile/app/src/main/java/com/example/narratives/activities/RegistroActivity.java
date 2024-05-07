@@ -37,6 +37,8 @@ public class RegistroActivity extends AppCompatActivity{
     private EditText editTextContraseñaRegistro;
     private EditText editTextContraseñaRegistroConfirmar;
 
+    private AlertDialog alertDialog;
+
         protected void onCreate(Bundle savedInstanceState) {
             getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
             getWindow().setExitTransition(new TransitionSet());
@@ -153,15 +155,6 @@ public class RegistroActivity extends AppCompatActivity{
         }
     }
 
-    public void abrirMenuHomeSinRegistro() {
-        Intent intent = new Intent(this, HomeSinRegistroActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-    }
-
-    public void abrirMenuLogin() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-    }
 
     public void comprobarDatosRegistro(Button boton){
 
@@ -180,7 +173,11 @@ public class RegistroActivity extends AppCompatActivity{
                     AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this, R.style.ExitoAlertDialogStyle);
                     builder.setTitle("ÉXITO");
                     builder.setMessage("La cuenta ha sido creada correctamente");
-                    builder.show();
+
+                    alertDialog = builder.create();
+                    alertDialog.show();
+
+
                     new Handler().postDelayed(
                             new Runnable() {
                                 @Override
@@ -230,8 +227,18 @@ public class RegistroActivity extends AppCompatActivity{
     }
 
 
+    public void abrirMenuHomeSinRegistro() {
+        Intent intent = new Intent(this, HomeSinRegistroActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
 
-
+    public void abrirMenuLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        if(alertDialog != null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+        }
+    }
 }
 
 

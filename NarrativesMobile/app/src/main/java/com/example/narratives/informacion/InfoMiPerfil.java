@@ -128,7 +128,7 @@ public class InfoMiPerfil {
 
 
     public String getImg() {
-        return img;
+        return this.img;
     }
 
     public void setImg(String _img){
@@ -136,18 +136,24 @@ public class InfoMiPerfil {
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String _username) {
+        this.username = _username;
     }
 
     public String getMail() {
-        return mail;
+        return this.mail;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setMail(String _mail) {
+        this.mail = _mail;
     }
+
+    public void setAllInfoNull(){
+        this.setUsername(null);
+        this.setImg(null);
+        this.setMail(null);
+    };
 }

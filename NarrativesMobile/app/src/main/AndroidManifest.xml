@@ -12,6 +12,7 @@
         android:label="@string/app_name"
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
+        android:enableOnBackInvokedCallback="true"
         android:theme="@style/Theme.Narratives">
         <activity
             android:name="com.example.narratives.activities.HomeSinRegistroActivity"
@@ -31,6 +32,8 @@
         <activity android:name=".activities.BuscarClubActivity"></activity>
         <activity android:name=".activities.InfoClubActivity"></activity>
         <activity android:name=".activities.ChatClubActivity"></activity>
+        <activity android:name=".activities.InfoLibroActivity"></activity>
+
 
         <meta-data
             android:name="preloaded_fonts"

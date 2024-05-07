@@ -1,5 +1,6 @@
 package com.example.narratives.activities;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.narratives.R;
@@ -37,6 +39,7 @@ import com.example.narratives.fragments.FragmentBiblioteca;
 import com.example.narratives.fragments.FragmentClubs;
 import com.example.narratives.fragments.FragmentEscuchando;
 import com.example.narratives.fragments.FragmentInicio;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.users.perfiles.MiPerfilResponse;
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     public static ActivityMainBinding binding;
 
 
+
     static public int fragmentoActual = 0;
 
     private Retrofit retrofit;
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static FloatingActionButton fabEscuchando;
 
-    private static InfoMiPerfil miPerfil;
+    private static InfoMiPerfil infoMiPerfil;
 
     private static ImageView imageViewFotoPerfil;
 
@@ -71,7 +75,14 @@ public class MainActivity extends AppCompatActivity {
     static public FragmentAmigos fragmentoAmigosAbierto;
     static public FragmentClubs fragmentoClubsAbierto;
 
+    private AlertDialog alertDialog;
+    private FragmentManager fragmentManager = getSupportFragmentManager();
 
+    Activity cambioFotoPerfilActivity;
+
+    Activity cambioContrasenaActivity;
+
+    static boolean abrirEscuchando;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
@@ -80,21 +91,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
+        abrirEscuchando = false;
         retrofit = ApiClient.getRetrofit();
         retrofitInterface = ApiClient.getRetrofitInterface();
 
         obtenerDatosMiPerfil();
 
         fragmentoInicioAbierto = new FragmentInicio();
-        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoInicioAbierto).commit();
+        fragmentManager.beginTransaction().add(R.id.main_layout, fragmentoInicioAbierto).commit();
         fragmentoBibliotecaAbierto = new FragmentBiblioteca();
-        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoBibliotecaAbierto).commit();
+        fragmentManager.beginTransaction().add(R.id.main_layout, fragmentoBibliotecaAbierto).commit();
         fragmentoEscuchandoAbierto = new FragmentEscuchando();
-        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoEscuchandoAbierto).commit();
+        fragmentManager.beginTransaction().add(R.id.main_layout, fragmentoEscuchandoAbierto).commit();
         fragmentoAmigosAbierto = new FragmentAmigos();
-        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoAmigosAbierto).commit();
+        fragmentManager.beginTransaction().add(R.id.main_layout, fragmentoAmigosAbierto).commit();
         fragmentoClubsAbierto = new FragmentClubs();
-        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, fragmentoClubsAbierto).commit();
+        fragmentManager.beginTransaction().add(R.id.main_layout, fragmentoClubsAbierto).commit();
 
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -106,22 +118,26 @@ public class MainActivity extends AppCompatActivity {
 
             switch(item.getItemId()) {
                 case R.id.inicio:
-                    reemplazarFragmento(fragmentoInicioAbierto, getSupportFragmentManager().beginTransaction());
+                    esconderTeclado();
+                    reemplazarFragmento(fragmentoInicioAbierto, fragmentManager.beginTransaction());
                     fragmentoActual = 0;
                     break;
 
                 case R.id.biblioteca:
-                    reemplazarFragmento(fragmentoBibliotecaAbierto, getSupportFragmentManager().beginTransaction());
+                    esconderTeclado();
+                    reemplazarFragmento(fragmentoBibliotecaAbierto, fragmentManager.beginTransaction());
                     fragmentoActual = 1;
                     break;
 
                 case R.id.amigos:
-                    reemplazarFragmento(fragmentoAmigosAbierto, getSupportFragmentManager().beginTransaction());
+                    esconderTeclado();
+                    reemplazarFragmento(fragmentoAmigosAbierto, fragmentManager.beginTransaction());
                     fragmentoActual = 3;
                     break;
 
                 case R.id.clubs:
-                    reemplazarFragmento(fragmentoClubsAbierto, getSupportFragmentManager().beginTransaction());
+                    esconderTeclado();
+                    reemplazarFragmento(fragmentoClubsAbierto, fragmentManager.beginTransaction());
                     fragmentoActual = 4;
                     break;
 
@@ -134,7 +150,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.botonEscuchando).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reemplazarFragmento(fragmentoEscuchandoAbierto, getSupportFragmentManager().beginTransaction());
+                esconderTeclado();
+                reemplazarFragmento(fragmentoEscuchandoAbierto, fragmentManager.beginTransaction());
                 binding.bottomNavigatorView.getMenu().getItem(2).setChecked(true);
                 fabEscuchando.setImageTintList(ColorStateList.valueOf((0xff) << 24 | (0x01) << 16 | (0x87) << 8 | (0x86)));
                 fragmentoActual = 2;
@@ -167,6 +184,16 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(abrirEscuchando){
+            fabEscuchando.performClick();
+        }
+
+        abrirEscuchando = false;
+    }
+
     public void abrirAlertaCerrarSesion() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -183,12 +210,14 @@ public class MainActivity extends AppCompatActivity {
         builder.setNegativeButton("Cancelar    |", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+                if(alertDialog != null && alertDialog.isShowing()){
+                    alertDialog.dismiss();
+                }
             }
         });
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void cerrarSesion() {
@@ -203,7 +232,8 @@ public class MainActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setMessage("Cerrando sesión...");
-                    builder.show();
+                    alertDialog = builder.create();
+                    alertDialog.show();
                     ApiClient.setUserCookie(null);
 
                     SharedPreferences sharedPreferences = getSharedPreferences("session", Context.MODE_PRIVATE);
@@ -211,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
                     editor.clear();
                     editor.apply();
 
+                    vaciarInformacionSesionActual();
                     new Handler().postDelayed(
                         new Runnable() {
                             @Override
@@ -257,14 +288,14 @@ public class MainActivity extends AppCompatActivity {
         textViewCambiarContrasena.setText(content);
 
         imageViewFotoPerfil = viewMiPerfil.findViewById(R.id.imageViewMiPerfil);
-        imageViewFotoPerfil.setImageResource(MainActivity.getMiPerfil().getImgResource());
+        imageViewFotoPerfil.setImageResource(MainActivity.getInfoMiPerfil().getImgResource());
         imageViewFotoPerfil.setClickable(true);
 
         TextView textViewUsuarioMiPerfil = viewMiPerfil.findViewById(R.id.textViewRealNombreUsuarioMiPerfil);
-        textViewUsuarioMiPerfil.setText(getMiPerfil().getUsername());
+        textViewUsuarioMiPerfil.setText(getInfoMiPerfil().getUsername());
 
         TextView textViewMailMiPerfil = viewMiPerfil.findViewById(R.id.textViewRealCorreoElectronicoMiPerfil);
-        textViewMailMiPerfil.setText(getMiPerfil().getMail());
+        textViewMailMiPerfil.setText(getInfoMiPerfil().getMail());
 
         imageViewFotoPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -302,8 +333,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void reemplazarFragmento(Fragment fragmento, FragmentTransaction fragmentTransaction){
-        esconderTeclado();
+    public static void reemplazarFragmento(Fragment fragmento, FragmentTransaction fragmentTransaction){
         switch(fragmentoActual){
             case 0:
                 fragmentTransaction.hide(fragmentoInicioAbierto);
@@ -331,29 +361,12 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    public void abrirMenuHomeSinRegistro() {
-        Intent intent = new Intent(this, HomeSinRegistroActivity.class);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
-    }
 
-
-    private void abrirCambioContrasena() {
-        Intent intent = new Intent(this, CambioContrasenaActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-    }
-
-    private void abrirCambioFotoPerfil() {
-        Intent intent = new Intent(this, CambioFotoPerfilActivity.class);
-        intent.putExtra("foto_perfil_actual", miPerfil.getImgResource());
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-    }
 
     private void reemplazarFragmentoInicial(){
         fragmentoActual = 0;
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.show(fragmentoInicioAbierto);
         fragmentTransaction.hide(fragmentoBibliotecaAbierto);
         fragmentTransaction.hide(fragmentoEscuchandoAbierto);
@@ -363,17 +376,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void obtenerDatosMiPerfil(){
-        miPerfil = new InfoMiPerfil();
+        infoMiPerfil = new InfoMiPerfil();
         peticionUsersProfile();
     }
 
 
-    public static InfoMiPerfil getMiPerfil() {
-        return miPerfil;
+    public static InfoMiPerfil getInfoMiPerfil() {
+        return infoMiPerfil;
     }
 
     public static void actualizarFotoPerfil(){
-        imageViewFotoPerfil.setImageResource(miPerfil.getImgResource());
+        imageViewFotoPerfil.setImageResource(infoMiPerfil.getImgResource());
     }
 
 
@@ -386,7 +399,7 @@ public class MainActivity extends AppCompatActivity {
                 int codigo = response.code();
 
                 if (response.code() == 200) {
-                    InfoMiPerfil infoMiPerfil = getMiPerfil();
+                    InfoMiPerfil infoMiPerfil = getInfoMiPerfil();
 
                     infoMiPerfil.setUsername(response.body().getUsername());
                     infoMiPerfil.setMail(response.body().getMail());
@@ -406,6 +419,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    private void vaciarInformacionSesionActual(){
+        ApiClient.setUserCookie(null);
+        infoMiPerfil = null;
+        InfoAudiolibros.setTodoANull();
+
+        // toda la informacion de CLUBES a null
+        // toda la informacion de AMIGOS a null
+    }
+
+
     private void esconderTeclado() {
         if(this.getCurrentFocus() != null){
             InputMethodManager inputManager = (InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -413,4 +437,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void abrirMenuHomeSinRegistro() {
+        Intent intent = new Intent(this, HomeSinRegistroActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        if(alertDialog != null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+        }
+        finish();
+    }
+
+
+    private void abrirCambioContrasena() {
+        Intent intent = new Intent(this, CambioContrasenaActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    private void abrirCambioFotoPerfil() {
+        Intent intent = new Intent(this, CambioFotoPerfilActivity.class);
+        intent.putExtra("foto_perfil_actual", infoMiPerfil.getImgResource());
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
 }

@@ -17,11 +17,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
-import com.example.narratives.peticiones.users.login.LoginRequest;
-import com.example.narratives.peticiones.users.login.LoginResult;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.sockets.SocketManager;
+import com.example.narratives.peticiones.users.login.LoginRequest;
+import com.example.narratives.peticiones.users.login.LoginResult;
 
 import io.socket.client.Socket;
 import retrofit2.Call;
@@ -35,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     Socket socket;
     String cookie;
+
+    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                 request.setUsername(usuarioEditText.getText().toString());
                 request.setPassword(passwordEditText.getText().toString());
 
-                comprobarDatosLogin(request);
+                peticionLogin(request);
             }
         });
 
@@ -82,12 +84,12 @@ public class LoginActivity extends AppCompatActivity {
                 request.setUsername("directo");
                 request.setPassword("Directo1");
 
-                comprobarDatosLogin(request);
+                peticionLogin(request);
             }
         });
     }
 
-    private void comprobarDatosLogin(LoginRequest request) {
+    private void peticionLogin(LoginRequest request) {
 
         Call<LoginResult> llamada = retrofitInterface.ejecutarUsersLogin(ApiClient.getUserCookie(), request);
         llamada.enqueue(new Callback<LoginResult>() {
@@ -97,7 +99,10 @@ public class LoginActivity extends AppCompatActivity {
                     if(response.isSuccessful()){
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.ExitoAlertDialogStyle);
                         builder.setMessage("Iniciando sesión...");
-                        builder.show();
+
+                        alertDialog = builder.create();
+                        alertDialog.show();
+
                         cookie = response.headers().get("Set-Cookie");
                         ApiClient.setUserCookie(cookie);
                         SocketManager.setSession(cookie);
@@ -151,15 +156,22 @@ public class LoginActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//
         intent.putExtra("COOKIE", cookie);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        if(alertDialog != null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+        }
         finish();
     }
 
     public void abrirHomeSinRegistro() {
+
+
+
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void abrirMenuRegistro() {
+
         Intent intent = new Intent(this, RegistroActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }

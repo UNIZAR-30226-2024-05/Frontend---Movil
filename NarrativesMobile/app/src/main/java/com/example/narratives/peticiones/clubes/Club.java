@@ -1,11 +1,6 @@
 package com.example.narratives.peticiones.clubes;
 
-import com.example.narratives.clubes.Message;
-import com.example.narratives.clubes.UserMember;
-import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
-
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Club implements Serializable {
