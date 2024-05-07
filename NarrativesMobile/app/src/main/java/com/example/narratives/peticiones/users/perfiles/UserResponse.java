@@ -1,14 +1,15 @@
 package com.example.narratives.peticiones.users.perfiles;
 
+import com.example.narratives.peticiones.amigos.ColeccionDeAmigo;
 import com.example.narratives.peticiones.amigos.UltimaActividad;
+
+import java.util.ArrayList;
 
 public class UserResponse {
     String id;
     String username;
     int img;
-    //ArrayList<Coleccion> colecciones...
-
-    String colecciones;
+    ArrayList<ColeccionDeAmigo> colecciones;
     int estado;
     UltimaActividad ultimo;
 

@@ -37,13 +37,15 @@ public class InfoAmigoActivity extends AppCompatActivity {
         ShapeableImageView fotoPerfil = (ShapeableImageView) findViewById(R.id.imageViewFotoInfoAmigo);
         fotoPerfil.setImageResource(InfoAmigos.getImageResourceFromImgCode(amigoActual.getImg()));
 
-        ShapeableImageView portada = (ShapeableImageView) findViewById(R.id.imageViewPortadaInfoAmigo);
-        Glide
-                .with(this)
-                .load(amigoActual.getUltimo().getImg())
-                .centerCrop()
-                .placeholder(R.drawable.icono_imagen_estandar_foreground)
-                .into(portada);
+        if(amigoActual.getUltimo() != null){
+            ShapeableImageView portada = (ShapeableImageView) findViewById(R.id.imageViewPortadaInfoAmigo);
+            Glide
+                    .with(this)
+                    .load(amigoActual.getUltimo().getImg())
+                    .centerCrop()
+                    .placeholder(R.drawable.icono_imagen_estandar_foreground)
+                    .into(portada);
+        }
 
         TextView estado = (TextView) findViewById(R.id.textViewEstadoInfoAmigo);
         estado.setText(InfoAmigos.getEstadoStringFromId(amigoActual.getEstado()));
