@@ -1,10 +1,8 @@
 package com.example.narratives.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.TransitionSet;
@@ -22,10 +20,10 @@ import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.adaptadores.AudiolibroAdapter;
 import com.example.narratives.fragments.FragmentClubs;
-import com.example.narratives.informacion.InfoClubes;
-import com.example.narratives.peticiones.clubes.Club;
 import com.example.narratives.informacion.InfoAudiolibros;
+import com.example.narratives.informacion.InfoClubes;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
+import com.example.narratives.peticiones.clubes.Club;
 import com.example.narratives.peticiones.clubes.ClubRequest;
 import com.example.narratives.peticiones.clubes.ClubResult;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

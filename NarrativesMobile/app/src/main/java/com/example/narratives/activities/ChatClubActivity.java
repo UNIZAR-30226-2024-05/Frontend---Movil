@@ -21,11 +21,9 @@ import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.adaptadores.UserMemberAdapter;
 import com.example.narratives.fragments.FragmentClubs;
 import com.example.narratives.peticiones.clubes.Club;
 import com.example.narratives.peticiones.clubes.ClubResult;
-import com.example.narratives.sockets.SocketManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;

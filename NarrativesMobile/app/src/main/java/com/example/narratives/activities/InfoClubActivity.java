@@ -1,12 +1,8 @@
 package com.example.narratives.activities;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.transition.TransitionSet;
-import android.util.Log;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -21,10 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.adaptadores.UserAdapter;
 import com.example.narratives.adaptadores.UserMemberAdapter;
-import com.example.narratives.fragments.FragmentClubs;
-import com.example.narratives.informacion.InfoClubes;
 import com.example.narratives.peticiones.clubes.Club;
 import com.example.narratives.peticiones.clubes.ClubResult;
 

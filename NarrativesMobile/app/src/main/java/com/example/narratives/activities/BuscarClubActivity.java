@@ -6,26 +6,21 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.TransitionSet;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.adaptadores.AudiolibroAdapter;
 import com.example.narratives.adaptadores.ClubAdapter;
 import com.example.narratives.fragments.FragmentClubs;
-import com.example.narratives.informacion.InfoClubes;
 import com.example.narratives.peticiones.clubes.Club;
-import com.example.narratives.peticiones.clubes.ClubResult;
 import com.example.narratives.peticiones.clubes.ClubesResult;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -68,7 +63,9 @@ public class BuscarClubActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                (BuscarClubActivity.this).mAdapter.getFilter().filter(charSequence);
+                if(mAdapter != null){
+                    (BuscarClubActivity.this).mAdapter.getFilter().filter(charSequence);
+                }
             }
 
             @Override

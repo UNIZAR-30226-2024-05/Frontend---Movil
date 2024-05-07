@@ -4,28 +4,26 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.activities.BuscarClubActivity;
-import com.example.narratives.activities.CrearClubActivity;
-import com.example.narratives.activities.InfoClubActivity;
-import com.example.narratives.informacion.InfoClubes;
+import com.example.narratives.activities.clubes.BuscarClubActivity;
+import com.example.narratives.activities.clubes.CrearClubActivity;
+import com.example.narratives.activities.clubes.InfoClubActivity;
 import com.example.narratives.adaptadores.ClubAdapter;
+import com.example.narratives.informacion.InfoClubes;
 import com.example.narratives.peticiones.clubes.Club;
 import com.example.narratives.peticiones.clubes.ClubesResult;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;

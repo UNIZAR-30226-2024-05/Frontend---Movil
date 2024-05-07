@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.transition.TransitionSet;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -26,8 +25,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.adaptadores.MenuInicioAdapter;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
 
@@ -101,12 +100,13 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
 
             textViewGenero5 = findViewById(R.id.textViewGenero5);
             rvGenero5 = findViewById(R.id.recyclerViewGenero5);
+
             if(InfoAudiolibros.getTodosLosAudiolibros() == null){
                 obtenerTodosLosAudiolibros();
             } else {
-                cargarCarruselesConGeneros();
-                esconderCargandoNarratives();
+                mostrarMenuInicio(false);
             }
+
             if (InfoAudiolibros.getTodosLosAudiolibrosEjemplo() == null) {
                 obtenerAudiolibrosEjemplo();
             }
