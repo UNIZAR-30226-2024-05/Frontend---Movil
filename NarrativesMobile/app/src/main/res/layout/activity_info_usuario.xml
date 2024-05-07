@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="55dp"
@@ -13,11 +14,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewFotoInfoAmigo"
-        app:layout_constraintVertical_bias="0.1">
+        app:layout_constraintTop_toBottomOf="@+id/imageViewFotoInfoUsuario"
+        app:layout_constraintVertical_bias="0.3">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/botonSolicitudInfoLibro"
+            android:id="@+id/botonSolicitudInfoUsuario"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_gravity="center"
@@ -38,11 +39,45 @@
             app:strokeWidth="2dp" />
 
 
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/botonVerMarcapaginasInfoUsuario"
+            android:layout_width="240dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/teal_casi_blanco"
+            android:drawableLeft="@drawable/icono_marcapaginas"
+            android:drawableTint="@color/teal_700"
+            android:paddingStart="12dp"
+            android:text="Ver sus marcapáginas"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/teal_700"
+            android:textSize="15sp"
+            app:cornerRadius="8dp"
+            app:strokeColor="@color/teal_200"
+            app:strokeWidth="2dp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/botonAñadirAColeccionInfoLibro"
-            android:layout_width="220dp"
+            android:id="@+id/botonVerResenasInfoUsuario"
+            android:layout_width="240dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/teal_casi_blanco"
+            android:drawableLeft="@drawable/icono_resenas"
+            android:drawableTint="@color/teal_700"
+            android:paddingStart="12dp"
+            android:text="Ver sus reseñas"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/teal_700"
+            android:textSize="15sp"
+            app:cornerRadius="8dp"
+            app:strokeColor="@color/teal_200"
+            app:strokeWidth="2dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/botonVerColeccionesInfoUsuario"
+            android:layout_width="240dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:backgroundTint="@color/teal_casi_blanco"
@@ -59,30 +94,12 @@
             app:strokeColor="@color/teal_200"
             app:strokeWidth="2dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/botonComprarEnAmazonInfoLibro"
-            android:layout_width="220dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/teal_casi_blanco"
-            android:drawableLeft="@drawable/icono_resenas"
-            android:drawableTint="@color/teal_700"
-            android:paddingStart="12dp"
-            android:text="Ver sus reseñas"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textColor="@color/teal_700"
-            android:textSize="15sp"
-            app:cornerRadius="8dp"
-            app:strokeColor="@color/teal_200"
-            app:strokeWidth="2dp" />
-
 
     </LinearLayout>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/botonVolverDesdeInfoLibro"
+        android:id="@+id/botonVolverDesdeInfoUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -99,7 +116,7 @@
         app:tint="@color/teal_700" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imageViewFotoInfoAmigo"
+        android:id="@+id/imageViewFotoInfoUsuario"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_marginHorizontal="15dp"
@@ -107,38 +124,55 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.35"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewNombreInfoUsuario"
+        app:layout_constraintVertical_bias="0.05" />
 
     <TextView
-        android:id="@+id/textViewViendoInfoDeInfoAmigo"
+        android:id="@+id/textViewViendoInfoDeInfoUsuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="50dp"
         android:gravity="center"
         android:text="Estás viendo el perfil de"
         android:textAllCaps="false"
         android:textSize="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewNombreInfoAmigo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewNombreInfoAmigo"
+        android:id="@+id/textViewNombreInfoUsuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
         android:layout_marginBottom="10dp"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
-        android:text="Username del amigo"
+        android:text="Username del usuario"
         android:textAllCaps="false"
         android:textSize="35dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageViewFotoInfoAmigo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewViendoInfoDeInfoUsuario" />
+
+    <TextView
+        android:id="@+id/textViewEstadoInfoUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="40dp"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:text="Estado de amistad"
+        android:textAllCaps="false"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewFotoInfoUsuario"
         app:layout_constraintVertical_bias="0.9" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

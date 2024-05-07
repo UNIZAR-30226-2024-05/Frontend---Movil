@@ -49,16 +49,11 @@ public class UserMemberAdapter extends ArrayAdapter<UserMember> implements Filte
 
         UserMember user = userList.get(position);
 
-        TextView nombre = view.findViewById(R.id.textViewUsuarioNombrePrueba);
+        TextView nombre = view.findViewById(R.id.textViewAmigoNombre);
         nombre.setText(user.getUsername());
 
-        TextView rol = view.findViewById(R.id.textViewUsuarioRolPrueba);
-        if (user.isAdmin()) {
-            rol.setText("Admin");
-        }
-
         //Modificar
-        ShapeableImageView foto = view.findViewById(R.id.imageViewUsuarioFotoPrueba);
+        ShapeableImageView foto = view.findViewById(R.id.imageViewAmigoFoto);
         if (position % 2 == 0) {
             foto.setImageResource(R.drawable.pfp_gato);
         } else {

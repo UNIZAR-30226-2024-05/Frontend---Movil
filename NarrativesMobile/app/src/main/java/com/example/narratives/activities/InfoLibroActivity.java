@@ -64,7 +64,7 @@ public class InfoLibroActivity extends AppCompatActivity {
         textViewGeneros.setText(getFormattedGenres(audiolibroActual.getGeneros()));
 
 
-        FloatingActionButton botonCerrar = (FloatingActionButton) findViewById(R.id.botonVolverDesdeInfoLibro);
+        FloatingActionButton botonCerrar = (FloatingActionButton) findViewById(R.id.botonVolverDesdeInfoUsuario);
         botonCerrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,7 +96,7 @@ public class InfoLibroActivity extends AppCompatActivity {
             }
         });
 
-        comprarAudiolibro = (MaterialButton) findViewById(R.id.botonComprarEnAmazonInfoLibro);
+        comprarAudiolibro = (MaterialButton) findViewById(R.id.botonVerResenasInfoUsuario);
         comprarAudiolibro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

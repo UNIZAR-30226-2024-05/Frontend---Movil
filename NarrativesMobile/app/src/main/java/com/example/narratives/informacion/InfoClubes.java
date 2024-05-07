@@ -2,8 +2,9 @@ package com.example.narratives.informacion;
 
 import android.util.Log;
 
-import java.util.ArrayList;
 import com.example.narratives.peticiones.clubes.Club;
+
+import java.util.ArrayList;
 
 public class InfoClubes {
     private static ArrayList<Club> todosLosClubes;

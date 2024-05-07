@@ -69,6 +69,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
             if(InfoAudiolibros.getTodosLosAudiolibros() == null){
                 obtenerTodosLosAudiolibros();
             }
+
             ApiClient.setUserCookie(sharedPreferences.getString("cookie", null));
             new Handler().postDelayed(
                     new Runnable() {

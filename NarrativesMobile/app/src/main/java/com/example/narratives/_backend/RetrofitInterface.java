@@ -11,6 +11,7 @@ import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequ
 import com.example.narratives.peticiones.users.cambio_datos.CambioFotoPerfilRequest;
 import com.example.narratives.peticiones.users.login.LoginRequest;
 import com.example.narratives.peticiones.users.login.LoginResult;
+import com.example.narratives.peticiones.users.amigos.AmigosResponse;
 import com.example.narratives.peticiones.users.perfiles.MiPerfilResponse;
 import com.example.narratives.peticiones.users.register.RegisterRequest;
 import com.example.narratives.peticiones.users.register.RegisterResult;
@@ -55,8 +56,17 @@ public interface RetrofitInterface {
 
 
 
+    @GET("/amistad/amigos")
+    Call<AmigosResponse> ejecutarAmistadAmigos(@Header("Cookie") String userCookie);
+
+
+
+
     @POST("/marcapaginas/listening")
     Call<GenericMessageResult> ejecutarMarcapaginasListening(@Header("Cookie") String userCookie, @Body ListeningRequest request);
+
+
+
 
     @GET("/club/lista")
     Call<ClubesResult> ejecutarMyClubes(@Header("Cookie") String userCookie);

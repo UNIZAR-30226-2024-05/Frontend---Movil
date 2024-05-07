@@ -13,24 +13,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.narratives.R;
-import com.example.narratives.peticiones.users.login.LoginUser;
+import com.example.narratives.informacion.InfoAmigos;
+import com.example.narratives.peticiones.users.amigos.AmigoSimple;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserAdapter extends ArrayAdapter<LoginUser> implements Filterable {
+public class AmigosAdapter extends ArrayAdapter<AmigoSimple> implements Filterable {
 
 
-    private List<LoginUser> userList;
-    private List<LoginUser> tempUserList;
+    private List<AmigoSimple> userList;
+    private List<AmigoSimple> tempUserList;
 
     private Context context;
     private int resourceLayout;
 
     private UserFilter userFilter;
 
-    public UserAdapter(@NonNull Context _context, int _resource, @NonNull List <LoginUser> _objects) {
+    public AmigosAdapter(@NonNull Context _context, int _resource, @NonNull List <AmigoSimple> _objects) {
         super(_context, _resource, _objects);
         this.userList = _objects;
         this.tempUserList = _objects;
@@ -47,22 +48,13 @@ public class UserAdapter extends ArrayAdapter<LoginUser> implements Filterable {
             view = LayoutInflater.from(context).inflate(resourceLayout, null);
         }
 
-        LoginUser user = userList.get(position);
+        AmigoSimple amigo = userList.get(position);
 
-        TextView nombre = view.findViewById(R.id.textViewUsuarioNombrePrueba);
-        nombre.setText(user.getUsername());
+        TextView nombre = view.findViewById(R.id.textViewAmigoNombre);
+        nombre.setText(amigo.getUsername());
 
-        TextView rol = view.findViewById(R.id.textViewUsuarioRolPrueba);
-        rol.setText(user.getRole());
-
-        ShapeableImageView foto = view.findViewById(R.id.imageViewUsuarioFotoPrueba);
-        if (position % 2 == 0) {
-            foto.setImageResource(R.drawable.pfp_gato);
-        } else {
-            foto.setImageResource(R.drawable.pfp_rana);
-        }
-
-
+        ShapeableImageView foto = view.findViewById(R.id.imageViewAmigoFoto);
+        foto.setImageResource(InfoAmigos.getImageResourceFromImgCode(amigo.getImg()));
 
         return view;
     }
@@ -78,7 +70,7 @@ public class UserAdapter extends ArrayAdapter<LoginUser> implements Filterable {
 
     @Nullable
     @Override
-    public LoginUser getItem(int position) {
+    public AmigoSimple getItem(int position) {
         return userList.get(position);
     }
 
@@ -95,7 +87,7 @@ public class UserAdapter extends ArrayAdapter<LoginUser> implements Filterable {
 
             if(charSequence != null && charSequence.length() > 0) {
                 charSequence = charSequence.toString().toUpperCase();
-                ArrayList<LoginUser> filtros = new ArrayList<>();
+                ArrayList<AmigoSimple> filtros = new ArrayList<>();
 
                 for (int i = 0; i < tempUserList.size(); i++) {
                     if (tempUserList.get(i).getUsername().toUpperCase().contains(charSequence)) {
@@ -115,7 +107,7 @@ public class UserAdapter extends ArrayAdapter<LoginUser> implements Filterable {
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            userList = (ArrayList<LoginUser>)filterResults.values;
+            userList = (ArrayList<AmigoSimple>)filterResults.values;
             notifyDataSetChanged();
         }
     }

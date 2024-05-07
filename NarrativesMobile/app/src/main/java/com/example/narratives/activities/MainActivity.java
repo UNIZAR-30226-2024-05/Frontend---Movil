@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+
         fabEscuchando = (FloatingActionButton) findViewById(R.id.botonEscuchando);
         findViewById(R.id.botonEscuchando).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -43,7 +43,7 @@
             />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/botonAñadirAColeccionInfoLibro"
+            android:id="@+id/botonVerColeccionesInfoUsuario"
             android:layout_width="220dp"
             android:layout_height="60dp"
             android:backgroundTint="@color/teal_casi_blanco"
@@ -63,7 +63,7 @@
             />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/botonComprarEnAmazonInfoLibro"
+            android:id="@+id/botonVerResenasInfoUsuario"
             android:layout_width="220dp"
             android:layout_height="60dp"
             android:backgroundTint="@color/teal_casi_blanco"
@@ -96,7 +96,7 @@
         app:layout_constraintTop_toTopOf="@+id/textViewGeneroInfoLibro" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/botonVolverDesdeInfoLibro"
+        android:id="@+id/botonVolverDesdeInfoUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
