@@ -14,11 +14,13 @@
 
     <TextView
         android:id="@+id/textViewNombreAudiolibroColeccion"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/imageViewImgAudiolibroColeccion"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
+        android:layout_marginEnd="40dp"
+        android:layout_alignEnd="@id/imageViewEscucharAudiolibroColeccion"
         android:layout_toRightOf="@+id/imageViewImgAudiolibroColeccion"
         android:text="NOMBRE"
         android:textSize="18sp"
@@ -26,11 +28,13 @@
 
     <TextView
         android:id="@+id/textViewAutorAudiolibroColeccion"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="AUTOR"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="40dp"
+        android:layout_alignEnd="@id/imageViewEscucharAudiolibroColeccion"
         android:layout_below="@id/textViewNombreAudiolibroColeccion"
         android:layout_toRightOf="@+id/imageViewImgAudiolibroColeccion"
         android:textSize="15sp"

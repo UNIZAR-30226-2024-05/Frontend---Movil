@@ -1,7 +1,5 @@
 package com.example.narratives.activities;
 
-import static java.security.AccessController.getContext;
-
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -36,7 +34,6 @@ import com.example.narratives.informacion.InfoColecciones;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
-import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarColeccionRequest;
 import com.example.narratives.peticiones.colecciones.AudiolibrosColeccionItem;
@@ -119,7 +116,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
         botonAnadir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mostrarPopUpNuevaColeccion();
+                mostrarPopupNuevaColeccion();
             }
         });
     }
@@ -179,9 +176,9 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
         coleccionesAdapter.notifyDataSetChanged();
     }
 
-    private void mostrarPopUpNuevaColeccion() {
+    private void mostrarPopupNuevaColeccion() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View viewNuevaColeccion = inflater.inflate(R.layout.popup_anadir_coleccion, null);
+        View viewNuevaColeccion = inflater.inflate(R.layout.popup_nueva_coleccion, null);
 
         int width= ViewGroup.LayoutParams.MATCH_PARENT;
         int height= ViewGroup.LayoutParams.MATCH_PARENT;
@@ -219,6 +216,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
             }
         });
     }
+
     private boolean tituloOk(String titulo) {
         if (titulo.isEmpty()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(ColeccionesActivity.this, R.style.ErrorAlertDialogStyle);
@@ -389,7 +387,9 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                     coleccionesList.clear();
                     obtenerColecciones();
                     if (coleccionActual.getPropietarioUsername().equals(InfoMiPerfil.getUsername())) {
-                        popupWindow.dismiss();
+                        if (popupWindow != null && popupWindow.isShowing()) {
+                            popupWindow.dismiss();
+                        }
                     } else {
                         coleccionActual.setGuardada(false);
                         textViewGuardadaSiNo.setText("NO");

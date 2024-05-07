@@ -25,7 +25,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface RetrofitInterface {
-    String URL_BASE = "https://server.narratives.es";
+    //String URL_BASE = "https://server.narratives.es";
+    String URL_BASE = "http://192.168.1.138:8000";
 
     @POST("/users/login")
     Call<LoginResult> ejecutarUsersLogin(@Header("Cookie") String userCookie, @Body LoginRequest request);
@@ -65,6 +66,9 @@ public interface RetrofitInterface {
 
     @POST("/colecciones/friend")
     Call<GenericMessageResult> ejecutarColeccionesFriend(@Header("Cookie") String userCookie, @Body AnadirEliminarColeccionRequest request);
+
+    @POST("/colecciones/anadirAudiolibro")
+    Call<GenericMessageResult> ejecutarColeccionesAnadirAudiolibro(@Header("Cookie") String userCookie, @Body AnadirEliminarAudiolibroDeColeccionRequest request);
 
     @POST("/colecciones/eliminarAudiolibro")
     Call<GenericMessageResult> ejecutarColeccionesEliminarAudiolibro(@Header("Cookie") String userCookie, @Body AnadirEliminarAudiolibroDeColeccionRequest request);

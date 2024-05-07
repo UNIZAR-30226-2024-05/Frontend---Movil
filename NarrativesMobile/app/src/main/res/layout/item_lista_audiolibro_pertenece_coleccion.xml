@@ -16,14 +16,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageViewTresPuntosColeccion"
+        android:id="@+id/imageViewCheckColeccion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:rotation="90"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icono_tres_puntos" />
+        app:srcCompat="@drawable/icono_check" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
