@@ -1,4 +1,4 @@
-package com.example.narratives.peticiones.users.amigos;
+package com.example.narratives.peticiones.amigos;
 
 public class AmigoSimple {
     int id;

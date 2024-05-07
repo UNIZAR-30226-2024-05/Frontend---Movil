@@ -1,13 +1,15 @@
 package com.example.narratives.peticiones.users.perfiles;
 
-import com.example.narratives.peticiones.users.amigos.UltimaActividad;
+import com.example.narratives.peticiones.amigos.UltimaActividad;
 
 public class UserResponse {
     String id;
     String username;
     int img;
     //ArrayList<Coleccion> colecciones...
-    String estado;
+
+    String colecciones;
+    int estado;
     UltimaActividad ultimo;
 
 
@@ -36,11 +38,11 @@ public class UserResponse {
         this.img = img;
     }
 
-    public String getEstado() {
+    public int getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(int estado) {
         this.estado = estado;
     }
 

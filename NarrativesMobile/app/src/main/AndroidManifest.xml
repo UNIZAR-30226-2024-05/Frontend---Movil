@@ -28,11 +28,13 @@
         <activity android:name=".activities.RegistroActivity"></activity>
         <activity android:name=".activities.CambioContrasenaActivity"></activity>
         <activity android:name=".activities.CambioFotoPerfilActivity"></activity>
-        <activity android:name=".activities.clubes.CrearClubActivity"></activity>
-        <activity android:name=".activities.clubes.BuscarClubActivity"></activity>
-        <activity android:name=".activities.clubes.InfoClubActivity"></activity>
-        <activity android:name=".activities.clubes.ChatClubActivity"></activity>
+        <activity android:name=".activities.CrearClubActivity"></activity>
+        <activity android:name=".activities.BuscarClubActivity"></activity>
+        <activity android:name=".activities.InfoClubActivity"></activity>
+        <activity android:name=".activities.ChatClubActivity"></activity>
         <activity android:name=".activities.InfoLibroActivity"></activity>
+        <activity android:name=".activities.InfoAmigoActivity"></activity>
+
 
 
         <meta-data

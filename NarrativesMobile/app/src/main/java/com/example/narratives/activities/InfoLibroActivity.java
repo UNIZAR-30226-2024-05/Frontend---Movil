@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.narratives.R;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.Genero;
 import com.google.android.material.button.MaterialButton;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 
 public class InfoLibroActivity extends AppCompatActivity {
 
-    public static AudiolibroEspecificoResponse audiolibroActual;
+    public AudiolibroEspecificoResponse audiolibroActual;
 
     MaterialButton escucharAudiolibro;
     MaterialButton comprarAudiolibro;
@@ -37,10 +38,10 @@ public class InfoLibroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info_libro);
         super.onCreate(savedInstanceState);
 
+        audiolibroActual = InfoAudiolibros.getAudiolibroActual();
+
         int width= ViewGroup.LayoutParams.MATCH_PARENT;
         int height= ViewGroup.LayoutParams.MATCH_PARENT;
-
-
 
         ImageView imageViewPortada = findViewById(R.id.imageViewPortadaInfoLibro);
 
@@ -140,6 +141,7 @@ public class InfoLibroActivity extends AppCompatActivity {
     }
 
     private void abrirMenuMain() {
+        InfoAudiolibros.setAudiolibroActual(null);
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());

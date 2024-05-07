@@ -164,7 +164,7 @@ public class FragmentBiblioteca extends Fragment {
                 int codigo = response.code();
 
                 if (response.code() == 200) {
-                    InfoLibroActivity.audiolibroActual = response.body();
+                    InfoAudiolibros.setAudiolibroActual(response.body());
                     abrirInfoLibro();
 
                 } else if(codigo == 409) {
@@ -185,10 +185,7 @@ public class FragmentBiblioteca extends Fragment {
         });
     }
 
-    private void abrirInfoLibro() {
-        Intent intent = new Intent(getContext(), InfoLibroActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
-    }
+
 
 
     private void inicializarAdaptadorBiblioteca(){
@@ -225,5 +222,10 @@ public class FragmentBiblioteca extends Fragment {
         }
 
         gridView.setAdapter(adaptadorActual);
+    }
+
+    private void abrirInfoLibro() {
+        Intent intent = new Intent(getContext(), InfoLibroActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
     }
 }

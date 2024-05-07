@@ -11,8 +11,9 @@ import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequ
 import com.example.narratives.peticiones.users.cambio_datos.CambioFotoPerfilRequest;
 import com.example.narratives.peticiones.users.login.LoginRequest;
 import com.example.narratives.peticiones.users.login.LoginResult;
-import com.example.narratives.peticiones.users.amigos.AmigosResponse;
+import com.example.narratives.peticiones.amigos.AmigosResponse;
 import com.example.narratives.peticiones.users.perfiles.MiPerfilResponse;
+import com.example.narratives.peticiones.users.perfiles.UserResponse;
 import com.example.narratives.peticiones.users.register.RegisterRequest;
 import com.example.narratives.peticiones.users.register.RegisterResult;
 
@@ -44,6 +45,9 @@ public interface RetrofitInterface {
 
     @GET("/users/profile")
     Call<MiPerfilResponse> ejecutarUsersProfile(@Header("Cookie") String userCookie);
+
+    @GET("/users/{id}")
+    Call<UserResponse> ejecutarUsersId(@Header("Cookie") String userCookie, @Path("id") int id);
 
 
 

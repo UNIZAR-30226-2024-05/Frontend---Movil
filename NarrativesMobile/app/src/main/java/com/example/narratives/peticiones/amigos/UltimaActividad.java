@@ -1,18 +1,18 @@
-package com.example.narratives.peticiones.users.amigos;
+package com.example.narratives.peticiones.amigos;
 
 public class UltimaActividad {
 
-    String id_audiolibro;
+    int id_audiolibro;
     String titulo;
     String img;
-    String id_capitulo;
+    int id_capitulo;
     String fecha;
 
-    public String getId_audiolibro() {
+    public int getId_audiolibro() {
         return id_audiolibro;
     }
 
-    public void setId_audiolibro(String id_audiolibro) {
+    public void setId_audiolibro(int id_audiolibro) {
         this.id_audiolibro = id_audiolibro;
     }
 
@@ -32,11 +32,11 @@ public class UltimaActividad {
         this.img = img;
     }
 
-    public String getId_capitulo() {
+    public int getId_capitulo() {
         return id_capitulo;
     }
 
-    public void setId_capitulo(String id_capitulo) {
+    public void setId_capitulo(int id_capitulo) {
         this.id_capitulo = id_capitulo;
     }
 

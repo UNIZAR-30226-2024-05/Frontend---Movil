@@ -1,11 +1,14 @@
 package com.example.narratives.fragments;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -15,10 +18,12 @@ import androidx.fragment.app.Fragment;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.activities.InfoAmigoActivity;
 import com.example.narratives.adaptadores.AmigosAdapter;
 import com.example.narratives.informacion.InfoAmigos;
-import com.example.narratives.peticiones.users.amigos.AmigoSimple;
-import com.example.narratives.peticiones.users.amigos.AmigosResponse;
+import com.example.narratives.peticiones.amigos.AmigoSimple;
+import com.example.narratives.peticiones.amigos.AmigosResponse;
+import com.example.narratives.peticiones.users.perfiles.UserResponse;
 
 import org.json.JSONObject;
 
@@ -53,8 +58,47 @@ public class FragmentAmigos extends Fragment {
         listaAmigos = (ListView) getView().findViewById(R.id.listViewListaAmigos);
         buscador = (EditText) getView().findViewById(R.id.editTextBuscadorListaAmigos);
 
+        listaAmigos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                peticionUsersId(position);
+            }
+        });
+
         peticionAmigos();
     }
+
+    private void peticionUsersId(int position) {
+        AmigoSimple amigo = (AmigoSimple) amigosAdapter.getItem(position);
+
+        Call<UserResponse> llamada = retrofitInterface.ejecutarUsersId(ApiClient.getUserCookie(), amigo.getId());
+        llamada.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                int codigo = response.code();
+
+                if (response.code() == 200) {
+                    InfoAmigos.setAmigoActual(response.body());
+                    abrirInfoAmigo();
+
+                } else if(codigo == 409) {
+                    Toast.makeText(getContext(), "No hay ningún usuario con ese ID", Toast.LENGTH_LONG).show();
+
+                } else if(codigo == 500) {
+                    Toast.makeText(getContext(), "Error del servidor", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Error desconocido (usersId): " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "No se ha conectado con el servidor (usersId)", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 
     private void peticionAmigos() {
         Call<AmigosResponse> llamada = retrofitInterface.ejecutarAmistadAmigos(ApiClient.getUserCookie());
@@ -126,4 +170,10 @@ public class FragmentAmigos extends Fragment {
             }
         });
     }
+
+    private void abrirInfoAmigo() {
+        Intent intent = new Intent(getContext(), InfoAmigoActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+    }
+
 }

@@ -1,11 +1,15 @@
 package com.example.narratives.informacion;
 
 import com.example.narratives.R;
-import com.example.narratives.peticiones.users.amigos.AmigoSimple;
+import com.example.narratives.peticiones.amigos.AmigoSimple;
+import com.example.narratives.peticiones.users.perfiles.UserResponse;
 
 import java.util.ArrayList;
 
 public class InfoAmigos {
+
+    private static UserResponse amigoActual;
+
     private static ArrayList<AmigoSimple> amigos;
 
     public static ArrayList<AmigoSimple> getAmigos() {
@@ -54,4 +58,26 @@ public class InfoAmigos {
         return -1;
     }
 
+    public static String getEstadoStringFromId(int estado){
+        if(estado == 0){
+            return "¡Sois amigos!";
+        } else if(estado == 1){
+            return "No sois amigos";
+        } else if(estado == 2){
+            return "Petición de amistad enviada";
+        } else if(estado == 3){
+            return "¡Petición de amistad recibida!";
+        }
+
+        return "Estado indeterminado";
+    }
+
+
+    public static UserResponse getAmigoActual() {
+        return amigoActual;
+    }
+
+    public static void setAmigoActual(UserResponse amigoActual) {
+        InfoAmigos.amigoActual = amigoActual;
+    }
 }

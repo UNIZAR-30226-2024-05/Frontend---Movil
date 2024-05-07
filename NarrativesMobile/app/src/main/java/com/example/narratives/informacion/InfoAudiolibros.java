@@ -2,6 +2,7 @@ package com.example.narratives.informacion;
 
 import static java.lang.Math.max;
 
+import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 
 import java.util.ArrayList;
@@ -9,6 +10,20 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class InfoAudiolibros {
+
+    private static AudiolibroEspecificoResponse audiolibroActual;
+
+    public static AudiolibroEspecificoResponse getAudiolibroActual() {
+        if(audiolibroActual == null){
+            return new AudiolibroEspecificoResponse();
+        } else {
+            return audiolibroActual;
+        }
+    }
+
+    public static void setAudiolibroActual(AudiolibroEspecificoResponse audiolibroActual) {
+        InfoAudiolibros.audiolibroActual = audiolibroActual;
+    }
     private static ArrayList<AudiolibroItem> todosLosAudiolibros;
     private static ArrayList<AudiolibroItem> todosLosAudiolibrosEjemplo;
 
@@ -125,4 +140,8 @@ public class InfoAudiolibros {
     public static ArrayList<AudiolibroItem> getAudiolibrosSeguirEscuchando(){
         return new ArrayList<>();
     }
+
+
+
+
 }

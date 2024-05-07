@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 
 import com.example.narratives.R;
 import com.example.narratives.informacion.InfoAmigos;
-import com.example.narratives.peticiones.users.amigos.AmigoSimple;
+import com.example.narratives.peticiones.amigos.AmigoSimple;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
