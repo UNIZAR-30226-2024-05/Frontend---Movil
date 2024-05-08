@@ -1,4 +1,4 @@
-package com.example.narratives.activities;
+package com.example.narratives.activities.clubes;
 
 import android.app.Activity;
 import android.content.Intent;
