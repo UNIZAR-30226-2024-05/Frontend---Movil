@@ -34,6 +34,11 @@
         <activity android:name=".activities.ChatClubActivity"></activity>
         <activity android:name=".activities.InfoLibroActivity"></activity>
         <activity android:name=".activities.InfoAmigoActivity"></activity>
+        <activity android:name=".activities.AnadirAmigoActivity"></activity>
+        <activity android:name=".activities.SolicitudesEnviadasActivity"></activity>
+        <activity android:name=".activities.SolicitudesRecibidasActivity"></activity>
+        <activity android:name=".activities.SolicitudesHistorialActivity"></activity>
+
 
 
 

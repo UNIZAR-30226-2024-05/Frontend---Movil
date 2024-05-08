@@ -18,12 +18,18 @@ import androidx.fragment.app.Fragment;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.activities.AnadirAmigoActivity;
 import com.example.narratives.activities.InfoAmigoActivity;
+import com.example.narratives.activities.SolicitudesEnviadasActivity;
+import com.example.narratives.activities.SolicitudesHistorialActivity;
+import com.example.narratives.activities.SolicitudesRecibidasActivity;
 import com.example.narratives.adaptadores.AmigosAdapter;
 import com.example.narratives.informacion.InfoAmigos;
 import com.example.narratives.peticiones.amigos.AmigoSimple;
 import com.example.narratives.peticiones.amigos.AmigosResponse;
 import com.example.narratives.peticiones.users.perfiles.UserResponse;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
 
@@ -45,6 +51,14 @@ public class FragmentAmigos extends Fragment {
 
     RetrofitInterface retrofitInterface;
 
+    FloatingActionButton fabAcciones;
+    ExtendedFloatingActionButton fabAnadirAmigo;
+    ExtendedFloatingActionButton fabEnviadas;
+    ExtendedFloatingActionButton fabRecibidas;
+    ExtendedFloatingActionButton fabHistorial;
+
+    boolean fabsVisible;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,6 +71,13 @@ public class FragmentAmigos extends Fragment {
         retrofitInterface = ApiClient.getRetrofitInterface();
         listaAmigos = (ListView) getView().findViewById(R.id.listViewListaAmigos);
         buscador = (EditText) getView().findViewById(R.id.editTextBuscadorListaAmigos);
+        fabAcciones = (FloatingActionButton) getView().findViewById(R.id.fabAcciones);
+        fabAnadirAmigo = (ExtendedFloatingActionButton) getView().findViewById(R.id.fabAnadirAmigo);
+        fabEnviadas = (ExtendedFloatingActionButton) getView().findViewById(R.id.fabSolicitudesEnviadas);
+        fabRecibidas = (ExtendedFloatingActionButton) getView().findViewById(R.id.fabSolicitudesRecibidas);
+        fabHistorial = (ExtendedFloatingActionButton) getView().findViewById(R.id.fabHistorialAmistades);
+
+        esconderFabs();
 
         listaAmigos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -65,8 +86,50 @@ public class FragmentAmigos extends Fragment {
             }
         });
 
+        fabAcciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(fabsVisible){
+                    esconderFabs();
+                } else {
+                    mostrarFabs();
+                }
+            }
+        });
+
+        fabAnadirAmigo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirActividad(new Intent(getContext(), AnadirAmigoActivity.class));
+            }
+        });
+
+        fabEnviadas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirActividad(new Intent(getContext(), SolicitudesEnviadasActivity.class));
+            }
+        });
+
+        fabRecibidas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirActividad(new Intent(getContext(), SolicitudesRecibidasActivity.class));
+            }
+        });
+
+        fabHistorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirActividad(new Intent(getContext(), SolicitudesHistorialActivity.class));
+            }
+        });
+
+
         peticionAmigos();
     }
+
+
 
     private void peticionUsersId(int position) {
         AmigoSimple amigo = (AmigoSimple) amigosAdapter.getItem(position);
@@ -79,7 +142,7 @@ public class FragmentAmigos extends Fragment {
 
                 if (response.code() == 200) {
                     InfoAmigos.setAmigoActual(response.body());
-                    abrirInfoAmigo();
+                    abrirActividad(new Intent(getContext(), InfoAmigoActivity.class));
 
                 } else if(codigo == 409) {
                     Toast.makeText(getContext(), "No hay ningún usuario con ese ID", Toast.LENGTH_LONG).show();
@@ -171,8 +234,23 @@ public class FragmentAmigos extends Fragment {
         });
     }
 
-    private void abrirInfoAmigo() {
-        Intent intent = new Intent(getContext(), InfoAmigoActivity.class);
+    private void mostrarFabs() {
+        fabAnadirAmigo.setVisibility(View.VISIBLE);
+        fabEnviadas.setVisibility(View.VISIBLE);
+        fabRecibidas.setVisibility(View.VISIBLE);
+        fabHistorial.setVisibility(View.VISIBLE);
+        fabsVisible = true;
+    }
+
+    private void esconderFabs() {
+        fabAnadirAmigo.setVisibility(View.GONE);
+        fabEnviadas.setVisibility(View.GONE);
+        fabRecibidas.setVisibility(View.GONE);
+        fabHistorial.setVisibility(View.GONE);
+        fabsVisible = false;
+    }
+
+    private void abrirActividad(Intent intent) {
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
     }
 
