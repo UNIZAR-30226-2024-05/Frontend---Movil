@@ -337,6 +337,7 @@ public class MainActivity extends AppCompatActivity {
         buttonMisColecciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                popupWindow.dismiss();
                 abrirMisColecciones();
             }
         });
