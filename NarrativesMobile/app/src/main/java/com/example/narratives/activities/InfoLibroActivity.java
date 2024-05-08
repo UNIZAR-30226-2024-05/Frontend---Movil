@@ -9,24 +9,38 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.narratives.R;
+import com.example.narratives._backend.ApiClient;
+import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.Genero;
+import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
+import com.example.narratives.peticiones.autores.AutorDatosResponse;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class InfoLibroActivity extends AppCompatActivity {
 
     public static AudiolibroEspecificoResponse audiolibroActual;
+    private Retrofit retrofit;
+    private RetrofitInterface retrofitInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        retrofit = ApiClient.getRetrofit();
+        retrofitInterface = ApiClient.getRetrofitInterface();
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         getWindow().setExitTransition(new TransitionSet());
 
@@ -35,6 +49,7 @@ public class InfoLibroActivity extends AppCompatActivity {
 
         int width= ViewGroup.LayoutParams.MATCH_PARENT;
         int height= ViewGroup.LayoutParams.MATCH_PARENT;
+
 
 
 
@@ -59,7 +74,8 @@ public class InfoLibroActivity extends AppCompatActivity {
             @Override
             //Ya lo cambiare a petición pero para probar que va a la pagina
             public void onClick(View view) {
-                abrirPaginaAutor();
+                //abrirPaginaAutor();
+                peticionAudiolibrosId();
             }
         });
 
@@ -132,5 +148,35 @@ public class InfoLibroActivity extends AppCompatActivity {
         }
 
         return result;
+    }
+
+    private void peticionAudiolibrosId(){
+
+        Call<AutorDatosResponse> llamada = retrofitInterface.ejecutarAutoresId(ApiClient.getUserCookie(), audiolibroActual.getAutor().getId());
+        llamada.enqueue(new Callback<AutorDatosResponse>() {
+            @Override
+            public void onResponse(Call<AutorDatosResponse> call, Response<AutorDatosResponse> response) {
+                int codigo = response.code();
+
+                if (response.code() == 200) {
+                    InfoAutorActivity.autorActual = response.body();
+                    abrirPaginaAutor();
+
+                } else if(codigo == 409) {
+                    Toast.makeText(InfoLibroActivity.this, "No hay ningún audiolibro con ese ID", Toast.LENGTH_LONG).show();
+
+                } else if(codigo == 500) {
+                    Toast.makeText(InfoLibroActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(InfoLibroActivity.this, "Error desconocido (AudiolibrosId): " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AutorDatosResponse> call, Throwable t) {
+                Toast.makeText(InfoLibroActivity.this, "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

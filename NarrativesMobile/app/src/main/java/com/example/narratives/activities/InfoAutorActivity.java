@@ -1,19 +1,13 @@
 package com.example.narratives.activities;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.transition.TransitionSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -29,12 +23,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.example.narratives.R;
-import com.example.narratives.adaptadores.BibliotecaGridAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
-import com.example.narratives.peticiones.autores.AutorDatos;
-import com.google.android.material.button.MaterialButton;
+import com.example.narratives.peticiones.autores.AutorDatosResponse;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -46,7 +38,7 @@ import retrofit2.Retrofit;
 
 public class InfoAutorActivity extends AppCompatActivity {
 
-    public static AutorDatos autorActual = new AutorDatos();
+    public static AutorDatosResponse autorActual;
     GridView gridView;
     BibliotecaGridAdapter bibliotecaGridAdapter;
     private Retrofit retrofit;
@@ -65,14 +57,6 @@ public class InfoAutorActivity extends AppCompatActivity {
         int height= ViewGroup.LayoutParams.MATCH_PARENT;
 
         gridView = (GridView) findViewById(R.id.gridViewBibliotecaAutor);
-        autorActual.setNombre("Elizabeth Hoyt");
-        autorActual.setGenero("Genero de ejemplo");
-        autorActual.setCiudad("Ciudad ejemplo");
-        autorActual.setId(20);
-        //por ser la descripcion mas grande que vi puse esta
-        autorActual.setInformacion("Hans Christian Andersen (2 de abril de 1805) fue un escritor y poeta danés famoso por sus cuentos para niños ilustrados por Vilhelm Pedersen. Hijo de un humilde zapatero, pronto aprendió diversos oficios; pero no finalizó ninguno. Con catorce años, huyó con poco dinero a Copenhague dispuesto a hacer fortuna como actor y cantante; escribió algunas obras y después de privaciones y desengaños, consiguió despertar el interés de personalidades del país que se ocuparon de su formación. Andersen siempre sintió que su origen humilde era un lastre y fantaseaba que era el hijo ilegítimo de un gran señor.");
-        autorActual.setMedia(2.8);
-        inicializarAdaptadorBiblioteca(InfoAudiolibros.getAudiolibrosPorAutor(autorActual.getNombre()));
 
 
 
@@ -84,19 +68,38 @@ public class InfoAutorActivity extends AppCompatActivity {
         });
 
 
-        TextView textViewNombre = findViewById(R.id.textViewNombreAutor);
-        textViewNombre.setText(autorActual.getNombre());
 
-        TextView textViewCiudad= findViewById(R.id.texCiudadNacimiento);
-        textViewCiudad.setText(autorActual.getCiudad());
+
+        FloatingActionButton botonCerrar = (FloatingActionButton) findViewById(R.id.botonVolverDesdeInfoLibro);
+        botonCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Volver al audiolibro
+                abrirInfoLibro();
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Coloca aquí el código que deseas ejecutar cada vez que la actividad se muestre
+        // Por ejemplo, la lógica para mostrar estrellas de valoración
+        inicializarAdaptadorBiblioteca(InfoAudiolibros.getAudiolibrosPorAutor(autorActual.getAutor().getNombre()));
+        TextView textViewNombre = findViewById(R.id.textViewNombreAutor);
+        textViewNombre.setText(autorActual.getAutor().getNombre());
+
+        TextView textViewCiudad= findViewById(R.id.texCiudadNacimiento2);
+        textViewCiudad.setText(autorActual.getAutor().getCiudadnacimiento());
 
         TextView textViewGenero = findViewById(R.id.textViewGeneroMasEscrito);
-        textViewGenero.setText(autorActual.getGenero());
+        textViewGenero.setText(autorActual.getgeneroMasEscrito());
 
         TextView textViewInformacion = findViewById(R.id.textViewDescripcionInfoLibro);
-        textViewInformacion.setText(autorActual.getInformacion());
+        textViewInformacion.setText(autorActual.getAutor().getInformacion());
 
-        double media = autorActual.getMedia();
+        double media = autorActual.getNotaMedia();
         // Determinar cuántas estrellas llenas se muestran
         int numEstrellasLlenas = (int) media; // Parte entera de la calificación
         int nivelEstrella = (int) (media * 10) % 10; // Nivel de la estrella llena (0-10)
@@ -133,34 +136,25 @@ public class InfoAutorActivity extends AppCompatActivity {
                 drawable.draw(canvas);
 
                 // Calcula el ancho del corte
-                int anchuraCorte = w*nivelEstrella/10;
+                //int anchuraCorte = w*nivelEstrella/10;
+                double anchuraCorte = 12.5 + nivelEstrella*2.5;
                 // Crea el Bitmap recortado
-                Bitmap bitmapRecortado = Bitmap.createBitmap(bitmap, 0, 0, anchuraCorte, h);
+                Bitmap bitmapRecortado = Bitmap.createBitmap(bitmap, 0, 0, (int) anchuraCorte, h);
 
                 imageView.setImageBitmap(bitmapRecortado);
 
                 LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();
 
                 //Re ajustar estrella porque se mueve tras recorte
-                int offset = (10-nivelEstrella)*2; // Hacer case. Para .5 es 10 y para .7 es 6
+                //int offset = (10-nivelEstrella)*2; // Hacer case. Para .5 es 10 y para .7 es 6
+                int offset = 15-nivelEstrella;
                 int offsetPx = (int) (offset * getResources().getDisplayMetrics().density);
                 layoutParams.leftMargin -= offsetPx;
                 imageView.setLayoutParams(layoutParams);
             }
         }
-
-
-
-        FloatingActionButton botonCerrar = (FloatingActionButton) findViewById(R.id.botonVolverDesdeInfoLibro);
-        botonCerrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Volver al audiolibro
-                abrirInfoLibro();
-            }
-        });
-
     }
+
     private void inicializarAdaptadorBiblioteca(ArrayList<AudiolibroItem> libros){
         bibliotecaGridAdapter = new BibliotecaGridAdapter(this, libros);
 

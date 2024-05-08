@@ -9,20 +9,35 @@
     >
 
 
+    <TextView
+        android:id="@+id/textColeccionAutor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="129dp"
+        android:layout_marginBottom="13dp"
+        android:text="Coleccion del autor"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/gridViewBibliotecaAutor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutValoracionMedia" />
+
     <GridView
         android:id="@+id/gridViewBibliotecaAutor"
 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="66dp"
         android:clipToPadding="false"
 
         android:numColumns="3"
         android:paddingBottom="260dp"
         app:layout_constraintEnd_toEndOf="parent"
 
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textPuntuacionText">
 
@@ -30,8 +45,8 @@
 
     <ScrollView
         android:id="@+id/scrollViewInformacionAutor"
-        android:layout_width="348dp"
-        android:layout_height="84dp"
+        android:layout_width="325dp"
+        android:layout_height="91dp"
         android:layout_marginHorizontal="15dp"
 
         android:layout_marginStart="-4dp"
@@ -56,14 +71,13 @@
         android:id="@+id/textViewGeneroText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
+        android:layout_marginStart="0dp"
         android:layout_marginEnd="8dp"
         android:text="Género mas escrito:"
         android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="@+id/textViewGeneroMasEscrito"
-        app:layout_constraintEnd_toStartOf="@+id/textViewGeneroMasEscrito"
+        app:layout_constraintStart_toStartOf="@id/textViewCiudadText"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewGeneroMasEscrito"
         app:layout_constraintVertical_bias="1.0" />
 
@@ -129,32 +143,48 @@
 
     <TextView
         android:id="@+id/textViewGeneroMasEscrito"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
+        android:layout_width="175dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="120dp"
-        android:layout_marginEnd="55dp"
+        android:layout_marginEnd="45dp"
         android:paddingStart="10dp"
         android:text="Género mas escrito:"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutValoracionMedia"
         app:layout_constraintEnd_toEndOf="parent"
+        android:textAlignment="viewStart"
         app:layout_constraintStart_toEndOf="@+id/textViewGeneroText"
+        app:layout_constraintStart_toStartOf="@id/texCiudadNacimiento2"
         app:layout_constraintTop_toBottomOf="@+id/textViewNombreAutor" />
 
-    <TextView
+    <ScrollView
         android:id="@+id/texCiudadNacimiento"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="20dp"
         android:layout_marginTop="15dp"
         android:paddingStart="10dp"
         android:text="Ciudad_Data"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutValoracionMedia"
+        android:scrollbars="none"
+        android:fillViewport="true"
         app:layout_constraintStart_toEndOf="@+id/textViewCiudadText"
-        app:layout_constraintTop_toBottomOf="@+id/textViewGeneroMasEscrito" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewGeneroMasEscrito">
 
-    <LinearLayout
+        <TextView
+            android:id="@+id/texCiudadNacimiento2"
+            android:layout_width="180dp"
+            android:layout_height="20dp"
+            android:text="Sin ciudad"
+            android:textSize="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textViewCiudadText"
+            app:layout_constraintTop_toTopOf="parent" />
+    </ScrollView>
+
+
+<LinearLayout
         android:id="@+id/linearLayoutValoracionMedia"
         android:layout_width="200dp"
         android:layout_height="40dp"
