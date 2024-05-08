@@ -34,6 +34,7 @@ import com.example.narratives.informacion.InfoColecciones;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
+import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarColeccionRequest;
 import com.example.narratives.peticiones.colecciones.AudiolibrosColeccionItem;
@@ -50,6 +51,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ColeccionesActivity extends AppCompatActivity implements ColeccionesAdapter.OnMenuItemClickListener, AudiolibrosColeccionAdapter.OnMenuItemClickListener {
+    public interface InfoLibroCallback {
+        void onSuccess(AudiolibroEspecificoResponse audiolibro);
+        void onError(String mensaje);
+    }
+
     private ColeccionesAdapter coleccionesAdapter;
     private AudiolibrosColeccionAdapter audiolibrosColeccionAdapter;
     private ArrayList<ColeccionesItem> coleccionesList;
@@ -326,7 +332,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
             listViewListaAudiolibrosColeccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    obtenerInfoLibro(audiolibrosColeccionList.get(position).getId());
+                    mostrarInfoLibro(audiolibrosColeccionList.get(position).getId());
                 }
             });
         } else {
@@ -460,23 +466,41 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
 
     @Override
     public void onReproducirAudiolibroClick(int position) {
-        MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(InfoLibroActivity.audiolibroActual);
-        AlertDialog.Builder builder = new AlertDialog.Builder(ColeccionesActivity.this);
-        builder.setTitle("Dirígete al REPRODUCTOR...");
-        builder.setMessage("El libro estará disponible en cuanto termine la carga.");
-        builder.setIcon(R.drawable.icono_auriculares_pequeno);
+        inicializarLibro(position);
+    }
 
-        builder.setPositiveButton("De acuerdo", new DialogInterface.OnClickListener() {
+    private void inicializarLibro(int position) {
+        obtenerInfoLibro(coleccionActual.getAudiolibros().get(position).getId(), new Callback<AudiolibroEspecificoResponse>() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(ColeccionesActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ColeccionesActivity.this).toBundle());
+            public void onResponse(Call<AudiolibroEspecificoResponse> call, Response<AudiolibroEspecificoResponse> response) {
+                int codigo = response.code();
+
+                if (response.code() == 200) {
+                    InfoLibroActivity.audiolibroActual = response.body();
+                    MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(InfoLibroActivity.audiolibroActual);
+                    MainActivity.abrirEscuchando = true;
+                    abrirMenuMain();
+                } else if(codigo == 409) {
+                    Toast.makeText(ColeccionesActivity.this, "No hay ningún audiolibro con ese ID", Toast.LENGTH_LONG).show();
+                } else if(codigo == 500) {
+                    Toast.makeText(ColeccionesActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(ColeccionesActivity.this, "Error desconocido (AudiolibrosId): " + codigo, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AudiolibroEspecificoResponse> call, Throwable t) {
+                Toast.makeText(ColeccionesActivity.this, "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
             }
         });
+    }
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+    private void abrirMenuMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        finish();
     }
 
     private void mostrarConfirmacionEliminarColeccion() {
@@ -515,9 +539,13 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
         builder.create().show();
     }
 
-    private void obtenerInfoLibro(int audiolibroId) {
+    private void obtenerInfoLibro(int audiolibroId, Callback<AudiolibroEspecificoResponse> callback) {
         Call<AudiolibroEspecificoResponse> llamada = retrofitInterface.ejecutarAudiolibrosId(ApiClient.getUserCookie(), audiolibroId);
-        llamada.enqueue(new Callback<AudiolibroEspecificoResponse>() {
+        llamada.enqueue(callback);
+    }
+
+    private void mostrarInfoLibro(int audiolibroId) {
+        obtenerInfoLibro(audiolibroId, new Callback<AudiolibroEspecificoResponse>() {
             @Override
             public void onResponse(Call<AudiolibroEspecificoResponse> call, Response<AudiolibroEspecificoResponse> response) {
                 int codigo = response.code();
@@ -526,13 +554,10 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                     InfoLibroActivity.audiolibroActual = response.body();
                     Intent intent = new Intent(ColeccionesActivity.this, InfoLibroActivity.class);
                     startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ColeccionesActivity.this).toBundle());
-
                 } else if(codigo == 409) {
                     Toast.makeText(ColeccionesActivity.this, "No hay ningún audiolibro con ese ID", Toast.LENGTH_LONG).show();
-
                 } else if(codigo == 500) {
                     Toast.makeText(ColeccionesActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
-
                 } else {
                     Toast.makeText(ColeccionesActivity.this, "Error desconocido (AudiolibrosId): " + codigo, Toast.LENGTH_LONG).show();
                 }
