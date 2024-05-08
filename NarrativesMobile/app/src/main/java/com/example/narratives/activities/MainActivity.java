@@ -41,6 +41,7 @@ import com.example.narratives.fragments.FragmentClubs;
 import com.example.narratives.fragments.FragmentEscuchando;
 import com.example.narratives.fragments.FragmentInicio;
 import com.example.narratives.informacion.InfoAudiolibros;
+import com.example.narratives.informacion.InfoClubes;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.users.perfiles.MiPerfilResponse;
@@ -235,26 +236,12 @@ public class MainActivity extends AppCompatActivity {
                     builder.setMessage("Cerrando sesión...");
                     alertDialog = builder.create();
                     alertDialog.show();
-                    ApiClient.setUserCookie(null);
-
-                    SharedPreferences sharedPreferences = getSharedPreferences("session", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.clear();
-                    editor.apply();
-
-                    vaciarInformacionSesionActual();
-                    new Handler().postDelayed(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                abrirMenuHomeSinRegistro();
-                            }
-                        }
-                        , 1000);
+                    cierreSesionLocal();
 
                 } else if (response.code() == 401){
-                    Toast.makeText(MainActivity.this, "No hay sesión iniciada",
-                            Toast.LENGTH_LONG).show();
+                    /*Toast.makeText(MainActivity.this, "No hay sesión iniciada",
+                            Toast.LENGTH_LONG).show();*/
+                    cierreSesionLocal();
                 } else {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
@@ -413,11 +400,14 @@ public class MainActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     InfoMiPerfil infoMiPerfil = getInfoMiPerfil();
 
+                    infoMiPerfil.setId(getIntent().getIntExtra("user_id", -1));
                     infoMiPerfil.setUsername(response.body().getUsername());
                     infoMiPerfil.setMail(response.body().getMail());
                     infoMiPerfil.setImg(response.body().getImg());
 
-                } else if(codigo == 500) {
+                } else if(codigo == 401) {
+                    cerrarSesion();
+                }else if(codigo == 500) {
                     Toast.makeText(MainActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(MainActivity.this, "Error desconocido (UsersProfile): " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
@@ -436,6 +426,7 @@ public class MainActivity extends AppCompatActivity {
         ApiClient.setUserCookie(null);
         infoMiPerfil = null;
         InfoAudiolibros.setTodoANull();
+        InfoClubes.setTodosLosClubes(null);
 
         // toda la informacion de CLUBES a null
         // toda la informacion de AMIGOS a null
@@ -471,5 +462,25 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("foto_perfil_actual", infoMiPerfil.getImgResource());
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    private void cierreSesionLocal() {
+        ApiClient.setUserCookie(null);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("session", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+
+        vaciarInformacionSesionActual();
+
+        new Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        abrirMenuHomeSinRegistro();
+                    }
+                }
+                , 1000);
     }
 }

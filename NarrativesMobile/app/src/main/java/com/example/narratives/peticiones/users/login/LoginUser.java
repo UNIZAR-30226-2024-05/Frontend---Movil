@@ -9,7 +9,11 @@ public class LoginUser {
         this.username = _username;
         this.role = _role;
     }
-    public int getId() { return user_id; }
+
+    public int getId() {
+        return this.user_id;
+    }
+
     public String getUsername() {
         return username;
     }

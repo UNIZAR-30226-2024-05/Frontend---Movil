@@ -3,6 +3,7 @@ package com.example.narratives.informacion;
 import com.example.narratives.R;
 
 public class InfoMiPerfil {
+    private static int user_id;
 
     private static String username;
     private String mail;
@@ -125,7 +126,12 @@ public class InfoMiPerfil {
         return "error";
     }
 
-
+    public void setId(int user_id) {
+        this.user_id = user_id;
+    }
+    public static int getId() {
+        return user_id;
+    }
 
     public String getImg() {
         return this.img;
@@ -152,6 +158,7 @@ public class InfoMiPerfil {
     }
 
     public void setAllInfoNull(){
+        this.setId(-1);
         this.setUsername(null);
         this.setImg(null);
         this.setMail(null);
