@@ -28,6 +28,7 @@
         <activity android:name=".activities.CambioContrasenaActivity"></activity>
         <activity android:name=".activities.CambioFotoPerfilActivity"></activity>
         <activity android:name=".activities.InfoLibroActivity"></activity>
+        <activity android:name=".activities.InfoAutorActivity"/>
 
 
         <meta-data

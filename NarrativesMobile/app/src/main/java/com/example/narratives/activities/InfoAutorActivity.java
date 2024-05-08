@@ -1,16 +1,23 @@
 package com.example.narratives.activities;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.transition.TransitionSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +26,7 @@ import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.adaptadores.BibliotecaGridAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.example.narratives.R;
 import com.example.narratives.adaptadores.BibliotecaGridAdapter;
@@ -38,7 +46,7 @@ import retrofit2.Retrofit;
 
 public class InfoAutorActivity extends AppCompatActivity {
 
-    public static AutorDatos autorActual;
+    public static AutorDatos autorActual = new AutorDatos();
     GridView gridView;
     BibliotecaGridAdapter bibliotecaGridAdapter;
     private Retrofit retrofit;
@@ -57,7 +65,13 @@ public class InfoAutorActivity extends AppCompatActivity {
         int height= ViewGroup.LayoutParams.MATCH_PARENT;
 
         gridView = (GridView) findViewById(R.id.gridViewBibliotecaAutor);
-
+        autorActual.setNombre("Elizabeth Hoyt");
+        autorActual.setGenero("Genero de ejemplo");
+        autorActual.setCiudad("Ciudad ejemplo");
+        autorActual.setId(20);
+        //por ser la descripcion mas grande que vi puse esta
+        autorActual.setInformacion("Hans Christian Andersen (2 de abril de 1805) fue un escritor y poeta danés famoso por sus cuentos para niños ilustrados por Vilhelm Pedersen. Hijo de un humilde zapatero, pronto aprendió diversos oficios; pero no finalizó ninguno. Con catorce años, huyó con poco dinero a Copenhague dispuesto a hacer fortuna como actor y cantante; escribió algunas obras y después de privaciones y desengaños, consiguió despertar el interés de personalidades del país que se ocuparon de su formación. Andersen siempre sintió que su origen humilde era un lastre y fantaseaba que era el hijo ilegítimo de un gran señor.");
+        autorActual.setMedia(2.8);
         inicializarAdaptadorBiblioteca(InfoAudiolibros.getAudiolibrosPorAutor(autorActual.getNombre()));
 
 
@@ -79,9 +93,62 @@ public class InfoAutorActivity extends AppCompatActivity {
         TextView textViewGenero = findViewById(R.id.textViewGeneroMasEscrito);
         textViewGenero.setText(autorActual.getGenero());
 
-        /* Buscar como pasar el entero para que pinte las estrellas. Sino pondre el entero sin mas
-        TextView textViewPuntuacion = findViewById(R.id.linearLayoutValoracionMedia);
-        textViewPuntuacion.setText(autorActual.getAutor().getPuntuacionMedia()); */
+        TextView textViewInformacion = findViewById(R.id.textViewDescripcionInfoLibro);
+        textViewInformacion.setText(autorActual.getInformacion());
+
+        double media = autorActual.getMedia();
+        // Determinar cuántas estrellas llenas se muestran
+        int numEstrellasLlenas = (int) media; // Parte entera de la calificación
+        int nivelEstrella = (int) (media * 10) % 10; // Nivel de la estrella llena (0-10)
+
+        // Ocultar todas las estrellas llenas
+        for (int i = 0; i < 5; i++) {
+            ImageView imageView = obtenerImageViewEstrellaLlena(i);
+            imageView.setVisibility(View.GONE);
+        }
+
+        // Mostrar las estrellas llenas necesarias
+        for (int i = 0; i < numEstrellasLlenas; i++) {
+            ImageView imageView = obtenerImageViewEstrellaLlena(i);
+            if (imageView != null) {
+                imageView.setVisibility(View.VISIBLE);
+                imageView.getDrawable().setLevel(1000); // Estrella llena al máximo
+            }
+        }
+        // Mostrar una fracción de la última estrella llena
+        if (nivelEstrella > 0 && numEstrellasLlenas < 5) {
+            ImageView imageView = obtenerImageViewEstrellaLlena(numEstrellasLlenas);
+            VectorDrawableCompat drawable = VectorDrawableCompat.create(getResources(), R.drawable.icono_estrella_llena, null);
+            imageView.setVisibility(View.VISIBLE);
+// Si el drawable es null, maneja el caso en consecuencia
+            if (drawable != null) {
+                int w = drawable.getIntrinsicWidth();
+                int h = drawable.getIntrinsicHeight();
+
+                Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+
+                Canvas canvas = new Canvas(bitmap);
+                drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+
+                drawable.draw(canvas);
+
+                // Calcula el ancho del corte
+                int anchuraCorte = w*nivelEstrella/10;
+                // Crea el Bitmap recortado
+                Bitmap bitmapRecortado = Bitmap.createBitmap(bitmap, 0, 0, anchuraCorte, h);
+
+                imageView.setImageBitmap(bitmapRecortado);
+
+                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+
+                //Re ajustar estrella porque se mueve tras recorte
+                int offset = (10-nivelEstrella)*2; // Hacer case. Para .5 es 10 y para .7 es 6
+                int offsetPx = (int) (offset * getResources().getDisplayMetrics().density);
+                layoutParams.leftMargin -= offsetPx;
+                imageView.setLayoutParams(layoutParams);
+            }
+        }
+
 
 
         FloatingActionButton botonCerrar = (FloatingActionButton) findViewById(R.id.botonVolverDesdeInfoLibro);
@@ -89,6 +156,7 @@ public class InfoAutorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Volver al audiolibro
+                abrirInfoLibro();
             }
         });
 
@@ -134,6 +202,23 @@ public class InfoAutorActivity extends AppCompatActivity {
     private void abrirInfoLibro() {
         Intent intent = new Intent(InfoAutorActivity.this, InfoLibroActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    private ImageView obtenerImageViewEstrellaLlena(int posicion) {
+        switch (posicion) {
+            case 0:
+                return findViewById(R.id.imageViewEstrella1ValoracionInfoAutorLlena);
+            case 1:
+                return findViewById(R.id.imageViewEstrella2ValoracionInfoAutorLlena);
+            case 2:
+                return findViewById(R.id.imageViewEstrella3ValoracionInfoAutorLlena);
+            case 3:
+                return findViewById(R.id.imageViewEstrella4ValoracionInfoAutorLLena);
+            case 4:
+                return findViewById(R.id.imageViewEstrella5ValoracionInfoAutorLlena);
+            default:
+                return null;
+        }
     }
 }
 

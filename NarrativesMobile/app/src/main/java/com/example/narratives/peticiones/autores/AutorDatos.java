@@ -37,7 +37,7 @@ public class AutorDatos {
     }
 
     public void setCiudad(String Ciudad) {
-        this.informacion = Ciudad;
+        this.Ciudad = Ciudad;
     }
 
     public String getGenero() {

@@ -30,8 +30,8 @@
 
     <ScrollView
         android:id="@+id/scrollViewInformacionAutor"
-        android:layout_width="261dp"
-        android:layout_height="66dp"
+        android:layout_width="348dp"
+        android:layout_height="84dp"
         android:layout_marginHorizontal="15dp"
 
         android:layout_marginStart="-4dp"
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="34dp"
         android:layout_marginEnd="8dp"
-        android:text="Género:"
+        android:text="Género mas escrito:"
         android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="@+id/textViewGeneroMasEscrito"
         app:layout_constraintEnd_toStartOf="@+id/textViewGeneroMasEscrito"
@@ -118,19 +118,14 @@
 
     <TextView
         android:id="@+id/textViewNombreAutor"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
         android:layout_marginTop="37dp"
-        android:layout_marginEnd="40dp"
-        android:gravity="start"
-        android:paddingStart="10dp"
         android:text="NOMBRE APELLIDO1 APELLIDO"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="25sp"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/textViewGeneroMasEscrito"
@@ -138,7 +133,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginTop="120dp"
-        android:layout_marginEnd="130dp"
+        android:layout_marginEnd="55dp"
         android:paddingStart="10dp"
         android:text="Género mas escrito:"
         android:textSize="16sp"
@@ -168,16 +163,8 @@
         app:layout_constraintStart_toEndOf="@+id/textPuntuacionText"
         app:layout_constraintTop_toBottomOf="@+id/textViewGeneroMasEscrito">
 
-
         <ImageView
-            android:id="@+id/imageViewEstrella4ValoracionInfoAutor"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella" />
-
-
-        <ImageView
-            android:id="@+id/imageViewEstrella5ValoracionInfoAutor"
+            android:id="@+id/imageViewEstrella1ValoracionInfoAutor"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/icono_estrella" />
@@ -188,17 +175,63 @@
             android:layout_height="40dp"
             android:src="@drawable/icono_estrella" />
 
-        <ImageView
-            android:id="@+id/imageViewEstrella1ValoracionInfoAutor"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella" />
 
         <ImageView
             android:id="@+id/imageViewEstrella3ValoracionInfoAutor"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/icono_estrella" />
+
+        <ImageView
+            android:id="@+id/imageViewEstrella4ValoracionInfoAutor"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella" />
+
+        <ImageView
+            android:id="@+id/imageViewEstrella5ValoracionInfoAutor"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella" />
+
+
+
+        <ImageView
+            android:id="@+id/imageViewEstrella1ValoracionInfoAutorLlena"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella_llena"
+            android:layout_marginStart="-200dp" />
+
+        <ImageView
+            android:id="@+id/imageViewEstrella2ValoracionInfoAutorLlena"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella_llena"
+            android:layout_marginStart="0dp" />
+
+        <ImageView
+            android:id="@+id/imageViewEstrella3ValoracionInfoAutorLlena"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella_llena"
+            android:layout_marginStart="0dp" />
+
+        <ImageView
+            android:id="@+id/imageViewEstrella4ValoracionInfoAutorLLena"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella_llena"
+            android:layout_marginStart="0dp" />
+
+        <ImageView
+            android:id="@+id/imageViewEstrella5ValoracionInfoAutorLlena"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icono_estrella_llena"
+            android:layout_marginStart="0dp" />
+
+
 
     </LinearLayout>
 
