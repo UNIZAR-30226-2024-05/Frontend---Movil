@@ -29,11 +29,13 @@ import com.example.narratives.adaptadores.MenuInicioAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
+import com.example.narratives.sockets.SocketManager;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import io.socket.client.Socket;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -71,6 +73,8 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
             }
 
             ApiClient.setUserCookie(sharedPreferences.getString("cookie", null));
+            Socket mSocket = SocketManager.getInstance();
+            mSocket.connect();
             new Handler().postDelayed(
                     new Runnable() {
                         @Override

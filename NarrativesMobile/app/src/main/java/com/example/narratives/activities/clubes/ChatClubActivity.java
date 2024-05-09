@@ -1,4 +1,4 @@
-package com.example.narratives.activities;
+package com.example.narratives.activities.clubes;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,25 +15,33 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.adaptadores.ChatAdapter;
 import com.example.narratives.fragments.FragmentClubs;
+import com.example.narratives.informacion.InfoClubes;
 import com.example.narratives.peticiones.clubes.Club;
 import com.example.narratives.peticiones.clubes.ClubResult;
+import com.example.narratives.peticiones.clubes.Message;
+import com.example.narratives.sockets.SocketManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import io.socket.client.Socket;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class ChatClubActivity extends AppCompatActivity {
+public class ChatClubActivity extends AppCompatActivity implements SocketManager.MessageListener {
     private int club_id;
     Retrofit retrofit;
     RetrofitInterface retrofitInterface;
@@ -43,7 +51,8 @@ public class ChatClubActivity extends AppCompatActivity {
     Button send;
     ImageButton back;
     RecyclerView msgsView;
-    //MessageAdapter mAdapter;
+    ChatAdapter mAdapter;
+    private Socket mSocket = SocketManager.getInstance();
 
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
@@ -51,6 +60,8 @@ public class ChatClubActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_club);
+
+        SocketManager.addMessageListener(this);
 
         retrofit = ApiClient.getLoginRetrofit();
         retrofitInterface = ApiClient.getRetrofitInterface();
@@ -74,7 +85,19 @@ public class ChatClubActivity extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage();
+                if (!inputText.getText().toString().trim().isEmpty()) {
+                    sendMessage();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onMessageReceived() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -86,8 +109,14 @@ public class ChatClubActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ClubResult> call, Response<ClubResult> response) {
                 if (response.code() == 200) {
-                    Club club = response.body().getClub();
-                    Log.d("CLUB_ID", String.valueOf(response.body().getClub().getId()));
+                    Club club = InfoClubes.getClubById(response.body().getClub().getId());
+                    if (club.getMessages() == null) {
+                        if (response.body().getClub().getMessages() == null) {
+                            club.setMessages(new ArrayList<>());
+                        } else {
+                            club.setMessages(response.body().getClub().getMessages());
+                        }
+                    }
                     clubName.setText(club.getName());
                     if (club.getAudiolibro() != null) {
                         Glide
@@ -97,8 +126,9 @@ public class ChatClubActivity extends AppCompatActivity {
                                 .placeholder(R.drawable.icono_libro)
                                 .into(clubImg);
                     }
-                    //mAdapter = new MessageAdapter(ChatClubActivity.this, club.getMessages());
-                    //msgsView.setAdapter(mAdapter);
+                    msgsView.setLayoutManager(new LinearLayoutManager(ChatClubActivity.this));
+                    mAdapter = new ChatAdapter(ChatClubActivity.this, club.getMessages());
+                    msgsView.setAdapter(mAdapter);
                 } else if (response.code() == 500) {
                     Toast.makeText(ChatClubActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
 
@@ -123,10 +153,11 @@ public class ChatClubActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //SocketManager.IOSendMessage();
+        SocketManager.IOSendMessage("message", messageData);
     }
 
     private void cancelActivity() {
+        SocketManager.removeMessageListener();
         Intent resultIntent = new Intent();
         resultIntent.putExtra("requestCode", FragmentClubs.CREAR_CLUB);
         setResult(Activity.RESULT_CANCELED, resultIntent);

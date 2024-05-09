@@ -3,6 +3,7 @@ package com.example.narratives.peticiones.audiolibros.especifico;
 public class Coleccion {
     int id;
     String titulo;
+
     boolean pertenece;
 
     public int getId() {
@@ -27,5 +28,9 @@ public class Coleccion {
 
     public boolean getPertenece() {
         return pertenece;
+    }
+
+    public void setPertenece(boolean pertenece) {
+        this.pertenece = pertenece;
     }
 }

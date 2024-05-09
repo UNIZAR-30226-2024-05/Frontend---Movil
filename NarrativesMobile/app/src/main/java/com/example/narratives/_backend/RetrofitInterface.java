@@ -3,6 +3,11 @@ package com.example.narratives._backend;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
+import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
+import com.example.narratives.peticiones.colecciones.AnadirEliminarColeccionRequest;
+import com.example.narratives.peticiones.colecciones.ColeccionEspecificaResult;
+import com.example.narratives.peticiones.colecciones.ColeccionesRequest;
+import com.example.narratives.peticiones.colecciones.ColeccionesResult;
 import com.example.narratives.peticiones.clubes.ClubRequest;
 import com.example.narratives.peticiones.clubes.ClubesResult;
 import com.example.narratives.peticiones.clubes.ClubResult;
@@ -26,8 +31,8 @@ import retrofit2.http.Path;
 
 public interface RetrofitInterface {
     //String URL_BASE = "https://52.143.153.248";
-    //String URL_BASE = "https://narratives-backend.azurewebsites.net";
     String URL_BASE = "https://server.narratives.es";
+
     @POST("/users/login")
     Call<LoginResult> ejecutarUsersLogin(@Header("Cookie") String userCookie, @Body LoginRequest request);
 
@@ -57,8 +62,26 @@ public interface RetrofitInterface {
     @GET("/audiolibros/{id}")
     Call<AudiolibroEspecificoResponse> ejecutarAudiolibrosId(@Header("Cookie") String userCookie, @Path("id") int id);
 
+    @GET("/colecciones")
+    Call<ColeccionesResult> ejecutarColecciones(@Header("Cookie") String userCookie);
 
+    @GET("/colecciones/{coleccionId}")
+    Call<ColeccionEspecificaResult> ejecutarColeccionesId(@Header("Cookie") String userCookie, @Path("coleccionId") int coleccionId);
 
+    @POST("/colecciones/create")
+    Call<GenericMessageResult> ejecutarColeccionesCreate(@Header("Cookie") String userCookie, @Body ColeccionesRequest request);
+
+    @POST("/colecciones/remove")
+    Call<GenericMessageResult> ejecutarColeccionesRemove(@Header("Cookie") String userCookie, @Body AnadirEliminarColeccionRequest request);
+
+    @POST("/colecciones/friend")
+    Call<GenericMessageResult> ejecutarColeccionesFriend(@Header("Cookie") String userCookie, @Body AnadirEliminarColeccionRequest request);
+
+    @POST("/colecciones/anadirAudiolibro")
+    Call<GenericMessageResult> ejecutarColeccionesAnadirAudiolibro(@Header("Cookie") String userCookie, @Body AnadirEliminarAudiolibroDeColeccionRequest request);
+
+    @POST("/colecciones/eliminarAudiolibro")
+    Call<GenericMessageResult> ejecutarColeccionesEliminarAudiolibro(@Header("Cookie") String userCookie, @Body AnadirEliminarAudiolibroDeColeccionRequest request);
 
     @GET("/amistad/amigos")
     Call<AmigosResponse> ejecutarAmistadAmigos(@Header("Cookie") String userCookie);
@@ -74,10 +97,13 @@ public interface RetrofitInterface {
 
     @GET("/club/lista")
     Call<ClubesResult> ejecutarMyClubes(@Header("Cookie") String userCookie);
+
     @POST("/club/create")
     Call<ClubResult> ejecutarCreateClub(@Header("Cookie") String userCookie, @Body ClubRequest request);
+
     @GET("/club/all")
     Call<ClubesResult> ejecutarBuscarClubes(@Header("Cookie") String userCookie);
+    
     @GET("/club/datos/{id}")
     Call<ClubResult> ejecutarInfoClub(@Header("Cookie") String userCookie, @Path("id") int id);
 }

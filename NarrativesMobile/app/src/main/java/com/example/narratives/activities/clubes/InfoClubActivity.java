@@ -1,4 +1,4 @@
-package com.example.narratives.activities;
+package com.example.narratives.activities.clubes;
 
 import android.os.Bundle;
 import android.transition.TransitionSet;

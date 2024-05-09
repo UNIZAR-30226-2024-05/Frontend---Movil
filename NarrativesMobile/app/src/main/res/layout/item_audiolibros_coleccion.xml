@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageViewImgAudiolibroColeccion"
+        android:layout_width="60dp"
+        android:layout_height="90dp"
+        android:padding="5dp"
+        app:srcCompat="@drawable/icono_imagen_estandar_foreground"
+        app:shapeAppearanceOverlay="@style/RoundedSquare" />
+
+    <TextView
+        android:id="@+id/textViewNombreAudiolibroColeccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imageViewImgAudiolibroColeccion"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="40dp"
+        android:layout_alignEnd="@id/imageViewEscucharAudiolibroColeccion"
+        android:layout_toRightOf="@+id/imageViewImgAudiolibroColeccion"
+        android:text="NOMBRE"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewAutorAudiolibroColeccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AUTOR"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="40dp"
+        android:layout_alignEnd="@id/imageViewEscucharAudiolibroColeccion"
+        android:layout_below="@id/textViewNombreAudiolibroColeccion"
+        android:layout_toRightOf="@+id/imageViewImgAudiolibroColeccion"
+        android:textSize="15sp"
+        />
+
+    <ImageView
+        android:id="@+id/imageViewEscucharAudiolibroColeccion"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toStartOf="@id/imageViewTresPuntosAudiolibroColeccion"
+        android:layout_centerVertical="true"
+        app:tint="@color/teal_500"
+        app:srcCompat="@drawable/icono_escuchar_audiolibro" />
+
+    <ImageView
+        android:id="@+id/imageViewTresPuntosAudiolibroColeccion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rotation="90"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/icono_tres_puntos" />
+
+</RelativeLayout>

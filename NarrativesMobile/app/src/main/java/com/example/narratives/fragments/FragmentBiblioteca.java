@@ -1,6 +1,9 @@
 package com.example.narratives.fragments;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,11 +32,13 @@ import com.example.narratives.adaptadores.BibliotecaTituloGridAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
+import com.example.narratives.sockets.SocketManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import io.socket.client.Socket;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -91,6 +96,9 @@ public class FragmentBiblioteca extends Fragment {
         buscarPor.setText("Título");
         buscarPorActual = "Título";
         buscarPor.setAdapter(adapterBuscarPor);
+
+        Socket mSocket = SocketManager.getInstance();
+        SocketManager.onMessageReceived();
 
 
         if (InfoAudiolibros.getTodosLosAudiolibros() != null) {

@@ -31,6 +31,12 @@ public class Club implements Serializable {
     public ArrayList<Message> getMessages() {
         return this.messages;
     }
+    public void setMessages(ArrayList<Message> msgs) {
+        this.messages = msgs;
+    }
+    public void addMessage(Message msg) {
+        this.messages.add(msg);
+    }
 
     public class Audiolibro {
         private int id;
@@ -61,18 +67,5 @@ public class Club implements Serializable {
         public boolean isAdmin() {
             return this.isAdmin;
         }
-    }
-
-    public class Message {
-        private int id;
-        private int user_id;
-        private String username;
-        private String mensaje;
-        private String fecha;
-        public int getId() { return this.id; }
-        public int getUserId() { return this.user_id; }
-        public String getUsername() { return this.username; }
-        public String getMessage() { return this.mensaje; }
-        public String getDate() { return this.fecha; }
     }
 }
