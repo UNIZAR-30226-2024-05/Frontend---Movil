@@ -51,10 +51,10 @@ public class UsuarioEstadoAdapter extends ArrayAdapter<UsuarioEstado> implements
 
         UsuarioEstado usuario = userList.get(position);
 
-        TextView nombre = view.findViewById(R.id.textViewAmigoNombre);
+        TextView nombre = view.findViewById(R.id.textViewNombreAnadirUsuario);
         nombre.setText(usuario.getUsername());
 
-        ShapeableImageView foto = view.findViewById(R.id.imageViewAmigoFoto);
+        ShapeableImageView foto = view.findViewById(R.id.imageViewFotoAnadirAmigo);
         foto.setImageResource(InfoAmigos.getImageResourceFromImgCode(usuario.getImg()));
 
         MaterialButton boton = (MaterialButton) view.findViewById(R.id.botonAnadirAmigo);
@@ -124,20 +124,20 @@ public class UsuarioEstadoAdapter extends ArrayAdapter<UsuarioEstado> implements
     }
 
     private void cambiarACancelarSolicitud(MaterialButton boton){
+        boton.setBackgroundResource(R.color.white);
+        boton.setStrokeWidth(2);
+        boton.setStrokeColorResource(R.color.teal_300);
+        boton.setText("Cancelar solicitud");
+        boton.setIconTintResource(R.color.teal_300);
+    }
+
+    private void cambiarAEnviarSolicitud(MaterialButton boton){
         boton.setBackgroundResource(R.color.teal_300);
         boton.setStrokeWidth(0);
         boton.setStrokeColorResource(R.color.white);
         boton.setText("Enviar solicitud");
         //boton.setTextColor(R.color.white);
         boton.setIconTintResource(R.color.white);
-    }
-
-    private void cambiarAEnviarSolicitud(MaterialButton boton){
-        boton.setBackgroundResource(R.color.white);
-        boton.setStrokeWidth(2);
-        boton.setStrokeColorResource(R.color.teal_300);
-        boton.setText("Cancelar solicitud");
-        boton.setIconTintResource(R.color.teal_300);
     }
 
     private void cambiarASolicitudRecibida(MaterialButton boton){

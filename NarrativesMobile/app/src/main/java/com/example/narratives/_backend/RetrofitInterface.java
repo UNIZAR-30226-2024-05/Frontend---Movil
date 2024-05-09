@@ -1,23 +1,24 @@
 package com.example.narratives._backend;
 
 import com.example.narratives.peticiones.GenericMessageResult;
+import com.example.narratives.peticiones.GenericOtherIdRequest;
+import com.example.narratives.peticiones.amistad.amigos.AmigosResponse;
 import com.example.narratives.peticiones.amistad.lista.AmistadListaResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
+import com.example.narratives.peticiones.clubes.ClubRequest;
+import com.example.narratives.peticiones.clubes.ClubResult;
+import com.example.narratives.peticiones.clubes.ClubesResult;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarColeccionRequest;
 import com.example.narratives.peticiones.colecciones.ColeccionEspecificaResult;
 import com.example.narratives.peticiones.colecciones.ColeccionesRequest;
 import com.example.narratives.peticiones.colecciones.ColeccionesResult;
-import com.example.narratives.peticiones.clubes.ClubRequest;
-import com.example.narratives.peticiones.clubes.ClubesResult;
-import com.example.narratives.peticiones.clubes.ClubResult;
 import com.example.narratives.peticiones.marcapaginas.ListeningRequest;
 import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequest;
 import com.example.narratives.peticiones.users.cambio_datos.CambioFotoPerfilRequest;
 import com.example.narratives.peticiones.users.login.LoginRequest;
 import com.example.narratives.peticiones.users.login.LoginResult;
-import com.example.narratives.peticiones.amistad.amigos.AmigosResponse;
 import com.example.narratives.peticiones.users.perfiles.MiPerfilResponse;
 import com.example.narratives.peticiones.users.perfiles.UserResponse;
 import com.example.narratives.peticiones.users.register.RegisterRequest;
@@ -85,13 +86,26 @@ public interface RetrofitInterface {
     Call<GenericMessageResult> ejecutarColeccionesEliminarAudiolibro(@Header("Cookie") String userCookie, @Body AnadirEliminarAudiolibroDeColeccionRequest request);
 
 
-    @GET("/amistad/lista")
-    Call<AmistadListaResponse> ejecutarAmistadLista(@Header("Cookie") String userCookie);
+    @POST("/amistad/send")
+    Call<GenericMessageResult> ejecutarAmistadSend(@Header("Cookie") String userCookie, @Body GenericOtherIdRequest other_id);
+
+    @POST("/amistad/accept")
+    Call<GenericMessageResult> ejecutarAmistadAccept(@Header("Cookie") String userCookie, @Body GenericOtherIdRequest other_id);
+
+    @POST("/amistad/reject")
+    Call<GenericMessageResult> ejecutarAmistadReject(@Header("Cookie") String userCookie, @Body GenericOtherIdRequest other_id);
+
+    @POST("/amistad/cancel")
+    Call<GenericMessageResult> ejecutarAmistadCancel(@Header("Cookie") String userCookie, @Body GenericOtherIdRequest other_id);
+
+    @POST("/amistad/remove")
+    Call<GenericMessageResult> ejecutarAmistadRemove(@Header("Cookie") String userCookie, @Body GenericOtherIdRequest other_id);
 
     @GET("/amistad/amigos")
     Call<AmigosResponse> ejecutarAmistadAmigos(@Header("Cookie") String userCookie);
 
-    //TODO: PETICIONES DE AÑADIR Y ELIMINAR AMISTAD
+    @GET("/amistad/lista")
+    Call<AmistadListaResponse> ejecutarAmistadLista(@Header("Cookie") String userCookie);
 
 
     @POST("/marcapaginas/listening")

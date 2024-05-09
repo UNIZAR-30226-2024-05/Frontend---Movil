@@ -44,12 +44,13 @@ import retrofit2.Response;
 
 public class FragmentAmigos extends Fragment {
 
-    ListView listaAmigos;
-    AmigosAdapter amigosAdapter;
+    public boolean actualizarLista;
+    static ListView listaAmigos;
+    static AmigosAdapter amigosAdapter;
 
-    EditText buscador;
+    static EditText buscador;
 
-    ArrayList<AmigoSimple> amigos;
+    static ArrayList<AmigoSimple> amigos;
 
     RetrofitInterface retrofitInterface;
 
@@ -70,6 +71,7 @@ public class FragmentAmigos extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        actualizarLista = false;
         retrofitInterface = ApiClient.getRetrofitInterface();
         listaAmigos = (ListView) getView().findViewById(R.id.listViewListaAmigos);
         buscador = (EditText) getView().findViewById(R.id.editTextBuscadorListaAmigos);
@@ -129,6 +131,17 @@ public class FragmentAmigos extends Fragment {
 
 
         peticionAmigos();
+        peticionAmistadLista();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(actualizarLista) {
+            cargarAdaptador();
+            actualizarLista = false;
+        } // MainActivity.fragmentoAmigosAbierto.actualizarLista = true; para activarlo
+
     }
 
 
@@ -173,10 +186,11 @@ public class FragmentAmigos extends Fragment {
                 int codigo = response.code();
 
                 if (codigo == 200){
-                    InfoAmigos.setAmigos(response.body().getAmigos());
 
                     //TODO: quitar ejemplo
-                    if(InfoAmigos.getAmigos() == null || InfoAmigos.getAmigos().size() == 0){
+                    if(response.body().getAmigos() == null){
+                        Toast.makeText(getContext(), "Amigos null", Toast.LENGTH_LONG).show();
+
                         ArrayList<AmigoSimple> amigosEjemplo = new ArrayList<AmigoSimple>();
                         amigosEjemplo.add(new AmigoSimple(1, "Buri", 6));
                         amigosEjemplo.add(new AmigoSimple(2, "Jaume", 7));
@@ -184,8 +198,10 @@ public class FragmentAmigos extends Fragment {
                         amigosEjemplo.add(new AmigoSimple(4, "Marti", 1));
 
                         InfoAmigos.setAmigos(amigosEjemplo);
+                    } else {
+                        InfoAmigos.setAmigos(response.body().getAmigos());
                     }
-                    amigos = InfoAmigos.getAmigos();
+
                     cargarAdaptador();
 
                 } else if (codigo == 500){
@@ -223,13 +239,12 @@ public class FragmentAmigos extends Fragment {
                 int codigo = response.code();
 
                 if (response.code() == 200) {
-                    if(response.body().getAmigos() != null){
-                        InfoAmigos.setUsuariosEstado(response.body().getAmigos());
+                    if(response.body().getUsers() != null){
+                        InfoAmigos.setUsuariosEstado(response.body().getUsers());
                     } else {
+                        Toast.makeText(getContext(), "UsuariosEstado null", Toast.LENGTH_LONG).show();
                         InfoAmigos.setUsuariosEstado(new ArrayList<UsuarioEstado>());
                     }
-
-                    cargarAdaptador();
 
                 } else if(codigo == 500) {
                     Toast.makeText(getContext(), "Error del servidor", Toast.LENGTH_LONG).show();
@@ -247,8 +262,9 @@ public class FragmentAmigos extends Fragment {
     }
 
 
-    private void cargarAdaptador() {
-        amigosAdapter = new AmigosAdapter(getContext(),R.layout.item_lista_amigos,amigos);
+    public void cargarAdaptador() {
+        amigos = InfoAmigos.getAmigos();
+        amigosAdapter = new AmigosAdapter(getContext(), R.layout.item_lista_amigos, amigos);
         listaAmigos.setAdapter(amigosAdapter);
 
         buscador.addTextChangedListener(new TextWatcher() {
@@ -259,7 +275,7 @@ public class FragmentAmigos extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                (FragmentAmigos.this).amigosAdapter.getFilter().filter(charSequence);
+                amigosAdapter.getFilter().filter(charSequence);
             }
 
             @Override

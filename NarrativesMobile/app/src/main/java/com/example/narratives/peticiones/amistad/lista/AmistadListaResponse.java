@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class AmistadListaResponse {
 
-    ArrayList<UsuarioEstado> amigos;
+    ArrayList<UsuarioEstado> users;
 
-    public ArrayList<UsuarioEstado> getAmigos() {
-        return amigos;
+    public ArrayList<UsuarioEstado> getUsers() {
+        return users;
     }
 
-    public void setAmigos(ArrayList<UsuarioEstado> amigos) {
-        this.amigos = amigos;
+    public void setUsers(ArrayList<UsuarioEstado> users) {
+        this.users = users;
     }
 }

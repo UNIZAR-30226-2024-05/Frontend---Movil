@@ -19,10 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.informacion.InfoMiPerfil;
-import com.example.narratives.sockets.SocketManager;
 import com.example.narratives.peticiones.users.login.LoginRequest;
 import com.example.narratives.peticiones.users.login.LoginResult;
+import com.example.narratives.sockets.SocketManager;
 
 import io.socket.client.Socket;
 import retrofit2.Call;

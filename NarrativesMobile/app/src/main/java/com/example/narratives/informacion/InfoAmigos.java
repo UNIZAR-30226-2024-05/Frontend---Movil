@@ -95,6 +95,44 @@ public class InfoAmigos {
         return noAmigos;
     }
 
+
+
+    public static ArrayList<UsuarioEstado> getUsuariosEstadoAmigos(){
+        ArrayList<UsuarioEstado> enviados = new ArrayList<UsuarioEstado>();
+
+        for(UsuarioEstado usuario : usuariosEstado){
+            if(usuario.getEstado() == 0){
+                enviados.add(usuario);
+            }
+        }
+
+        return enviados;
+    }
+
+    public static ArrayList<UsuarioEstado> getUsuariosEstadoEnviados(){
+        ArrayList<UsuarioEstado> enviados = new ArrayList<UsuarioEstado>();
+
+        for(UsuarioEstado usuario : usuariosEstado){
+            if(usuario.getEstado() == 2){
+                enviados.add(usuario);
+            }
+        }
+
+        return enviados;
+    }
+
+    public static ArrayList<UsuarioEstado> getUsuariosEstadoRecibidos(){
+        ArrayList<UsuarioEstado> recibidos = new ArrayList<UsuarioEstado>();
+
+        for(UsuarioEstado usuario : usuariosEstado){
+            if(usuario.getEstado() == 3){
+                recibidos.add(usuario);
+            }
+        }
+
+        return recibidos;
+    }
+
     public static UserResponse getAmigoActual() {
         return amigoActual;
     }
