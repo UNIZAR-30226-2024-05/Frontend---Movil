@@ -11,7 +11,7 @@ import java.util.Comparator;
 
 public class InfoAudiolibros {
 
-    private static AudiolibroEspecificoResponse audiolibroActual;
+    public static AudiolibroEspecificoResponse audiolibroActual;
 
     public static AudiolibroEspecificoResponse getAudiolibroActual() {
         if(audiolibroActual == null){

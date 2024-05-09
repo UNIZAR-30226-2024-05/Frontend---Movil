@@ -1,7 +1,8 @@
 package com.example.narratives.informacion;
 
 import com.example.narratives.R;
-import com.example.narratives.peticiones.amigos.AmigoSimple;
+import com.example.narratives.peticiones.amistad.amigos.AmigoSimple;
+import com.example.narratives.peticiones.amistad.lista.UsuarioEstado;
 import com.example.narratives.peticiones.users.perfiles.UserResponse;
 
 import java.util.ArrayList;
@@ -12,6 +13,9 @@ public class InfoAmigos {
 
     private static ArrayList<AmigoSimple> amigos;
 
+    private static ArrayList<UsuarioEstado> usuariosEstado;
+
+
     public static ArrayList<AmigoSimple> getAmigos() {
         return amigos;
     }
@@ -20,6 +24,13 @@ public class InfoAmigos {
         amigos = _amigos;
     }
 
+    public static ArrayList<UsuarioEstado> getUsuariosEstado() {
+        return usuariosEstado;
+    }
+
+    public static void setUsuariosEstado(ArrayList<UsuarioEstado> usuariosEstado) {
+        InfoAmigos.usuariosEstado = usuariosEstado;
+    }
 
     public static int getImageResourceFromImgCode(int img){
 
@@ -72,6 +83,17 @@ public class InfoAmigos {
         return "Estado indeterminado";
     }
 
+    public static ArrayList<UsuarioEstado> getUsuariosEstadoNoAmigos(){
+        ArrayList<UsuarioEstado> noAmigos = new ArrayList<UsuarioEstado>();
+
+        for(UsuarioEstado usuario : usuariosEstado){
+            if(usuario.getEstado() != 0){
+                noAmigos.add(usuario);
+            }
+        }
+
+        return noAmigos;
+    }
 
     public static UserResponse getAmigoActual() {
         return amigoActual;

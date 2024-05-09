@@ -1,7 +1,7 @@
 package com.example.narratives.peticiones.users.perfiles;
 
-import com.example.narratives.peticiones.amigos.ColeccionDeAmigo;
-import com.example.narratives.peticiones.amigos.UltimaActividad;
+import com.example.narratives.peticiones.amistad.amigos.ColeccionDeAmigo;
+import com.example.narratives.peticiones.amistad.amigos.UltimaActividad;
 
 import java.util.ArrayList;
 

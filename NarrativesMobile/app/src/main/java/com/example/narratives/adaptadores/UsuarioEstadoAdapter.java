@@ -14,24 +14,25 @@ import androidx.annotation.Nullable;
 
 import com.example.narratives.R;
 import com.example.narratives.informacion.InfoAmigos;
-import com.example.narratives.peticiones.amistad.amigos.AmigoSimple;
+import com.example.narratives.peticiones.amistad.lista.UsuarioEstado;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AmigosAdapter extends ArrayAdapter<AmigoSimple> implements Filterable {
+public class UsuarioEstadoAdapter extends ArrayAdapter<UsuarioEstado> implements Filterable {
 
 
-    private List<AmigoSimple> userList;
-    private List<AmigoSimple> tempUserList;
+    private List<UsuarioEstado> userList;
+    private List<UsuarioEstado> tempUserList;
 
     private Context context;
     private int resourceLayout;
 
-    private UserFilter userFilter;
+    private UsuarioEstadoFilter userFilter;
 
-    public AmigosAdapter(@NonNull Context _context, int _resource, @NonNull List <AmigoSimple> _objects) {
+    public UsuarioEstadoAdapter(@NonNull Context _context, int _resource, @NonNull List <UsuarioEstado> _objects) {
         super(_context, _resource, _objects);
         this.userList = _objects;
         this.tempUserList = _objects;
@@ -48,13 +49,23 @@ public class AmigosAdapter extends ArrayAdapter<AmigoSimple> implements Filterab
             view = LayoutInflater.from(context).inflate(resourceLayout, null);
         }
 
-        AmigoSimple amigo = userList.get(position);
+        UsuarioEstado usuario = userList.get(position);
 
         TextView nombre = view.findViewById(R.id.textViewAmigoNombre);
-        nombre.setText(amigo.getUsername());
+        nombre.setText(usuario.getUsername());
 
         ShapeableImageView foto = view.findViewById(R.id.imageViewAmigoFoto);
-        foto.setImageResource(InfoAmigos.getImageResourceFromImgCode(amigo.getImg()));
+        foto.setImageResource(InfoAmigos.getImageResourceFromImgCode(usuario.getImg()));
+
+        MaterialButton boton = (MaterialButton) view.findViewById(R.id.botonAnadirAmigo);
+
+        if(usuario.getEstado() == 1){
+            cambiarAEnviarSolicitud(boton);
+        } else if(usuario.getEstado() == 2){
+            cambiarACancelarSolicitud(boton);
+        } else if(usuario.getEstado() == 3){
+            cambiarASolicitudRecibida(boton);
+        }
 
         return view;
     }
@@ -63,14 +74,14 @@ public class AmigosAdapter extends ArrayAdapter<AmigoSimple> implements Filterab
     @Override
     public Filter getFilter() {
         if(userFilter == null){
-            userFilter = new UserFilter();
+            userFilter = new UsuarioEstadoFilter();
         }
         return userFilter;
     }
 
     @Nullable
     @Override
-    public AmigoSimple getItem(int position) {
+    public UsuarioEstado getItem(int position) {
         return userList.get(position);
     }
 
@@ -79,7 +90,7 @@ public class AmigosAdapter extends ArrayAdapter<AmigoSimple> implements Filterab
         return userList.size();
     }
 
-    class UserFilter extends Filter {
+    class UsuarioEstadoFilter extends Filter {
 
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
@@ -87,7 +98,7 @@ public class AmigosAdapter extends ArrayAdapter<AmigoSimple> implements Filterab
 
             if(charSequence != null && charSequence.length() > 0) {
                 charSequence = charSequence.toString().toUpperCase();
-                ArrayList<AmigoSimple> filtros = new ArrayList<>();
+                ArrayList<UsuarioEstado> filtros = new ArrayList<>();
 
                 for (int i = 0; i < tempUserList.size(); i++) {
                     if (tempUserList.get(i).getUsername().toUpperCase().contains(charSequence)) {
@@ -107,8 +118,35 @@ public class AmigosAdapter extends ArrayAdapter<AmigoSimple> implements Filterab
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            userList = (ArrayList<AmigoSimple>)filterResults.values;
+            userList = (ArrayList<UsuarioEstado>)filterResults.values;
             notifyDataSetChanged();
         }
+    }
+
+    private void cambiarACancelarSolicitud(MaterialButton boton){
+        boton.setBackgroundResource(R.color.teal_300);
+        boton.setStrokeWidth(0);
+        boton.setStrokeColorResource(R.color.white);
+        boton.setText("Enviar solicitud");
+        //boton.setTextColor(R.color.white);
+        boton.setIconTintResource(R.color.white);
+    }
+
+    private void cambiarAEnviarSolicitud(MaterialButton boton){
+        boton.setBackgroundResource(R.color.white);
+        boton.setStrokeWidth(2);
+        boton.setStrokeColorResource(R.color.teal_300);
+        boton.setText("Cancelar solicitud");
+        boton.setIconTintResource(R.color.teal_300);
+    }
+
+    private void cambiarASolicitudRecibida(MaterialButton boton){
+        boton.setBackgroundResource(R.color.white);
+        boton.setStrokeWidth(0);
+        boton.setElevation((float) 0.01);
+        boton.setStrokeColorResource(R.color.white);
+        boton.setText("Solicitud recibida");
+        boton.setIconTintResource(R.color.gris_claro);
+        boton.setClickable(false);
     }
 }

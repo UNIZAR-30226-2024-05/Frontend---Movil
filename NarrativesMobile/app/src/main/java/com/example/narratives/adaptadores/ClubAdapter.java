@@ -13,9 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.narratives.R;
-import com.example.narratives.activities.BuscarClubActivity;
-import com.example.narratives.activities.ChatClubActivity;
-import com.example.narratives.activities.InfoClubActivity;
+import com.example.narratives.activities.clubes.BuscarClubActivity;
+import com.example.narratives.activities.clubes.ChatClubActivity;
+import com.example.narratives.activities.clubes.InfoClubActivity;
 import com.example.narratives.activities.MainActivity;
 import com.example.narratives.peticiones.clubes.Club;
 

@@ -25,8 +25,10 @@ import com.example.narratives.activities.SolicitudesHistorialActivity;
 import com.example.narratives.activities.SolicitudesRecibidasActivity;
 import com.example.narratives.adaptadores.AmigosAdapter;
 import com.example.narratives.informacion.InfoAmigos;
-import com.example.narratives.peticiones.amigos.AmigoSimple;
-import com.example.narratives.peticiones.amigos.AmigosResponse;
+import com.example.narratives.peticiones.amistad.amigos.AmigoSimple;
+import com.example.narratives.peticiones.amistad.amigos.AmigosResponse;
+import com.example.narratives.peticiones.amistad.lista.AmistadListaResponse;
+import com.example.narratives.peticiones.amistad.lista.UsuarioEstado;
 import com.example.narratives.peticiones.users.perfiles.UserResponse;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -211,6 +213,39 @@ public class FragmentAmigos extends Fragment {
         });
 
     }
+
+    private void peticionAmistadLista() {
+
+        Call<AmistadListaResponse> llamada = retrofitInterface.ejecutarAmistadLista(ApiClient.getUserCookie());
+        llamada.enqueue(new Callback<AmistadListaResponse>() {
+            @Override
+            public void onResponse(Call<AmistadListaResponse> call, Response<AmistadListaResponse> response) {
+                int codigo = response.code();
+
+                if (response.code() == 200) {
+                    if(response.body().getAmigos() != null){
+                        InfoAmigos.setUsuariosEstado(response.body().getAmigos());
+                    } else {
+                        InfoAmigos.setUsuariosEstado(new ArrayList<UsuarioEstado>());
+                    }
+
+                    cargarAdaptador();
+
+                } else if(codigo == 500) {
+                    Toast.makeText(getContext(), "Error del servidor", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Error desconocido (usersId): " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AmistadListaResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "No se ha conectado con el servidor (usersId)", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 
     private void cargarAdaptador() {
         amigosAdapter = new AmigosAdapter(getContext(),R.layout.item_lista_amigos,amigos);

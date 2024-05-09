@@ -1,6 +1,7 @@
 package com.example.narratives._backend;
 
 import com.example.narratives.peticiones.GenericMessageResult;
+import com.example.narratives.peticiones.amistad.lista.AmistadListaResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
@@ -16,7 +17,7 @@ import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequ
 import com.example.narratives.peticiones.users.cambio_datos.CambioFotoPerfilRequest;
 import com.example.narratives.peticiones.users.login.LoginRequest;
 import com.example.narratives.peticiones.users.login.LoginResult;
-import com.example.narratives.peticiones.amigos.AmigosResponse;
+import com.example.narratives.peticiones.amistad.amigos.AmigosResponse;
 import com.example.narratives.peticiones.users.perfiles.MiPerfilResponse;
 import com.example.narratives.peticiones.users.perfiles.UserResponse;
 import com.example.narratives.peticiones.users.register.RegisterRequest;
@@ -83,10 +84,14 @@ public interface RetrofitInterface {
     @POST("/colecciones/eliminarAudiolibro")
     Call<GenericMessageResult> ejecutarColeccionesEliminarAudiolibro(@Header("Cookie") String userCookie, @Body AnadirEliminarAudiolibroDeColeccionRequest request);
 
+
+    @GET("/amistad/lista")
+    Call<AmistadListaResponse> ejecutarAmistadLista(@Header("Cookie") String userCookie);
+
     @GET("/amistad/amigos")
     Call<AmigosResponse> ejecutarAmistadAmigos(@Header("Cookie") String userCookie);
 
-
+    //TODO: PETICIONES DE AÑADIR Y ELIMINAR AMISTAD
 
 
     @POST("/marcapaginas/listening")

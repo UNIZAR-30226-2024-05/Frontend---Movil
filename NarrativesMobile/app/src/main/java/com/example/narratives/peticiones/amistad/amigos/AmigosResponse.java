@@ -1,4 +1,6 @@
-package com.example.narratives.peticiones.amigos;
+package com.example.narratives.peticiones.amistad.amigos;
+
+import com.example.narratives.peticiones.amistad.amigos.AmigoSimple;
 
 import java.util.ArrayList;
 

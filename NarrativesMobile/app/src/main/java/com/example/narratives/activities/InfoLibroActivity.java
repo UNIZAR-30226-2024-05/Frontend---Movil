@@ -2,7 +2,6 @@ package com.example.narratives.activities;
 
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.transition.TransitionSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -21,9 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.narratives.R;
-import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.Coleccion;
@@ -40,7 +38,7 @@ import retrofit2.Response;
 
 public class InfoLibroActivity extends AppCompatActivity {
 
-    public AudiolibroEspecificoResponse audiolibroActual;
+    public static AudiolibroEspecificoResponse audiolibroActual;
 
     MaterialButton escucharAudiolibro;
     MaterialButton comprarAudiolibro;
