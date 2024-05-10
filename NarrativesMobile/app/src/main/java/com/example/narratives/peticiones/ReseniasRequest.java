@@ -1,15 +1,8 @@
-package com.example.narratives.resenias;
+package com.example.narratives.peticiones;
 
-public class Resenia {
-
+public class ReseniasRequest {
     String nombre, descripcion;
     float valoracion;
-
-    public Resenia(String nombre, String descripcion, float valoracion){
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.valoracion = valoracion;
-    }
 
     public void setDescripcion(String descripcion){
         this.descripcion = descripcion;
@@ -34,4 +27,5 @@ public class Resenia {
     public float getValoracion(){
         return valoracion;
     }
+
 }
