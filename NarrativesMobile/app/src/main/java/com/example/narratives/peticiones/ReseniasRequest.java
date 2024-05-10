@@ -4,6 +4,8 @@ public class ReseniasRequest {
     String nombre, descripcion;
     float valoracion;
 
+    char visibilidad;
+
     public void setDescripcion(String descripcion){
         this.descripcion = descripcion;
     }
@@ -16,6 +18,9 @@ public class ReseniasRequest {
         this.valoracion=valoracion;
     }
 
+    public void setVisibilidad(char visibilidad){
+        this.visibilidad=visibilidad;
+    }
     public String getDescripcion(){
         return descripcion;
     }

@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/editTextDescripcionresenia"
         android:layout_width="494dp"
         android:layout_height="193dp"
         android:ems="10"
@@ -30,7 +30,7 @@
         app:layout_constraintVertical_bias="0.18" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/botonAniadirResenia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -39,7 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingBarAniadir"
-        app:layout_constraintVertical_bias="0.175" />
+        app:layout_constraintVertical_bias="0.296" />
 
     <RatingBar
         android:id="@+id/ratingBarAniadir"
@@ -49,7 +49,7 @@
         android:numStars="5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescripcionresenia" />
 
     <TextView
         android:id="@+id/textView3"
@@ -60,7 +60,18 @@
         app:layout_constraintBottom_toTopOf="@+id/ratingBarAniadir"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescripcionresenia"
         app:layout_constraintVertical_bias="0.743" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="732dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="44dp"
+        app:layout_constraintBottom_toTopOf="@+id/botonAniadirResenia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBarAniadir"
+        app:layout_constraintVertical_bias="0.895" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

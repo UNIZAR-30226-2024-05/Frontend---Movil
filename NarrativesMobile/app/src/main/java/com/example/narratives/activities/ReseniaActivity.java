@@ -1,10 +1,14 @@
 package com.example.narratives.activities;
 
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.transition.TransitionSet;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -17,6 +21,7 @@ import com.example.narratives.databinding.ActivityMainBinding;
 import com.example.narratives.peticiones.LoginRequest;
 import com.example.narratives.peticiones.LoginResult;
 import com.example.narratives.peticiones.ReseniasRequest;
+import com.example.narratives.resenias.AniadirResenia;
 import com.example.narratives.resenias.ListAdapter;
 import com.example.narratives.resenias.Resenia;
 
@@ -33,6 +38,8 @@ public class ReseniaActivity extends AppCompatActivity {
     ArrayList<Resenia> arrayListReseñas;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
+
+    Button botonAñadirReseña;
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -68,6 +75,13 @@ public class ReseniaActivity extends AppCompatActivity {
 
             }
         });*/
+
+        botonAñadirReseña.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirAniadirResenia();
+            }
+        });
     }
     ///RECOPILAR DATOS DE LA BASE DE DATOS------------------------------------------
     //-----------------------------------
@@ -133,5 +147,10 @@ public class ReseniaActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });*/
+    }
+
+    public void abrirAniadirResenia(){
+            Intent intent = new Intent(this, AniadirResenia.class);
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }
