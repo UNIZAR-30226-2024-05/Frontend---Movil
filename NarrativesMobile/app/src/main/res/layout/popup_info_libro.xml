@@ -215,8 +215,21 @@
         android:numStars="5"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.181"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewGeneroInfoLibro" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewGeneroInfoLibro"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <Button
+        android:id="@+id/botonIrReseñas"
+        android:layout_width="117dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="396dp"
+        android:text="Reseñas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.611"
+        app:layout_constraintStart_toEndOf="@+id/ratingBar4"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

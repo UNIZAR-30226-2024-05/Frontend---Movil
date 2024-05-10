@@ -7,7 +7,7 @@
     tools:context=".fragments.FragmentAmigos">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/botonAñadirReseña"
+        android:id="@+id/botonAnyadirReseña"
         android:layout_width="57dp"
         android:layout_height="49dp"
         android:layout_marginStart="16dp"

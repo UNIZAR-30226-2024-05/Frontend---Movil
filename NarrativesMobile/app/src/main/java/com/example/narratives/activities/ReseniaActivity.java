@@ -1,16 +1,13 @@
 package com.example.narratives.activities;
 
 import android.app.ActivityOptions;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.transition.TransitionSet;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,8 +15,6 @@ import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.databinding.ActivityMainBinding;
-import com.example.narratives.peticiones.LoginRequest;
-import com.example.narratives.peticiones.LoginResult;
 import com.example.narratives.peticiones.ReseniasRequest;
 import com.example.narratives.resenias.AniadirResenia;
 import com.example.narratives.resenias.ListAdapter;
@@ -27,9 +22,6 @@ import com.example.narratives.resenias.Resenia;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class ReseniaActivity extends AppCompatActivity {
@@ -39,17 +31,17 @@ public class ReseniaActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
 
-    Button botonAñadirReseña;
+    Button botonAyadirReseña;
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         getWindow().setExitTransition(new TransitionSet());
-
+        setContentView(R.layout.pantalla_resenias);
 
         retrofitInterface = ApiClient.getRetrofitInterface();
 
-        setContentView(R.layout.pantalla_resenias);
+
         String[] nombres = {"Juan Pérez", "María Gutiérrez", "Carlos Martínez", "Ana López"};
         float[] valoraciones = {4.3F,5.0F,3.8F, 4.1F};
         String[] descripciones = {
@@ -75,13 +67,17 @@ public class ReseniaActivity extends AppCompatActivity {
 
             }
         });*/
+        botonAyadirReseña = (Button) findViewById(R.id.botonAnyadirReseña);
 
-        botonAñadirReseña.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                abrirAniadirResenia();
-            }
-        });
+        if (botonAyadirReseña != null) {
+            botonAyadirReseña.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    abrirAniadirResenia();
+                }
+            });
+        }
+
     }
     ///RECOPILAR DATOS DE LA BASE DE DATOS------------------------------------------
     //-----------------------------------

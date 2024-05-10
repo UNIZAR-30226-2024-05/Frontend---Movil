@@ -1,11 +1,15 @@
 package com.example.narratives.fragments;
 
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -18,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.narratives.R;
+import com.example.narratives.activities.ReseniaActivity;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.menuprincipal.RecyclerViewInterface;
 import com.example.narratives.peticiones.Audiolibro;
@@ -102,7 +107,8 @@ public class FragmentInicio extends Fragment implements RecyclerViewInterface {
     @Override
     public void onItemClick(int pos) {
             int position = pos;
-            //esconderTeclado();
+            esconderTeclado();
+            Button botonIrReseñas;
 
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View viewInfoLibro = inflater.inflate(R.layout.popup_info_libro, null);
@@ -125,7 +131,10 @@ public class FragmentInicio extends Fragment implements RecyclerViewInterface {
             textViewTitulo.setText(audiolibro.getTitulo());
 
 
-            PopupWindow popupWindow=new PopupWindow(viewInfoLibro,width,height, true);
+
+
+
+        PopupWindow popupWindow=new PopupWindow(viewInfoLibro,width,height, true);
             popupWindow.setAnimationStyle(0);
 
             FrameLayout layout = getActivity().findViewById(R.id.main_layout);
@@ -135,8 +144,14 @@ public class FragmentInicio extends Fragment implements RecyclerViewInterface {
                     popupWindow.showAtLocation(layout, Gravity.BOTTOM,0,0);
                 }
             });
-
-
+            botonIrReseñas = viewInfoLibro.findViewById(R.id.botonIrReseñas);
+            botonIrReseñas.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    abrirResenias();
+                    popupWindow.dismiss();
+                }
+            });
             FloatingActionButton botonCerrar = (FloatingActionButton) viewInfoLibro.findViewById(R.id.botonVolverDesdeInfoLibro);
             botonCerrar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -146,6 +161,19 @@ public class FragmentInicio extends Fragment implements RecyclerViewInterface {
             });
 
     }
+
+    public void abrirResenias() {
+        Intent intent = new Intent(requireContext(), ReseniaActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+    }
+
+    private void esconderTeclado() {
+        if(getActivity().getCurrentFocus() != null){
+            InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
 }
 
 

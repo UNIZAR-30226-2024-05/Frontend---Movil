@@ -7,27 +7,28 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="239dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="280dp"
-        android:layout_marginTop="128dp"
+        android:layout_width="179dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="124dp"
         android:text="Nombre del libro"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextDescripcionresenia"
-        android:layout_width="494dp"
-        android:layout_height="193dp"
+        android:layout_width="364dp"
+        android:layout_height="152dp"
         android:ems="10"
         android:inputType="text"
         android:text="Escribe aqui tu reseña"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.18" />
+        app:layout_constraintVertical_bias="0.076" />
 
     <Button
         android:id="@+id/botonAniadirResenia"
@@ -39,15 +40,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingBarAniadir"
-        app:layout_constraintVertical_bias="0.296" />
+        app:layout_constraintVertical_bias="0.384" />
 
     <RatingBar
         android:id="@+id/ratingBarAniadir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:numStars="5"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextDescripcionresenia" />
 
@@ -61,17 +63,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextDescripcionresenia"
-        app:layout_constraintVertical_bias="0.743" />
+        app:layout_constraintVertical_bias="0.342" />
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="732dp"
-        android:layout_height="46dp"
+        android:layout_width="364dp"
+        android:layout_height="36dp"
         android:layout_marginBottom="44dp"
         app:layout_constraintBottom_toTopOf="@+id/botonAniadirResenia"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingBarAniadir"
-        app:layout_constraintVertical_bias="0.895" />
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
