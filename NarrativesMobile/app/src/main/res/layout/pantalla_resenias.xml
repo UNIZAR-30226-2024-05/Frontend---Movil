@@ -8,21 +8,17 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/botonAnyadirReseña"
-        android:layout_width="57dp"
-        android:layout_height="49dp"
+        android:layout_width="73dp"
+        android:layout_height="65dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="28dp"
-        android:backgroundTint="@color/teal_casi_blanco"
-        android:drawableTop="@drawable/icono_soli_enviadas"
-        android:drawableTint="@color/teal_700"
+        android:drawableTop="@drawable/icono_outbox"
         android:text="Añadir reseña"
         android:textAllCaps="false"
-        android:textColor="@color/teal_700"
         android:textSize="14sp"
         app:cornerRadius="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/teal_claro"
         app:strokeWidth="2dp" />
 
     <ListView
