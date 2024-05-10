@@ -75,7 +75,7 @@ public class InfoLibroActivity extends AppCompatActivity {
             //Ya lo cambiare a petición pero para probar que va a la pagina
             public void onClick(View view) {
                 //abrirPaginaAutor();
-                peticionAudiolibrosId();
+                peticionAutorId();
             }
         });
 
@@ -150,7 +150,7 @@ public class InfoLibroActivity extends AppCompatActivity {
         return result;
     }
 
-    private void peticionAudiolibrosId(){
+    private void peticionAutorId(){
 
         Call<AutorDatosResponse> llamada = retrofitInterface.ejecutarAutoresId(ApiClient.getUserCookie(), audiolibroActual.getAutor().getId());
         llamada.enqueue(new Callback<AutorDatosResponse>() {
@@ -162,14 +162,14 @@ public class InfoLibroActivity extends AppCompatActivity {
                     InfoAutorActivity.autorActual = response.body();
                     abrirPaginaAutor();
 
-                } else if(codigo == 409) {
-                    Toast.makeText(InfoLibroActivity.this, "No hay ningún audiolibro con ese ID", Toast.LENGTH_LONG).show();
+                } else if(codigo == 404) {
+                    Toast.makeText(InfoLibroActivity.this, "No hay ningún autor con ese ID", Toast.LENGTH_LONG).show();
 
                 } else if(codigo == 500) {
                     Toast.makeText(InfoLibroActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
 
                 } else {
-                    Toast.makeText(InfoLibroActivity.this, "Error desconocido (AudiolibrosId): " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
+                    Toast.makeText(InfoLibroActivity.this, "Error desconocido (AutoresId): " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
                 }
             }
 
