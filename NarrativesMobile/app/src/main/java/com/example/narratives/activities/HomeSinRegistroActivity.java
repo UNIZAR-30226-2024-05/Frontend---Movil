@@ -153,7 +153,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity implements Recycl
         popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
         }
 
-    private void mostrarPopupInfoLibro(int position){
+   /* private void mostrarPopupInfoLibro(int position){
         esconderTeclado();
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -177,7 +177,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity implements Recycl
         textViewTitulo.setText(audiolibro.getTitulo());
 
 
-        PopupWindow popupWindow=new PopupWindow(viewInfoLibro,width,height, true);
+        PopupWindow popupWindow=new Popup/Window(viewInfoLibro,width,height, true);
         popupWindow.setAnimationStyle(0);
 
         FrameLayout layout = findViewById(R.id.main_layout);
@@ -203,7 +203,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity implements Recycl
             InputMethodManager inputManager = (InputMethodManager).getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
-    }
+    }*/
 
 }
 
