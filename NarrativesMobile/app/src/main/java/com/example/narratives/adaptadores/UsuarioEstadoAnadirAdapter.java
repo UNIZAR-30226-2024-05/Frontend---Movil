@@ -320,7 +320,7 @@ public class UsuarioEstadoAnadirAdapter extends ArrayAdapter<UsuarioEstado> impl
                     alertDialog.dismiss();
                     boton.setClickable(false);
                     boton.setVisibility(View.GONE);
-                    
+
                 }  else if (response.code() == 409){
 
                     try {
