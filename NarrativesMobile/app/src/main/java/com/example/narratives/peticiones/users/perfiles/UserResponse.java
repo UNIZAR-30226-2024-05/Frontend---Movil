@@ -6,7 +6,7 @@ import com.example.narratives.peticiones.amistad.amigos.UltimaActividad;
 import java.util.ArrayList;
 
 public class UserResponse {
-    String id;
+    int id;
     String username;
     int img;
     ArrayList<ColeccionDeAmigo> colecciones;
@@ -15,11 +15,11 @@ public class UserResponse {
 
 
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

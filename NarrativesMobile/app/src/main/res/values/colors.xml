@@ -19,5 +19,6 @@
     <color name="teal_blanco">#E4FDFC</color>
     <color name="gris_trans">#B7222222</color>
     <color name="transparente">#00FFFFFF</color>
+    <color name="rojo">#FFDC5656</color>
 
 </resources>

@@ -44,7 +44,7 @@ import retrofit2.Response;
 
 public class FragmentAmigos extends Fragment {
 
-    public boolean actualizarLista;
+    public static boolean actualizarLista;
     static ListView listaAmigos;
     static AmigosAdapter amigosAdapter;
 
@@ -138,7 +138,8 @@ public class FragmentAmigos extends Fragment {
     public void onResume() {
         super.onResume();
         if(actualizarLista) {
-            cargarAdaptador();
+            peticionAmigos();
+            peticionAmistadLista();
             actualizarLista = false;
         } // MainActivity.fragmentoAmigosAbierto.actualizarLista = true; para activarlo
 

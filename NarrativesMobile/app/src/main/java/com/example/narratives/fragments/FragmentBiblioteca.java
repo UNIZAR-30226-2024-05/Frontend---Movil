@@ -1,9 +1,6 @@
 package com.example.narratives.fragments;
 
 import android.app.ActivityOptions;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -119,15 +116,17 @@ public class FragmentBiblioteca extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(buscarPorActual.equals("Autor")){
-                    BibliotecaAutorGridAdapter tempAdapter = (BibliotecaAutorGridAdapter) (FragmentBiblioteca.this).adaptadorActual;
-                    tempAdapter.getFilter().filter(charSequence);
-                } else if(buscarPorActual.equals("Tags")) {
-                    BibliotecaTagsGridAdapter tempAdapter = (BibliotecaTagsGridAdapter) (FragmentBiblioteca.this).adaptadorActual;
-                    tempAdapter.getFilter().filter(charSequence);
-                } else { // buscarPorActual.equals("Título")
-                    BibliotecaTituloGridAdapter tempAdapter = (BibliotecaTituloGridAdapter) (FragmentBiblioteca.this).adaptadorActual;
-                    tempAdapter.getFilter().filter(charSequence);
+                if((FragmentBiblioteca.this).adaptadorActual != null){
+                    if(buscarPorActual.equals("Autor")){
+                        BibliotecaAutorGridAdapter tempAdapter = (BibliotecaAutorGridAdapter) (FragmentBiblioteca.this).adaptadorActual;
+                        tempAdapter.getFilter().filter(charSequence);
+                    } else if(buscarPorActual.equals("Tags")) {
+                        BibliotecaTagsGridAdapter tempAdapter = (BibliotecaTagsGridAdapter) (FragmentBiblioteca.this).adaptadorActual;
+                        tempAdapter.getFilter().filter(charSequence);
+                    } else { // buscarPorActual.equals("Título")
+                        BibliotecaTituloGridAdapter tempAdapter = (BibliotecaTituloGridAdapter) (FragmentBiblioteca.this).adaptadorActual;
+                        tempAdapter.getFilter().filter(charSequence);
+                    }
                 }
             }
 
