@@ -28,6 +28,8 @@ import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspeci
 import com.example.narratives.peticiones.audiolibros.especifico.Coleccion;
 import com.example.narratives.peticiones.audiolibros.especifico.Genero;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
+import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
+import com.example.narratives.peticiones.autores.AutorDatosResponse;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -36,10 +38,13 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class InfoLibroActivity extends AppCompatActivity {
 
     public static AudiolibroEspecificoResponse audiolibroActual;
+    private Retrofit retrofit;
+    private RetrofitInterface retrofitInterface;
 
     MaterialButton escucharAudiolibro;
     MaterialButton comprarAudiolibro;
@@ -49,6 +54,8 @@ public class InfoLibroActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        retrofit = ApiClient.getRetrofit();
+        retrofitInterface = ApiClient.getRetrofitInterface();
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         getWindow().setExitTransition(new TransitionSet());
 
@@ -59,6 +66,7 @@ public class InfoLibroActivity extends AppCompatActivity {
         int height= ViewGroup.LayoutParams.MATCH_PARENT;
 
         retrofitInterface = ApiClient.getRetrofitInterface();
+
 
         ImageView imageViewPortada = findViewById(R.id.imageViewPortadaInfoLibro);
 
@@ -77,6 +85,14 @@ public class InfoLibroActivity extends AppCompatActivity {
 
         TextView textViewAutor = findViewById(R.id.textViewNombreAutorInfoLibro);
         textViewAutor.setText(audiolibroActual.getAutor().getNombre());
+        textViewAutor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            //Ya lo cambiare a petición pero para probar que va a la pagina
+            public void onClick(View view) {
+                //abrirPaginaAutor();
+                peticionAutorId();
+            }
+        });
 
         TextView textViewGeneros = findViewById(R.id.textViewGeneroInfoLibro);
         textViewGeneros.setText(getFormattedGenres(audiolibroActual.getGeneros()));
@@ -145,6 +161,12 @@ public class InfoLibroActivity extends AppCompatActivity {
         MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(audiolibroActual);
         MainActivity.abrirEscuchando = true;
         abrirMenuMain();
+    }
+
+    public void abrirPaginaAutor() {
+        Intent intent = new Intent(this, InfoAutorActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     private String getFormattedGenres(ArrayList<Genero> generos){
@@ -264,6 +286,36 @@ public class InfoLibroActivity extends AppCompatActivity {
 
                 Toast.makeText(InfoLibroActivity.this, t.getMessage(),
                         Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void peticionAutorId(){
+
+        Call<AutorDatosResponse> llamada = retrofitInterface.ejecutarAutoresId(ApiClient.getUserCookie(), audiolibroActual.getAutor().getId());
+        llamada.enqueue(new Callback<AutorDatosResponse>() {
+            @Override
+            public void onResponse(Call<AutorDatosResponse> call, Response<AutorDatosResponse> response) {
+                int codigo = response.code();
+
+                if (response.code() == 200) {
+                    InfoAutorActivity.autorActual = response.body();
+                    abrirPaginaAutor();
+
+                } else if(codigo == 404) {
+                    Toast.makeText(InfoLibroActivity.this, "No hay ningún autor con ese ID", Toast.LENGTH_LONG).show();
+
+                } else if(codigo == 500) {
+                    Toast.makeText(InfoLibroActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(InfoLibroActivity.this, "Error desconocido (AutoresId): " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AutorDatosResponse> call, Throwable t) {
+                Toast.makeText(InfoLibroActivity.this, "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
             }
         });
     }

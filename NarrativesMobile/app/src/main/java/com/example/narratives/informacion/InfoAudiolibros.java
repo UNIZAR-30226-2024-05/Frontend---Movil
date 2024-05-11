@@ -63,6 +63,17 @@ public class InfoAudiolibros {
         return  audiolibrosPorGenero;
     }
 
+    public static ArrayList<AudiolibroItem> getAudiolibrosPorAutor(String autor){
+        ArrayList<AudiolibroItem> audiolibrosPorAutor = new ArrayList<>();
+
+        for(AudiolibroItem audiolibro : todosLosAudiolibros){
+            if(audiolibro.getAutor().equals(autor)){
+                audiolibrosPorAutor.add(audiolibro);
+            }
+        }
+        return  audiolibrosPorAutor;
+    }
+
     public static String[] getGenerosSeleccionados(){
         String[] generosResultado = {"", "", "", "", ""};
         String[] todosLosGeneros = generos.clone();
