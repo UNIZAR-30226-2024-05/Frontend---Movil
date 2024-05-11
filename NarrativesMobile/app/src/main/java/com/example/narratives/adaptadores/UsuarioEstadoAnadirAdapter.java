@@ -1,6 +1,8 @@
 package com.example.narratives.adaptadores;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +50,8 @@ public class UsuarioEstadoAnadirAdapter extends ArrayAdapter<UsuarioEstado> impl
 
     RetrofitInterface retrofitInterface = ApiClient.getRetrofitInterface();
 
+    AlertDialog alertDialog;
+
     public UsuarioEstadoAnadirAdapter(@NonNull Context _context, int _resource, @NonNull List <UsuarioEstado> _objects) {
         super(_context, _resource, _objects);
         Collections.sort(_objects, new Comparator<UsuarioEstado>() {
@@ -88,6 +92,8 @@ public class UsuarioEstadoAnadirAdapter extends ArrayAdapter<UsuarioEstado> impl
                     peticionAmistadSend(usuario.getId(), boton);
                 } else if(boton.getText().equals("Cancelar solicitud")){
                     peticionAmistadCancel(usuario.getId(), boton);
+                } else if(boton.getText().equals("Solicitud recibida")){
+                    abrirMensajeGestionarRecibida(usuario, boton);
                 }
             }
         });
@@ -101,6 +107,38 @@ public class UsuarioEstadoAnadirAdapter extends ArrayAdapter<UsuarioEstado> impl
         }
 
         return view;
+    }
+
+    private void abrirMensajeGestionarRecibida(UsuarioEstado usuario, MaterialButton boton) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("¡" + usuario.getUsername() + " quiere ser tu amigo!");
+        builder.setMessage("¿Quieres aceptar la solicitud de amistad de " + usuario.getUsername() + "?");
+
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                peticionAmistadAccept(usuario.getId(), boton);
+            }
+        });
+
+        builder.setNegativeButton("Rechazar    |", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                peticionAmistadReject(usuario.getId(), boton);
+            }
+        });
+
+        builder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if(alertDialog != null && alertDialog.isShowing()){
+                    alertDialog.dismiss();
+                }
+            }
+        });
+
+        alertDialog = builder.create();
+        alertDialog.show();
     }
 
     @NonNull
@@ -167,13 +205,8 @@ public class UsuarioEstadoAnadirAdapter extends ArrayAdapter<UsuarioEstado> impl
     }
 
     private void cambiarASolicitudRecibida(MaterialButton boton){
-        boton.setBackgroundResource(R.color.white);
-        boton.setStrokeWidth(0);
-        boton.setElevation((float) 0.01);
-        boton.setStrokeColorResource(R.color.white);
+        boton.setStrokeColorResource(R.color.rojo);
         boton.setText("Solicitud recibida");
-        boton.setIconTintResource(R.color.gris_claro);
-        boton.setClickable(false);
     }
 
 
@@ -250,6 +283,97 @@ public class UsuarioEstadoAnadirAdapter extends ArrayAdapter<UsuarioEstado> impl
 
                         if(error.equals("No sent request")){
                             Toast.makeText(getContext(), "No puedes cancelar una petición no enviada", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), "Algo ha fallado obteniendo el error (amigosCancel)", Toast.LENGTH_LONG).show();
+                    }
+                }  else if (response.code() == 500){
+                    Toast.makeText(getContext(), "Error del server (amigosCancel)", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Código de error (amigosCancel): " + String.valueOf(response.code()),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenericMessageResult> call, Throwable t) {
+                Toast.makeText(getContext(), "No se ha conectado con el servidor (amigosCancel)",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void peticionAmistadAccept(int id, MaterialButton boton){
+        GenericOtherIdRequest request = new GenericOtherIdRequest(id);
+
+        Call<GenericMessageResult> llamada = retrofitInterface.ejecutarAmistadAccept(ApiClient.getUserCookie(), request);
+        llamada.enqueue(new Callback<GenericMessageResult>() {
+            @Override
+            public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
+
+                if(response.code() == 200) {
+                    FragmentAmigos.actualizarLista = true;
+                    alertDialog.dismiss();
+                    boton.setClickable(false);
+                    boton.setVisibility(View.GONE);
+                    
+                }  else if (response.code() == 409){
+
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String error = jObjError.getString("error");
+
+                        if(error.equals("No received request")){
+                            Toast.makeText(getContext(), "No hay solicitud que aceptar", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), "Algo ha fallado obteniendo el error (amigosCancel)", Toast.LENGTH_LONG).show();
+                    }
+                }  else if (response.code() == 500){
+                    Toast.makeText(getContext(), "Error del server (amigosCancel)", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Código de error (amigosCancel): " + String.valueOf(response.code()),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenericMessageResult> call, Throwable t) {
+                Toast.makeText(getContext(), "No se ha conectado con el servidor (amigosCancel)",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void peticionAmistadReject(int id, MaterialButton boton){
+        GenericOtherIdRequest request = new GenericOtherIdRequest(id);
+
+        Call<GenericMessageResult> llamada = retrofitInterface.ejecutarAmistadReject(ApiClient.getUserCookie(), request);
+        llamada.enqueue(new Callback<GenericMessageResult>() {
+            @Override
+            public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
+
+                if(response.code() == 200) {
+                    FragmentAmigos.actualizarLista = true;
+                    alertDialog.dismiss();
+                    cambiarAEnviarSolicitud(boton);
+
+                }  else if (response.code() == 409){
+
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String error = jObjError.getString("error");
+
+                        if(error.equals("No received request")){
+                            Toast.makeText(getContext(), "No hay solicitud que rechazar", Toast.LENGTH_LONG).show();
 
                         } else {
                             Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
