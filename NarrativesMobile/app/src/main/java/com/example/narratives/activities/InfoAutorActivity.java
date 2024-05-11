@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.adaptadores.BibliotecaGridAdapter;
+import com.example.narratives.adaptadores.BibliotecaTituloGridAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
@@ -40,7 +40,7 @@ public class InfoAutorActivity extends AppCompatActivity {
 
     public static AutorDatosResponse autorActual;
     GridView gridView;
-    BibliotecaGridAdapter bibliotecaGridAdapter;
+    BibliotecaTituloGridAdapter bibliotecaGridAdapter;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
 
@@ -75,7 +75,7 @@ public class InfoAutorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Volver al audiolibro
-                abrirInfoLibro();
+                finish();
             }
         });
 
@@ -156,7 +156,7 @@ public class InfoAutorActivity extends AppCompatActivity {
     }
 
     private void inicializarAdaptadorBiblioteca(ArrayList<AudiolibroItem> libros){
-        bibliotecaGridAdapter = new BibliotecaGridAdapter(this, libros);
+        bibliotecaGridAdapter = new BibliotecaTituloGridAdapter(this, libros);
 
         gridView.setAdapter(bibliotecaGridAdapter);
 

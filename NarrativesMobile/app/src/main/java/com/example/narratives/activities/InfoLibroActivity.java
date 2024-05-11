@@ -50,7 +50,6 @@ public class InfoLibroActivity extends AppCompatActivity {
     MaterialButton comprarAudiolibro;
 
     private PopupWindow popupWindow;
-    private RetrofitInterface retrofitInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
