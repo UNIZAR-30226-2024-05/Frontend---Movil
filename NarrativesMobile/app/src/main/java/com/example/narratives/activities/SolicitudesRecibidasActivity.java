@@ -8,8 +8,10 @@ import android.text.TextWatcher;
 import android.transition.TransitionSet;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,10 +21,15 @@ import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.adaptadores.UsuarioEstadoRecibidasAdapter;
 import com.example.narratives.informacion.InfoAmigos;
 import com.example.narratives.peticiones.amistad.lista.UsuarioEstado;
+import com.example.narratives.peticiones.users.perfiles.UserResponse;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SolicitudesRecibidasActivity extends AppCompatActivity {
     UsuarioEstadoRecibidasAdapter usuariosAdapter;
@@ -51,8 +58,16 @@ public class SolicitudesRecibidasActivity extends AppCompatActivity {
             }
         });
 
+        usuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+                peticionUsersId(pos);
+            }
+        });
+
         cargarAdaptador();
     }
+
 
 
     private void cargarAdaptador() {
@@ -80,6 +95,40 @@ public class SolicitudesRecibidasActivity extends AppCompatActivity {
         });
     }
 
+    private void peticionUsersId(int position) {
+        UsuarioEstado usuario = (UsuarioEstado) usuariosAdapter.getItem(position);
+
+        Call<UserResponse> llamada = retrofitInterface.ejecutarUsersId(ApiClient.getUserCookie(), usuario.getId());
+        llamada.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                int codigo = response.code();
+
+                if (response.code() == 200) {
+                    InfoAmigos.setAmigoActual(response.body());
+                    abrirActividad(new Intent(SolicitudesRecibidasActivity.this, InfoAmigoActivity.class));
+
+                } else if(codigo == 409) {
+                    Toast.makeText(SolicitudesRecibidasActivity.this, "No hay ningún usuario con ese ID", Toast.LENGTH_LONG).show();
+
+                } else if(codigo == 500) {
+                    Toast.makeText(SolicitudesRecibidasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(SolicitudesRecibidasActivity.this, "Error desconocido (usersId): " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Toast.makeText(SolicitudesRecibidasActivity.this, "No se ha conectado con el servidor (usersId)", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void abrirActividad(Intent intent) {
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
 
     private void abrirMain() {
         Intent intent = new Intent(this, MainActivity.class);

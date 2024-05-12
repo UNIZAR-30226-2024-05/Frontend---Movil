@@ -87,6 +87,8 @@ public class UsuarioEstadoEnviadasAdapter extends ArrayAdapter<UsuarioEstado> im
                 peticionAmistadCancel(usuario.getId(), boton);
             }
         });
+        boton.setFocusable(false);
+
 
         return view;
     }

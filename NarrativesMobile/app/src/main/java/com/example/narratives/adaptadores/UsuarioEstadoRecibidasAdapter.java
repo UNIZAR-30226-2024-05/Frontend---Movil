@@ -88,6 +88,7 @@ public class UsuarioEstadoRecibidasAdapter extends ArrayAdapter<UsuarioEstado> i
                 peticionAmistadAccept(usuario.getId(), botonAceptar, botonCancelar);
             }
         });
+        botonAceptar.setFocusable(false);
 
         botonCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +96,8 @@ public class UsuarioEstadoRecibidasAdapter extends ArrayAdapter<UsuarioEstado> i
                 peticionAmistadReject(usuario.getId(), botonAceptar, botonCancelar);
             }
         });
+        botonCancelar.setFocusable(false);
+
 
         return view;
     }
