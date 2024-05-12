@@ -4,6 +4,7 @@ import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.GenericOtherIdRequest;
 import com.example.narratives.peticiones.amistad.amigos.AmigosResponse;
 import com.example.narratives.peticiones.amistad.lista.AmistadListaResponse;
+import com.example.narratives.peticiones.amistad.peticiones.AmistadPeticionesResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
 import com.example.narratives.peticiones.clubes.ClubRequest;
@@ -111,7 +112,8 @@ public interface RetrofitInterface {
     @POST("/marcapaginas/listening")
     Call<GenericMessageResult> ejecutarMarcapaginasListening(@Header("Cookie") String userCookie, @Body ListeningRequest request);
 
-
+    @GET("/amistad/peticiones")
+    Call<AmistadPeticionesResponse> ejecutarAmistadPeticiones(@Header("Cookie") String userCookie);
 
 
     @GET("/club/lista")

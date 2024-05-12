@@ -79,7 +79,7 @@ public class FragmentAmigos extends Fragment {
         fabAnadirAmigo = (ExtendedFloatingActionButton) getView().findViewById(R.id.fabAnadirAmigo);
         fabEnviadas = (ExtendedFloatingActionButton) getView().findViewById(R.id.fabSolicitudesEnviadas);
         fabRecibidas = (ExtendedFloatingActionButton) getView().findViewById(R.id.fabSolicitudesRecibidas);
-        fabHistorial = (ExtendedFloatingActionButton) getView().findViewById(R.id.fabHistorialAmistades);
+        fabHistorial = (ExtendedFloatingActionButton) getView().findViewById(R.id.fabHistorialPeticiones);
 
         esconderFabs();
 

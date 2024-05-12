@@ -1,7 +1,5 @@
 package com.example.narratives.peticiones.amistad.peticiones;
 
-import com.example.narratives.activities.FechaParser;
-
 public class HistorialPeticionConTipo {
     int user_id;
     String username;
