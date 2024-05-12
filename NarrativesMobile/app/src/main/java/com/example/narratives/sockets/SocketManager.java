@@ -7,15 +7,15 @@ import com.example.narratives.peticiones.clubes.Message;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
-
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 public class SocketManager {
     private static final String SERVER_URL = "https://server.narratives.es";

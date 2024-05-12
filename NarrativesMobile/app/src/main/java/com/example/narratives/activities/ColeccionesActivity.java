@@ -28,13 +28,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.adaptadores.ColeccionesAdapter;
 import com.example.narratives.adaptadores.AudiolibrosColeccionAdapter;
+import com.example.narratives.adaptadores.ColeccionesAdapter;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.informacion.InfoColecciones;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
-import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarColeccionRequest;
 import com.example.narratives.peticiones.colecciones.AudiolibrosColeccionItem;
@@ -476,7 +476,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                 int codigo = response.code();
 
                 if (response.code() == 200) {
-                    InfoLibroActivity.audiolibroActual = response.body();
+                    InfoAudiolibros.audiolibroActual = response.body();
                     MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(InfoLibroActivity.audiolibroActual);
                     MainActivity.abrirEscuchando = true;
                     abrirMenuMain();

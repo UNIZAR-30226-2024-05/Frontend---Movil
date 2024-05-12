@@ -1,8 +1,15 @@
 package com.example.narratives._backend;
 
 import com.example.narratives.peticiones.GenericMessageResult;
+import com.example.narratives.peticiones.GenericOtherIdRequest;
+import com.example.narratives.peticiones.amistad.amigos.AmigosResponse;
+import com.example.narratives.peticiones.amistad.lista.AmistadListaResponse;
+import com.example.narratives.peticiones.amistad.peticiones.AmistadPeticionesResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
+import com.example.narratives.peticiones.clubes.ClubRequest;
+import com.example.narratives.peticiones.clubes.ClubResult;
+import com.example.narratives.peticiones.clubes.ClubesResult;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarColeccionRequest;
 import com.example.narratives.peticiones.colecciones.ColeccionEspecificaResult;
@@ -18,6 +25,7 @@ import com.example.narratives.peticiones.users.cambio_datos.CambioFotoPerfilRequ
 import com.example.narratives.peticiones.users.login.LoginRequest;
 import com.example.narratives.peticiones.users.login.LoginResult;
 import com.example.narratives.peticiones.users.perfiles.MiPerfilResponse;
+import com.example.narratives.peticiones.users.perfiles.UserResponse;
 import com.example.narratives.peticiones.users.register.RegisterRequest;
 import com.example.narratives.peticiones.users.register.RegisterResult;
 
@@ -50,6 +58,11 @@ public interface RetrofitInterface {
     @GET("/users/profile")
     Call<MiPerfilResponse> ejecutarUsersProfile(@Header("Cookie") String userCookie);
 
+    @GET("/users/{id}")
+    Call<UserResponse> ejecutarUsersId(@Header("Cookie") String userCookie, @Path("id") int id);
+
+
+
     @GET("/audiolibros")
     Call<AudiolibrosResult> ejecutarAudiolibros(@Header("Cookie") String userCookie);
 
@@ -80,8 +93,35 @@ public interface RetrofitInterface {
     @POST("/colecciones/eliminarAudiolibro")
     Call<GenericMessageResult> ejecutarColeccionesEliminarAudiolibro(@Header("Cookie") String userCookie, @Body AnadirEliminarAudiolibroDeColeccionRequest request);
 
+
+    @POST("/amistad/send")
+    Call<GenericMessageResult> ejecutarAmistadSend(@Header("Cookie") String userCookie, @Body GenericOtherIdRequest other_id);
+
+    @POST("/amistad/accept")
+    Call<GenericMessageResult> ejecutarAmistadAccept(@Header("Cookie") String userCookie, @Body GenericOtherIdRequest other_id);
+
+    @POST("/amistad/reject")
+    Call<GenericMessageResult> ejecutarAmistadReject(@Header("Cookie") String userCookie, @Body GenericOtherIdRequest other_id);
+
+    @POST("/amistad/cancel")
+    Call<GenericMessageResult> ejecutarAmistadCancel(@Header("Cookie") String userCookie, @Body GenericOtherIdRequest other_id);
+
+    @POST("/amistad/remove")
+    Call<GenericMessageResult> ejecutarAmistadRemove(@Header("Cookie") String userCookie, @Body GenericOtherIdRequest other_id);
+
+    @GET("/amistad/amigos")
+    Call<AmigosResponse> ejecutarAmistadAmigos(@Header("Cookie") String userCookie);
+
+    @GET("/amistad/lista")
+    Call<AmistadListaResponse> ejecutarAmistadLista(@Header("Cookie") String userCookie);
+
+
     @POST("/marcapaginas/listening")
     Call<GenericMessageResult> ejecutarMarcapaginasListening(@Header("Cookie") String userCookie, @Body ListeningRequest request);
+
+    @GET("/amistad/peticiones")
+    Call<AmistadPeticionesResponse> ejecutarAmistadPeticiones(@Header("Cookie") String userCookie);
+
 
     @GET("/club/lista")
     Call<ClubesResult> ejecutarMyClubes(@Header("Cookie") String userCookie);

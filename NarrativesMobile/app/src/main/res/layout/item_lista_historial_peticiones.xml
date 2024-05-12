@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.imageview.ShapeableImageView
+
+        android:id="@+id/imageViewIconoHistorial"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:maxHeight="30dp"
+        android:maxWidth="30dp"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginStart="80dp"
+        android:layout_alignParentLeft="true"
+        app:shapeAppearanceOverlay="@style/RoundedSquare" />
+
+    <TextView
+        android:id="@+id/textViewAccionHistorial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@+id/imageViewIconoHistorial"
+        android:layout_toRightOf="@+id/imageViewIconoHistorial"
+        android:paddingHorizontal="10dp"
+        android:textColor="@color/gris"
+        android:textSize="18sp"
+        android:gravity="start"
+        android:text="accion"
+        />
+
+    <TextView
+        android:id="@+id/textViewFechaHistorial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="40dp"
+        android:layout_toStartOf="@+id/textViewAccionHistorial"
+        android:gravity="start"
+        android:paddingHorizontal="5dp"
+        android:text="fecha"
+        android:textColor="@color/gris"
+        android:textSize="12sp" />
+
+
+</RelativeLayout>

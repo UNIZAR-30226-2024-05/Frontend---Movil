@@ -43,6 +43,9 @@ public class ApiClient {
     }
 
     public static String getUserCookie() {
+        if(userCookie == null){
+            return "";
+        }
         return userCookie;
     }
 

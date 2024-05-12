@@ -96,7 +96,7 @@ public class InfoClubActivity extends AppCompatActivity {
                                 .placeholder(R.drawable.icono_libro)
                                 .into(img);
                     }
-                    mAdapter = new UserMemberAdapter(InfoClubActivity.this,R.layout.item_usuario_prueba, club.getMembers());
+                    mAdapter = new UserMemberAdapter(InfoClubActivity.this,R.layout.item_lista_amigos, club.getMembers());
                     members.setAdapter(mAdapter);
                 } else if (response.code() == 500) {
                     Toast.makeText(InfoClubActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();

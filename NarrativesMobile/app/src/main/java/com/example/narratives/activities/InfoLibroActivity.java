@@ -2,7 +2,6 @@ package com.example.narratives.activities;
 
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.transition.TransitionSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -23,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.Coleccion;
@@ -61,6 +60,8 @@ public class InfoLibroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info_libro);
         super.onCreate(savedInstanceState);
 
+        audiolibroActual = InfoAudiolibros.getAudiolibroActual();
+
         int width= ViewGroup.LayoutParams.MATCH_PARENT;
         int height= ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -97,7 +98,7 @@ public class InfoLibroActivity extends AppCompatActivity {
         textViewGeneros.setText(getFormattedGenres(audiolibroActual.getGeneros()));
 
 
-        FloatingActionButton botonCerrar = (FloatingActionButton) findViewById(R.id.botonVolverDesdeInfoLibro);
+        FloatingActionButton botonCerrar = (FloatingActionButton) findViewById(R.id.botonVolverDesdeInfoUsuario);
         botonCerrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,7 +130,7 @@ public class InfoLibroActivity extends AppCompatActivity {
             }
         });
 
-        comprarAudiolibro = (MaterialButton) findViewById(R.id.botonComprarEnAmazonInfoLibro);
+        comprarAudiolibro = (MaterialButton) findViewById(R.id.botonVerResenasInfoUsuario);
         comprarAudiolibro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -185,6 +186,7 @@ public class InfoLibroActivity extends AppCompatActivity {
     }
 
     private void abrirMenuMain() {
+        InfoAudiolibros.setAudiolibroActual(null);
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
