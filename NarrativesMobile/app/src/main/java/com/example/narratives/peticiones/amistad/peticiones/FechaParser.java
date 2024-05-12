@@ -102,10 +102,40 @@ public class FechaParser {
         }
     }
 
-    public String getFechaFormateada(){
-        return String.valueOf(this.getDia()) + "/" + String.valueOf(this.getMes()) + "/" + String.valueOf(this.getAnyo()) +
-                "\na las\n" + String.valueOf(this.getHora()) + ":" + String.valueOf(this.getMinuto()) + ":" + String.valueOf(this.getSegundo()) +
-                "." + String.valueOf(this.getMilisegundo());
+    public String getFechaFormateada() {
+        String minStr;
+        String segStr;
+        String msStr;
+
+        if (this.getMinuto() == 0) {
+            minStr = "00";
+        } else if (this.getMinuto() < 10) {
+            minStr = "0" + String.valueOf(this.getMinuto());
+        } else {
+            minStr = String.valueOf(this.getMinuto());
+        }
+
+        if (this.getSegundo() == 0) {
+            segStr = "00";
+        } else if (this.getSegundo() < 10) {
+            segStr = "0" + String.valueOf(this.getSegundo());
+        } else {
+            segStr = String.valueOf(this.getSegundo());
+        }
+
+        if(this.getMilisegundo() == 0){
+            msStr = "000";
+        }else if(this.getMilisegundo() < 10){
+            msStr = String.valueOf(this.getMilisegundo()) + "00";
+        } else if(this.getMilisegundo() < 100){
+            msStr = String.valueOf(this.getMilisegundo()) + "0";
+        } else {
+            msStr = String.valueOf(this.getMilisegundo());
+        }
+
+
+            return String.valueOf(this.getDia()) + "/" + String.valueOf(this.getMes()) + "/" + String.valueOf(this.getAnyo()) +
+                "\na las\n" + String.valueOf(this.getHora()+2) + ":" + minStr + ":" + segStr + "." + msStr;
 
     }
 

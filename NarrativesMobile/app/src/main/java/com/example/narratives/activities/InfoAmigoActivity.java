@@ -1,6 +1,8 @@
 package com.example.narratives.activities;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.transition.TransitionSet;
@@ -34,7 +36,6 @@ import retrofit2.Response;
 public class InfoAmigoActivity extends AppCompatActivity {
 
     private UserResponse amigoActual;
-
     FloatingActionButton fabAtras;
 
     MaterialButton botonSolicitud;
@@ -46,6 +47,8 @@ public class InfoAmigoActivity extends AppCompatActivity {
     ShapeableImageView fotoPerfil;
 
     RetrofitInterface retrofitInterface;
+
+    AlertDialog alertDialog;
 
 
     @Override
@@ -66,9 +69,9 @@ public class InfoAmigoActivity extends AppCompatActivity {
         fotoPerfil.setImageResource(InfoAmigos.getImageResourceFromImgCode(amigoActual.getImg()));
 
         tituloUltimo = (TextView) findViewById(R.id.textViewUltimaActividadInfoAmigo);
+        portada = (ShapeableImageView) findViewById(R.id.imageViewPortadaInfoAmigo);
 
         if(amigoActual.getUltimo() != null){
-            portada = (ShapeableImageView) findViewById(R.id.imageViewPortadaInfoAmigo);
             Glide
                     .with(this)
                     .load(amigoActual.getUltimo().getImg())
@@ -96,24 +99,81 @@ public class InfoAmigoActivity extends AppCompatActivity {
                     peticionAmistadRemove(amigoActual.getId());
                 } else if(botonSolicitud.getText().equals("Enviar solicitud")){
                     peticionAmistadSend(amigoActual.getId());
+                } else if(botonSolicitud.getText().equals("Solicitud recibida")) {
+                    abrirMensajeGestionarRecibida(amigoActual);
+                } else if(botonSolicitud.getText().equals("Solicitud enviada")) {
+                    peticionAmistadCancel(amigoActual.getId());
                 }
             }
         });
+
+        if(amigoActual.getEstado() == 1){
+            cambiarEstadoAEliminado();
+        } else if (amigoActual.getEstado() == 2){
+            cambiarEstadoAEnviado();
+        } else if (amigoActual.getEstado() == 3){
+            cambiarEstadoARecibido();
+        } // else: es amigo
     }
+
+    private void abrirMensajeGestionarRecibida(UserResponse usuario) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("¡" + usuario.getUsername() + " quiere ser tu amigo!");
+        builder.setMessage("¿Quieres aceptar la solicitud de amistad de " + usuario.getUsername() + "?");
+
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                peticionAmistadAccept(usuario.getId());
+            }
+        });
+
+        builder.setNegativeButton("Rechazar    |", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                peticionAmistadReject(usuario.getId());
+            }
+        });
+
+        builder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if(alertDialog != null && alertDialog.isShowing()){
+                    alertDialog.dismiss();
+                }
+            }
+        });
+
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 
     private void cambiarEstadoAEliminado(){
         portada.setVisibility(View.GONE);
         tituloUltimo.setVisibility(View.GONE);
         botonSolicitud.setText("Enviar solicitud");
+        botonSolicitud.setTextColor(getResources().getColor(R.color.white));
         botonSolicitud.setIconResource(R.drawable.icono_enviar);
         botonSolicitud.setIconTintResource(R.color.teal_casi_blanco);
-        estado.setText("Ya no sois amigos");
+        estado.setText("No sois amigos");
     }
 
     private void cambiarEstadoAEnviado(){
+        portada.setVisibility(View.GONE);
+        tituloUltimo.setVisibility(View.GONE);
         botonSolicitud.setText("Solicitud enviada");
         botonSolicitud.setTextColor(getResources().getColor(R.color.teal_claro));
         estado.setText("Solicitud enviada");
+    }
+
+
+    private void cambiarEstadoARecibido() {
+        portada.setVisibility(View.GONE);
+        tituloUltimo.setVisibility(View.GONE);
+        botonSolicitud.setText("Solicitud recibida");
+        botonSolicitud.setIconResource(R.drawable.icono_recibir);
+        botonSolicitud.setIconTintResource(R.color.teal_casi_blanco);
     }
 
     private void peticionAmistadRemove(int id){
@@ -204,6 +264,139 @@ public class InfoAmigoActivity extends AppCompatActivity {
         });
     }
 
+    private void peticionAmistadAccept(int id){
+        GenericOtherIdRequest request = new GenericOtherIdRequest(id);
+
+        Call<GenericMessageResult> llamada = retrofitInterface.ejecutarAmistadAccept(ApiClient.getUserCookie(), request);
+        llamada.enqueue(new Callback<GenericMessageResult>() {
+            @Override
+            public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
+
+                if(response.code() == 200) {
+                    FragmentAmigos.actualizarLista = true;
+                    alertDialog.dismiss();
+                    abrirMain();
+
+                }  else if (response.code() == 409){
+
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String error = jObjError.getString("error");
+
+                        if(error.equals("No received request")){
+                            Toast.makeText(InfoAmigoActivity.this, "No hay solicitud que aceptar", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            Toast.makeText(InfoAmigoActivity.this, error, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(InfoAmigoActivity.this, "Algo ha fallado obteniendo el error (amigosCancel)", Toast.LENGTH_LONG).show();
+                    }
+                }  else if (response.code() == 500){
+                    Toast.makeText(InfoAmigoActivity.this, "Error del server (amigosCancel)", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(InfoAmigoActivity.this, "Código de error (amigosCancel): " + String.valueOf(response.code()),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenericMessageResult> call, Throwable t) {
+                Toast.makeText(InfoAmigoActivity.this, "No se ha conectado con el servidor (amigosCancel)",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void peticionAmistadReject(int id){
+        GenericOtherIdRequest request = new GenericOtherIdRequest(id);
+
+        Call<GenericMessageResult> llamada = retrofitInterface.ejecutarAmistadReject(ApiClient.getUserCookie(), request);
+        llamada.enqueue(new Callback<GenericMessageResult>() {
+            @Override
+            public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
+
+                if(response.code() == 200) {
+                    FragmentAmigos.actualizarLista = true;
+                    alertDialog.dismiss();
+                    abrirMain();
+
+                }  else if (response.code() == 409){
+
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String error = jObjError.getString("error");
+
+                        if(error.equals("No received request")){
+                            Toast.makeText(InfoAmigoActivity.this, "No hay solicitud que rechazar", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            Toast.makeText(InfoAmigoActivity.this, error, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(InfoAmigoActivity.this, "Algo ha fallado obteniendo el error (amigosCancel)", Toast.LENGTH_LONG).show();
+                    }
+                }  else if (response.code() == 500){
+                    Toast.makeText(InfoAmigoActivity.this, "Error del server (amigosCancel)", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(InfoAmigoActivity.this, "Código de error (amigosCancel): " + String.valueOf(response.code()),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenericMessageResult> call, Throwable t) {
+                Toast.makeText(InfoAmigoActivity.this, "No se ha conectado con el servidor (amigosCancel)",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void peticionAmistadCancel(int id){
+        GenericOtherIdRequest request = new GenericOtherIdRequest(id);
+
+        Call<GenericMessageResult> llamada = retrofitInterface.ejecutarAmistadCancel(ApiClient.getUserCookie(), request);
+        llamada.enqueue(new Callback<GenericMessageResult>() {
+            @Override
+            public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
+
+                if(response.code() == 200) {
+                    cambiarEstadoAEliminado();
+                    FragmentAmigos.actualizarLista = true;
+
+                }  else if (response.code() == 409){
+
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String error = jObjError.getString("error");
+
+                        if(error.equals("No sent request")){
+                            Toast.makeText(InfoAmigoActivity.this, "No puedes cancelar una petición no enviada", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            Toast.makeText(InfoAmigoActivity.this, error, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(InfoAmigoActivity.this, "Algo ha fallado obteniendo el error (amigosCancel)", Toast.LENGTH_LONG).show();
+                    }
+                }  else if (response.code() == 500){
+                    Toast.makeText(InfoAmigoActivity.this, "Error del server (amigosCancel)", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(InfoAmigoActivity.this, "Código de error (amigosCancel): " + String.valueOf(response.code()),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenericMessageResult> call, Throwable t) {
+                Toast.makeText(InfoAmigoActivity.this, "No se ha conectado con el servidor (amigosCancel)",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
 
 

@@ -70,6 +70,11 @@ public class HistorialPeticionAdapter extends ArrayAdapter<HistorialPeticionConT
         return view;
     }
 
+    @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
+
     private String formatearAccionSegun(HistorialPeticionConTipo peticion) {
         if(peticion.getTipo() == 0){
             return "Solicitud ENVIADA a " + peticion.getUsername() + ".";

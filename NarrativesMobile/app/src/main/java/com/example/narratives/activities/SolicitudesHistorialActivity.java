@@ -43,7 +43,6 @@ public class SolicitudesHistorialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         peticiones = (ListView) findViewById(R.id.listViewListaHistorial);
-
         retrofitInterface = ApiClient.getRetrofitInterface();
 
         volverAMain = (FloatingActionButton) findViewById(R.id.botonVolverDesdeHistorialAmigos);
@@ -73,9 +72,6 @@ public class SolicitudesHistorialActivity extends AppCompatActivity {
             public void onResponse(Call<AmistadPeticionesResponse> call, Response<AmistadPeticionesResponse> response) {
 
                 if(response.code() == 200) {
-                    if(response.body() != null){
-                        Toast.makeText(SolicitudesHistorialActivity.this, "OK peticiones", Toast.LENGTH_LONG).show();
-                    }
                     InfoPeticiones.setPeticiones(response.body());
                     cargarAdaptador();
 
