@@ -58,8 +58,6 @@ public interface RetrofitInterface {
     @GET("/users/{id}")
     Call<UserResponse> ejecutarUsersId(@Header("Cookie") String userCookie, @Path("id") int id);
 
-
-
     @GET("/audiolibros")
     Call<AudiolibrosResult> ejecutarAudiolibros(@Header("Cookie") String userCookie);
 
