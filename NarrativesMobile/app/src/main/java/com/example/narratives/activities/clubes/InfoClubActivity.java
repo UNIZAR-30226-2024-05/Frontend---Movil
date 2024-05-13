@@ -168,7 +168,7 @@ public class InfoClubActivity extends AppCompatActivity {
                                 .placeholder(R.drawable.icono_libro)
                                 .into(img);
                     }
-                    mAdapter = new UserMemberAdapter(InfoClubActivity.this,R.layout.item_usuario_prueba, club.getMembers());
+                    mAdapter = new UserMemberAdapter(InfoClubActivity.this,R.layout.item_lista_amigos, club.getMembers());
                     members.setAdapter(mAdapter);
                     registerForContextMenu(findViewById(R.id.infoClub_contextMenu));
                 } else if (response.code() == 500) {

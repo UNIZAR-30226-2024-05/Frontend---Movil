@@ -73,6 +73,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                 obtenerTodosLosAudiolibros();
             }
             InfoMiPerfil.setId(sharedPreferences.getInt("user_id", -1));
+
             ApiClient.setUserCookie(sharedPreferences.getString("cookie", null));
             Socket mSocket = SocketManager.getInstance();
             mSocket.connect();
@@ -159,7 +160,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
 
         ArrayList<AudiolibroItem> audiolibros = new ArrayList<>();
         for(int i = 0; i < titulos.length; i++){
-            AudiolibroItem a = new AudiolibroItem(i, titulos[i], "autor", "descripcion", portadas[i], "genero", 5);
+            AudiolibroItem a = new AudiolibroItem(i, titulos[i], 0, "autor", "descripcion", portadas[i], "genero", 5);
             audiolibros.add(a);
         }
 

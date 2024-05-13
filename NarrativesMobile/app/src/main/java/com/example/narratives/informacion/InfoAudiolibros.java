@@ -2,6 +2,7 @@ package com.example.narratives.informacion;
 
 import static java.lang.Math.max;
 
+import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 
 import java.util.ArrayList;
@@ -9,10 +10,24 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class InfoAudiolibros {
+
+    public static AudiolibroEspecificoResponse audiolibroActual;
+
+    public static AudiolibroEspecificoResponse getAudiolibroActual() {
+        if(audiolibroActual == null){
+            return new AudiolibroEspecificoResponse();
+        } else {
+            return audiolibroActual;
+        }
+    }
+
+    public static void setAudiolibroActual(AudiolibroEspecificoResponse audiolibroActual) {
+        InfoAudiolibros.audiolibroActual = audiolibroActual;
+    }
     private static ArrayList<AudiolibroItem> todosLosAudiolibros;
     private static ArrayList<AudiolibroItem> todosLosAudiolibrosEjemplo;
 
-    private static String[] generos = {"Todos", "Misterio", "Fantasía", "Romance", "Terror", "Ciencia ficción", "Histórico", "Infantil", "Mitología", "Humor", "Autoayuda", "Poesía", "Aventuras"};
+    private static String[] generos = {"Todos", "Misterio", "Fantasía", "Romance", "Terror", "Ciencia ficción", "Histórico", "Infantil", "Autoayuda", "Poesía", "Aventuras"};
 
     public static ArrayList<AudiolibroItem> getTodosLosAudiolibros() {
         return todosLosAudiolibros;
@@ -61,6 +76,17 @@ public class InfoAudiolibros {
         }
 
         return  audiolibrosPorGenero;
+    }
+
+    public static ArrayList<AudiolibroItem> getAudiolibrosPorAutor(String autor){
+        ArrayList<AudiolibroItem> audiolibrosPorAutor = new ArrayList<>();
+
+        for(AudiolibroItem audiolibro : todosLosAudiolibros){
+            if(audiolibro.getAutor().equals(autor)){
+                audiolibrosPorAutor.add(audiolibro);
+            }
+        }
+        return  audiolibrosPorAutor;
     }
 
     public static String[] getGenerosSeleccionados(){
@@ -125,4 +151,8 @@ public class InfoAudiolibros {
     public static ArrayList<AudiolibroItem> getAudiolibrosSeguirEscuchando(){
         return new ArrayList<>();
     }
+
+
+
+
 }

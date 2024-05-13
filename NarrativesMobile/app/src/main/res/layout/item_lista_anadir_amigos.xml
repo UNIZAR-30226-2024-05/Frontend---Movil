@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.imageview.ShapeableImageView
+
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/imageViewFotoAnadirAmigo"
+        android:padding="5dp"
+        app:shapeAppearanceOverlay="@style/RoundedSquare" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewNombreAnadirUsuario"
+        android:layout_marginStart="15dp"
+        android:layout_toRightOf="@+id/imageViewFotoAnadirAmigo"
+        android:layout_centerVertical="true"
+        android:textColor="@color/gris"
+        android:textSize="18sp"
+        />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/botonAnadirAmigo"
+        android:focusable="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/teal_casi_blanco"
+        android:paddingHorizontal="15dp"
+        android:paddingTop="7dp"
+        android:text="Enviar solicitud"
+        android:textAllCaps="false"
+        android:textColor="@color/teal_700"
+        android:textSize="10.5sp"
+        app:cornerRadius="8dp"
+        app:layout_constraintHorizontal_bias="0.709"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.526"
+        app:strokeColor="@color/teal_200"
+        app:strokeWidth="3dp" />
+
+</RelativeLayout>

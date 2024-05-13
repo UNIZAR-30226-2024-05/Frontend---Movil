@@ -25,6 +25,7 @@ public class AudiolibrosColeccionAdapter extends ArrayAdapter<AudiolibrosColecci
     private int resourceLayout;
     private List<AudiolibrosColeccionItem> audiolibrosList;
     private AudiolibrosColeccionAdapter.OnMenuItemClickListener listener;
+    private boolean coleccionAmigo;
 
     public AudiolibrosColeccionAdapter(@NonNull Context context, int resourceLayout, @NonNull List<AudiolibrosColeccionItem> audiolibrosList) {
         super(context, 0, audiolibrosList);
@@ -68,6 +69,11 @@ public class AudiolibrosColeccionAdapter extends ArrayAdapter<AudiolibrosColecci
         });
 
         ImageView imageViewTresPuntosColeccion = view.findViewById(R.id.imageViewTresPuntosAudiolibroColeccion);
+
+        if (coleccionAmigo) {
+            imageViewTresPuntosColeccion.setVisibility(View.GONE);
+        }
+
         imageViewTresPuntosColeccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +99,14 @@ public class AudiolibrosColeccionAdapter extends ArrayAdapter<AudiolibrosColecci
         });
 
         return view;
+    }
+
+    public boolean isColeccionAmigo() {
+        return coleccionAmigo;
+    }
+
+    public void setColeccionAmigo(boolean coleccionAmigo) {
+        this.coleccionAmigo = coleccionAmigo;
     }
 
     public interface OnMenuItemClickListener {

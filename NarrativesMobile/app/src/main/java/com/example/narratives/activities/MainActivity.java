@@ -57,8 +57,6 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity {
     public static ActivityMainBinding binding;
 
-
-
     static public int fragmentoActual = 0;
 
     private Retrofit retrofit;
@@ -147,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
+
 
         fabEscuchando = (FloatingActionButton) findViewById(R.id.botonEscuchando);
         findViewById(R.id.botonEscuchando).setOnClickListener(new View.OnClickListener() {
@@ -292,8 +291,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        PopupWindow popupWindow=new PopupWindow(viewMiPerfil,width,height, true);
+        PopupWindow popupWindow = new PopupWindow(viewMiPerfil,width,height, true);
         popupWindow.setAnimationStyle(1);
 
         FrameLayout layout = findViewById(R.id.main_layout);
@@ -303,7 +301,6 @@ public class MainActivity extends AppCompatActivity {
                 popupWindow.showAtLocation(layout, Gravity.BOTTOM,0,0);
             }
         });
-
 
         FloatingActionButton botonCerrar = (FloatingActionButton) viewMiPerfil.findViewById(R.id.botonCerrarMiPerfil);
         botonCerrar.setOnClickListener(new View.OnClickListener() {
@@ -325,6 +322,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
+                ColeccionesActivity.username = InfoMiPerfil.getUsername();
                 abrirMisColecciones();
             }
         });

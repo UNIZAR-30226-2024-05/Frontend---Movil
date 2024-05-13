@@ -28,13 +28,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.adaptadores.ColeccionesAdapter;
 import com.example.narratives.adaptadores.AudiolibrosColeccionAdapter;
+import com.example.narratives.adaptadores.ColeccionesAdapter;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.informacion.InfoColecciones;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
-import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarColeccionRequest;
 import com.example.narratives.peticiones.colecciones.AudiolibrosColeccionItem;
@@ -51,15 +51,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ColeccionesActivity extends AppCompatActivity implements ColeccionesAdapter.OnMenuItemClickListener, AudiolibrosColeccionAdapter.OnMenuItemClickListener {
-    public interface InfoLibroCallback {
-        void onSuccess(AudiolibroEspecificoResponse audiolibro);
-        void onError(String mensaje);
-    }
-
+    public static String username;
+    public static ArrayList<ColeccionesItem> coleccionesList = new ArrayList<>();
+    public static ColeccionEspecificaResult coleccionActual;
     private ColeccionesAdapter coleccionesAdapter;
     private AudiolibrosColeccionAdapter audiolibrosColeccionAdapter;
-    private ArrayList<ColeccionesItem> coleccionesList;
-    static ColeccionEspecificaResult coleccionActual;
     private TextView textViewGuardadaSiNo;
     private Button buttonGuardarQuitarColeccion;
     private PopupWindow popupWindow;
@@ -75,17 +71,30 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
 
         retrofitInterface = ApiClient.getRetrofitInterface();
 
-        EditText editTextBuscadorColecciones = findViewById(R.id.editTextBuscadorColecciones);
-        ListView listViewListaColecciones = findViewById(R.id.listViewListaColecciones);
-
-        coleccionesList = InfoColecciones.getTodasLasColecciones();
-        if (coleccionesList == null || coleccionesList.isEmpty()) {
-            coleccionesList = new ArrayList<>();
-            obtenerColecciones();
-        }
+        TextView textViewTituloColecciones = findViewById(R.id.textViewTituloColecciones);
+        FloatingActionButton botonAnadir = findViewById(R.id.botonAnadirNuevaColeccion);
 
         coleccionesAdapter = new ColeccionesAdapter(this, R.layout.item_lista_colecciones, coleccionesList);
         coleccionesAdapter.setOnMenuEliminarColeccionClickListener(this);
+
+        if (!username.equals(InfoMiPerfil.getUsername())) {      // Amigo
+            textViewTituloColecciones.setText("Colecciones de " + username);
+            botonAnadir.setVisibility(View.GONE);
+            coleccionesAdapter.setColeccionAmigo(true);
+        } else {    // Yo
+            coleccionesAdapter.setColeccionAmigo(false);
+            obtenerColecciones();
+            botonAnadir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mostrarPopupNuevaColeccion();
+                }
+            });
+        }
+
+        EditText editTextBuscadorColecciones = findViewById(R.id.editTextBuscadorColecciones);
+        ListView listViewListaColecciones = findViewById(R.id.listViewListaColecciones);
+
         listViewListaColecciones.setAdapter(coleccionesAdapter);
 
         listViewListaColecciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,8 +106,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
 
         editTextBuscadorColecciones.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -106,8 +114,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
 
         FloatingActionButton botonVolver = findViewById(R.id.botonVolverDesdeListaColecciones);
@@ -115,14 +122,6 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
             @Override
             public void onClick(View view) {
                 finish();
-            }
-        });
-
-        FloatingActionButton botonAnadir = findViewById(R.id.botonAnadirNuevaColeccion);
-        botonAnadir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mostrarPopupNuevaColeccion();
             }
         });
     }
@@ -137,7 +136,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                     if (coleccionesResult.isEmpty()) {
                         Toast.makeText(ColeccionesActivity.this, "Resultado de colecciones nulo", Toast.LENGTH_LONG).show();
                     } else {
-                        InfoColecciones.setTodasLasColecciones(coleccionesResult);
+                        coleccionesList.clear();
                         coleccionesList.addAll(coleccionesResult);
                         coleccionesAdapter.notifyDataSetChanged();
                     }
@@ -243,7 +242,6 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
             @Override
             public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
                 if (response.isSuccessful()) {
-                    coleccionesList.clear();
                     obtenerColecciones();
                     Toast.makeText(ColeccionesActivity.this, "Colección añadida", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 400) {
@@ -324,9 +322,12 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
         ArrayList<AudiolibrosColeccionItem> audiolibrosColeccionList = coleccionActual.getAudiolibros();
         if (!audiolibrosColeccionList.isEmpty()) {
             textViewSinAudiolibrosEnColeccion.setVisibility(View.GONE);
+
             audiolibrosColeccionAdapter = new AudiolibrosColeccionAdapter(this, R.layout.item_audiolibros_coleccion, audiolibrosColeccionList);
-            ListView listViewListaAudiolibrosColeccion = viewInfoColeccion.findViewById(R.id.listViewListaAudiolibrosColeccion);
             audiolibrosColeccionAdapter.setOnMenuEliminarAudiolibroClickListener(this);
+            audiolibrosColeccionAdapter.setColeccionAmigo(!username.equals(InfoMiPerfil.getUsername()));
+
+            ListView listViewListaAudiolibrosColeccion = viewInfoColeccion.findViewById(R.id.listViewListaAudiolibrosColeccion);
             listViewListaAudiolibrosColeccion.setAdapter(audiolibrosColeccionAdapter);
 
             listViewListaAudiolibrosColeccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -357,8 +358,9 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
             @Override
             public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
                 if (response.isSuccessful()) {
-                    coleccionesList.clear();
-                    obtenerColecciones();
+                    if (!username.equals(InfoMiPerfil.getUsername())) {
+                        obtenerColecciones();
+                    }
                     coleccionActual.setGuardada(true);
                     textViewGuardadaSiNo.setText("SI");
                     buttonGuardarQuitarColeccion.setText("QUITAR");
@@ -390,7 +392,6 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
             @Override
             public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
                 if (response.isSuccessful()) {
-                    coleccionesList.clear();
                     obtenerColecciones();
                     if (coleccionActual.getPropietarioUsername().equals(InfoMiPerfil.getUsername())) {
                         if (popupWindow != null && popupWindow.isShowing()) {
@@ -476,7 +477,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                 int codigo = response.code();
 
                 if (response.code() == 200) {
-                    InfoLibroActivity.audiolibroActual = response.body();
+                    InfoAudiolibros.audiolibroActual = response.body();
                     MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(InfoLibroActivity.audiolibroActual);
                     MainActivity.abrirEscuchando = true;
                     abrirMenuMain();

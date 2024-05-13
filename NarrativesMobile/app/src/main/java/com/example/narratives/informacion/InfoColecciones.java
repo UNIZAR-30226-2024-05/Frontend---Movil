@@ -8,9 +8,7 @@ import java.util.ArrayList;
 public class InfoColecciones {
     private static ArrayList<ColeccionesItem> todasLasColecciones;
     private static ArrayList<AudiolibrosColeccionItem> todosLosAudiolibros;
-
     private static String propietarioUsername;
-
     private static boolean guardada;
 
     public static ArrayList<ColeccionesItem> getTodasLasColecciones() {
