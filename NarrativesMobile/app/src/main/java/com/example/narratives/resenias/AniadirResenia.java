@@ -103,6 +103,9 @@ public class AniadirResenia extends AppCompatActivity {
                 int codigo = response.code();
 
                 if(codigo == 200) {
+                    //AniadirReseniasResult resultado = response.body();
+                    //response.body().getId();
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(AniadirResenia.this, R.style.ExitoAlertDialogStyle);
                     builder.setTitle("ÉXITO");
                     builder.setMessage("La reseña ha sido añadida correctamente");
