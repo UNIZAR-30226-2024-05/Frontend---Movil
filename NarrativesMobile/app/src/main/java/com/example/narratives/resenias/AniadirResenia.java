@@ -13,8 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.Toast;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,8 +22,8 @@ import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.activities.ReseniaActivity;
-import com.example.narratives.peticiones.ReseniasRequest;
-import com.example.narratives.peticiones.StandardMessageResult;
+import com.example.narratives.peticiones.AniadirReseniasRequest;
+import com.example.narratives.peticiones.AniadirReseniasResult;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +32,8 @@ import retrofit2.Response;
 public class AniadirResenia extends AppCompatActivity {
     EditText descripcion;
     RatingBar aniadir;
+
+    AlertDialog alertDialog;
 
     Spinner spinner;
 
@@ -47,7 +49,7 @@ public class AniadirResenia extends AppCompatActivity {
 
         Button botonAniadirResenia = (Button) findViewById(R.id.botonAniadirResenia);
         descripcion = findViewById(R.id.editTextDescripcionresenia);
-       // descripcion = (EditText) findViewById(R.id.editTextDescripcionresenia);
+        // descripcion = (EditText) findViewById(R.id.editTextDescripcionresenia);
         aniadir = (RatingBar) findViewById(R.id.ratingBarAniadir);
 
         spinner = findViewById(R.id.spinner);
@@ -89,20 +91,18 @@ public class AniadirResenia extends AppCompatActivity {
     }
 
     public void enviarDatosResenia(){
-        ReseniasRequest request = new ReseniasRequest();
-        //request.setNombre(editTextText.getText().toString());
-        request.setDescripcion(descripcion.getText().toString());
-        request.setValoracion(aniadir.getRating());
-        request.setVisibilidad(opcionSeleccionada);
+        AniadirReseniasRequest request = new AniadirReseniasRequest();
+        // añadir argumentos del request con set___()
 
 
 
-        Call<StandardMessageResult> llamada = retrofitInterface.ejecutarAniadirResenia(request);
-        llamada.enqueue(new Callback<StandardMessageResult>() {
+        Call<AniadirReseniasResult> llamada = retrofitInterface.ejecutarAniadirResenia(ApiClient.getUserCookie(), request);
+        llamada.enqueue(new Callback<AniadirReseniasResult>() {
             @Override
-            public void onResponse(Call<StandardMessageResult> call, Response<StandardMessageResult> response) {
+            public void onResponse(Call<AniadirReseniasResult> call, Response<AniadirReseniasResult> response) {
+                int codigo = response.code();
 
-                if(response.code() == 200) {
+                if(codigo == 200) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(AniadirResenia.this, R.style.ExitoAlertDialogStyle);
                     builder.setTitle("ÉXITO");
                     builder.setMessage("La reseña ha sido añadida correctamente");
@@ -117,16 +117,17 @@ public class AniadirResenia extends AppCompatActivity {
 
                             , 1000);
 
-                }  else if (response.code() == 409){
+                }  else if (codigo == 409){
                     Toast.makeText(AniadirResenia.this, "Ya hay una reseña publicada",
                             Toast.LENGTH_LONG).show();
                     AlertDialog.Builder builder = new AlertDialog.Builder(AniadirResenia.this);
                     builder.setTitle("ERROR");
                     builder.setMessage("Ya existe una reseña publicada");
-                    builder.show();
+                    alertDialog = builder.create();
+                    alertDialog.show();
 
                 }
-                else if (response.code() == 500){
+                else if (codigo == 500){
                     Toast.makeText(AniadirResenia.this, "Error del servidor",
                             Toast.LENGTH_LONG).show();
                     AlertDialog.Builder builder = new AlertDialog.Builder(AniadirResenia.this);
@@ -141,7 +142,7 @@ public class AniadirResenia extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<StandardMessageResult> call, Throwable throwable) {
+            public void onFailure(Call<AniadirReseniasResult> call, Throwable throwable) {
                 Toast.makeText(AniadirResenia.this, "No se ha conectado con el servidor",
                         Toast.LENGTH_LONG).show();
             }
@@ -164,6 +165,8 @@ public class AniadirResenia extends AppCompatActivity {
     public void abrirReseñas() {
         Intent intent = new Intent(this, ReseniaActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        alertDialog.dismiss();
         finish();
+
     }
 }

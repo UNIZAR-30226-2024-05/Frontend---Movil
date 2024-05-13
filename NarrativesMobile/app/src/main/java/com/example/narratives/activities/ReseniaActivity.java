@@ -15,7 +15,7 @@ import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.databinding.ActivityMainBinding;
-import com.example.narratives.peticiones.ReseniasRequest;
+import com.example.narratives.peticiones.AniadirReseniasRequest;
 import com.example.narratives.resenias.AniadirResenia;
 import com.example.narratives.resenias.ListAdapter;
 import com.example.narratives.resenias.Resenia;
@@ -85,7 +85,7 @@ public class ReseniaActivity extends AppCompatActivity {
     public void ponerDatos(){
         ListView lv = findViewById(R.id.listViewListaReseñas);
 
-        ReseniasRequest request = new ReseniasRequest();
+        AniadirReseniasRequest request = new AniadirReseniasRequest();
         //request.setUsername(usuarioEditText.getText().toString());
         //request.setPassword(passwordEditText.getText().toString());
 

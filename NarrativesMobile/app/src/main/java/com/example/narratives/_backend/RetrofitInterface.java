@@ -6,7 +6,8 @@ import com.example.narratives.peticiones.LoginRequest;
 import com.example.narratives.peticiones.LoginResult;
 import com.example.narratives.peticiones.RegisterRequest;
 import com.example.narratives.peticiones.RegisterResult;
-import com.example.narratives.peticiones.ReseniasRequest;
+import com.example.narratives.peticiones.AniadirReseniasRequest;
+import com.example.narratives.peticiones.AniadirReseniasResult;
 import com.example.narratives.peticiones.StandardMessageResult;
 
 import retrofit2.Call;
@@ -36,6 +37,6 @@ public interface RetrofitInterface {
     Call<AudiolibrosResult> ejecutarObtencionGeneralAudiolibros(@Header("Cookie") String userCookie);
 
     @POST("/review/post_review")
-    Call<StandardMessageResult> ejecutarAniadirResenia(@Body ReseniasRequest request);
+    Call<AniadirReseniasResult> ejecutarAniadirResenia(@Header("Cookie") String userCookie, @Body AniadirReseniasRequest request);
 
 }
