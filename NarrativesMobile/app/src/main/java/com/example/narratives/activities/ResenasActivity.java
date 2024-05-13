@@ -2,6 +2,7 @@ package com.example.narratives.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.transition.TransitionSet;
 import android.view.Gravity;
@@ -128,6 +129,13 @@ public class ResenasActivity extends AppCompatActivity {
                 mostrarPopupNuevaResena();
             }
         });
+
+        fabMiResena.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mostrarPopupMiResena();
+            }
+        });
     }
 
     private void mostrarPopupNuevaResena() {
@@ -160,7 +168,7 @@ public class ResenasActivity extends AppCompatActivity {
         });
 
         Button botonConfirmarMiResena = viewMiResena.findViewById(R.id.botonConfirmarMiResena);
-        if (InfoLibroActivity.audiolibroActual.getOwnReview() == null) {
+        if (InfoLibroActivity.audiolibroActual.getOwnReview().getId() == 0) {
             botonConfirmarMiResena.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -214,6 +222,111 @@ public class ResenasActivity extends AppCompatActivity {
                     mostrarConfirmacionEliminaResena();
                 }
             });
+        }
+    }
+
+    private void mostrarPopupMiResena() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View viewMiResena = inflater.inflate(R.layout.popup_mi_resena, null);
+
+        int width= ViewGroup.LayoutParams.MATCH_PARENT;
+        int height= ViewGroup.LayoutParams.MATCH_PARENT;
+
+        popupWindow = new PopupWindow(viewMiResena, width, height, true);
+        popupWindow.setAnimationStyle(1);
+
+        getWindow().getDecorView().post(new Runnable(){
+            @Override
+            public void run(){
+                popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM,0,0);
+            }
+        });
+
+        radioGroupMiResena = viewMiResena.findViewById(R.id.radioGroupMiResena);
+        ratingBarMiResena = viewMiResena.findViewById(R.id.ratingBarMiResena);
+        editTextComentarioMiResena = viewMiResena.findViewById(R.id.editTextComentarioMiResena);
+        rellenarCamposMiResena();
+
+        FloatingActionButton botonCerrar = viewMiResena.findViewById(R.id.botonCerrarMiResena);
+        botonCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+
+        Button botonConfirmarMiResena = viewMiResena.findViewById(R.id.botonConfirmarMiResena);
+        if (InfoLibroActivity.audiolibroActual.getOwnReview().getId() == 0) {
+            botonConfirmarMiResena.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (camposResenaOk()) {
+                        int visibilidad = 0;
+                        switch (radioGroupMiResena.getCheckedRadioButtonId()) {
+                            case R.id.radioButtonOptionAmigos:
+                                visibilidad = 1;
+                                break;
+                            case R.id.radioButtonOptionPrivada:
+                                visibilidad = 2;
+                                break;
+                            default:
+                                break;
+                        }
+                        publicarResena(editTextComentarioMiResena.getText().toString(), ratingBarMiResena.getRating(), visibilidad);
+                    } else {
+                        Toast.makeText(ResenasActivity.this, "Campos vacíos", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        } else {
+            botonConfirmarMiResena.setText("GUARDAR");
+            botonConfirmarMiResena.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (camposResenaOk()) {
+                        int visibilidad = 0;
+                        switch (radioGroupMiResena.getCheckedRadioButtonId()) {
+                            case R.id.radioButtonOptionAmigos:
+                                visibilidad = 1;
+                                break;
+                            case R.id.radioButtonOptionPrivada:
+                                visibilidad = 2;
+                                break;
+                            default:
+                                break;
+                        }
+                        editarResena(editTextComentarioMiResena.getText().toString(), ratingBarMiResena.getRating(), visibilidad);
+                    } else {
+                        Toast.makeText(ResenasActivity.this, "Campos vacíos", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+            Button botonEliminarMiResena = viewMiResena.findViewById(R.id.botonEliminarMiResena);
+            botonEliminarMiResena.setVisibility(View.VISIBLE);
+            botonEliminarMiResena.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mostrarConfirmacionEliminaResena();
+                }
+            });
+        }
+    }
+
+    private void rellenarCamposMiResena() {
+        ratingBarMiResena.setRating(InfoLibroActivity.audiolibroActual.getOwnReview().getPuntuacion());
+        editTextComentarioMiResena.setText(InfoLibroActivity.audiolibroActual.getOwnReview().getComentario());
+
+        switch (InfoLibroActivity.audiolibroActual.getOwnReview().getVisibilidad()) {
+            case 0:
+                radioGroupMiResena.check(R.id.radioButtonOptionPublica);
+                break;
+            case 1:
+                radioGroupMiResena.check(R.id.radioButtonOptionAmigos);
+                break;
+            default: // 2
+                radioGroupMiResena.check(R.id.radioButtonOptionPrivada);
+                break;
         }
     }
 
@@ -273,8 +386,8 @@ public class ResenasActivity extends AppCompatActivity {
         call.enqueue(new Callback<OwnReview>() {
             @Override
             public void onResponse(@NonNull Call<OwnReview> call, @NonNull Response<OwnReview> response) {
-                InfoLibroActivity.audiolibroActual.setOwnReview(response.body());
                 if (response.isSuccessful()) {
+                    InfoLibroActivity.audiolibroActual.setOwnReview(response.body());
                     popupWindow.dismiss();
                     Toast.makeText(ResenasActivity.this, "Reseña editada", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 403) {
