@@ -12,6 +12,7 @@ import com.example.narratives.peticiones.clubes.ClubRequest;
 import com.example.narratives.peticiones.clubes.ClubesResult;
 import com.example.narratives.peticiones.clubes.ClubResult;
 import com.example.narratives.peticiones.autores.AutorDatosResponse;
+import com.example.narratives.peticiones.marcapaginas.CrearMarcapaginasRequest;
 import com.example.narratives.peticiones.marcapaginas.ListeningRequest;
 import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequest;
 import com.example.narratives.peticiones.users.cambio_datos.CambioFotoPerfilRequest;
@@ -94,4 +95,6 @@ public interface RetrofitInterface {
     
     @GET("/club/datos/{id}")
     Call<ClubResult> ejecutarInfoClub(@Header("Cookie") String userCookie, @Path("id") int id);
+    @POST("/marcapaginas/create")
+    Call<GenericMessageResult> ejecutarCreateMarcapaginas(@Header("Cookie") String userCookie, @Body CrearMarcapaginasRequest request);
 }

@@ -8,6 +8,23 @@
     android:background="@color/white"
     >
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonMarcapaginas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="326dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/icono_marcapaginas"
+        android:text="Mis marcapaginas"
+        app:backgroundTint="@color/teal_claro"
+        app:borderWidth="2.5dp"
+        app:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:maxImageSize="40dp"
+        app:tint="@color/teal_700" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,6 +1,8 @@
 package com.example.narratives.fragments;
 
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -28,6 +30,8 @@ import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.activities.CrearMarcapaginasActivity;
+import com.example.narratives.activities.InfoAutorActivity;
 import com.example.narratives.adaptadores.CapitulosAdapter;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
@@ -57,6 +61,8 @@ public class FragmentEscuchando extends Fragment {
     FloatingActionButton fabRetrasar;
     FloatingActionButton fabSiguienteCap;
     FloatingActionButton fabAnteriorCap;
+    MaterialButton fabMarcapaginas;
+
 
     MaterialButton selectorCapitulos;
     CapitulosAdapter capitulosAdapter;
@@ -165,6 +171,12 @@ public class FragmentEscuchando extends Fragment {
                 prepararAudio(capituloActual - 1);
             }
         });
+        fabMarcapaginas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirCrearMarcapaginas();
+            }
+        });
 
         selectorCapitulos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,6 +205,7 @@ public class FragmentEscuchando extends Fragment {
         fabRetrasar = (FloatingActionButton) getView().findViewById(R.id.botonRetrasarDiezEscuchando);
         fabSiguienteCap = (FloatingActionButton) getView().findViewById(R.id.botonSiguienteCapituloEscuchando);
         fabAnteriorCap = (FloatingActionButton) getView().findViewById(R.id.botonAnteriorCapituloEscuchando);
+        fabMarcapaginas = (MaterialButton) getView().findViewById(R.id.botonCrearMarcapaginas);
         selectorCapitulos = (MaterialButton) getView().findViewById(R.id.botonSelectorDeCapitulos);
 
         fabPause = (FloatingActionButton) getView().findViewById(R.id.botonPauseEscuchando);
@@ -670,5 +683,13 @@ public class FragmentEscuchando extends Fragment {
         }
 
         return -1; //ningún capítulo coincide con el id
+    }
+
+    public void abrirCrearMarcapaginas() {
+        Intent intent = new Intent(getContext(), CrearMarcapaginasActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("listaCapitulos", capitulos);
+        intent.putExtra("capituloActual", capituloActual);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
     }
 }
