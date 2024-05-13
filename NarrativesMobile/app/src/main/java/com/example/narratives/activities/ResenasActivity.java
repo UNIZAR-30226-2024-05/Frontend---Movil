@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives.adaptadores.ResenasAdapter;
 import com.example.narratives.peticiones.audiolibros.especifico.GenericReview;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class ResenasActivity extends AppCompatActivity {
     ArrayList<GenericReview> resenasPublicasList = InfoLibroActivity.audiolibroActual.getPublicReviews();
     ArrayList<GenericReview> resenasAmigosList = InfoLibroActivity.audiolibroActual.getFriendsReviews();
     private PopupWindow popupWindow;
-    private boolean fabs_visible = false;
+    private boolean fabs_visible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +77,8 @@ public class ResenasActivity extends AppCompatActivity {
         });
 
         FloatingActionButton fabMenuResenas = findViewById(R.id.fabMenuResenas);
-        FloatingActionButton fabNuevaResena = findViewById(R.id.fabNuevaResena);
-        FloatingActionButton fabMiResena = findViewById(R.id.fabMiResena);
+        ExtendedFloatingActionButton fabNuevaResena = findViewById(R.id.fabNuevaResena);
+        ExtendedFloatingActionButton fabMiResena = findViewById(R.id.fabMiResena);
 
         fabMenuResenas.setOnClickListener(
             new View.OnClickListener() {
