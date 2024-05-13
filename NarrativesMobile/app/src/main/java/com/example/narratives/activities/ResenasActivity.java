@@ -1,5 +1,7 @@
 package com.example.narratives.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.transition.TransitionSet;
 import android.view.Gravity;
@@ -8,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -29,6 +33,9 @@ public class ResenasActivity extends AppCompatActivity {
     ArrayList<GenericReview> resenasAmigosList = InfoLibroActivity.audiolibroActual.getFriendsReviews();
     private PopupWindow popupWindow;
     private boolean fabs_visible;
+    private Switch switchMiResena;
+    private RatingBar ratingBarMiResena;
+    private EditText editTextComentarioMiResena;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,13 +122,16 @@ public class ResenasActivity extends AppCompatActivity {
         popupWindow = new PopupWindow(viewMiResena, width, height, true);
         popupWindow.setAnimationStyle(1);
 
-        FrameLayout layout = findViewById(R.id.main_layout);
-        layout.post(new Runnable(){
+        getWindow().getDecorView().post(new Runnable(){
             @Override
             public void run(){
-                popupWindow.showAtLocation(layout, Gravity.BOTTOM,0,0);
+                popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM,0,0);
             }
         });
+
+        switchMiResena = viewMiResena.findViewById(R.id.switchMiResena);
+        ratingBarMiResena = viewMiResena.findViewById(R.id.ratingBarMiResena);
+        editTextComentarioMiResena = viewMiResena.findViewById(R.id.editTextComentarioMiResena);
 
         FloatingActionButton botonCerrar = viewMiResena.findViewById(R.id.botonCerrarMiResena);
         botonCerrar.setOnClickListener(new View.OnClickListener() {
@@ -132,12 +142,61 @@ public class ResenasActivity extends AppCompatActivity {
         });
 
         Button botonConfirmarMiResena = viewMiResena.findViewById(R.id.botonConfirmarMiResena);
-        botonConfirmarMiResena.setOnClickListener(new View.OnClickListener() {
+        if (InfoLibroActivity.audiolibroActual.getOwnReview() == null) {
+            botonConfirmarMiResena.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    publicarResena();
+                    popupWindow.dismiss();
+                }
+            });
+        } else {
+            botonConfirmarMiResena.setText("GUARDAR");
+            botonConfirmarMiResena.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    editarResena();
+                    popupWindow.dismiss();
+                }
+            });
+
+            Button botonEliminarMiResena = viewMiResena.findViewById(R.id.botonEliminarMiResena);
+            botonEliminarMiResena.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mostrarConfirmacionEliminaResena();
+                }
+            });
+        }
+    }
+
+    private void publicarResena() {
+
+    }
+
+    private void editarResena() {
+
+    }
+
+    private void mostrarConfirmacionEliminaResena() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ResenasActivity.this);
+        builder.setTitle("¿Está seguro de eliminar su reseña?");
+        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                //publicarResena();
-                popupWindow.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+                eliminarResena();
             }
         });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    private void eliminarResena() {
+
     }
 }
