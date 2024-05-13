@@ -7,8 +7,8 @@ public class Club implements Serializable {
     private int id;
     private String nombre;
     private String descripcion;
-    private boolean isAdmin;
-    private boolean isMember;
+    private boolean isadmin;
+    private boolean ismember;
     private Audiolibro audiolibro;
     private ArrayList<UserMember> members;
     private ArrayList<Message> messages;
@@ -21,11 +21,11 @@ public class Club implements Serializable {
         return this.nombre;
     }
     public String getDescription() { return this.descripcion; }
-    public boolean isAdmin() { return this.isAdmin; }
+    public boolean isAdmin() { return this.isadmin; }
     public void setIsAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
+        this.isadmin = isAdmin;
     }
-    public boolean isMember() { return this.isMember; }
+    public boolean isMember() { return this.ismember; }
     public Audiolibro getAudiolibro() { return this.audiolibro; }
     public ArrayList<UserMember> getMembers() { return this.members; }
     public ArrayList<Message> getMessages() {
@@ -38,7 +38,7 @@ public class Club implements Serializable {
         this.messages.add(msg);
     }
 
-    public class Audiolibro {
+    public class Audiolibro implements Serializable {
         private int id;
         private String titulo;
         private String img;
@@ -47,7 +47,7 @@ public class Club implements Serializable {
         public String getImg() { return this.img; }
     }
 
-    public class UserMember {
+    public class UserMember implements Serializable {
         private int id;
         private String username;
         private char img;

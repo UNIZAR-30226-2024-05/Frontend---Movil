@@ -109,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                         socket = SocketManager.getInstance();
                         socket.connect();
                         guardarSesion(cookie, response.body().getId());
+                        InfoMiPerfil.setId(response.body().getId());
                         new Handler().postDelayed(
                                 new Runnable() {
                                     @Override

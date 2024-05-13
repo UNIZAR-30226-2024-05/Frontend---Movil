@@ -52,4 +52,7 @@ public class InfoClubes {
     public static void removeClub(Club club) {
         InfoClubes.todosLosClubes.remove(club);
     }
+    public static void removeClubById(int club_id) {
+        removeClub(getClubById(club_id));
+    }
 }

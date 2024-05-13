@@ -90,4 +90,10 @@ public interface RetrofitInterface {
     
     @GET("/club/datos/{id}")
     Call<ClubResult> ejecutarInfoClub(@Header("Cookie") String userCookie, @Path("id") int id);
+    @POST("/club/join")
+    Call<GenericMessageResult> ejecutarJoinClub(@Header("Cookie") String userCookie, @Body ClubRequest request);
+    @POST("/club/left")
+    Call<GenericMessageResult> ejecutarLeaveClub(@Header("Cookie") String userCookie, @Body ClubRequest request);
+    @POST("/club/delete")
+    Call<GenericMessageResult> ejecutarDeleteClub(@Header("Cookie") String userCookie, @Body ClubRequest request);
 }

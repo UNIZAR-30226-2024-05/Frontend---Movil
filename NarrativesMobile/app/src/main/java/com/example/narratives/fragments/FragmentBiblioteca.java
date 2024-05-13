@@ -32,13 +32,11 @@ import com.example.narratives.adaptadores.BibliotecaTituloGridAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
-import com.example.narratives.sockets.SocketManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import io.socket.client.Socket;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -96,9 +94,6 @@ public class FragmentBiblioteca extends Fragment {
         buscarPor.setText("Título");
         buscarPorActual = "Título";
         buscarPor.setAdapter(adapterBuscarPor);
-
-        Socket mSocket = SocketManager.getInstance();
-        SocketManager.onMessageReceived();
 
 
         if (InfoAudiolibros.getTodosLosAudiolibros() != null) {

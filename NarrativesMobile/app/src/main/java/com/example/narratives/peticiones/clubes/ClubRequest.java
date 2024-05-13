@@ -1,10 +1,14 @@
 package com.example.narratives.peticiones.clubes;
 
 public class ClubRequest {
+    int id;
     String nombre;
     String descripcion;
     Integer audiolibroID;
 
+    public ClubRequest(int club_id) {
+        this.id = club_id;
+    }
     public ClubRequest(String clubName) {
         this.nombre = clubName;
     }

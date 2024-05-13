@@ -1,6 +1,8 @@
 package com.example.narratives.peticiones.clubes;
 
-public class Message {
+import java.io.Serializable;
+
+public class Message  implements Serializable {
     private int id;
     private int user_id;
     private String username;

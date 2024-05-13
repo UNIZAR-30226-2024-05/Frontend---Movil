@@ -27,6 +27,7 @@ import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.adaptadores.MenuInicioAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
+import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
 import com.example.narratives.sockets.SocketManager;
@@ -71,6 +72,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
             if(InfoAudiolibros.getTodosLosAudiolibros() == null){
                 obtenerTodosLosAudiolibros();
             }
+            InfoMiPerfil.setId(sharedPreferences.getInt("user_id", -1));
             ApiClient.setUserCookie(sharedPreferences.getString("cookie", null));
             Socket mSocket = SocketManager.getInstance();
             mSocket.connect();

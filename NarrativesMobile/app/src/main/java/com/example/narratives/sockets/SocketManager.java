@@ -83,7 +83,7 @@ public class SocketManager {
         messageListeners = null;
     }
 
-    public static void onMessageReceived() {
+    /*public static void onMessageReceived() {
         mSocket.on("message", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -91,13 +91,15 @@ public class SocketManager {
                     JSONObject json = (JSONObject) args[0];
                     try {
                         Message msg = new Message();
-                        msg.setId(json.getInt("id"));
-                        msg.setUserId(json.getInt("user_id"));
-                        msg.setUsername(json.getString("username"));
-                        msg.setMessage(json.getString("mensaje"));
-                        msg.setDate(json.getString("fecha"));
-                        InfoClubes.getClubById(json.getInt("club_id")).addMessage(msg);
-                        messageListeners.onMessageReceived();
+                        if (InfoClubes.getClubById(json.getInt("club_id")).getMessages() != null) {
+                            msg.setId(json.getInt("id"));
+                            msg.setUserId(json.getInt("user_id"));
+                            msg.setUsername(json.getString("username"));
+                            msg.setMessage(json.getString("mensaje"));
+                            msg.setDate(json.getString("fecha"));
+                            InfoClubes.getClubById(json.getInt("club_id")).addMessage(msg);
+                            messageListeners.onMessageReceived();
+                        }
                         // Luego puedes procesar los datos recibidos como desees
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -105,7 +107,7 @@ public class SocketManager {
                 }
             }
         });
-    }
+    }*/
 
     public static void IOSendMessage(String event, JSONObject message) {
         mSocket.emit(event, message);

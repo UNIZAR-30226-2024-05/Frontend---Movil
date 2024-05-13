@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
@@ -26,6 +27,7 @@ import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import com.example.narratives.peticiones.clubes.Club;
 import com.example.narratives.peticiones.clubes.ClubRequest;
 import com.example.narratives.peticiones.clubes.ClubResult;
+import com.example.narratives.sockets.SocketManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -101,6 +103,13 @@ public class CrearClubActivity extends AppCompatActivity {
                 comprobarYEnviarDatos();
             }
         });
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                cancelActivity();
+            }
+        });
     }
     private void cancelActivity() {
         Intent resultIntent = new Intent();
@@ -130,11 +139,12 @@ public class CrearClubActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ClubResult> call, Response<ClubResult> response) {
                     if (response.code() == 200) {
+                        Toast.makeText(CrearClubActivity.this, "Creaste un nuevo club correctamente", Toast.LENGTH_LONG).show();
                         Club club = response.body().getClub();
                         club.setIsAdmin(true);
                         InfoClubes.addClub(club);
                         Intent resultIntent = new Intent();
-                        resultIntent.putExtra("requestCode", FragmentClubs.CREAR_CLUB);
+                        resultIntent.putExtra("update", true);
                         setResult(Activity.RESULT_OK, resultIntent);
                         finish();
 
@@ -153,11 +163,5 @@ public class CrearClubActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        cancelActivity();
-        super.onBackPressed();
     }
 }

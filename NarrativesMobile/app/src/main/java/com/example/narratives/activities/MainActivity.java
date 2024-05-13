@@ -401,7 +401,6 @@ public class MainActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     InfoMiPerfil infoMiPerfil = getInfoMiPerfil();
 
-                    infoMiPerfil.setId(getIntent().getIntExtra("user_id", -1));
                     infoMiPerfil.setUsername(response.body().getUsername());
                     infoMiPerfil.setMail(response.body().getMail());
                     infoMiPerfil.setImg(response.body().getImg());

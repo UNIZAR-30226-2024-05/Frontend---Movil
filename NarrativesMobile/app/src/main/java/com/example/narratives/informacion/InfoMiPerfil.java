@@ -126,8 +126,8 @@ public class InfoMiPerfil {
         return "error";
     }
 
-    public void setId(int user_id) {
-        this.user_id = user_id;
+    public static void setId(int _user_id) {
+        user_id = _user_id;
     }
     public static int getId() {
         return user_id;

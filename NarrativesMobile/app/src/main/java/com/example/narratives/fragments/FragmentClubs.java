@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,8 +40,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class FragmentClubs extends Fragment {
+    public final static int CHAT_CLUB = 0;
     public final static int CREAR_CLUB = 1;
-    public final static int UNIRSE_CLUB = 2;
+    public final static int BUSCAR_CLUB = 2;
+    public final static int INFO_CLUB = 3;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     RecyclerView mClubes;
@@ -98,6 +101,9 @@ public class FragmentClubs extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        fabs_visible = false;
+                        newClub.setVisibility(View.GONE);
+                        joinClub.setVisibility(View.GONE);
                         startCrearClubActivity();
                     }
                 }
@@ -107,6 +113,9 @@ public class FragmentClubs extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        fabs_visible = false;
+                        newClub.setVisibility(View.GONE);
+                        joinClub.setVisibility(View.GONE);
                         startBuscarClubActivity();
                     }
                 }
@@ -118,7 +127,7 @@ public class FragmentClubs extends Fragment {
     private void setupRecyclerView(View view) {
         mClubes = view.findViewById(R.id.listViewMyClubes);
         mClubes.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new ClubAdapter(getContext(), R.layout.item_club, InfoClubes.getTodosLosClubes());
+        mAdapter = new ClubAdapter(getContext(), this, R.layout.item_club, InfoClubes.getTodosLosClubes());
         mClubes.setAdapter(mAdapter);
     }
 
@@ -169,44 +178,52 @@ public class FragmentClubs extends Fragment {
         });
     }
 
-    private ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CHAT_CLUB) {
+            if (data.getBooleanExtra("update", true)){
+                mAdapter.notifyDataSetChanged();
+            }
+        } else if (requestCode == CREAR_CLUB) {
+            if (resultCode == Activity.RESULT_OK) {
+                mAdapter.notifyDataSetChanged();
+            }
+        } else if (requestCode == BUSCAR_CLUB) {
+            if (data.getBooleanExtra("update", true)){
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    /*private ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
-                Log.d("REQUESTCODE", "PRE");
-                Log.d("REQUESTCODE", String.valueOf(result.getData().getIntExtra("requestCode", -1)));
                 int requestCode = result.getData().getIntExtra("requestCode", -1);
-                if (requestCode == CREAR_CLUB) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // Manejar el resultado de la actividad CrearClubActivity
+                if (requestCode == CHAT_CLUB) {
+                    if (result.getData().getBooleanExtra("update", true)){
                         mAdapter.notifyDataSetChanged();
                     }
-                } else if (requestCode == UNIRSE_CLUB) {
+                } else if (requestCode == CREAR_CLUB) {
                     if (result.getResultCode() == Activity.RESULT_OK) {
-                        // Manejar el resultado de otra actividad
-                        // ...
-                        Intent data = result.getData();
-                        if (data != null) {
-                            String resultado = data.getStringExtra("resultado");
-                            // Hacer algo con el resultado recibido
-                        }
+                        mAdapter.notifyDataSetChanged();
+                    }
+                } else if (requestCode == BUSCAR_CLUB) {
+                    if (result.getData().getBooleanExtra("update", true)){
+                        mAdapter.notifyDataSetChanged();
                     }
                 }
-            });
+            });*/
     private void startCrearClubActivity() {
         Context context = requireContext();
         Intent intent = new Intent(context, CrearClubActivity.class);
-        activityResultLauncher.launch(intent);
+        startActivityForResult(intent, FragmentClubs.CREAR_CLUB);
     }
 
     private void startBuscarClubActivity() {
         Context context = requireContext();
         Intent intent = new Intent(context, BuscarClubActivity.class);
-        activityResultLauncher.launch(intent);
-    }
-
-    private void startInfoClubActivity() {
-        Context context = requireContext();
-        Intent intent = new Intent(context, InfoClubActivity.class);
-        activityResultLauncher.launch(intent);
+        startActivityForResult(intent, FragmentClubs.BUSCAR_CLUB);
     }
 }

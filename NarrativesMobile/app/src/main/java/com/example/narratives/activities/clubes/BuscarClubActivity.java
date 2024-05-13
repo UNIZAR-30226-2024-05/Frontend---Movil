@@ -6,11 +6,16 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.TransitionSet;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -77,15 +82,51 @@ public class BuscarClubActivity extends AppCompatActivity {
         fabBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cancelActivity();
+                closeActivity();
+            }
+        });
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                closeActivity();
             }
         });
     }
 
-    private void cancelActivity() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == FragmentClubs.INFO_CLUB) {
+            if (resultCode == Activity.RESULT_OK) {
+                Boolean update = data.getBooleanExtra("update", false);
+                if (update) {
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("update", true);
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
+                }
+            }
+        }
+    }
+
+    /*private ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                int requestCode = result.getData().getIntExtra("requestCode", -1);
+                if (requestCode == FragmentClubs.INFO_CLUB) {
+                    Boolean update = getIntent().getBooleanExtra("update", false);
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("requestCode", FragmentClubs.BUSCAR_CLUB);
+                    resultIntent.putExtra("update", update);
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
+                }
+            });*/
+
+    private void closeActivity() {
         Intent resultIntent = new Intent();
-        resultIntent.putExtra("requestCode", FragmentClubs.CREAR_CLUB);
-        setResult(Activity.RESULT_CANCELED, resultIntent);
+        setResult(Activity.RESULT_OK, resultIntent);
         finish();
     }
 
@@ -97,7 +138,7 @@ public class BuscarClubActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     ArrayList<Club> clubList = response.body().getClubes();
                     recycler.setLayoutManager(new LinearLayoutManager(BuscarClubActivity.this));
-                    mAdapter = new ClubAdapter(BuscarClubActivity.this, R.layout.item_club, clubList);
+                    mAdapter = new ClubAdapter(BuscarClubActivity.this, null, R.layout.item_club, clubList);
                     recycler.setAdapter(mAdapter);
                 } else if (response.code() == 500) {
                     Toast.makeText(BuscarClubActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
@@ -113,11 +154,5 @@ public class BuscarClubActivity extends AppCompatActivity {
                 Toast.makeText(BuscarClubActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        cancelActivity();
-        super.onBackPressed();
     }
 }

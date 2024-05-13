@@ -1,5 +1,6 @@
 package com.example.narratives.adaptadores;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.narratives.R;
@@ -17,6 +20,7 @@ import com.example.narratives.activities.clubes.BuscarClubActivity;
 import com.example.narratives.activities.clubes.ChatClubActivity;
 import com.example.narratives.activities.clubes.InfoClubActivity;
 import com.example.narratives.activities.MainActivity;
+import com.example.narratives.fragments.FragmentClubs;
 import com.example.narratives.peticiones.clubes.Club;
 
 import java.util.ArrayList;
@@ -25,14 +29,16 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ItemViewHolder
     private ArrayList<Club> clubList;
     private ArrayList<Club> tempClubList;
     private Context context;
+    private Fragment fragment;
     private int resourceLayout;
     private ClubFilter clubFilter;
 
 
-    public ClubAdapter(Context context, int resource, ArrayList<Club> itemList) {
+    public ClubAdapter(Context context, @Nullable Fragment fragment, int resource, ArrayList<Club> itemList) {
         this.clubList = itemList;
         this.tempClubList = itemList;
         this.context = context;
+        this.fragment = fragment;
         this.resourceLayout = resource;
 
     }
@@ -40,7 +46,7 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ItemViewHolder
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(resourceLayout, parent, false);
+        View view = LayoutInflater.from((Context) context).inflate(resourceLayout, parent, false);
         return new ItemViewHolder(view);
     }
 
@@ -57,15 +63,16 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ItemViewHolder
                 //Context context = v.getContext();
                 Intent intent;
                 if (context instanceof MainActivity) {
-                    intent = new Intent(context, ChatClubActivity.class);
+                    intent = new Intent((Context) context, ChatClubActivity.class);
                     intent.putExtra("club_id", club.getId());
+                    fragment.startActivityForResult(intent, FragmentClubs.CHAT_CLUB);
                 } else if (context instanceof BuscarClubActivity) {
-                    intent = new Intent(context, InfoClubActivity.class);
-                    intent.putExtra("club", club);
+                    intent = new Intent((Context) context, InfoClubActivity.class);
+                    intent.putExtra("club_id", club.getId());
+                    ((Activity) context).startActivityForResult(intent, FragmentClubs.INFO_CLUB);
                 } else {
                     intent = new Intent();
                 }
-                context.startActivity(intent);
             }
         });
     }

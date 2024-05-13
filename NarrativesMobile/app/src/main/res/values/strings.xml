@@ -24,4 +24,8 @@
     <string name="mis_clubes">Mis clubes de lectura</string>
     <string name="send">Enviar</string>
     <string name="type_your_message">Mensaje</string>
+    <string name="opcion_eliminar">Eliminar club</string>
+    <string name="opcion_unirse">Unirse al club</string>
+    <string name="opcion_abandonar">Abandonar club</string>
+    <string name="opcion_compartir">Compartir club</string>
 </resources>
