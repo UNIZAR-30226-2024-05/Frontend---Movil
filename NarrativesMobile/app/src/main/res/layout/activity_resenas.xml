@@ -10,11 +10,11 @@
         android:id="@+id/textViewTituloLibroResenas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="24dp"
         android:text="Audiolibro"
         android:textColor="@color/teal_700"
-        android:textSize="24sp"
+        android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +33,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Switch
+        android:id="@+id/switchVisibilidad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="50dp"
+        android:text="Públicas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTituloLibroResenas" />
+
+    <TextView
+        android:id="@+id/textViewSwitchAmigosResenas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="14dp"
+        android:text="Amigos"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTituloLibroResenas" />
+
     <ListView
         android:id="@+id/listViewListaResenas"
         android:layout_width="match_parent"
@@ -43,7 +67,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroResenas"
+        app:layout_constraintTop_toBottomOf="@+id/switchVisibilidad"
         app:layout_constraintVertical_bias="0.05"
         android:paddingBottom="320dp"
         android:clipToPadding="false" />
