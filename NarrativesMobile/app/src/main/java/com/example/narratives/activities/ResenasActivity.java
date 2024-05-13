@@ -207,6 +207,7 @@ public class ResenasActivity extends AppCompatActivity {
             });
 
             Button botonEliminarMiResena = viewMiResena.findViewById(R.id.botonEliminarMiResena);
+            botonEliminarMiResena.setVisibility(View.VISIBLE);
             botonEliminarMiResena.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -238,6 +239,7 @@ public class ResenasActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<OwnReview> call, @NonNull Response<OwnReview> response) {
                 if (response.isSuccessful()) {
+                    InfoLibroActivity.audiolibroActual.setOwnReview(response.body());
                     popupWindow.dismiss();
                     Toast.makeText(ResenasActivity.this, "Reseña publicada", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 409) {
@@ -271,6 +273,7 @@ public class ResenasActivity extends AppCompatActivity {
         call.enqueue(new Callback<OwnReview>() {
             @Override
             public void onResponse(@NonNull Call<OwnReview> call, @NonNull Response<OwnReview> response) {
+                InfoLibroActivity.audiolibroActual.setOwnReview(response.body());
                 if (response.isSuccessful()) {
                     popupWindow.dismiss();
                     Toast.makeText(ResenasActivity.this, "Reseña editada", Toast.LENGTH_LONG).show();
@@ -320,6 +323,7 @@ public class ResenasActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
                 if (response.isSuccessful()) {
+                    InfoLibroActivity.audiolibroActual.setOwnReview(null);
                     popupWindow.dismiss();
                     Toast.makeText(ResenasActivity.this, "Reseña eliminada", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 403) {
