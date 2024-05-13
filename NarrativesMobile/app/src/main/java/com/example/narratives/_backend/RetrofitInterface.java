@@ -6,6 +6,7 @@ import com.example.narratives.peticiones.amistad.amigos.AmigosResponse;
 import com.example.narratives.peticiones.amistad.lista.AmistadListaResponse;
 import com.example.narratives.peticiones.amistad.peticiones.AmistadPeticionesResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
+import com.example.narratives.peticiones.audiolibros.especifico.OwnReview;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
 import com.example.narratives.peticiones.clubes.ClubRequest;
 import com.example.narratives.peticiones.clubes.ClubResult;
@@ -17,6 +18,8 @@ import com.example.narratives.peticiones.colecciones.ColeccionesRequest;
 import com.example.narratives.peticiones.colecciones.ColeccionesResult;
 import com.example.narratives.peticiones.autores.AutorDatosResponse;
 import com.example.narratives.peticiones.marcapaginas.ListeningRequest;
+import com.example.narratives.peticiones.resenas.ResenaEditRequest;
+import com.example.narratives.peticiones.resenas.ResenaPostRequest;
 import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequest;
 import com.example.narratives.peticiones.users.cambio_datos.CambioFotoPerfilRequest;
 import com.example.narratives.peticiones.users.login.LoginRequest;
@@ -129,4 +132,11 @@ public interface RetrofitInterface {
     
     @GET("/club/datos/{id}")
     Call<ClubResult> ejecutarInfoClub(@Header("Cookie") String userCookie, @Path("id") int id);
+
+    @POST("/review/post_review")
+    Call<OwnReview> ejecutarReviewPostReview(@Header("Cookie") String userCookie, @Body ResenaPostRequest request);
+    @POST("/review/edit_review")
+    Call<OwnReview> ejecutarReviewEditReview(@Header("Cookie") String userCookie, @Body ResenaEditRequest request);
+    @POST("/review/delete_review")
+    Call<GenericMessageResult> ejecutarReviewDeleteReview(@Header("Cookie") String userCookie, @Body int id);
 }

@@ -14,28 +14,44 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
+import com.example.narratives._backend.ApiClient;
+import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.adaptadores.ResenasAdapter;
+import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.GenericReview;
+import com.example.narratives.peticiones.audiolibros.especifico.OwnReview;
+import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
+import com.example.narratives.peticiones.resenas.ResenaEditRequest;
+import com.example.narratives.peticiones.resenas.ResenaPostRequest;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ResenasActivity extends AppCompatActivity {
     ArrayList<GenericReview> resenasPublicasList = InfoLibroActivity.audiolibroActual.getPublicReviews();
     ArrayList<GenericReview> resenasAmigosList = InfoLibroActivity.audiolibroActual.getFriendsReviews();
     private PopupWindow popupWindow;
     private boolean fabs_visible;
-    private Switch switchMiResena;
+    private RadioGroup radioGroupMiResena;
     private RatingBar ratingBarMiResena;
     private EditText editTextComentarioMiResena;
+    private RetrofitInterface retrofitInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +60,8 @@ public class ResenasActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resenas);
+
+        retrofitInterface = ApiClient.getRetrofitInterface();
 
         TextView textViewTituloLibroResenas = findViewById(R.id.textViewTituloLibroResenas);
         textViewTituloLibroResenas.setText(InfoLibroActivity.audiolibroActual.getAudiolibro().getTitulo());
@@ -129,7 +147,7 @@ public class ResenasActivity extends AppCompatActivity {
             }
         });
 
-        switchMiResena = viewMiResena.findViewById(R.id.switchMiResena);
+        radioGroupMiResena = viewMiResena.findViewById(R.id.radioGroupMiResena);
         ratingBarMiResena = viewMiResena.findViewById(R.id.ratingBarMiResena);
         editTextComentarioMiResena = viewMiResena.findViewById(R.id.editTextComentarioMiResena);
 
@@ -146,8 +164,22 @@ public class ResenasActivity extends AppCompatActivity {
             botonConfirmarMiResena.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    publicarResena();
-                    popupWindow.dismiss();
+                    if (camposResenaOk()) {
+                        int visibilidad = 0;
+                        switch (radioGroupMiResena.getCheckedRadioButtonId()) {
+                            case R.id.radioButtonOptionAmigos:
+                                visibilidad = 1;
+                                break;
+                            case R.id.radioButtonOptionPrivada:
+                                visibilidad = 2;
+                                break;
+                            default:
+                                break;
+                        }
+                        publicarResena(editTextComentarioMiResena.getText().toString(), ratingBarMiResena.getRating(), visibilidad);
+                    } else {
+                        Toast.makeText(ResenasActivity.this, "Campos vacíos", Toast.LENGTH_LONG).show();
+                    }
                 }
             });
         } else {
@@ -155,8 +187,22 @@ public class ResenasActivity extends AppCompatActivity {
             botonConfirmarMiResena.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    editarResena();
-                    popupWindow.dismiss();
+                    if (camposResenaOk()) {
+                        int visibilidad = 0;
+                        switch (radioGroupMiResena.getCheckedRadioButtonId()) {
+                            case R.id.radioButtonOptionAmigos:
+                                visibilidad = 1;
+                                break;
+                            case R.id.radioButtonOptionPrivada:
+                                visibilidad = 2;
+                                break;
+                            default:
+                                break;
+                        }
+                        editarResena(editTextComentarioMiResena.getText().toString(), ratingBarMiResena.getRating(), visibilidad);
+                    } else {
+                        Toast.makeText(ResenasActivity.this, "Campos vacíos", Toast.LENGTH_LONG).show();
+                    }
                 }
             });
 
@@ -170,12 +216,84 @@ public class ResenasActivity extends AppCompatActivity {
         }
     }
 
-    private void publicarResena() {
-
+    private boolean camposResenaOk() {
+        if (ratingBarMiResena.getRating() == 0) {
+            return false;
+        }
+        if (radioGroupMiResena.getCheckedRadioButtonId() == -1) {
+            return false;
+        }
+        return true;
     }
 
-    private void editarResena() {
+    private void publicarResena(String comentario, float puntuacion, int visibilidad) {
+        ResenaPostRequest request = new ResenaPostRequest();
+        request.setId_audiolibro(InfoLibroActivity.audiolibroActual.getAudiolibro().getId());
+        request.setComentario(comentario);
+        request.setPuntuacion(puntuacion);
+        request.setVisibilidad(visibilidad);
 
+        Call<OwnReview> call = retrofitInterface.ejecutarReviewPostReview(ApiClient.getUserCookie(), request);
+        call.enqueue(new Callback<OwnReview>() {
+            @Override
+            public void onResponse(@NonNull Call<OwnReview> call, @NonNull Response<OwnReview> response) {
+                if (response.isSuccessful()) {
+                    popupWindow.dismiss();
+                    Toast.makeText(ResenasActivity.this, "Reseña publicada", Toast.LENGTH_LONG).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(ResenasActivity.this, "Ya has hecho una reseña", Toast.LENGTH_LONG).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(ResenasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(ResenasActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<OwnReview> call, @NonNull Throwable t) {
+                Toast.makeText(ResenasActivity.this, "No se ha conectado con el servidor",
+                        Toast.LENGTH_LONG).show();
+
+                Toast.makeText(ResenasActivity.this, t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void editarResena(String comentario, float puntuacion, int visibilidad) {
+        ResenaEditRequest request = new ResenaEditRequest();
+        request.setId_review(InfoLibroActivity.audiolibroActual.getOwnReview().getId());
+        request.setComentario(comentario);
+        request.setPuntuacion(puntuacion);
+        request.setVisibilidad(visibilidad);
+
+        Call<OwnReview> call = retrofitInterface.ejecutarReviewEditReview(ApiClient.getUserCookie(), request);
+        call.enqueue(new Callback<OwnReview>() {
+            @Override
+            public void onResponse(@NonNull Call<OwnReview> call, @NonNull Response<OwnReview> response) {
+                if (response.isSuccessful()) {
+                    popupWindow.dismiss();
+                    Toast.makeText(ResenasActivity.this, "Reseña editada", Toast.LENGTH_LONG).show();
+                } else if (response.code() == 403) {
+                    Toast.makeText(ResenasActivity.this, "La reseña no es tuya", Toast.LENGTH_LONG).show();
+                } else if (response.code() == 404) {
+                    Toast.makeText(ResenasActivity.this, "La reseña no existe", Toast.LENGTH_LONG).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(ResenasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(ResenasActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<OwnReview> call, @NonNull Throwable t) {
+                Toast.makeText(ResenasActivity.this, "No se ha conectado con el servidor",
+                        Toast.LENGTH_LONG).show();
+
+                Toast.makeText(ResenasActivity.this, t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void mostrarConfirmacionEliminaResena() {
@@ -197,6 +315,32 @@ public class ResenasActivity extends AppCompatActivity {
     }
 
     private void eliminarResena() {
+        Call<GenericMessageResult> call = retrofitInterface.ejecutarReviewDeleteReview(ApiClient.getUserCookie(), InfoLibroActivity.audiolibroActual.getOwnReview().getId());
+        call.enqueue(new Callback<GenericMessageResult>() {
+            @Override
+            public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
+                if (response.isSuccessful()) {
+                    popupWindow.dismiss();
+                    Toast.makeText(ResenasActivity.this, "Reseña eliminada", Toast.LENGTH_LONG).show();
+                } else if (response.code() == 403) {
+                    Toast.makeText(ResenasActivity.this, "La reseña no es tuya", Toast.LENGTH_LONG).show();
+                } else if (response.code() == 404) {
+                    Toast.makeText(ResenasActivity.this, "La reseña no existe", Toast.LENGTH_LONG).show();
+                } else if (response.code() == 500) {
+                    Toast.makeText(ResenasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(ResenasActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
 
+            @Override
+            public void onFailure(@NonNull Call<GenericMessageResult> call, @NonNull Throwable t) {
+                Toast.makeText(ResenasActivity.this, "No se ha conectado con el servidor",
+                        Toast.LENGTH_LONG).show();
+
+                Toast.makeText(ResenasActivity.this, t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

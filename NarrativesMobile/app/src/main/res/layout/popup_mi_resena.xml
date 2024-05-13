@@ -52,26 +52,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/botonCerrarMiResena" />
 
-        <Switch
-            android:id="@+id/switchMiResena"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pública"
-            android:layout_marginStart="20dp"
-            app:layout_constraintStart_toEndOf="@+id/textViewVisibilidadMiResena"
-            app:layout_constraintTop_toBottomOf="@+id/botonCerrarMiResena" />
 
-        <TextView
-            android:id="@+id/textViewAmigosMiResena"
+        <RadioGroup
+            android:id="@+id/radioGroupMiResena"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="30dp"
-            android:text="Solo amigos"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/botonCerrarMiResena" />
+            android:orientation="vertical"
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewVisibilidadMiResena">
+
+            <RadioButton
+                android:id="@+id/radioButtonOptionPublica"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pública" />
+
+            <RadioButton
+                android:id="@+id/radioButtonOptionAmigos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Solo amigos" />
+
+            <RadioButton
+                android:id="@+id/radioButtonOptionPrivada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Privada" />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/textViewPuntuacionMiResena"
@@ -83,7 +91,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewVisibilidadMiResena" />
+            app:layout_constraintTop_toBottomOf="@+id/radioGroupMiResena" />
 
         <RatingBar
             android:id="@+id/ratingBarMiResena"
@@ -96,7 +104,7 @@
             android:progressTint="#FFEB3B"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/textViewPuntuacionMiResena"
-            app:layout_constraintTop_toBottomOf="@id/textViewVisibilidadMiResena" />
+            app:layout_constraintTop_toBottomOf="@id/radioGroupMiResena" />
 
         <TextView
             android:id="@+id/textViewComentarioMiResena"
