@@ -27,7 +27,7 @@ public class InfoAudiolibros {
     private static ArrayList<AudiolibroItem> todosLosAudiolibros;
     private static ArrayList<AudiolibroItem> todosLosAudiolibrosEjemplo;
 
-    private static String[] generos = {"Todos", "Misterio", "Fantasía", "Romance", "Terror", "Ciencia ficción", "Histórico", "Infantil", "Mitología", "Humor", "Autoayuda", "Poesía", "Aventuras"};
+    private static String[] generos = {"Todos", "Misterio", "Fantasía", "Romance", "Terror", "Ciencia ficción", "Histórico", "Infantil", "Autoayuda", "Poesía", "Aventuras"};
 
     public static ArrayList<AudiolibroItem> getTodosLosAudiolibros() {
         return todosLosAudiolibros;
