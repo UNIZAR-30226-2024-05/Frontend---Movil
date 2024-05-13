@@ -40,6 +40,7 @@
         <activity android:name=".activities.SolicitudesRecibidasActivity"></activity>
         <activity android:name=".activities.SolicitudesHistorialActivity"></activity>
         <activity android:name=".activities.ColeccionesActivity"></activity>
+        <activity android:name=".activities.ResenasActivity"></activity>
        
 
 
