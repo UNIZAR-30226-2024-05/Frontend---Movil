@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.narratives.R;
+import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.colecciones.ColeccionesItem;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class ColeccionesAdapter extends ArrayAdapter<ColeccionesItem> {
     private List<ColeccionesItem> coleccionesList;
 
     private OnMenuItemClickListener listener;
+    private boolean coleccionAmigo;
 
     public ColeccionesAdapter(@NonNull Context context, int resourceLayout, @NonNull List<ColeccionesItem> coleccionesList) {
         super(context, 0, coleccionesList);
@@ -46,6 +48,11 @@ public class ColeccionesAdapter extends ArrayAdapter<ColeccionesItem> {
         textViewNombreColeccion.setText(coleccion.getTitulo());
 
         ImageView imageViewTresPuntosColeccion = view.findViewById(R.id.imageViewTresPuntosColeccion);
+
+        if (coleccionAmigo) {
+            imageViewTresPuntosColeccion.setVisibility(View.GONE);
+        }
+
         imageViewTresPuntosColeccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +78,14 @@ public class ColeccionesAdapter extends ArrayAdapter<ColeccionesItem> {
         });
 
         return view;
+    }
+
+    public boolean isColeccionAmigo() {
+        return coleccionAmigo;
+    }
+
+    public void setColeccionAmigo(boolean coleccionAmigo) {
+        this.coleccionAmigo = coleccionAmigo;
     }
 
     public interface OnMenuItemClickListener {

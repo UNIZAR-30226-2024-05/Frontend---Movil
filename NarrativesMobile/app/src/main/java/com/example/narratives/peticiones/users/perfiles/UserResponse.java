@@ -1,7 +1,7 @@
 package com.example.narratives.peticiones.users.perfiles;
 
-import com.example.narratives.peticiones.amistad.amigos.ColeccionDeAmigo;
 import com.example.narratives.peticiones.amistad.amigos.UltimaActividad;
+import com.example.narratives.peticiones.colecciones.ColeccionesItem;
 
 import java.util.ArrayList;
 
@@ -9,11 +9,9 @@ public class UserResponse {
     int id;
     String username;
     int img;
-    ArrayList<ColeccionDeAmigo> colecciones;
+    ArrayList<ColeccionesItem> colecciones;
     int estado;
     UltimaActividad ultimo;
-
-
 
     public int getId() {
         return id;
@@ -53,6 +51,14 @@ public class UserResponse {
 
     public void setUltimo(UltimaActividad ultimo) {
         this.ultimo = ultimo;
+    }
+
+    public ArrayList<ColeccionesItem> getColecciones() {
+        return colecciones;
+    }
+
+    public void setColecciones(ArrayList<ColeccionesItem> colecciones) {
+        this.colecciones = colecciones;
     }
 
 }

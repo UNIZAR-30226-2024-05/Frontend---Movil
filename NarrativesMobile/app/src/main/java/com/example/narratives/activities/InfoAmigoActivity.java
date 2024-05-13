@@ -114,6 +114,14 @@ public class InfoAmigoActivity extends AppCompatActivity {
         } else if (amigoActual.getEstado() == 3){
             cambiarEstadoARecibido();
         } // else: es amigo
+
+        MaterialButton botonVerColeccionesInfoAmigo = findViewById(R.id.botonVerColeccionesInfoAmigo);
+        botonVerColeccionesInfoAmigo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarColeccionesAmigo();
+            }
+        });
     }
 
     private void abrirMensajeGestionarRecibida(UserResponse usuario) {
@@ -398,12 +406,20 @@ public class InfoAmigoActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void abrirMain() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         finish();
+    }
+
+    private void mostrarColeccionesAmigo() {
+        ColeccionesActivity.username = amigoActual.getUsername();
+        ColeccionesActivity.coleccionesList.clear();
+        ColeccionesActivity.coleccionesList = amigoActual.getColecciones();
+
+        Intent intent = new Intent(this, ColeccionesActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }

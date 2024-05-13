@@ -15,9 +15,6 @@ import com.example.narratives.peticiones.colecciones.AnadirEliminarColeccionRequ
 import com.example.narratives.peticiones.colecciones.ColeccionEspecificaResult;
 import com.example.narratives.peticiones.colecciones.ColeccionesRequest;
 import com.example.narratives.peticiones.colecciones.ColeccionesResult;
-import com.example.narratives.peticiones.clubes.ClubRequest;
-import com.example.narratives.peticiones.clubes.ClubesResult;
-import com.example.narratives.peticiones.clubes.ClubResult;
 import com.example.narratives.peticiones.autores.AutorDatosResponse;
 import com.example.narratives.peticiones.marcapaginas.ListeningRequest;
 import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequest;
