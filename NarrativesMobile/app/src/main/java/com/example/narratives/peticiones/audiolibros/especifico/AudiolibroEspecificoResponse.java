@@ -94,4 +94,13 @@ public class AudiolibroEspecificoResponse {
     public void setColecciones(ArrayList<Coleccion> colecciones) {
         this.colecciones = colecciones;
     }
+    public String getNombreCap(int num) {
+        for (Capitulo capitulo : capitulos) {
+            if(capitulo.getId() == num){
+                return capitulo.getNombre();
+            }
+        }
+        //Por si recorre todo y no lo encuenta
+        return "Capítulo " + String.valueOf(num);
+    }
 }

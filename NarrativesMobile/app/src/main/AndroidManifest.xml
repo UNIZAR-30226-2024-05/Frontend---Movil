@@ -35,6 +35,7 @@
         <activity android:name=".activities.clubes.InfoClubActivity"></activity>
         <activity android:name=".activities.clubes.ChatClubActivity"></activity>
         <activity android:name=".activities.CrearMarcapaginasActivity"></activity>
+        <activity android:name=".activities.EditMarcapaginasActivity"></activity>
         <activity android:name=".activities.InfoAutorActivity"/>
 
 

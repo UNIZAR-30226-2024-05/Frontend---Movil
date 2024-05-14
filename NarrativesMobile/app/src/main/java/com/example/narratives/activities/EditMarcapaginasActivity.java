@@ -1,10 +1,6 @@
 package com.example.narratives.activities;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.transition.TransitionSet;
 import android.util.Log;
 import android.view.View;
@@ -19,12 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.adaptadores.AudiolibroAdapter;
 import com.example.narratives.adaptadores.SelectorCapitulosAdapter;
-import com.example.narratives.informacion.InfoAudiolibros;
+import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
 import com.example.narratives.peticiones.marcapaginas.CrearMarcapaginasRequest;
-import com.example.narratives.peticiones.GenericMessageResult;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -34,7 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class CrearMarcapaginasActivity extends AppCompatActivity {
+public class EditMarcapaginasActivity extends AppCompatActivity {
     Retrofit retrofit;
     RetrofitInterface retrofitInterface;
     EditText editTextMarcapaginasName;
@@ -48,7 +42,8 @@ public class CrearMarcapaginasActivity extends AppCompatActivity {
     private String Minute;
     private String Second;
     FloatingActionButton fabBack;
-    Button buttCreate;
+    Button buttUpdate;
+    Button buttDelete;
     ArrayList<Capitulo> listaCapitulos;
     int capituloActual;
 
@@ -61,23 +56,28 @@ public class CrearMarcapaginasActivity extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.crear_marcapaginas);
+        setContentView(R.layout.edit_marcapaginas);
 
         retrofit = ApiClient.getLoginRetrofit();
         retrofitInterface = ApiClient.getRetrofitInterface();
 
         editTextMarcapaginasName = findViewById(R.id.editTextNombreMarcapaginas);
+        editTextMarcapaginasName.setText(getIntent().getStringExtra("nombreMarcapaginas"));
 
         editTextMarcapaginasTimeSecond = findViewById(R.id.editTextSecond);
+        editTextMarcapaginasTimeSecond.setText(getIntent().getStringExtra("timestamp").substring(6,8));
         editTextMarcapaginasTimeMinute  = findViewById(R.id.editTextMinute);
+        editTextMarcapaginasTimeMinute.setText(getIntent().getStringExtra("timestamp").substring(3,5));
         editTextMarcapaginasTimeHour = findViewById(R.id.editTextHour);
+        editTextMarcapaginasTimeHour.setText(getIntent().getStringExtra("timestamp").substring(0,2));
 
 
         fabBack = findViewById(R.id.botonVolverDesdeCrearMarcapaginas);
-        buttCreate = findViewById(R.id.botonConfirmarCrearMarcapaginas);
+        buttUpdate = findViewById(R.id.botonConfirmarModificarMarcapaginas);
+        buttDelete = findViewById(R.id.botonConfirmarEliminarMarcapaginas);
         spinner = findViewById(R.id.spinner);
 
-        mAdapter = new SelectorCapitulosAdapter(CrearMarcapaginasActivity.this, listaCapitulos);
+        mAdapter = new SelectorCapitulosAdapter(EditMarcapaginasActivity.this, listaCapitulos);
         spinner.setAdapter(mAdapter);
 
 
@@ -88,7 +88,7 @@ public class CrearMarcapaginasActivity extends AppCompatActivity {
             }
         });
 
-        buttCreate.setOnClickListener(new View.OnClickListener() {
+        buttUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 peticionCrearMarcapaginas();
@@ -122,13 +122,13 @@ public class CrearMarcapaginasActivity extends AppCompatActivity {
         Capitulo select = (Capitulo) spinner.getSelectedItem();
         Log.d("tiempo marcapaginas", "peticionCrearMarcapaginas(SS(MM/HH): " +Second +"/"+Minute+"/"+Hour);
         if (marcapaginasName.isEmpty()) {
-            Toast.makeText(CrearMarcapaginasActivity.this, "El nombre del marcapaginas no puede estar vacio", Toast.LENGTH_LONG).show();;
+            Toast.makeText(EditMarcapaginasActivity.this, "El nombre del marcapaginas no puede estar vacio", Toast.LENGTH_LONG).show();;
         } else if(Integer.parseInt(Second) < 0 || Integer.parseInt(Second) >59){
-            Toast.makeText(CrearMarcapaginasActivity.this, "El valor de segundos debe estar entre 0 y 59", Toast.LENGTH_LONG).show();;
+            Toast.makeText(EditMarcapaginasActivity.this, "El valor de segundos debe estar entre 0 y 59", Toast.LENGTH_LONG).show();;
         } else if(Integer.parseInt(Minute) < 0 || Integer.parseInt(Minute) >59){
-            Toast.makeText(CrearMarcapaginasActivity.this, "El valor de minuto debe estar entre 0 y 59", Toast.LENGTH_LONG).show();;
+            Toast.makeText(EditMarcapaginasActivity.this, "El valor de minuto debe estar entre 0 y 59", Toast.LENGTH_LONG).show();;
         } else if(Integer.parseInt(Hour) < 0 || Integer.parseInt(Hour) >23){
-            Toast.makeText(CrearMarcapaginasActivity.this, "El valor de hora debe estar entre 0 y 23", Toast.LENGTH_LONG).show();;
+            Toast.makeText(EditMarcapaginasActivity.this, "El valor de hora debe estar entre 0 y 23", Toast.LENGTH_LONG).show();;
         } else {
             String marcapaginasTime = Hour+ ":" + Minute + ":" +Second;
             Log.d("Comprobacion", "peticionCrearMarcapaginas: " + marcapaginasTime);
@@ -150,17 +150,17 @@ public class CrearMarcapaginasActivity extends AppCompatActivity {
                         finish();
 
                     } else if (response.code() == 500) {
-                        Toast.makeText(CrearMarcapaginasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditMarcapaginasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
 
                     } else {
-                        Toast.makeText(CrearMarcapaginasActivity.this, "Código error " + String.valueOf(response.code()),
+                        Toast.makeText(EditMarcapaginasActivity.this, "Código error " + String.valueOf(response.code()),
                                 Toast.LENGTH_LONG).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<GenericMessageResult> call, Throwable t) {
                     // Maneja la falla de la solicitud aquí
-                    Toast.makeText(CrearMarcapaginasActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditMarcapaginasActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         }

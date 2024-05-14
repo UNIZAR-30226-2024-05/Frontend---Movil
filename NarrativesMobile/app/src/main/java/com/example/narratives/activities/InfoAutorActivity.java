@@ -84,8 +84,6 @@ public class InfoAutorActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Coloca aquí el código que deseas ejecutar cada vez que la actividad se muestre
-        // Por ejemplo, la lógica para mostrar estrellas de valoración
         inicializarAdaptadorBiblioteca(InfoAudiolibros.getAudiolibrosPorAutor(autorActual.getAutor().getNombre()));
         TextView textViewNombre = findViewById(R.id.textViewNombreAutor);
         textViewNombre.setText(autorActual.getAutor().getNombre());
@@ -123,7 +121,7 @@ public class InfoAutorActivity extends AppCompatActivity {
             ImageView imageView = obtenerImageViewEstrellaLlena(numEstrellasLlenas);
             VectorDrawableCompat drawable = VectorDrawableCompat.create(getResources(), R.drawable.icono_estrella_llena, null);
             imageView.setVisibility(View.VISIBLE);
-// Si el drawable es null, maneja el caso en consecuencia
+
             if (drawable != null) {
                 int w = drawable.getIntrinsicWidth();
                 int h = drawable.getIntrinsicHeight();
@@ -135,10 +133,8 @@ public class InfoAutorActivity extends AppCompatActivity {
 
                 drawable.draw(canvas);
 
-                // Calcula el ancho del corte
-                //int anchuraCorte = w*nivelEstrella/10;
                 double anchuraCorte = 12.5 + nivelEstrella*2.5;
-                // Crea el Bitmap recortado
+
                 Bitmap bitmapRecortado = Bitmap.createBitmap(bitmap, 0, 0, (int) anchuraCorte, h);
 
                 imageView.setImageBitmap(bitmapRecortado);

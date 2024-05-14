@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.narratives.R;
+import com.example.narratives.activities.InfoLibroActivity;
 import com.example.narratives.activities.MainActivity;
+import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.Marcapaginas;
 
 import java.util.List;
@@ -21,18 +23,20 @@ public class MarcapaginasAdapter extends ArrayAdapter<Marcapaginas> implements F
     private List<Marcapaginas> marcapaginas;
 
     private List<Marcapaginas> tempCapitulos;
+    private AudiolibroEspecificoResponse audiolibroActual;
 
     private Context context;
 
     private int resourceLayout;
     private LayoutInflater layoutInflater;
 
-    public MarcapaginasAdapter(@NonNull Context _context, int _resource, @NonNull List<Marcapaginas> _objects) {
+    public MarcapaginasAdapter(@NonNull Context _context, int _resource, @NonNull List<Marcapaginas> _objects, AudiolibroEspecificoResponse audiolibro) {
         super(_context, _resource, _objects);
         this.marcapaginas = _objects;
         this.tempCapitulos = _objects;
         this.context = _context;
         this.resourceLayout = _resource;
+        this.audiolibroActual =audiolibro;
     }
 
     @NonNull
@@ -47,7 +51,7 @@ public class MarcapaginasAdapter extends ArrayAdapter<Marcapaginas> implements F
         Marcapaginas cap = marcapaginas.get(position);
 
         TextView numCapitulo = view.findViewById(R.id.textView_marcapaginasItemCap);
-        numCapitulo.setText(MainActivity.fragmentoEscuchandoAbierto.getCapituloWithNumberString(position+1));
+        numCapitulo.setText(audiolibroActual.getNombreCap(cap.getCapitulo()));
 
         TextView titulo = view.findViewById(R.id.textView_marcapaginasItemTitle);
         titulo.setText(cap.getTitulo());

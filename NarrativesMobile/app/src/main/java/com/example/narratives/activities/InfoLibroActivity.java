@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.transition.TransitionSet;
@@ -17,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -25,6 +28,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.narratives.R;
@@ -168,6 +172,56 @@ public class InfoLibroActivity extends AppCompatActivity {
                 mostrarListaColecciones();
             }
         });
+
+        double media = audiolibroActual.getAudiolibro().getPuntuacion();
+        int numEstrellasLlenas = (int) media;
+        int nivelEstrella = (int) (media * 10) % 10; // Nivel de la estrella llena (0-10)
+
+        for (int i = 0; i < 5; i++) {
+            ImageView imageView = obtenerImageViewEstrellaLlena(i);
+            imageView.setVisibility(View.GONE);
+        }
+        // Mostrar las estrellas llenas necesarias
+        for (int i = 0; i < numEstrellasLlenas; i++) {
+            ImageView imageView = obtenerImageViewEstrellaLlena(i);
+            if (imageView != null) {
+                imageView.setVisibility(View.VISIBLE);
+                imageView.getDrawable().setLevel(1000);
+            }
+        }
+        // Mostrar una fracción de la última estrella llena
+        if (nivelEstrella > 0 && numEstrellasLlenas < 5) {
+            ImageView imageView = obtenerImageViewEstrellaLlena(numEstrellasLlenas);
+            VectorDrawableCompat drawable = VectorDrawableCompat.create(getResources(), R.drawable.icono_estrella_llena, null);
+            imageView.setVisibility(View.VISIBLE);
+
+            if (drawable != null) {
+                int w = drawable.getIntrinsicWidth();
+                int h = drawable.getIntrinsicHeight();
+
+                Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+
+                Canvas canvas = new Canvas(bitmap);
+                drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+
+                drawable.draw(canvas);
+
+                double anchuraCorte = 12.5 + nivelEstrella*2.5;
+
+                Bitmap bitmapRecortado = Bitmap.createBitmap(bitmap, 0, 0, (int) anchuraCorte, h);
+
+                imageView.setImageBitmap(bitmapRecortado);
+
+                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+
+                //Re ajustar estrella porque se mueve tras recorte
+                //int offset = (10-nivelEstrella)*2; // Hacer case. Para .5 es 10 y para .7 es 6
+                int offset = 15-nivelEstrella;
+                int offsetPx = (int) (offset * getResources().getDisplayMetrics().density);
+                layoutParams.leftMargin -= offsetPx;
+                imageView.setLayoutParams(layoutParams);
+            }
+        }
     }
 
     private void abrirAmazonConLink() {
@@ -351,7 +405,7 @@ public class InfoLibroActivity extends AppCompatActivity {
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
 
         listaMarcapaginas = (ListView) viewMarcapaginas.findViewById(R.id.listViewListaMarcapaginas);
-        MarcapaginasAdapter m = new MarcapaginasAdapter(this, R.layout.item_marcapaginas, marcapaginas);
+        MarcapaginasAdapter m = new MarcapaginasAdapter(this, R.layout.item_marcapaginas, marcapaginas,audiolibroActual);
         listaMarcapaginas.setAdapter(m);
 
         PopupWindow popupWindow = new PopupWindow(viewMarcapaginas, width, height, true);
@@ -368,11 +422,21 @@ public class InfoLibroActivity extends AppCompatActivity {
         listaMarcapaginas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-               /* popupWindow.dismiss();
-                libroReiniciado = true;
-                prepararAudio(position);*/
+                popupWindow.dismiss();
+                audiolibroActual.getUltimoMomento().setCapitulo(marcapaginas.get(position).getCapitulo());
+                audiolibroActual.getUltimoMomento().setFecha(marcapaginas.get(position).getFecha());
+                cargarYAbrirReproductor();
             }
         });
+        listaMarcapaginas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                popupWindow.dismiss();
+                abrirEditarMarcapaginas(marcapaginas.get(position).getId(),marcapaginas.get(position).getCapitulo(),marcapaginas.get(position).getTitulo(),marcapaginas.get(position).getFecha());
+                return true; // Devuelve true para indicar que el evento de clic largo ha sido manejado
+            }
+        });
+
         // Encuentra el botón en tu layout
         FloatingActionButton botonCerrar = (FloatingActionButton) viewMarcapaginas.findViewById(R.id.botonCerrarMarcapaginas);
         botonCerrar.setOnClickListener(new View.OnClickListener() {
@@ -382,5 +446,32 @@ public class InfoLibroActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private ImageView obtenerImageViewEstrellaLlena(int posicion) {
+        switch (posicion) {
+            case 0:
+                return findViewById(R.id.imageViewEstrella1ValoracionInfoLibroLlena);
+            case 1:
+                return findViewById(R.id.imageViewEstrella2ValoracionInfoLibroLlena);
+            case 2:
+                return findViewById(R.id.imageViewEstrella3ValoracionInfoLibroLlena);
+            case 3:
+                return findViewById(R.id.imageViewEstrella4ValoracionInfoLibroLLena);
+            case 4:
+                return findViewById(R.id.imageViewEstrella5ValoracionInfoLibroLlena);
+            default:
+                return null;
+        }
+    }
+    public void abrirEditarMarcapaginas(int id, int capituloActual, String nombre, String fecha) {
+        Intent intent = new Intent(this, EditMarcapaginasActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("listaCapitulos", audiolibroActual.getCapitulos());
+        intent.putExtra("IdMarcapaginas", id);
+        intent.putExtra("capituloActual", capituloActual);
+        intent.putExtra("nombreMarcapaginas", nombre);
+        intent.putExtra("timestamp", fecha);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }

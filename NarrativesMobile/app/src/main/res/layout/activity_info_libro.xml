@@ -22,7 +22,7 @@
         app:elevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:maxImageSize="40dp"
+        app:maxImageSize="30dp"
         app:tint="@color/teal_700" />
 
     <LinearLayout
@@ -237,37 +237,73 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewGeneroInfoLibro" >
 
-        <ImageView
-            android:id="@+id/imageViewEstrella1ValoracionInfoLibro"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella"/>
+    <ImageView
+        android:id="@+id/imageViewEstrella1ValoracionInfoLibro"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/icono_estrella" />
+
+    <ImageView
+        android:id="@+id/imageViewEstrella2ValoracionInfoLibro"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/icono_estrella" />
 
 
-        <ImageView
-            android:id="@+id/imageViewEstrella2ValoracionInfoLibro"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella"/>
+    <ImageView
+        android:id="@+id/imageViewEstrella3ValoracionInfoLibro"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/icono_estrella" />
 
-        <ImageView
-            android:id="@+id/imageViewEstrella3ValoracionInfoLibro"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella"/>
+    <ImageView
+        android:id="@+id/imageViewEstrella4ValoracionInfoLibro"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/icono_estrella" />
 
-        <ImageView
-            android:id="@+id/imageViewEstrella4ValoracionInfoLibro"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella"/>
+    <ImageView
+        android:id="@+id/imageViewEstrella5ValoracionInfoLibro"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/icono_estrella" />
 
 
-        <ImageView
-            android:id="@+id/imageViewEstrella5ValoracionInfoLibro"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella"/>
+
+    <ImageView
+        android:id="@+id/imageViewEstrella1ValoracionInfoLibroLlena"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/icono_estrella_llena"
+        android:layout_marginStart="-200dp" />
+
+    <ImageView
+        android:id="@+id/imageViewEstrella2ValoracionInfoLibroLlena"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/icono_estrella_llena"
+        android:layout_marginStart="0dp" />
+
+    <ImageView
+        android:id="@+id/imageViewEstrella3ValoracionInfoLibroLlena"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/icono_estrella_llena"
+        android:layout_marginStart="0dp" />
+
+    <ImageView
+        android:id="@+id/imageViewEstrella4ValoracionInfoLibroLLena"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/icono_estrella_llena"
+        android:layout_marginStart="0dp" />
+
+    <ImageView
+        android:id="@+id/imageViewEstrella5ValoracionInfoLibroLlena"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/icono_estrella_llena"
+        android:layout_marginStart="0dp" />
     </LinearLayout>
 
 
