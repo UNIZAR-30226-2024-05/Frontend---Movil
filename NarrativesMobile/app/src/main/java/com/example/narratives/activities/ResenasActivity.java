@@ -2,7 +2,6 @@ package com.example.narratives.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.transition.TransitionSet;
 import android.view.Gravity;
@@ -12,10 +11,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.Switch;
@@ -31,14 +28,11 @@ import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.adaptadores.ResenasAdapter;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
-import com.example.narratives.peticiones.GenericOtherIdRequest;
 import com.example.narratives.peticiones.audiolibros.especifico.GenericReview;
 import com.example.narratives.peticiones.audiolibros.especifico.OwnReview;
-import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
 import com.example.narratives.peticiones.resenas.ResenaDeleteRequest;
 import com.example.narratives.peticiones.resenas.ResenaEditRequest;
 import com.example.narratives.peticiones.resenas.ResenaPostRequest;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -51,12 +45,13 @@ public class ResenasActivity extends AppCompatActivity {
     ArrayList<GenericReview> resenasPublicasList = InfoLibroActivity.audiolibroActual.getPublicReviews();
     ArrayList<GenericReview> resenasAmigosList = InfoLibroActivity.audiolibroActual.getFriendsReviews();
     private PopupWindow popupWindow;
-    private boolean fabs_visible;
     private RadioGroup radioGroupMiResena;
     private RatingBar ratingBarMiResena;
     private EditText editTextComentarioMiResena;
     private TextView textViewNingunaResena;
-    private GenericReview review = new GenericReview();
+    private Button buttonMiResena;
+    private FloatingActionButton fabNuevaResena;
+    private final GenericReview review = new GenericReview();
     private ResenasAdapter resenasAdapter;
     private RetrofitInterface retrofitInterface;
 
@@ -108,31 +103,24 @@ public class ResenasActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fabMenuResenas = findViewById(R.id.fabMenuResenas);
-        ExtendedFloatingActionButton fabNuevaResena = findViewById(R.id.fabNuevaResena);
-        ExtendedFloatingActionButton fabMiResena = findViewById(R.id.fabMiResena);
+        fabNuevaResena = findViewById(R.id.fabNuevaResena);
+        buttonMiResena = findViewById(R.id.buttonMiResena);
 
-        fabMenuResenas.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    actualizarVisibilidadBotones(fabNuevaResena, fabMiResena);
-                }
-            }
-        );
+        if (InfoLibroActivity.audiolibroActual.getOwnReview().getId() != 0) {
+            fabNuevaResena.setVisibility(View.GONE);
+            buttonMiResena.setVisibility(View.VISIBLE);
+        }
 
         fabNuevaResena.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                actualizarVisibilidadBotones(fabNuevaResena, fabMiResena);
                 mostrarPopupNuevaResena();
             }
         });
 
-        fabMiResena.setOnClickListener(new View.OnClickListener(){
+        buttonMiResena.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                actualizarVisibilidadBotones(fabNuevaResena, fabMiResena);
                 mostrarPopupMiResena();
             }
         });
@@ -362,6 +350,8 @@ public class ResenasActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     InfoLibroActivity.audiolibroActual.setOwnReview(response.body());
                     actualizarListas(visibilidad);
+                    fabNuevaResena.setVisibility(View.GONE);
+                    buttonMiResena.setVisibility(View.VISIBLE);
                     popupWindow.dismiss();
                     Toast.makeText(ResenasActivity.this, "Reseña publicada", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 409) {
@@ -451,6 +441,8 @@ public class ResenasActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     InfoLibroActivity.audiolibroActual.setOwnReview(null);
                     actualizarListas(2);
+                    fabNuevaResena.setVisibility(View.VISIBLE);
+                    buttonMiResena.setVisibility(View.GONE);
                     popupWindow.dismiss();
                     Toast.makeText(ResenasActivity.this, "Reseña eliminada", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 403) {
@@ -473,21 +465,6 @@ public class ResenasActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    private void actualizarVisibilidadBotones(ExtendedFloatingActionButton fabNuevaResena,
-                                              ExtendedFloatingActionButton fabMiResena) {
-        if (fabs_visible) {
-            fabs_visible = false;
-            fabNuevaResena.setVisibility(View.GONE);
-            fabMiResena.setVisibility(View.GONE);
-        } else {
-            fabs_visible = true;
-            fabNuevaResena.setVisibility(View.VISIBLE);
-            if (InfoLibroActivity.audiolibroActual.getOwnReview().getId() != 0) {
-                fabMiResena.setVisibility(View.VISIBLE);
-            }
-        }
     }
 
     private void actualizarListas(int visibilidad) {

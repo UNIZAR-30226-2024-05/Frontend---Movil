@@ -37,10 +37,9 @@
         android:id="@+id/switchVisibilidad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginTop="20dp"
         android:text="Públicas"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewSwitchAmigosResenas"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewTituloLibroResenas" />
 
@@ -49,31 +48,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="24dp"
         android:text="Amigos"
         android:textColor="#000000"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonMiResena"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewTituloLibroResenas" />
+
+    <Button
+        android:id="@+id/buttonMiResena"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mi Reseña"
+        android:textSize="12sp"
+        android:layout_marginVertical="10dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewSwitchAmigosResenas"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTituloLibroResenas" />
 
     <ListView
         android:id="@+id/listViewListaResenas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginTop="10dp"
+        android:clipToPadding="false"
         android:orientation="horizontal"
+        android:paddingBottom="320dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchVisibilidad"
-        app:layout_constraintVertical_bias="0.05"
-        android:paddingBottom="320dp"
-        android:clipToPadding="false" />
+        app:layout_constraintTop_toBottomOf="@+id/switchVisibilidad" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabMenuResenas"
+        android:id="@+id/fabNuevaResena"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
@@ -87,44 +97,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="30dp"
         app:tint="@color/teal_700" />
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fabNuevaResena"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="20dp"
-        android:gravity="center"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:text="NUEVA"
-        android:backgroundTint="@color/white"
-        android:visibility="gone"
-        app:tint="@color/gris"
-        app:borderWidth="2dp"
-        app:elevation="2dp"
-        app:backgroundTint="@color/gris_claro"
-        app:layout_constraintBottom_toTopOf="@id/fabMiResena"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fabMiResena"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="20dp"
-        android:gravity="center"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:text="MI RESEÑA"
-        android:backgroundTint="@color/white"
-        android:visibility="gone"
-        app:tint="@color/gris"
-        app:borderWidth="2dp"
-        app:elevation="2dp"
-        app:backgroundTint="@color/gris_claro"
-        app:layout_constraintBottom_toTopOf="@id/fabMenuResenas"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/botonVolverDesdeResenas"
