@@ -90,7 +90,7 @@ public class InfoAutorActivity extends AppCompatActivity {
         TextView textViewNombre = findViewById(R.id.textViewNombreAutor);
         textViewNombre.setText(autorActual.getAutor().getNombre());
 
-        TextView textViewCiudad= findViewById(R.id.texCiudadNacimiento2);
+        TextView textViewCiudad= findViewById(R.id.texCiudadNacimiento);
         textViewCiudad.setText(autorActual.getAutor().getCiudadnacimiento());
 
         TextView textViewGenero = findViewById(R.id.textViewGeneroMasEscrito);
