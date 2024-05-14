@@ -30,6 +30,7 @@ import com.example.narratives.peticiones.amistad.amigos.AmigosResponse;
 import com.example.narratives.peticiones.amistad.lista.AmistadListaResponse;
 import com.example.narratives.peticiones.amistad.lista.UsuarioEstado;
 import com.example.narratives.peticiones.users.perfiles.UserResponse;
+import com.example.narratives.sockets.SocketManager;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -37,6 +38,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,6 +62,8 @@ public class FragmentAmigos extends Fragment {
     ExtendedFloatingActionButton fabEnviadas;
     ExtendedFloatingActionButton fabRecibidas;
     ExtendedFloatingActionButton fabHistorial;
+
+    private Socket mSocket = SocketManager.getInstance();
 
     boolean fabsVisible;
 
@@ -126,6 +131,66 @@ public class FragmentAmigos extends Fragment {
             @Override
             public void onClick(View view) {
                 abrirActividad(new Intent(getContext(), SolicitudesHistorialActivity.class));
+            }
+        });
+
+        mSocket.on("peticionReceived", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                if (args.length > 0 && args[0] instanceof JSONObject) {
+                    Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo recibido", Toast.LENGTH_LONG).show();
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo recibido: actualizo", Toast.LENGTH_LONG).show();
+                            peticionAmigos();
+                            peticionAmistadLista();
+                        }
+                    });
+                    //messageListeners.onMessageReceived();
+
+                }
+            }
+        });
+
+        mSocket.on("peticionAccepted", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                if (args.length > 0 && args[0] instanceof JSONObject) {
+                    Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo aceptado", Toast.LENGTH_LONG).show();
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo aceptado: actualizo", Toast.LENGTH_LONG).show();
+                            peticionAmigos();
+                            peticionAmistadLista();
+                        }
+                    });
+                    //messageListeners.onMessageReceived();
+
+                }
+            }
+        });
+
+        mSocket.on("peticionRejected", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                if (args.length > 0 && args[0] instanceof JSONObject) {
+                    Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo rechazado", Toast.LENGTH_LONG).show();
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo rechazado: actualizo", Toast.LENGTH_LONG).show();
+                            peticionAmigos();
+                            peticionAmistadLista();
+                        }
+                    });
+                    //messageListeners.onMessageReceived();
+
+                }
             }
         });
 
