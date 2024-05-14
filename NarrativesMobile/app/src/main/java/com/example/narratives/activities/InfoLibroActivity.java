@@ -76,6 +76,7 @@ public class InfoLibroActivity extends AppCompatActivity {
         textViewDescripcion.setText(audiolibroActual.getAudiolibro().getDescripcion());
 
         TextView textViewAutor = findViewById(R.id.textViewNombreAutorInfoLibro);
+        textViewAutor.setPaintFlags(textViewAutor.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         textViewAutor.setText(audiolibroActual.getAutor().getNombre());
         textViewAutor.setOnClickListener(new View.OnClickListener() {
             @Override

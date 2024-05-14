@@ -119,7 +119,9 @@ public class ResenasActivity extends AppCompatActivity {
                     } else {
                         fabs_visible = true;
                         fabNuevaResena.setVisibility(View.VISIBLE);
-                        fabMiResena.setVisibility(View.VISIBLE);
+                        if (InfoLibroActivity.audiolibroActual.getOwnReview().getId() != 0) {
+                            fabMiResena.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
             }

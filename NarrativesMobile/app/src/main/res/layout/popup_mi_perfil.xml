@@ -138,14 +138,13 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/botonMisColeccionesMiPerfil"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:backgroundTint="@color/teal_casi_blanco"
             android:drawableTop="@drawable/icono_colecciones"
             android:drawablePadding="0dp"
-            android:paddingHorizontal="0dp"
-            android:paddingTop="7dp"
-            android:text="Mis\ncolecciones"
+            android:padding="10dp"
+            android:text="Mis colecciones"
             android:textAllCaps="false"
             android:textColor="@color/teal_700"
             android:textSize="10.5sp"
@@ -159,55 +158,6 @@
             app:layout_constraintVertical_bias="0.526"
             app:strokeColor="@color/teal_200"
             app:strokeWidth="2dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/botonMisMarcapaginasMiPerfil"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:backgroundTint="@color/teal_casi_blanco"
-            android:drawableTop="@drawable/icono_marcapaginas"
-            android:drawablePadding="0dp"
-            android:paddingHorizontal="0dp"
-            android:paddingTop="7dp"
-            android:text="Mis\nmarcapaginas"
-            android:textAllCaps="false"
-            android:textColor="@color/teal_700"
-            android:textSize="10.5sp"
-            app:cornerRadius="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/textViewCambiarContrasenaMiPerfil"
-            app:layout_constraintEnd_toStartOf="@+id/botonMisColeccionesMiPerfil"
-
-            app:layout_constraintHorizontal_bias="0.709"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewRealCorreoElectronicoMiPerfil"
-            app:layout_constraintVertical_bias="0.526"
-            app:strokeColor="@color/teal_200"
-            app:strokeWidth="2dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/botonMisResenasMiPerfil"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:backgroundTint="@color/teal_casi_blanco"
-            android:drawableTop="@drawable/icono_resenas"
-            android:drawablePadding="0dp"
-            android:paddingHorizontal="0dp"
-            android:paddingTop="7dp"
-            android:text="Mis\nreseñas"
-            android:textAllCaps="false"
-            android:textColor="@color/teal_700"
-            android:textSize="10.5sp"
-            app:cornerRadius="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/textViewCambiarContrasenaMiPerfil"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.25"
-
-            app:layout_constraintStart_toEndOf="@+id/botonMisColeccionesMiPerfil"
-            app:layout_constraintTop_toBottomOf="@+id/textViewRealCorreoElectronicoMiPerfil"
-            app:strokeColor="@color/teal_200"
-            app:strokeWidth="2dp" />
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
