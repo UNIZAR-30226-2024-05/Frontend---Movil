@@ -3,14 +3,14 @@ package com.example.narratives.activities;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.transition.TransitionSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +27,6 @@ import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspeci
 import com.example.narratives.peticiones.audiolibros.especifico.Coleccion;
 import com.example.narratives.peticiones.audiolibros.especifico.Genero;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
-import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import com.example.narratives.peticiones.autores.AutorDatosResponse;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,15 +39,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class InfoLibroActivity extends AppCompatActivity {
-
     public static AudiolibroEspecificoResponse audiolibroActual;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
 
     MaterialButton escucharAudiolibro;
     MaterialButton comprarAudiolibro;
-
-    private PopupWindow popupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +58,7 @@ public class InfoLibroActivity extends AppCompatActivity {
 
         audiolibroActual = InfoAudiolibros.getAudiolibroActual();
 
-        int width= ViewGroup.LayoutParams.MATCH_PARENT;
-        int height= ViewGroup.LayoutParams.MATCH_PARENT;
-
         retrofitInterface = ApiClient.getRetrofitInterface();
-
 
         ImageView imageViewPortada = findViewById(R.id.imageViewPortadaInfoLibro);
 
@@ -87,9 +79,7 @@ public class InfoLibroActivity extends AppCompatActivity {
         textViewAutor.setText(audiolibroActual.getAutor().getNombre());
         textViewAutor.setOnClickListener(new View.OnClickListener() {
             @Override
-            //Ya lo cambiare a petición pero para probar que va a la pagina
             public void onClick(View view) {
-                //abrirPaginaAutor();
                 peticionAutorId();
             }
         });
@@ -97,6 +87,17 @@ public class InfoLibroActivity extends AppCompatActivity {
         TextView textViewGeneros = findViewById(R.id.textViewGeneroInfoLibro);
         textViewGeneros.setText(getFormattedGenres(audiolibroActual.getGeneros()));
 
+        RatingBar ratingBarInfoLibro = findViewById(R.id.ratingBarInfoLibro);
+        ratingBarInfoLibro.setRating(audiolibroActual.getPuntuacion());
+
+        TextView textViewResenasInfoLibro = findViewById(R.id.textViewResenasInfoLibro);
+        textViewResenasInfoLibro.setPaintFlags(textViewResenasInfoLibro.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        textViewResenasInfoLibro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarResenas();
+            }
+        });
 
         FloatingActionButton botonCerrar = (FloatingActionButton) findViewById(R.id.botonVolverDesdeInfoUsuario);
         botonCerrar.setOnClickListener(new View.OnClickListener() {
@@ -111,26 +112,10 @@ public class InfoLibroActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 cargarYAbrirReproductor();
-                /*
-                AlertDialog.Builder builder = new AlertDialog.Builder(InfoLibroActivity.this);
-                //builder.setTitle("Dirígete al REPRODUCTOR...");
-                builder.setMessage("El libro estará disponible en cuanto termine la carga.");
-                builder.setIcon(R.drawable.icono_auriculares_pequeno);
-
-                builder.setPositiveButton("De acuerdo", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        abrirMenuMain();
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
-                */
             }
         });
 
-        comprarAudiolibro = (MaterialButton) findViewById(R.id.botonVerResenasInfoUsuario);
+        comprarAudiolibro = (MaterialButton) findViewById(R.id.botonAmazonInfoLibro);
         comprarAudiolibro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -292,7 +277,6 @@ public class InfoLibroActivity extends AppCompatActivity {
     }
 
     private void peticionAutorId(){
-
         Call<AutorDatosResponse> llamada = retrofitInterface.ejecutarAutoresId(ApiClient.getUserCookie(), audiolibroActual.getAutor().getId());
         llamada.enqueue(new Callback<AutorDatosResponse>() {
             @Override
@@ -319,5 +303,11 @@ public class InfoLibroActivity extends AppCompatActivity {
                 Toast.makeText(InfoLibroActivity.this, "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void mostrarResenas() {
+        Intent intent = new Intent(this, ResenasActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }

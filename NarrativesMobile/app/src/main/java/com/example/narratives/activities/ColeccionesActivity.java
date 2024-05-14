@@ -94,7 +94,6 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
 
         EditText editTextBuscadorColecciones = findViewById(R.id.editTextBuscadorColecciones);
         ListView listViewListaColecciones = findViewById(R.id.listViewListaColecciones);
-
         listViewListaColecciones.setAdapter(coleccionesAdapter);
 
         listViewListaColecciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {

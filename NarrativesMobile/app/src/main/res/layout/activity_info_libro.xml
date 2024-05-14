@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutValoracionInfoLibro"
+        app:layout_constraintTop_toBottomOf="@+id/textViewResenasInfoLibro"
         app:layout_constraintVertical_bias="0.1"
         >
 
@@ -63,7 +63,7 @@
             />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/botonVerResenasInfoUsuario"
+            android:id="@+id/botonAmazonInfoLibro"
             android:layout_width="220dp"
             android:layout_height="60dp"
             android:backgroundTint="@color/teal_casi_blanco"
@@ -199,59 +199,36 @@
 
     <TextView
         android:id="@+id/textViewGeneroInfoLibro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="79dp"
+        android:layout_height="25dp"
         android:layout_marginTop="12dp"
+        android:paddingStart="10dp"
         android:text="GÉNERO"
         android:textSize="16sp"
-        android:paddingStart="10dp"
         app:layout_constraintEnd_toEndOf="@+id/textViewNombreAutorInfoLibro"
         app:layout_constraintStart_toEndOf="@+id/textViewTituloAutorInfoLibro"
         app:layout_constraintTop_toBottomOf="@+id/textViewNombreAutorInfoLibro" />
 
-    <LinearLayout
-
-        android:id="@+id/linearLayoutValoracionInfoLibro"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="15dp"
-
+    <RatingBar
+        android:id="@+id/ratingBarInfoLibro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:numStars="5"
+        android:progressTint="#FFEB3B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewGeneroInfoLibro" >
+        app:layout_constraintTop_toBottomOf="@id/textViewGeneroInfoLibro" />
 
-        <ImageView
-            android:id="@+id/imageViewEstrella1ValoracionInfoLibro"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella"/>
-
-
-        <ImageView
-            android:id="@+id/imageViewEstrella2ValoracionInfoLibro"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella"/>
-
-        <ImageView
-            android:id="@+id/imageViewEstrella3ValoracionInfoLibro"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella"/>
-
-        <ImageView
-            android:id="@+id/imageViewEstrella4ValoracionInfoLibro"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella"/>
-
-
-        <ImageView
-            android:id="@+id/imageViewEstrella5ValoracionInfoLibro"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icono_estrella"/>
-    </LinearLayout>
-
+    <TextView
+        android:id="@+id/textViewResenasInfoLibro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reseñas de otros usuarios"
+        android:layout_marginBottom="10dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBarInfoLibro" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

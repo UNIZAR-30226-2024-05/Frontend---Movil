@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <ImageView
+        android:id="@+id/imageViewFondoExteriorInfoLibro"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gris_trans"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="40dp"
+        android:background="@drawable/popup_redondo_background"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botonCerrarMiResena"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/icono_cruz_cerrar"
+            android:text="@string/cerrar_popup"
+            app:borderWidth="0dp"
+            app:elevation="0.01dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:maxImageSize="30dp"
+            app:tint="@color/gris" />
+
+        <TextView
+            android:id="@+id/textViewVisibilidadMiResena"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Visibilidad:"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/botonCerrarMiResena" />
+
+
+        <RadioGroup
+            android:id="@+id/radioGroupMiResena"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewVisibilidadMiResena">
+
+            <RadioButton
+                android:id="@+id/radioButtonOptionPublica"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pública" />
+
+            <RadioButton
+                android:id="@+id/radioButtonOptionAmigos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Solo amigos" />
+
+            <RadioButton
+                android:id="@+id/radioButtonOptionPrivada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Privada" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textViewPuntuacionMiResena"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:text="Puntuación:"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroupMiResena" />
+
+        <RatingBar
+            android:id="@+id/ratingBarMiResena"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:numStars="5"
+            android:scaleX="0.75"
+            android:scaleY="0.75"
+            android:progressTint="#FFEB3B"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textViewPuntuacionMiResena"
+            app:layout_constraintTop_toBottomOf="@id/radioGroupMiResena" />
+
+        <TextView
+            android:id="@+id/textViewComentarioMiResena"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:text="Comentario (opcional):"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewPuntuacionMiResena" />
+
+        <EditText
+            android:id="@+id/editTextComentarioMiResena"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="15dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewComentarioMiResena" />
+
+        <Button
+            android:id="@+id/botonEliminarMiResena"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="15dp"
+            android:backgroundTint="@color/teal_700"
+            android:layout_marginStart="30dp"
+            android:text="Eliminar"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTextComentarioMiResena"
+            app:rippleColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/botonConfirmarMiResena"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="15dp"
+            android:backgroundTint="@color/teal_700"
+            android:text="Publicar"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/botonEliminarMiResena"
+            app:layout_constraintTop_toBottomOf="@id/editTextComentarioMiResena"
+            app:rippleColor="@android:color/white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

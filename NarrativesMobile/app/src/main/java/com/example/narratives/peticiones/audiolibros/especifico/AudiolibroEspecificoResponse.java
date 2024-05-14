@@ -3,17 +3,18 @@ package com.example.narratives.peticiones.audiolibros.especifico;
 import java.util.ArrayList;
 
 public class AudiolibroEspecificoResponse {
-    AudiolibroSimple audiolibro;
-    AutorSimple autor;
-    ArrayList<Genero> generos;
-    ArrayList<Capitulo> capitulos;
-    ArrayList<GenericReview> public_reviews;
-    ArrayList<GenericReview> friends_reviews;
+    private AudiolibroSimple audiolibro;
+    private AutorSimple autor;
+    private ArrayList<Genero> generos;
+    private ArrayList<Capitulo> capitulos;
+    private ArrayList<GenericReview> public_reviews;
+    private ArrayList<GenericReview> friends_reviews;
 
-    OwnReview own_review;
-    UltimoMomento ultimo_momento;
-    ArrayList<Marcapaginas> mp_personalizados;
-    ArrayList<Coleccion> colecciones;
+    private float puntuacion;
+    private OwnReview own_review;
+    private UltimoMomento ultimo_momento;
+    private ArrayList<Marcapaginas> mp_personalizados;
+    private ArrayList<Coleccion> colecciones;
 
     public AudiolibroSimple getAudiolibro() {
         return audiolibro;
@@ -93,5 +94,13 @@ public class AudiolibroEspecificoResponse {
 
     public void setColecciones(ArrayList<Coleccion> colecciones) {
         this.colecciones = colecciones;
+    }
+
+    public float getPuntuacion() {
+        return puntuacion;
+    }
+
+    public void setPuntuacion(float puntuacion) {
+        this.puntuacion = puntuacion;
     }
 }
