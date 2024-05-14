@@ -38,8 +38,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface RetrofitInterface {
-    String URL_BASE = "http://192.168.1.138:8000";
-    //String URL_BASE = "https://server.narratives.es";
+    String URL_BASE = "https://server.narratives.es";
 
     @POST("/users/login")
     Call<LoginResult> ejecutarUsersLogin(@Header("Cookie") String userCookie, @Body LoginRequest request);
