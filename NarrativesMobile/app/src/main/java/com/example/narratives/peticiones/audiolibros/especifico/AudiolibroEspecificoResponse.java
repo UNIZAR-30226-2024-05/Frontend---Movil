@@ -103,4 +103,13 @@ public class AudiolibroEspecificoResponse {
     public void setPuntuacion(float puntuacion) {
         this.puntuacion = puntuacion;
     }
+    public String getNombreCap(int num) {
+        for (Capitulo capitulo : capitulos) {
+            if(capitulo.getId() == num){
+                return capitulo.getNombre();
+            }
+        }
+        //Por si recorre todo y no lo encuenta
+        return "Capítulo " + String.valueOf(num);
+    }
 }

@@ -17,6 +17,7 @@ import com.example.narratives.peticiones.colecciones.ColeccionEspecificaResult;
 import com.example.narratives.peticiones.colecciones.ColeccionesRequest;
 import com.example.narratives.peticiones.colecciones.ColeccionesResult;
 import com.example.narratives.peticiones.autores.AutorDatosResponse;
+import com.example.narratives.peticiones.marcapaginas.CrearMarcapaginasRequest;
 import com.example.narratives.peticiones.marcapaginas.ListeningRequest;
 import com.example.narratives.peticiones.resenas.ResenaDeleteRequest;
 import com.example.narratives.peticiones.resenas.ResenaEditRequest;
@@ -145,4 +146,12 @@ public interface RetrofitInterface {
     Call<OwnReview> ejecutarReviewEditReview(@Header("Cookie") String userCookie, @Body ResenaEditRequest request);
     @POST("/review/delete_review")
     Call<GenericMessageResult> ejecutarReviewDeleteReview(@Header("Cookie") String userCookie, @Body ResenaDeleteRequest request);
+    @POST("/marcapaginas/create")
+    Call<GenericMessageResult> ejecutarCreateMarcapaginas(@Header("Cookie") String userCookie, @Body CrearMarcapaginasRequest request);
+
+    @POST("/marcapaginas/update")
+    Call<GenericMessageResult> ejecutarUpdateMarcapaginas(@Header("Cookie") String userCookie, @Body CrearMarcapaginasRequest request);
+
+    @POST("/marcapaginas/delete")
+    Call<GenericMessageResult> ejecutarDeleteMarcapaginas(@Header("Cookie") String userCookie, @Body CrearMarcapaginasRequest request);
 }

@@ -7,25 +7,41 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.transition.TransitionSet;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.informacion.InfoAudiolibros;
+import com.example.narratives.adaptadores.CapitulosAdapter;
+import com.example.narratives.adaptadores.MarcapaginasAdapter;
+import com.example.narratives.fragments.FragmentEscuchando;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
+import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
 import com.example.narratives.peticiones.audiolibros.especifico.Coleccion;
 import com.example.narratives.peticiones.audiolibros.especifico.Genero;
+import com.example.narratives.peticiones.audiolibros.especifico.Marcapaginas;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
 import com.example.narratives.peticiones.autores.AutorDatosResponse;
 import com.google.android.material.button.MaterialButton;
@@ -46,6 +62,11 @@ public class InfoLibroActivity extends AppCompatActivity {
     MaterialButton escucharAudiolibro;
     MaterialButton comprarAudiolibro;
 
+    private PopupWindow popupWindow;
+
+    ArrayList<Marcapaginas> marcapaginas;
+    ListView listaMarcapaginas;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         retrofit = ApiClient.getRetrofit();
@@ -57,6 +78,8 @@ public class InfoLibroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         audiolibroActual = InfoAudiolibros.getAudiolibroActual();
+
+        marcapaginas = audiolibroActual.getMarcapaginas();
 
         retrofitInterface = ApiClient.getRetrofitInterface();
 
@@ -108,6 +131,14 @@ public class InfoLibroActivity extends AppCompatActivity {
             }
         });
 
+        FloatingActionButton botonMarcapaginas = (FloatingActionButton) findViewById(R.id.botonMarcapaginas);
+        botonMarcapaginas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirPopupMarcapaginas();
+            }
+        });
+
         escucharAudiolibro = findViewById(R.id.botonEscucharAudiolibroInfoLibro);
         escucharAudiolibro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +162,7 @@ public class InfoLibroActivity extends AppCompatActivity {
                 mostrarListaColecciones();
             }
         });
+        }
     }
 
     private void abrirAmazonConLink() {
@@ -309,6 +341,85 @@ public class InfoLibroActivity extends AppCompatActivity {
     private void mostrarResenas() {
         Intent intent = new Intent(this, ResenasActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+    private void abrirPopupMarcapaginas() {
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View viewMarcapaginas = inflater.inflate(R.layout.popup_marcapaginas, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        listaMarcapaginas = (ListView) viewMarcapaginas.findViewById(R.id.listViewListaMarcapaginas);
+        MarcapaginasAdapter m = new MarcapaginasAdapter(this, R.layout.item_marcapaginas, marcapaginas,audiolibroActual);
+        listaMarcapaginas.setAdapter(m);
+
+        PopupWindow popupWindow = new PopupWindow(viewMarcapaginas, width, height, true);
+        popupWindow.setAnimationStyle(0);
+
+        ConstraintLayout layout = this.findViewById(R.id.info_libro_layout);
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                popupWindow.showAtLocation(layout, Gravity.BOTTOM, 0, 0);
+            }
+        });
+
+        listaMarcapaginas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                popupWindow.dismiss();
+                //Buscar forma de pausar antes de reproducir ya que si se estaba reproduciendo algo, carga el nuevo libro pero salta al siguiente cap
+                //MainActivity.fragmentoEscuchandoAbierto.pararPorCierreSesion();
+                audiolibroActual.getUltimoMomento().setCapitulo(marcapaginas.get(position).getCapitulo());
+                audiolibroActual.getUltimoMomento().setFecha(marcapaginas.get(position).getFecha());
+                cargarYAbrirReproductor();
+            }
+        });
+        listaMarcapaginas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                popupWindow.dismiss();
+                abrirEditarMarcapaginas(marcapaginas.get(position).getId(),marcapaginas.get(position).getCapitulo(),marcapaginas.get(position).getTitulo(),marcapaginas.get(position).getFecha());
+                return true; // Devuelve true para indicar que el evento de clic largo ha sido manejado
+            }
+        });
+
+        // Encuentra el botón en tu layout
+        FloatingActionButton botonCerrar = (FloatingActionButton) viewMarcapaginas.findViewById(R.id.botonCerrarMarcapaginas);
+        botonCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+
+    }
+
+    private ImageView obtenerImageViewEstrellaLlena(int posicion) {
+        switch (posicion) {
+            case 0:
+                return findViewById(R.id.imageViewEstrella1ValoracionInfoLibroLlena);
+            case 1:
+                return findViewById(R.id.imageViewEstrella2ValoracionInfoLibroLlena);
+            case 2:
+                return findViewById(R.id.imageViewEstrella3ValoracionInfoLibroLlena);
+            case 3:
+                return findViewById(R.id.imageViewEstrella4ValoracionInfoLibroLLena);
+            case 4:
+                return findViewById(R.id.imageViewEstrella5ValoracionInfoLibroLlena);
+            default:
+                return null;
+        }
+    }
+    public void abrirEditarMarcapaginas(int id, int capituloActual, String nombre, String fecha) {
+        Intent intent = new Intent(this, EditMarcapaginasActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("listaCapitulos", audiolibroActual.getCapitulos());
+        intent.putExtra("IdMarcapaginas", id);
+        intent.putExtra("capituloActual", capituloActual);
+        intent.putExtra("nombreMarcapaginas", nombre);
+        intent.putExtra("timestamp", fecha);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }

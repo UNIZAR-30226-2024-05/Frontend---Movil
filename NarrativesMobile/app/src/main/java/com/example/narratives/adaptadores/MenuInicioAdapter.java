@@ -54,6 +54,7 @@ public class MenuInicioAdapter extends RecyclerView.Adapter<MenuInicioAdapter.Ad
 
     @Override
     public int getItemCount() {
+        if (audiolibros == null){return 0;}
         int size;
         if(audiolibros.size() < 20){
             size = audiolibros.size();
