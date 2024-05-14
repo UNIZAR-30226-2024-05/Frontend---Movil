@@ -136,6 +136,14 @@ public class ResenasActivity extends AppCompatActivity {
                 mostrarPopupMiResena();
             }
         });
+
+        FloatingActionButton botonVolverDesdeResenas = findViewById(R.id.botonVolverDesdeResenas);
+        botonVolverDesdeResenas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void mostrarPopupNuevaResena() {
