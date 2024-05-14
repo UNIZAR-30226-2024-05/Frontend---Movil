@@ -180,7 +180,7 @@ public class ResenasActivity extends AppCompatActivity {
                             default:
                                 break;
                         }
-                        publicarResena(editTextComentarioMiResena.getText().toString(), ratingBarMiResena.getRating(), visibilidad);
+                        publicarResena(editTextComentarioMiResena.getText().toString(), (int) ratingBarMiResena.getRating(), visibilidad);
                     } else {
                         Toast.makeText(ResenasActivity.this, "Campos vacíos", Toast.LENGTH_LONG).show();
                     }
@@ -268,7 +268,7 @@ public class ResenasActivity extends AppCompatActivity {
                             default:
                                 break;
                         }
-                        publicarResena(editTextComentarioMiResena.getText().toString(), ratingBarMiResena.getRating(), visibilidad);
+                        publicarResena(editTextComentarioMiResena.getText().toString(), (int) ratingBarMiResena.getRating(), visibilidad);
                     } else {
                         Toast.makeText(ResenasActivity.this, "Campos vacíos", Toast.LENGTH_LONG).show();
                     }
@@ -336,7 +336,7 @@ public class ResenasActivity extends AppCompatActivity {
         return true;
     }
 
-    private void publicarResena(String comentario, float puntuacion, int visibilidad) {
+    private void publicarResena(String comentario, int puntuacion, int visibilidad) {
         ResenaPostRequest request = new ResenaPostRequest();
         request.setId_audiolibro(InfoLibroActivity.audiolibroActual.getAudiolibro().getId());
         request.setComentario(comentario);
