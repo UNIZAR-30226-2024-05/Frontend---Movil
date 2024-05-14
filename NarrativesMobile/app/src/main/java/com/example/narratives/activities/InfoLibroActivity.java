@@ -2,6 +2,7 @@ package com.example.narratives.activities;
 
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.transition.TransitionSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -162,7 +164,6 @@ public class InfoLibroActivity extends AppCompatActivity {
                 mostrarListaColecciones();
             }
         });
-        }
     }
 
     private void abrirAmazonConLink() {
@@ -396,22 +397,6 @@ public class InfoLibroActivity extends AppCompatActivity {
 
     }
 
-    private ImageView obtenerImageViewEstrellaLlena(int posicion) {
-        switch (posicion) {
-            case 0:
-                return findViewById(R.id.imageViewEstrella1ValoracionInfoLibroLlena);
-            case 1:
-                return findViewById(R.id.imageViewEstrella2ValoracionInfoLibroLlena);
-            case 2:
-                return findViewById(R.id.imageViewEstrella3ValoracionInfoLibroLlena);
-            case 3:
-                return findViewById(R.id.imageViewEstrella4ValoracionInfoLibroLLena);
-            case 4:
-                return findViewById(R.id.imageViewEstrella5ValoracionInfoLibroLlena);
-            default:
-                return null;
-        }
-    }
     public void abrirEditarMarcapaginas(int id, int capituloActual, String nombre, String fecha) {
         Intent intent = new Intent(this, EditMarcapaginasActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
