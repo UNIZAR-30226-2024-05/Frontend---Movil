@@ -45,16 +45,16 @@ public class EditMarcapaginasActivity extends AppCompatActivity {
     Button buttUpdate;
     Button buttDelete;
     ArrayList<Capitulo> listaCapitulos;
-    int capituloActual;
+    private int capituloActual;
 
+    private int id;
 
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         getWindow().setExitTransition(new TransitionSet());
         listaCapitulos = (ArrayList<Capitulo>) getIntent().getSerializableExtra("listaCapitulos");
         capituloActual = getIntent().getIntExtra("capituloActual", 1);
-
-
+        id =getIntent().getIntExtra("IdMarcapaginas", 1);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_marcapaginas);
 
@@ -79,6 +79,8 @@ public class EditMarcapaginasActivity extends AppCompatActivity {
 
         mAdapter = new SelectorCapitulosAdapter(EditMarcapaginasActivity.this, listaCapitulos);
         spinner.setAdapter(mAdapter);
+        int posi = capituloActual-listaCapitulos.get(0).getId();
+        spinner.setSelection(posi);
 
 
         fabBack.setOnClickListener(new View.OnClickListener() {
@@ -91,32 +93,39 @@ public class EditMarcapaginasActivity extends AppCompatActivity {
         buttUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                peticionCrearMarcapaginas();
+                peticionModificarMarcapaginas();
+            }
+        });
+
+        buttDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                peticionBorrarMarcapaginas();
             }
         });
     }
 
-    private void peticionCrearMarcapaginas() {
+    private void peticionModificarMarcapaginas() {
         String marcapaginasName = editTextMarcapaginasName.getText().toString().trim();
         Second = editTextMarcapaginasTimeSecond.getText().toString().trim();
         if(Second.equals("")||Second.isEmpty()){
             Second= "00";
         } else if(Integer.parseInt(Second) > 0 && Integer.parseInt(Second) <10){
-            Second = "0"+Second;
+            Second = "0" + Integer.parseInt(Second);
         }
 
         Minute = editTextMarcapaginasTimeMinute.getText().toString().trim();
         if(Minute.equals("")||Minute.isEmpty()){
             Minute= "00";
         } else if(Integer.parseInt(Minute) > 0 && Integer.parseInt(Minute) <10){
-            Minute = "0"+Minute;
+            Minute = "0" + Integer.parseInt(Minute);
         }
 
         Hour = editTextMarcapaginasTimeHour.getText().toString().trim();
         if(Hour.equals("")||Hour.isEmpty()){
             Hour= "00";
         } else if(Integer.parseInt(Hour) > 0 && Integer.parseInt(Hour) <10){
-            Hour = "0"+Hour;
+            Hour = "0" + Integer.parseInt(Hour);
         }
 
         Capitulo select = (Capitulo) spinner.getSelectedItem();
@@ -133,23 +142,26 @@ public class EditMarcapaginasActivity extends AppCompatActivity {
             String marcapaginasTime = Hour+ ":" + Minute + ":" +Second;
             Log.d("Comprobacion", "peticionCrearMarcapaginas: " + marcapaginasTime);
             CrearMarcapaginasRequest request = new CrearMarcapaginasRequest();
-            request.setTitulo(marcapaginasName);
-            if (!marcapaginasTime.isEmpty()) {
-                request.setTiempo(marcapaginasTime);
-            }
-            request.setCapitulo((select.getId()));
-            //request.setCapitulo(listaCapitulos.get(capituloActual).getId()); //esto si fuera solo el cap reproduciendose
-                Log.d("Prueba", "peticionCrearMarcapaginas: " + request.getCapitulo() + " y " + request.getTiempo());
 
-            Call<GenericMessageResult> llamada = retrofitInterface.ejecutarCreateMarcapaginas(ApiClient.getUserCookie(), request);
+            request.setTitulo(marcapaginasName);
+            request.setTiempo(marcapaginasTime);
+            request.setCapitulo((select.getId()));
+            request.setMarcapaginasID(id);
+            //request.setCapitulo(listaCapitulos.get(capituloActual).getId()); //esto si fuera solo el cap reproduciendose
+                Log.d("Prueba", "peticionCrearMarcapaginas: " + request.getCapitulo() + " y " + request.getTiempo() + " y " + request.getMarcapaginasID());
+
+            Call<GenericMessageResult> llamada = retrofitInterface.ejecutarUpdateMarcapaginas(ApiClient.getUserCookie(), request);
             llamada.enqueue(new Callback<GenericMessageResult>() {
                 @Override
                 public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
                     if (response.code() == 200) {
-                       // Marcapaginas marcapaginas = response.body().getMarcapaginas();
+                        Toast.makeText(EditMarcapaginasActivity.this, "Marcapaginas editado. Salga del audiolibro para aplicar los cambios", Toast.LENGTH_LONG).show();
                         finish();
 
-                    } else if (response.code() == 500) {
+                    } else if (response.code() == 404) {
+                        Toast.makeText(EditMarcapaginasActivity.this, "Estas intentando borrar un marcapaginas ya borrado", Toast.LENGTH_LONG).show();
+
+                    }else if (response.code() == 500) {
                         Toast.makeText(EditMarcapaginasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
 
                     } else {
@@ -166,6 +178,40 @@ public class EditMarcapaginasActivity extends AppCompatActivity {
         }
     }
 
+    private void peticionBorrarMarcapaginas() {
+
+            Log.d("Comprobacion", "peticionCrearMarcapaginas: " + id);
+            CrearMarcapaginasRequest request = new CrearMarcapaginasRequest();
+
+            request.setMarcapaginasID(id);
+            Log.d("Prueba", "peticionBorrarMarcapaginas: " + request.getMarcapaginasID());
+
+            Call<GenericMessageResult> llamada = retrofitInterface.ejecutarDeleteMarcapaginas(ApiClient.getUserCookie(), request);
+            llamada.enqueue(new Callback<GenericMessageResult>() {
+                @Override
+                public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
+                    if (response.code() == 200) {
+                        Toast.makeText(EditMarcapaginasActivity.this, "Marcapaginas borrado. Salga del audiolibro para aplicar los cambios", Toast.LENGTH_LONG).show();
+                        finish();
+
+                    } else if (response.code() == 404) {
+                        Toast.makeText(EditMarcapaginasActivity.this, "Estas intentando borrar un marcapaginas ya borrado", Toast.LENGTH_LONG).show();
+
+                    }else if (response.code() == 500) {
+                        Toast.makeText(EditMarcapaginasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+
+                    } else {
+                        Toast.makeText(EditMarcapaginasActivity.this, "Código error " + String.valueOf(response.code()),
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+                @Override
+                public void onFailure(Call<GenericMessageResult> call, Throwable t) {
+                    // Maneja la falla de la solicitud aquí
+                    Toast.makeText(EditMarcapaginasActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     @Override
     public void onBackPressed() {
         finish();

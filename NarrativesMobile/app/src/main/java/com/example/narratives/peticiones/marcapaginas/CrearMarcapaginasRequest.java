@@ -2,10 +2,11 @@ package com.example.narratives.peticiones.marcapaginas;
 
 public class CrearMarcapaginasRequest {
 
-    String titulo;
-    int capitulo;
+    private int marcapaginasID;
+    private String titulo;
+    private int capitulo;
 
-    String tiempo;
+    private String tiempo;
 
     public String getTitulo() {
         return titulo;
@@ -30,4 +31,14 @@ public class CrearMarcapaginasRequest {
     public void setTiempo(String tiempo) {
         this.tiempo = tiempo;
     }
+
+    public int getMarcapaginasID() {
+        return marcapaginasID;
+    }
+
+    public void setMarcapaginasID(int marcapaginasID) {
+        this.marcapaginasID = marcapaginasID;
+    }
+
+
 }

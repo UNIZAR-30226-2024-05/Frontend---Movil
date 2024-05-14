@@ -688,6 +688,10 @@ public class FragmentEscuchando extends Fragment {
     public void abrirCrearMarcapaginas() {
         Intent intent = new Intent(getContext(), CrearMarcapaginasActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        String tiempo = getPetitionFormattedTime(mediaPlayer.getCurrentPosition());
+        intent.putExtra("ReproductorSegundos", tiempo.substring(6, 8));
+        intent.putExtra("ReproductorMinutos", tiempo.substring(3, 5));
+        intent.putExtra("ReproductorHoras", tiempo.substring(0, 2));
         intent.putExtra("listaCapitulos", capitulos);
         intent.putExtra("capituloActual", capituloActual);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());

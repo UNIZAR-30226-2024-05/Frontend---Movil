@@ -36,6 +36,7 @@ import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.adaptadores.CapitulosAdapter;
 import com.example.narratives.adaptadores.MarcapaginasAdapter;
+import com.example.narratives.fragments.FragmentEscuchando;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
@@ -423,6 +424,8 @@ public class InfoLibroActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 popupWindow.dismiss();
+                //Buscar forma de pausar antes de reproducir ya que si se estaba reproduciendo algo, carga el nuevo libro pero salta al siguiente cap
+                //MainActivity.fragmentoEscuchandoAbierto.pararPorCierreSesion();
                 audiolibroActual.getUltimoMomento().setCapitulo(marcapaginas.get(position).getCapitulo());
                 audiolibroActual.getUltimoMomento().setFecha(marcapaginas.get(position).getFecha());
                 cargarYAbrirReproductor();

@@ -69,8 +69,12 @@ public class CrearMarcapaginasActivity extends AppCompatActivity {
         editTextMarcapaginasName = findViewById(R.id.editTextNombreMarcapaginas);
 
         editTextMarcapaginasTimeSecond = findViewById(R.id.editTextSecond);
+        editTextMarcapaginasTimeSecond.setText(getIntent().getStringExtra("ReproductorSegundos"));
         editTextMarcapaginasTimeMinute  = findViewById(R.id.editTextMinute);
+        editTextMarcapaginasTimeMinute.setText(getIntent().getStringExtra("ReproductorMinutos"));
         editTextMarcapaginasTimeHour = findViewById(R.id.editTextHour);
+        editTextMarcapaginasTimeHour.setText(getIntent().getStringExtra("ReproductorHoras"));
+
 
 
         fabBack = findViewById(R.id.botonVolverDesdeCrearMarcapaginas);
@@ -79,7 +83,7 @@ public class CrearMarcapaginasActivity extends AppCompatActivity {
 
         mAdapter = new SelectorCapitulosAdapter(CrearMarcapaginasActivity.this, listaCapitulos);
         spinner.setAdapter(mAdapter);
-
+        spinner.setSelection(capituloActual);
 
         fabBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,21 +106,21 @@ public class CrearMarcapaginasActivity extends AppCompatActivity {
         if(Second.equals("")||Second.isEmpty()){
             Second= "00";
         } else if(Integer.parseInt(Second) > 0 && Integer.parseInt(Second) <10){
-            Second = "0"+Second;
+            Second = "0" + Integer.parseInt(Second);
         }
 
         Minute = editTextMarcapaginasTimeMinute.getText().toString().trim();
         if(Minute.equals("")||Minute.isEmpty()){
             Minute= "00";
         } else if(Integer.parseInt(Minute) > 0 && Integer.parseInt(Minute) <10){
-            Minute = "0"+Minute;
+            Minute = "0" + Integer.parseInt(Minute);
         }
 
         Hour = editTextMarcapaginasTimeHour.getText().toString().trim();
         if(Hour.equals("")||Hour.isEmpty()){
             Hour= "00";
         } else if(Integer.parseInt(Hour) > 0 && Integer.parseInt(Hour) <10){
-            Hour = "0"+Hour;
+            Hour = "0" + Integer.parseInt(Hour);
         }
 
         Capitulo select = (Capitulo) spinner.getSelectedItem();

@@ -97,4 +97,10 @@ public interface RetrofitInterface {
     Call<ClubResult> ejecutarInfoClub(@Header("Cookie") String userCookie, @Path("id") int id);
     @POST("/marcapaginas/create")
     Call<GenericMessageResult> ejecutarCreateMarcapaginas(@Header("Cookie") String userCookie, @Body CrearMarcapaginasRequest request);
+
+    @POST("/marcapaginas/update")
+    Call<GenericMessageResult> ejecutarUpdateMarcapaginas(@Header("Cookie") String userCookie, @Body CrearMarcapaginasRequest request);
+
+    @POST("/marcapaginas/delete")
+    Call<GenericMessageResult> ejecutarDeleteMarcapaginas(@Header("Cookie") String userCookie, @Body CrearMarcapaginasRequest request);
 }
