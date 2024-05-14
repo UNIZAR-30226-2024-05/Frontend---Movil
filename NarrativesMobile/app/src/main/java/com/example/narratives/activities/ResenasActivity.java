@@ -30,9 +30,11 @@ import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.adaptadores.ResenasAdapter;
 import com.example.narratives.peticiones.GenericMessageResult;
+import com.example.narratives.peticiones.GenericOtherIdRequest;
 import com.example.narratives.peticiones.audiolibros.especifico.GenericReview;
 import com.example.narratives.peticiones.audiolibros.especifico.OwnReview;
 import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
+import com.example.narratives.peticiones.resenas.ResenaDeleteRequest;
 import com.example.narratives.peticiones.resenas.ResenaEditRequest;
 import com.example.narratives.peticiones.resenas.ResenaPostRequest;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -439,7 +441,10 @@ public class ResenasActivity extends AppCompatActivity {
     }
 
     private void eliminarResena() {
-        Call<GenericMessageResult> call = retrofitInterface.ejecutarReviewDeleteReview(ApiClient.getUserCookie(), InfoLibroActivity.audiolibroActual.getOwnReview().getId());
+        ResenaDeleteRequest request = new ResenaDeleteRequest();
+        request.setId_review(InfoLibroActivity.audiolibroActual.getOwnReview().getId());
+
+        Call<GenericMessageResult> call = retrofitInterface.ejecutarReviewDeleteReview(ApiClient.getUserCookie(), request);
         call.enqueue(new Callback<GenericMessageResult>() {
             @Override
             public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {

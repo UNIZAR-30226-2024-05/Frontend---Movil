@@ -18,6 +18,7 @@ import com.example.narratives.peticiones.colecciones.ColeccionesRequest;
 import com.example.narratives.peticiones.colecciones.ColeccionesResult;
 import com.example.narratives.peticiones.autores.AutorDatosResponse;
 import com.example.narratives.peticiones.marcapaginas.ListeningRequest;
+import com.example.narratives.peticiones.resenas.ResenaDeleteRequest;
 import com.example.narratives.peticiones.resenas.ResenaEditRequest;
 import com.example.narratives.peticiones.resenas.ResenaPostRequest;
 import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequest;
@@ -37,8 +38,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface RetrofitInterface {
-    //String URL_BASE = "https://52.143.153.248";
-    String URL_BASE = "https://server.narratives.es";
+    String URL_BASE = "http://192.168.1.138:8000";
+    //String URL_BASE = "https://server.narratives.es";
 
     @POST("/users/login")
     Call<LoginResult> ejecutarUsersLogin(@Header("Cookie") String userCookie, @Body LoginRequest request);
@@ -144,5 +145,5 @@ public interface RetrofitInterface {
     @POST("/review/edit_review")
     Call<OwnReview> ejecutarReviewEditReview(@Header("Cookie") String userCookie, @Body ResenaEditRequest request);
     @POST("/review/delete_review")
-    Call<GenericMessageResult> ejecutarReviewDeleteReview(@Header("Cookie") String userCookie, @Body int id);
+    Call<GenericMessageResult> ejecutarReviewDeleteReview(@Header("Cookie") String userCookie, @Body ResenaDeleteRequest request);
 }
