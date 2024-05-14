@@ -371,6 +371,10 @@ public class FragmentEscuchando extends Fragment {
         mostrarCargandoAudiolibro();
         esconderReproductor();
 
+        if(mediaPlayer != null && mediaPlayer.isPlaying()){
+            fabPause.performClick();
+        }
+
         if(!primerLibro){
             mediaPlayer.reset();
         }

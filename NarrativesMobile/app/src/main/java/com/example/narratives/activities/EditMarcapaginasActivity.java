@@ -1,5 +1,6 @@
 package com.example.narratives.activities;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.transition.TransitionSet;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
 import com.example.narratives.peticiones.marcapaginas.CrearMarcapaginasRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -93,7 +95,11 @@ public class EditMarcapaginasActivity extends AppCompatActivity {
         buttUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                peticionModificarMarcapaginas();
+                try {
+                    peticionModificarMarcapaginas();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -105,7 +111,7 @@ public class EditMarcapaginasActivity extends AppCompatActivity {
         });
     }
 
-    private void peticionModificarMarcapaginas() {
+    private void peticionModificarMarcapaginas() throws IOException {
         String marcapaginasName = editTextMarcapaginasName.getText().toString().trim();
         Second = editTextMarcapaginasTimeSecond.getText().toString().trim();
         if(Second.equals("")||Second.isEmpty()){
@@ -129,9 +135,20 @@ public class EditMarcapaginasActivity extends AppCompatActivity {
         }
 
         Capitulo select = (Capitulo) spinner.getSelectedItem();
+
+        //Habra que hablar si merece la pena, soluciona que pongan duraciones invalidas pero alarga bastante el proceso
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.setDataSource(select.getAudio());
+        mediaPlayer.prepare();
+        int duracion = (mediaPlayer.getDuration())/1000;
+        mediaPlayer.release();
+
+
         Log.d("tiempo marcapaginas", "peticionCrearMarcapaginas(SS(MM/HH): " +Second +"/"+Minute+"/"+Hour);
         if (marcapaginasName.isEmpty()) {
             Toast.makeText(EditMarcapaginasActivity.this, "El nombre del marcapaginas no puede estar vacio", Toast.LENGTH_LONG).show();;
+        }else if(Integer.parseInt(Hour)*3600 + Integer.parseInt(Minute)*60 + Integer.parseInt(Second) >= duracion){
+            Toast.makeText(EditMarcapaginasActivity.this, "El timestamp del marcapaginas no puede ser mayor a la duración del capitulo", Toast.LENGTH_LONG).show();;
         } else if(Integer.parseInt(Second) < 0 || Integer.parseInt(Second) >59){
             Toast.makeText(EditMarcapaginasActivity.this, "El valor de segundos debe estar entre 0 y 59", Toast.LENGTH_LONG).show();;
         } else if(Integer.parseInt(Minute) < 0 || Integer.parseInt(Minute) >59){
