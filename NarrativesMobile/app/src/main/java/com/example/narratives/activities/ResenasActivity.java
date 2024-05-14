@@ -29,6 +29,7 @@ import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.adaptadores.ResenasAdapter;
+import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.GenericOtherIdRequest;
 import com.example.narratives.peticiones.audiolibros.especifico.GenericReview;
@@ -54,6 +55,9 @@ public class ResenasActivity extends AppCompatActivity {
     private RadioGroup radioGroupMiResena;
     private RatingBar ratingBarMiResena;
     private EditText editTextComentarioMiResena;
+    private TextView textViewNingunaResena;
+    private GenericReview review = new GenericReview();
+    private ResenasAdapter resenasAdapter;
     private RetrofitInterface retrofitInterface;
 
     @Override
@@ -69,14 +73,14 @@ public class ResenasActivity extends AppCompatActivity {
         TextView textViewTituloLibroResenas = findViewById(R.id.textViewTituloLibroResenas);
         textViewTituloLibroResenas.setText(InfoLibroActivity.audiolibroActual.getAudiolibro().getTitulo());
 
-        TextView textViewNingunaResena = findViewById(R.id.textViewNingunaResena);
+        textViewNingunaResena = findViewById(R.id.textViewNingunaResena);
         if (resenasPublicasList == null || resenasPublicasList.isEmpty()) {
             textViewNingunaResena.setVisibility(View.VISIBLE);
         } else {
             textViewNingunaResena.setVisibility(View.GONE);
         }
 
-        ResenasAdapter resenasAdapter = new ResenasAdapter(this, R.layout.item_lista_resenas, resenasPublicasList);
+        resenasAdapter = new ResenasAdapter(this, R.layout.item_lista_resenas, resenasPublicasList);
 
         ListView listViewListaResenas = findViewById(R.id.listViewListaResenas);
         listViewListaResenas.setAdapter(resenasAdapter);
@@ -112,17 +116,7 @@ public class ResenasActivity extends AppCompatActivity {
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (fabs_visible) {
-                        fabs_visible = false;
-                        fabNuevaResena.setVisibility(View.GONE);
-                        fabMiResena.setVisibility(View.GONE);
-                    } else {
-                        fabs_visible = true;
-                        fabNuevaResena.setVisibility(View.VISIBLE);
-                        if (InfoLibroActivity.audiolibroActual.getOwnReview().getId() != 0) {
-                            fabMiResena.setVisibility(View.VISIBLE);
-                        }
-                    }
+                    actualizarVisibilidadBotones(fabNuevaResena, fabMiResena);
                 }
             }
         );
@@ -130,6 +124,7 @@ public class ResenasActivity extends AppCompatActivity {
         fabNuevaResena.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                actualizarVisibilidadBotones(fabNuevaResena, fabMiResena);
                 mostrarPopupNuevaResena();
             }
         });
@@ -137,6 +132,7 @@ public class ResenasActivity extends AppCompatActivity {
         fabMiResena.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                actualizarVisibilidadBotones(fabNuevaResena, fabMiResena);
                 mostrarPopupMiResena();
             }
         });
@@ -365,6 +361,7 @@ public class ResenasActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<OwnReview> call, @NonNull Response<OwnReview> response) {
                 if (response.isSuccessful()) {
                     InfoLibroActivity.audiolibroActual.setOwnReview(response.body());
+                    actualizarListas(visibilidad);
                     popupWindow.dismiss();
                     Toast.makeText(ResenasActivity.this, "Reseña publicada", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 409) {
@@ -400,6 +397,7 @@ public class ResenasActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<OwnReview> call, @NonNull Response<OwnReview> response) {
                 if (response.isSuccessful()) {
                     InfoLibroActivity.audiolibroActual.setOwnReview(response.body());
+                    actualizarListas(visibilidad);
                     popupWindow.dismiss();
                     Toast.makeText(ResenasActivity.this, "Reseña editada", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 403) {
@@ -452,6 +450,7 @@ public class ResenasActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
                 if (response.isSuccessful()) {
                     InfoLibroActivity.audiolibroActual.setOwnReview(null);
+                    actualizarListas(2);
                     popupWindow.dismiss();
                     Toast.makeText(ResenasActivity.this, "Reseña eliminada", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 403) {
@@ -474,5 +473,43 @@ public class ResenasActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void actualizarVisibilidadBotones(ExtendedFloatingActionButton fabNuevaResena,
+                                              ExtendedFloatingActionButton fabMiResena) {
+        if (fabs_visible) {
+            fabs_visible = false;
+            fabNuevaResena.setVisibility(View.GONE);
+            fabMiResena.setVisibility(View.GONE);
+        } else {
+            fabs_visible = true;
+            fabNuevaResena.setVisibility(View.VISIBLE);
+            if (InfoLibroActivity.audiolibroActual.getOwnReview().getId() != 0) {
+                fabMiResena.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private void actualizarListas(int visibilidad) {
+        review.setId(InfoLibroActivity.audiolibroActual.getOwnReview().getId());
+        review.setUsername(InfoMiPerfil.getUsername());
+        review.setUser_id(InfoMiPerfil.getId());
+        review.setPuntuacion(InfoLibroActivity.audiolibroActual.getOwnReview().getPuntuacion());
+        review.setComentario(InfoLibroActivity.audiolibroActual.getOwnReview().getComentario());
+
+        if (visibilidad == 0) {
+            resenasPublicasList.add(review);
+        } else {
+            InfoLibroActivity.audiolibroActual.getPublicReviews().remove(review);
+            resenasPublicasList.remove(review);
+        }
+
+        if (resenasPublicasList.isEmpty()) {
+            textViewNingunaResena.setVisibility(View.VISIBLE);
+        } else {
+            textViewNingunaResena.setVisibility(View.GONE);
+        }
+
+        resenasAdapter.notifyDataSetChanged();
     }
 }
