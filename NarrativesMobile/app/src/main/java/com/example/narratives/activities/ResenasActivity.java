@@ -439,8 +439,8 @@ public class ResenasActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
                 if (response.isSuccessful()) {
-                    InfoLibroActivity.audiolibroActual.setOwnReview(null);
                     actualizarListas(2);
+                    InfoLibroActivity.audiolibroActual.setOwnReview(null);
                     fabNuevaResena.setVisibility(View.VISIBLE);
                     buttonMiResena.setVisibility(View.GONE);
                     popupWindow.dismiss();
