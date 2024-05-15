@@ -135,9 +135,11 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                         Toast.makeText(ColeccionesActivity.this, "Resultado de colecciones nulo",
                                         Toast.LENGTH_LONG).show();
                     } else {
-                        coleccionesList.clear();
-                        coleccionesList.addAll(coleccionesResult);
-                        coleccionesAdapter.notifyDataSetChanged();
+                        if (username.equals(InfoMiPerfil.getUsername())) {
+                            coleccionesList.clear();
+                            coleccionesList.addAll(coleccionesResult);
+                            coleccionesAdapter.notifyDataSetChanged();
+                        }
                     }
                 }
             }
