@@ -138,12 +138,10 @@ public class FragmentAmigos extends Fragment {
             @Override
             public void call(Object... args) {
                 if (args.length > 0 && args[0] instanceof JSONObject) {
-                    Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo recibido", Toast.LENGTH_LONG).show();
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo recibido: actualizo", Toast.LENGTH_LONG).show();
                             peticionAmigos();
                             peticionAmistadLista();
                         }
@@ -158,12 +156,10 @@ public class FragmentAmigos extends Fragment {
             @Override
             public void call(Object... args) {
                 if (args.length > 0 && args[0] instanceof JSONObject) {
-                    Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo aceptado", Toast.LENGTH_LONG).show();
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo aceptado: actualizo", Toast.LENGTH_LONG).show();
                             peticionAmigos();
                             peticionAmistadLista();
                         }
@@ -178,12 +174,10 @@ public class FragmentAmigos extends Fragment {
             @Override
             public void call(Object... args) {
                 if (args.length > 0 && args[0] instanceof JSONObject) {
-                    Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo rechazado", Toast.LENGTH_LONG).show();
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo rechazado: actualizo", Toast.LENGTH_LONG).show();
                             peticionAmigos();
                             peticionAmistadLista();
                         }
