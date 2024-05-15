@@ -15,11 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AudiolibroAdapter extends BaseAdapter implements Filterable {
-
     private List<AudiolibroItem> audiolibroList;
-    private List<AudiolibroItem> tempAudiolibroList;
-    private Context context;
-
+    private final List<AudiolibroItem> tempAudiolibroList;
+    private final Context context;
     private AudiolibroFilter audiolibroFilter;
 
     public AudiolibroAdapter(Context context, List<AudiolibroItem> audiolibroList) {

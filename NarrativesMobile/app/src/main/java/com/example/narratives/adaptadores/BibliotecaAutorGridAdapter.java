@@ -17,13 +17,10 @@ import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import java.util.ArrayList;
 
 public class BibliotecaAutorGridAdapter extends BaseAdapter implements Filterable {
-
     private LibroAutorFilter libroAutorFilter;
     private ArrayList<AudiolibroItem> audiolibros;
-    private ArrayList<AudiolibroItem> tempAudiolibros;
-
-    private Context context;
-
+    private final ArrayList<AudiolibroItem> tempAudiolibros;
+    private final Context context;
     private LayoutInflater layoutInflater;
 
     public BibliotecaAutorGridAdapter(Context context, ArrayList<AudiolibroItem> audiolibros) {
@@ -31,7 +28,6 @@ public class BibliotecaAutorGridAdapter extends BaseAdapter implements Filterabl
         this.audiolibros = audiolibros;
         this.tempAudiolibros = audiolibros;
     }
-
 
     @Override   
     public int getCount() {
@@ -63,7 +59,6 @@ public class BibliotecaAutorGridAdapter extends BaseAdapter implements Filterabl
 
         textView.setText(audiolibros.get(i).getTitulo());
 
-
         Glide
                 .with(context)
                 .load(audiolibros.get(i).getImg())
@@ -71,18 +66,16 @@ public class BibliotecaAutorGridAdapter extends BaseAdapter implements Filterabl
                 .placeholder(R.drawable.icono_imagen_estandar_foreground)
                 .into(imageView);
 
-
         return view;
     }
 
     @Override
     public Filter getFilter() {
-        if(libroAutorFilter == null){
+        if (libroAutorFilter == null){
             libroAutorFilter = new LibroAutorFilter();
         }
         return libroAutorFilter;
     }
-
 
     class LibroAutorFilter extends Filter {
 

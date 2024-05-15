@@ -18,9 +18,9 @@ import com.example.narratives.peticiones.audiolibros.especifico.GenericReview;
 import java.util.List;
 
 public class ResenasAdapter extends ArrayAdapter<GenericReview> {
-    private Context context;
-    private int resourceLayout;
-    private List<GenericReview> resenasList;
+    private final Context context;
+    private final int resourceLayout;
+    private final List<GenericReview> resenasList;
 
     public ResenasAdapter(@NonNull Context context, int resourceLayout, @NonNull List<GenericReview> resenasList) {
         super(context, 0, resenasList);

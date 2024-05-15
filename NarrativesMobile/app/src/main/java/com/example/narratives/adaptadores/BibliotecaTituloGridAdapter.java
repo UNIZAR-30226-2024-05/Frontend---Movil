@@ -17,13 +17,10 @@ import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import java.util.ArrayList;
 
 public class BibliotecaTituloGridAdapter extends BaseAdapter implements Filterable {
-
     private LibroTituloFilter libroTituloFilter;
     private ArrayList<AudiolibroItem> audiolibros;
-    private ArrayList<AudiolibroItem> tempAudiolibros;
-
-    private Context context;
-
+    private final ArrayList<AudiolibroItem> tempAudiolibros;
+    private final Context context;
     private LayoutInflater layoutInflater;
 
     public BibliotecaTituloGridAdapter(Context context, ArrayList<AudiolibroItem> audiolibros) {
@@ -31,7 +28,6 @@ public class BibliotecaTituloGridAdapter extends BaseAdapter implements Filterab
         this.audiolibros = audiolibros;
         this.tempAudiolibros = audiolibros;
     }
-
 
     @Override   
     public int getCount() {
@@ -63,14 +59,12 @@ public class BibliotecaTituloGridAdapter extends BaseAdapter implements Filterab
 
         textView.setText(audiolibros.get(i).getTitulo());
 
-
         Glide
                 .with(context)
                 .load(audiolibros.get(i).getImg())
                 .centerCrop()
                 .placeholder(R.drawable.icono_imagen_estandar_foreground)
                 .into(imageView);
-
 
         return view;
     }
@@ -84,73 +78,6 @@ public class BibliotecaTituloGridAdapter extends BaseAdapter implements Filterab
     }
 
     class LibroTituloFilter extends Filter {
-
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-            FilterResults filterResults = new FilterResults();
-
-            if (charSequence != null && charSequence.length() > 0) {
-                charSequence = charSequence.toString().toUpperCase();
-                ArrayList<AudiolibroItem> filtros = new ArrayList<>();
-
-                for (int i = 0; i < tempAudiolibros.size(); i++) {
-                    if (tempAudiolibros.get(i).getTitulo().toUpperCase().contains(charSequence)) {
-                        filtros.add(tempAudiolibros.get(i));
-                    }
-                }
-
-                filterResults.count = filtros.size();
-                filterResults.values = filtros;
-
-            } else {
-                filterResults.count = tempAudiolibros.size();
-                filterResults.values = tempAudiolibros;
-            }
-            return filterResults;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            audiolibros = (ArrayList<AudiolibroItem>) filterResults.values;
-            notifyDataSetChanged();
-        }
-    }
-
-    class LibroAutorFilter extends Filter {
-
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-            FilterResults filterResults = new FilterResults();
-
-            if (charSequence != null && charSequence.length() > 0) {
-                charSequence = charSequence.toString().toUpperCase();
-                ArrayList<AudiolibroItem> filtros = new ArrayList<>();
-
-                for (int i = 0; i < tempAudiolibros.size(); i++) {
-                    if (tempAudiolibros.get(i).getTitulo().toUpperCase().contains(charSequence)) {
-                        filtros.add(tempAudiolibros.get(i));
-                    }
-                }
-
-                filterResults.count = filtros.size();
-                filterResults.values = filtros;
-
-            } else {
-                filterResults.count = tempAudiolibros.size();
-                filterResults.values = tempAudiolibros;
-            }
-            return filterResults;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            audiolibros = (ArrayList<AudiolibroItem>) filterResults.values;
-            notifyDataSetChanged();
-        }
-    }
-
-    class LibroTagsFilter extends Filter {
-
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             FilterResults filterResults = new FilterResults();

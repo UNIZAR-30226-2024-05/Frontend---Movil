@@ -17,10 +17,9 @@ import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import java.util.ArrayList;
 
 public class MenuInicioAdapter extends RecyclerView.Adapter<MenuInicioAdapter.AdaptadorViewHolder> {
-
-    Context context;
+    private final Context context;
     private LayoutInflater layoutInflater;
-    private ArrayList<AudiolibroItem> audiolibros;
+    private final ArrayList<AudiolibroItem> audiolibros;
 
     public MenuInicioAdapter(Context context, ArrayList<AudiolibroItem> audiolibros) {
         this.context = context;
@@ -31,7 +30,7 @@ public class MenuInicioAdapter extends RecyclerView.Adapter<MenuInicioAdapter.Ad
     @Override
     public MenuInicioAdapter.AdaptadorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_menu_principal,null,false);
-        return new MenuInicioAdapter.AdaptadorViewHolder(v);
+        return new AdaptadorViewHolder(v);
     }
 
     @Override
@@ -42,31 +41,25 @@ public class MenuInicioAdapter extends RecyclerView.Adapter<MenuInicioAdapter.Ad
 
         holder.tvTitulo.setText(audiolibros.get(position).getTitulo());
 
-
         Glide
                 .with(context)
                 .load(audiolibros.get(position).getImg())
                 .centerCrop()
                 .placeholder(R.drawable.icono_imagen_estandar_foreground)
                 .into(holder.imageView);
-
     }
 
     @Override
     public int getItemCount() {
-        if (audiolibros == null){return 0;}
-        int size;
-        if(audiolibros.size() < 20){
-            size = audiolibros.size();
-        } else {
-            size = 20;
+        if (audiolibros == null) {
+            return 0;
         }
-        return size;
+        return Math.min(audiolibros.size(), 20);
     }
 
-    public class AdaptadorViewHolder extends RecyclerView.ViewHolder{
-        TextView tvTitulo;
-        ImageView imageView;
+    public static class AdaptadorViewHolder extends RecyclerView.ViewHolder{
+        private final TextView tvTitulo;
+        private final ImageView imageView;
         public AdaptadorViewHolder(@NonNull View itemView) {
             super(itemView);
 
