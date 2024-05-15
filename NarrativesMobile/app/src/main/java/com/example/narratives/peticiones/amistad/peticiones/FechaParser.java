@@ -1,5 +1,7 @@
 package com.example.narratives.peticiones.amistad.peticiones;
 
+import static com.google.common.math.IntMath.mod;
+
 public class FechaParser {
     String fecha;
 
@@ -123,20 +125,17 @@ public class FechaParser {
             segStr = String.valueOf(this.getSegundo());
         }
 
-        if(this.getMilisegundo() == 0){
-            msStr = "000";
-        }else if(this.getMilisegundo() < 10){
-            msStr = String.valueOf(this.getMilisegundo()) + "00";
-        } else if(this.getMilisegundo() < 100){
-            msStr = String.valueOf(this.getMilisegundo()) + "0";
-        } else {
-            msStr = String.valueOf(this.getMilisegundo());
+        int horaTemp = getHora() + 2;
+        int diaTemp = getDia();
+
+        if(horaTemp >= 24){
+            horaTemp = mod(getHora()+2, 24);
+            diaTemp++;
         }
 
 
-            return String.valueOf(this.getDia()) + "/" + String.valueOf(this.getMes()) + "/" + String.valueOf(this.getAnyo()) +
-                "\na las\n" + String.valueOf(this.getHora()+2) + ":" + minStr + ":" + segStr + "." + msStr;
-
+        return String.valueOf(diaTemp) + "/" + String.valueOf(this.getMes()) + "/" + String.valueOf(this.getAnyo()) +
+                "\na las\n" + String.valueOf(horaTemp) + ":" + minStr + ":" + segStr;
     }
 
 
