@@ -489,7 +489,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                 int codigo = response.code();
 
                 if (response.code() == 200) {
-                    InfoAudiolibros.audiolibroActual = response.body();
+                    InfoAudiolibros.setAudiolibroActual(response.body());
                     MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(InfoLibroActivity.audiolibroActual);
                     MainActivity.abrirEscuchando = true;
                     abrirMenuMain();

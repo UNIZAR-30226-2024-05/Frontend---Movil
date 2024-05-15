@@ -10,11 +10,13 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class InfoAudiolibros {
-
-    public static AudiolibroEspecificoResponse audiolibroActual;
+    private static AudiolibroEspecificoResponse audiolibroActual;
+    private static ArrayList<AudiolibroItem> todosLosAudiolibros;
+    private static String[] generos = {"Todos", "Misterio", "Fantasía", "Romance", "Terror",
+            "Ciencia ficción", "Histórico", "Infantil", "Autoayuda", "Poesía", "Aventuras"};
 
     public static AudiolibroEspecificoResponse getAudiolibroActual() {
-        if(audiolibroActual == null){
+        if (audiolibroActual == null) {
             return new AudiolibroEspecificoResponse();
         } else {
             return audiolibroActual;
@@ -24,17 +26,13 @@ public class InfoAudiolibros {
     public static void setAudiolibroActual(AudiolibroEspecificoResponse audiolibroActual) {
         InfoAudiolibros.audiolibroActual = audiolibroActual;
     }
-    private static ArrayList<AudiolibroItem> todosLosAudiolibros;
-    private static ArrayList<AudiolibroItem> todosLosAudiolibrosEjemplo;
-
-    private static String[] generos = {"Todos", "Misterio", "Fantasía", "Romance", "Terror", "Ciencia ficción", "Histórico", "Infantil", "Autoayuda", "Poesía", "Aventuras"};
 
     public static ArrayList<AudiolibroItem> getTodosLosAudiolibros() {
         return todosLosAudiolibros;
     }
 
     public static void setTodosLosAudiolibros(ArrayList<AudiolibroItem> todosLosAudiolibros) {
-        if(todosLosAudiolibros != null){
+        if (todosLosAudiolibros != null) {
             Collections.sort(todosLosAudiolibros, new Comparator<AudiolibroItem>() {
                 @Override
                 public int compare(AudiolibroItem a1, AudiolibroItem a2) {
@@ -54,22 +52,14 @@ public class InfoAudiolibros {
         InfoAudiolibros.generos = generos;
     }
 
-    public static ArrayList<AudiolibroItem> getTodosLosAudiolibrosEjemplo() {
-        return todosLosAudiolibrosEjemplo;
-    }
-
-    public static void setTodosLosAudiolibrosEjemplo(ArrayList<AudiolibroItem> todosLosAudiolibrosEjemplo) {
-        InfoAudiolibros.todosLosAudiolibrosEjemplo = todosLosAudiolibrosEjemplo;
-    }
-
     public static ArrayList<AudiolibroItem> getAudiolibrosPorGenero(String genero){
-        if(genero.equals("Todos") || genero.equals("todos")){
+        if (genero.equals("Todos") || genero.equals("todos")) {
             return todosLosAudiolibros;
         }
 
         ArrayList<AudiolibroItem> audiolibrosPorGenero = new ArrayList<>();
 
-        for(AudiolibroItem audiolibro : todosLosAudiolibros){
+        for (AudiolibroItem audiolibro : todosLosAudiolibros) {
             if(audiolibro.getGenero().equals(genero)){
                 audiolibrosPorGenero.add(audiolibro);
             }
@@ -78,7 +68,7 @@ public class InfoAudiolibros {
         return  audiolibrosPorGenero;
     }
 
-    public static ArrayList<AudiolibroItem> getAudiolibrosPorAutor(String autor){
+    public static ArrayList<AudiolibroItem> getAudiolibrosPorAutor(String autor) {
         ArrayList<AudiolibroItem> audiolibrosPorAutor = new ArrayList<>();
 
         for(AudiolibroItem audiolibro : todosLosAudiolibros){
@@ -89,7 +79,7 @@ public class InfoAudiolibros {
         return  audiolibrosPorAutor;
     }
 
-    public static String[] getGenerosSeleccionados(){
+    public static String[] getGenerosSeleccionados() {
         String[] generosResultado = {"", "", "", "", ""};
         String[] todosLosGeneros = generos.clone();
 
@@ -98,7 +88,7 @@ public class InfoAudiolibros {
         todosLosGeneros[todosLosGeneros.length - 1] = todosLosGeneros[0];
         todosLosGeneros[0] = ultimoTemp;
 
-        for(int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             // Cogemos uno aleatorio sin contar los del final, que son los ya elegidos
             int indice = (int)(System.currentTimeMillis() % (todosLosGeneros.length - 2 - i));
             String seleccionado = todosLosGeneros[indice];
@@ -115,7 +105,7 @@ public class InfoAudiolibros {
         return generosResultado;
     }
 
-    public static ArrayList<AudiolibroItem> getAudiolibrosRecomendados(int size){
+    public static ArrayList<AudiolibroItem> getAudiolibrosRecomendados(int size) {
         ArrayList<AudiolibroItem> audiolibrosRecomendados = new ArrayList<>();
         ArrayList<AudiolibroItem> todosOrdenados = (ArrayList<AudiolibroItem>) todosLosAudiolibros.clone();
 
@@ -141,18 +131,8 @@ public class InfoAudiolibros {
         return  audiolibrosRecomendados;
     }
 
-    public static void setTodoANull(){
-        setTodosLosAudiolibros(null);
-        setTodosLosAudiolibrosEjemplo(null);
-    }
-
-
     //TODO: cuando se actualice, cambiar el return
     public static ArrayList<AudiolibroItem> getAudiolibrosSeguirEscuchando(){
         return new ArrayList<>();
     }
-
-
-
-
 }

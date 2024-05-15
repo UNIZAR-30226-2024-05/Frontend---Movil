@@ -395,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
     private void vaciarInformacionSesionActual(){
         ApiClient.setUserCookie(null);
         infoMiPerfil = null;
-        InfoAudiolibros.setTodoANull();
+        InfoAudiolibros.setTodosLosAudiolibros(null);
         InfoClubes.setTodosLosClubes(null);
         // toda la informacion de AMIGOS a null
     }
