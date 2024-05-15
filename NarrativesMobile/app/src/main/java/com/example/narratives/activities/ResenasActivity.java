@@ -32,7 +32,6 @@ import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.GenericReview;
 import com.example.narratives.peticiones.audiolibros.especifico.OwnReview;
-import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import com.example.narratives.peticiones.resenas.ResenaDeleteRequest;
 import com.example.narratives.peticiones.resenas.ResenaEditRequest;
 import com.example.narratives.peticiones.resenas.ResenaPostRequest;
@@ -45,8 +44,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ResenasActivity extends AppCompatActivity {
-    ArrayList<GenericReview> resenasPublicasList = InfoLibroActivity.audiolibroActual.getPublicReviews();
-    ArrayList<GenericReview> resenasAmigosList = InfoLibroActivity.audiolibroActual.getFriendsReviews();
+    private final ArrayList<GenericReview> resenasPublicasList = InfoLibroActivity.audiolibroActual.getPublicReviews();
+    private final ArrayList<GenericReview> resenasAmigosList = InfoLibroActivity.audiolibroActual.getFriendsReviews();
     private PopupWindow popupWindow;
     private RadioGroup radioGroupMiResena;
     private RatingBar ratingBarMiResena;
@@ -86,19 +85,21 @@ public class ResenasActivity extends AppCompatActivity {
         Switch switchVisibilidad = findViewById(R.id.switchVisibilidad);
         switchVisibilidad.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                final ResenasAdapter adapterAmigos = new ResenasAdapter(ResenasActivity.this, R.layout.item_lista_resenas, resenasAmigosList);
+                final ResenasAdapter adapterAmigos = new ResenasAdapter(ResenasActivity.this,
+                                                    R.layout.item_lista_resenas, resenasAmigosList);
                 listViewListaResenas.setAdapter(adapterAmigos);
 
-                if (resenasAmigosList == null || resenasAmigosList.isEmpty()) {
+                if (resenasAmigosList.isEmpty()) {
                     textViewNingunaResena.setVisibility(View.VISIBLE);
                 } else {
                     textViewNingunaResena.setVisibility(View.GONE);
                 }
             } else {
-                final ResenasAdapter adapterPublicas = new ResenasAdapter(ResenasActivity.this, R.layout.item_lista_resenas, resenasPublicasList);
+                final ResenasAdapter adapterPublicas = new ResenasAdapter(ResenasActivity.this,
+                                                    R.layout.item_lista_resenas, resenasPublicasList);
                 listViewListaResenas.setAdapter(adapterPublicas);
 
-                if (resenasPublicasList == null || resenasPublicasList.isEmpty()) {
+                if (resenasPublicasList.isEmpty()) {
                     textViewNingunaResena.setVisibility(View.VISIBLE);
                 } else {
                     textViewNingunaResena.setVisibility(View.GONE);
@@ -183,7 +184,8 @@ public class ResenasActivity extends AppCompatActivity {
                             default:
                                 break;
                         }
-                        publicarResena(editTextComentarioMiResena.getText().toString(), (int) ratingBarMiResena.getRating(), visibilidad);
+                        publicarResena(editTextComentarioMiResena.getText().toString(),
+                                                (int) ratingBarMiResena.getRating(), visibilidad);
                     } else {
                         Toast.makeText(ResenasActivity.this, "Campos vacíos", Toast.LENGTH_LONG).show();
                     }
@@ -206,7 +208,8 @@ public class ResenasActivity extends AppCompatActivity {
                             default:
                                 break;
                         }
-                        editarResena(editTextComentarioMiResena.getText().toString(), ratingBarMiResena.getRating(), visibilidad);
+                        editarResena(editTextComentarioMiResena.getText().toString(),
+                                                    ratingBarMiResena.getRating(), visibilidad);
                     } else {
                         Toast.makeText(ResenasActivity.this, "Campos vacíos", Toast.LENGTH_LONG).show();
                     }
@@ -271,7 +274,8 @@ public class ResenasActivity extends AppCompatActivity {
                             default:
                                 break;
                         }
-                        publicarResena(editTextComentarioMiResena.getText().toString(), (int) ratingBarMiResena.getRating(), visibilidad);
+                        publicarResena(editTextComentarioMiResena.getText().toString(),
+                                                (int) ratingBarMiResena.getRating(), visibilidad);
                     } else {
                         Toast.makeText(ResenasActivity.this, "Campos vacíos", Toast.LENGTH_LONG).show();
                     }
@@ -294,7 +298,8 @@ public class ResenasActivity extends AppCompatActivity {
                             default:
                                 break;
                         }
-                        editarResena(editTextComentarioMiResena.getText().toString(), ratingBarMiResena.getRating(), visibilidad);
+                        editarResena(editTextComentarioMiResena.getText().toString(),
+                                                    ratingBarMiResena.getRating(), visibilidad);
                     } else {
                         Toast.makeText(ResenasActivity.this, "Campos vacíos", Toast.LENGTH_LONG).show();
                     }
@@ -330,13 +335,7 @@ public class ResenasActivity extends AppCompatActivity {
     }
 
     private boolean camposResenaOk() {
-        if (ratingBarMiResena.getRating() == 0) {
-            return false;
-        }
-        if (radioGroupMiResena.getCheckedRadioButtonId() == -1) {
-            return false;
-        }
-        return true;
+        return ratingBarMiResena.getRating() != 0 && radioGroupMiResena.getCheckedRadioButtonId() != -1;
     }
 
     private void publicarResena(String comentario, int puntuacion, int visibilidad) {
@@ -363,7 +362,8 @@ public class ResenasActivity extends AppCompatActivity {
                 } else if (response.code() == 500) {
                     Toast.makeText(ResenasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ResenasActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ResenasActivity.this, "Error desconocido " + response.code(),
+                                    Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -402,7 +402,8 @@ public class ResenasActivity extends AppCompatActivity {
                 } else if (response.code() == 500) {
                     Toast.makeText(ResenasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ResenasActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ResenasActivity.this, "Error desconocido " + response.code(),
+                                    Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -458,7 +459,8 @@ public class ResenasActivity extends AppCompatActivity {
                 } else if (response.code() == 500) {
                     Toast.makeText(ResenasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ResenasActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ResenasActivity.this, "Error desconocido " + response.code(),
+                                    Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -474,27 +476,31 @@ public class ResenasActivity extends AppCompatActivity {
     }
 
     private void actualizarPuntuacionAudiolibro(){
-        Call<AudiolibroEspecificoResponse> llamada = retrofitInterface.ejecutarAudiolibrosId(ApiClient.getUserCookie(), InfoLibroActivity.audiolibroActual.getAudiolibro().getId());
+        Call<AudiolibroEspecificoResponse> llamada = retrofitInterface.ejecutarAudiolibrosId(ApiClient.getUserCookie(),
+                                                    InfoLibroActivity.audiolibroActual.getAudiolibro().getId());
         llamada.enqueue(new Callback<AudiolibroEspecificoResponse>() {
             @Override
-            public void onResponse(Call<AudiolibroEspecificoResponse> call, Response<AudiolibroEspecificoResponse> response) {
+            public void onResponse(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Response<AudiolibroEspecificoResponse> response) {
                 int codigo = response.code();
 
                 if (response.code() == 200) {
                     InfoAudiolibros.setAudiolibroActual(response.body());
                     InfoLibroActivity.audiolibroActual = response.body();
                 } else if(codigo == 409) {
-                    Toast.makeText(ResenasActivity.this, "No hay ningún audiolibro con ese ID", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ResenasActivity.this, "No hay ningún audiolibro con ese ID",
+                                    Toast.LENGTH_LONG).show();
                 } else if(codigo == 500) {
                     Toast.makeText(ResenasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ResenasActivity.this, "Error desconocido (AudiolibrosId): " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ResenasActivity.this, "Error desconocido (AudiolibrosId): "
+                                    + codigo, Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<AudiolibroEspecificoResponse> call, Throwable t) {
-                Toast.makeText(ResenasActivity.this, "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
+            public void onFailure(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Throwable t) {
+                Toast.makeText(ResenasActivity.this, "No se ha conectado con el servidor",
+                                Toast.LENGTH_LONG).show();
             }
         });
     }

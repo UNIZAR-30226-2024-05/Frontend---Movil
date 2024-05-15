@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
@@ -26,19 +27,15 @@ import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class CambioContrasenaActivity extends AppCompatActivity {
-
-    Retrofit retrofit;
-    RetrofitInterface retrofitInterface;
+    private RetrofitInterface retrofitInterface;
     private EditText editTextContrasenaAntigua;
     private EditText editTextContrasenaNueva;
     private EditText editTextVerificarContrasenaNueva;
+    private AlertDialog alertDialog;
 
-    AlertDialog alertDialog;
-
-
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         getWindow().setExitTransition(new TransitionSet());
@@ -46,7 +43,6 @@ public class CambioContrasenaActivity extends AppCompatActivity {
         setContentView(R.layout.cambio_contrasena);
         super.onCreate(savedInstanceState);
 
-        retrofit = ApiClient.getLoginRetrofit();
         retrofitInterface = ApiClient.getRetrofitInterface();
 
         editTextContrasenaAntigua = findViewById(R.id.editTextContraseñaAntigua);
@@ -70,10 +66,6 @@ public class CambioContrasenaActivity extends AppCompatActivity {
                 abrirMenuMain();
             }
         });
-
-
-
-
     }
 
     private void cambiarContrasena() {
@@ -84,11 +76,10 @@ public class CambioContrasenaActivity extends AppCompatActivity {
         Call<GenericMessageResult> llamada = retrofitInterface.ejecutarUsersChange_pass(ApiClient.getUserCookie(), request);
         llamada.enqueue(new Callback<GenericMessageResult>() {
             @Override
-            public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
-
-
-                if(response.code() == 200) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CambioContrasenaActivity.this, R.style.ExitoAlertDialogStyle);
+            public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
+                if (response.isSuccessful()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CambioContrasenaActivity.this,
+                                                                            R.style.ExitoAlertDialogStyle);
                     builder.setTitle("ÉXITO");
                     builder.setMessage("Contraseña cambiada correctamente");
 
@@ -101,17 +92,16 @@ public class CambioContrasenaActivity extends AppCompatActivity {
                                 public void run() {
                                     abrirMenuMain();
                                 }
-                            }
+                            }, 1000);
 
-                            , 1000);
-
-                }  else if (response.code() == 401){
+                } else if (response.code() == 401) {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         String error = jObjError.getString("error");
 
-                        if(error.equals("Incorrect password")){
-                            AlertDialog.Builder builder = new AlertDialog.Builder(CambioContrasenaActivity.this, R.style.ErrorAlertDialogStyle);
+                        if (error.equals("Incorrect password")) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(CambioContrasenaActivity.this,
+                                                                                    R.style.ErrorAlertDialogStyle);
                             builder.setTitle("ERROR");
                             builder.setMessage("La contraseña es incorrecta");
                             builder.show();
@@ -119,7 +109,8 @@ public class CambioContrasenaActivity extends AppCompatActivity {
                             Toast.makeText(CambioContrasenaActivity.this, error, Toast.LENGTH_LONG).show();
                         }
                     } catch (Exception e) {
-                        Toast.makeText(CambioContrasenaActivity.this, "Algo ha fallado obteniendo el error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CambioContrasenaActivity.this, "Algo ha fallado obteniendo el error",
+                                        Toast.LENGTH_LONG).show();
                     }
                 } else {
                     Toast.makeText(CambioContrasenaActivity.this, "Código de error no reconocido",
@@ -128,7 +119,7 @@ public class CambioContrasenaActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<GenericMessageResult> call, Throwable t) {
+            public void onFailure(@NonNull Call<GenericMessageResult> call, @NonNull Throwable t) {
                 Toast.makeText(CambioContrasenaActivity.this, "No se ha conectado con el servidor",
                         Toast.LENGTH_LONG).show();
             }
@@ -142,42 +133,49 @@ public class CambioContrasenaActivity extends AppCompatActivity {
 
         // Verificar si algún campo está vacío
         if (antigua.isEmpty() || nueva.isEmpty() || verificarNueva.isEmpty()) {
-            Toast.makeText(CambioContrasenaActivity.this, "Se deben completar todos los campos", Toast.LENGTH_LONG).show();
+            Toast.makeText(CambioContrasenaActivity.this, "Se deben completar todos los campos",
+                            Toast.LENGTH_LONG).show();
             return false;
         }
 
         // Verificar si la contraseña nueva y la de verificación coinciden
         if (!nueva.equals(verificarNueva) ) {
-            Toast.makeText(CambioContrasenaActivity.this, "La contraseña nueva debe coincidir con la de verificación", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CambioContrasenaActivity.this, "La contraseña nueva debe coincidir con la de verificación",
+                            Toast.LENGTH_SHORT).show();
             return false;
         }
 
         // Verificar si la contraseña antigua y nueva NO coinciden
         if (antigua.equals(nueva) ) {
-            Toast.makeText(CambioContrasenaActivity.this, "La contraseña nueva no puede ser igual que la antigua", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CambioContrasenaActivity.this, "La contraseña nueva no puede ser igual que la antigua",
+                            Toast.LENGTH_SHORT).show();
             return false;
         }
 
         // Verificar si la password tiene un formato correcto
         if (nueva.length() > 20) {
-            Toast.makeText(CambioContrasenaActivity.this, "La contraseña no puede tener más de 20 caracteres", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CambioContrasenaActivity.this, "La contraseña no puede tener más de 20 caracteres",
+                            Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if (nueva.length() < 8) {
-            Toast.makeText(CambioContrasenaActivity.this, "La contraseña no puede tener menos de 8 caracteres", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CambioContrasenaActivity.this, "La contraseña no puede tener menos de 8 caracteres",
+                            Toast.LENGTH_SHORT).show();
             return false;
         }
 
         int comprobacionCaracteres = comprobarCaracteresPassword(nueva);
 
-        if (comprobacionCaracteres == 1){
-            Toast.makeText(CambioContrasenaActivity.this, "La contraseña solo puede tener carácteres alfanuméricos", Toast.LENGTH_SHORT).show();
+        if (comprobacionCaracteres == 1) {
+            Toast.makeText(CambioContrasenaActivity.this, "La contraseña solo puede tener carácteres alfanuméricos",
+                            Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if (comprobacionCaracteres == 2){
-            Toast.makeText(CambioContrasenaActivity.this, "La contraseña debe contener los caracteres requeridos*", Toast.LENGTH_SHORT).show();
+        if (comprobacionCaracteres == 2) {
+            Toast.makeText(CambioContrasenaActivity.this, "La contraseña debe contener los caracteres requeridos*",
+                            Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -200,22 +198,20 @@ public class CambioContrasenaActivity extends AppCompatActivity {
             if (!mayus && Character.isUpperCase(c)) mayus = true;
 
         }
-        if(numero && mayus && minus){
+        if (numero && mayus && minus) {
             return 0;
         } else {
             return 2;
         }
     }
 
-
     public void abrirMenuMain() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-        if(alertDialog != null && alertDialog.isShowing()){
+        if (alertDialog != null && alertDialog.isShowing()) {
             alertDialog.dismiss();
         }
         finish();
     }
-
 }
