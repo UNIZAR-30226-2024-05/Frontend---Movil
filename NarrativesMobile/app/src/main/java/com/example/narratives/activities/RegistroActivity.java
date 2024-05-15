@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
@@ -26,60 +27,54 @@ import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
-public class RegistroActivity extends AppCompatActivity{
-
-    private Retrofit retrofit;
+public class RegistroActivity extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     private EditText editTextUsuario;
     private EditText editTextCorreo;
     private EditText editTextContraseñaRegistro;
     private EditText editTextContraseñaRegistroConfirmar;
-
     private AlertDialog alertDialog;
 
-        protected void onCreate(Bundle savedInstanceState) {
-            getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
-            getWindow().setExitTransition(new TransitionSet());
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        getWindow().setExitTransition(new TransitionSet());
 
-            setContentView(R.layout.registro);
-            super.onCreate(savedInstanceState);
+        setContentView(R.layout.registro);
+        super.onCreate(savedInstanceState);
 
-            editTextUsuario = findViewById(R.id.editTextUsuarioRegistro);
-            editTextCorreo = findViewById(R.id.editTextCorreoRegistro);
-            editTextContraseñaRegistro = findViewById(R.id.editTextPasswordRegistro);
-            editTextContraseñaRegistroConfirmar = findViewById(R.id.editTextPasswordConfirmarRegistro);
+        editTextUsuario = findViewById(R.id.editTextUsuarioRegistro);
+        editTextCorreo = findViewById(R.id.editTextCorreoRegistro);
+        editTextContraseñaRegistro = findViewById(R.id.editTextPasswordRegistro);
+        editTextContraseñaRegistroConfirmar = findViewById(R.id.editTextPasswordConfirmarRegistro);
 
-            retrofit = ApiClient.getRetrofit();
+        retrofitInterface = ApiClient.getRetrofitInterface();
 
-            retrofitInterface = ApiClient.getRetrofitInterface();
-
-
-            Button botonRegistro = (Button) findViewById(R.id.botonConfirmarRegistro);
-            botonRegistro.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (validarCampos()) {
-                        comprobarDatosRegistro(botonRegistro);
-                    }
+        Button botonRegistro = (Button) findViewById(R.id.botonConfirmarRegistro);
+        botonRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (validarCampos()) {
+                    comprobarDatosRegistro();
                 }
-            });
+            }
+        });
 
-            findViewById(R.id.botonIrInicioSesionDesdeRegistro).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    abrirMenuLogin();
-                }
-            });
+        findViewById(R.id.botonIrInicioSesionDesdeRegistro).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirMenuLogin();
+            }
+        });
 
-            findViewById(R.id.botonVolverAlInicioRegistro).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    abrirMenuHomeSinRegistro();
-                }
-            });
-        }
+        findViewById(R.id.botonVolverAlInicioRegistro).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirMenuHomeSinRegistro();
+            }
+        });
+    }
 
     private boolean validarCampos() {
         String usuario = editTextUsuario.getText().toString().trim();
@@ -131,7 +126,6 @@ public class RegistroActivity extends AppCompatActivity{
         return true;
     }
 
-
     private int comprobarCaracteresPassword(String password) {
         boolean numero = false;
         boolean mayus = false;
@@ -148,16 +142,14 @@ public class RegistroActivity extends AppCompatActivity{
             if (!mayus && Character.isUpperCase(c)) mayus = true;
 
         }
-        if(numero && mayus && minus){
+        if (numero && mayus && minus) {
             return 0;
         } else {
             return 2;
         }
     }
 
-
-    public void comprobarDatosRegistro(Button boton){
-
+    public void comprobarDatosRegistro() {
         RegisterRequest request = new RegisterRequest();
         request.setUsername(editTextUsuario.getText().toString());
         request.setMail(editTextCorreo.getText().toString());
@@ -166,17 +158,15 @@ public class RegistroActivity extends AppCompatActivity{
         Call<RegisterResult> llamada = retrofitInterface.ejecutarUsersRegister(request);
         llamada.enqueue(new Callback<RegisterResult>() {
             @Override
-            public void onResponse(Call<RegisterResult> call, Response<RegisterResult> response) {
-
-
-                if(response.code() == 200) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this, R.style.ExitoAlertDialogStyle);
+            public void onResponse(@NonNull Call<RegisterResult> call, @NonNull Response<RegisterResult> response) {
+                if (response.code() == 200) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this,
+                                                                        R.style.ExitoAlertDialogStyle);
                     builder.setTitle("ÉXITO");
                     builder.setMessage("La cuenta ha sido creada correctamente");
 
                     alertDialog = builder.create();
                     alertDialog.show();
-
 
                     new Handler().postDelayed(
                             new Runnable() {
@@ -184,19 +174,13 @@ public class RegistroActivity extends AppCompatActivity{
                                 public void run() {
                                     abrirMenuLogin();
                                 }
-                            }
-
-                    , 1000);
-
-                }  else if (response.code() == 409){
-                    /*Toast.makeText(RegistroActivity.this, "Usuario o correo ya existentes",
-                            Toast.LENGTH_LONG).show();
-                    */
+                            }, 1000);
+                }  else if (response.code() == 409) {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         String error = jObjError.getString("error");
 
-                        if(error.equals("Existing username")){
+                        if (error.equals("Existing username")) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
                             builder.setTitle("ERROR");
                             builder.setMessage("Ya existe una cuenta con este nombre");
@@ -209,23 +193,23 @@ public class RegistroActivity extends AppCompatActivity{
                         } else {
                             Toast.makeText(RegistroActivity.this, error, Toast.LENGTH_LONG).show();
                         }
-                        } catch (Exception e) {
-                        Toast.makeText(RegistroActivity.this, "Algo ha fallado obteniendo el error", Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        Toast.makeText(RegistroActivity.this, "Algo ha fallado obteniendo el error",
+                                        Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(RegistroActivity.this, "Código de error no reconocido: " + String.valueOf(response.code()),
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegistroActivity.this, "Código de error no reconocido: "
+                            + response.code(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<RegisterResult> call, Throwable t) {
+            public void onFailure(@NonNull Call<RegisterResult> call, @NonNull Throwable t) {
                 Toast.makeText(RegistroActivity.this, "No se ha conectado con el servidor",
                         Toast.LENGTH_LONG).show();
             }
         });
     }
-
 
     public void abrirMenuHomeSinRegistro() {
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
@@ -240,5 +224,3 @@ public class RegistroActivity extends AppCompatActivity{
         }
     }
 }
-
-

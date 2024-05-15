@@ -485,7 +485,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
     private void inicializarLibro(int position) {
         obtenerInfoLibro(coleccionActual.getAudiolibros().get(position).getId(), new Callback<AudiolibroEspecificoResponse>() {
             @Override
-            public void onResponse(Call<AudiolibroEspecificoResponse> call, Response<AudiolibroEspecificoResponse> response) {
+            public void onResponse(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Response<AudiolibroEspecificoResponse> response) {
                 int codigo = response.code();
 
                 if (response.code() == 200) {
@@ -505,7 +505,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
             }
 
             @Override
-            public void onFailure(Call<AudiolibroEspecificoResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Throwable t) {
                 Toast.makeText(ColeccionesActivity.this, "No se ha conectado con el servidor",
                                 Toast.LENGTH_LONG).show();
             }
@@ -559,7 +559,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
     private void mostrarInfoLibro(int audiolibroId) {
         obtenerInfoLibro(audiolibroId, new Callback<AudiolibroEspecificoResponse>() {
             @Override
-            public void onResponse(Call<AudiolibroEspecificoResponse> call, Response<AudiolibroEspecificoResponse> response) {
+            public void onResponse(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Response<AudiolibroEspecificoResponse> response) {
                 int codigo = response.code();
 
                 if (response.code() == 200) {
@@ -578,7 +578,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
             }
 
             @Override
-            public void onFailure(Call<AudiolibroEspecificoResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Throwable t) {
                 Toast.makeText(ColeccionesActivity.this, "No se ha conectado con el servidor",
                                 Toast.LENGTH_LONG).show();
             }

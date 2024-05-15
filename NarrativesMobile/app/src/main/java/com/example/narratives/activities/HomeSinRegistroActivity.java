@@ -269,5 +269,3 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }
-
-

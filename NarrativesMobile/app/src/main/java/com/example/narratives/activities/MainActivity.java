@@ -1,6 +1,5 @@
 package com.example.narratives.activities;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -26,6 +25,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -52,37 +52,23 @@ import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
-    public static ActivityMainBinding binding;
-
-    static public int fragmentoActual = 0;
-
-    private Retrofit retrofit;
-    private RetrofitInterface retrofitInterface;
-    public String cookie;
-
+    public ActivityMainBinding binding;
+    public static int fragmentoActual = 0;
+    public static FragmentInicio fragmentoInicioAbierto;
+    public static FragmentBiblioteca fragmentoBibliotecaAbierto;
+    public static FragmentEscuchando fragmentoEscuchandoAbierto;
+    public static FragmentAmigos fragmentoAmigosAbierto;
+    public static FragmentClubs fragmentoClubsAbierto;
     public static FloatingActionButton fabEscuchando;
-
-    private static InfoMiPerfil infoMiPerfil;
-
+    public static boolean abrirEscuchando;
     private static ImageView imageViewFotoPerfil;
-
-    static public FragmentInicio fragmentoInicioAbierto;
-    static public FragmentBiblioteca fragmentoBibliotecaAbierto;
-    static public FragmentEscuchando fragmentoEscuchandoAbierto;
-    static public FragmentAmigos fragmentoAmigosAbierto;
-    static public FragmentClubs fragmentoClubsAbierto;
-
+    private static InfoMiPerfil infoMiPerfil;
+    private RetrofitInterface retrofitInterface;
     private AlertDialog alertDialog;
-    private FragmentManager fragmentManager = getSupportFragmentManager();
+    private final FragmentManager fragmentManager = getSupportFragmentManager();
 
-    Activity cambioFotoPerfilActivity;
-
-    Activity cambioContrasenaActivity;
-
-    static boolean abrirEscuchando;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
@@ -92,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         abrirEscuchando = false;
-        retrofit = ApiClient.getRetrofit();
         retrofitInterface = ApiClient.getRetrofitInterface();
 
         obtenerDatosMiPerfil();
@@ -107,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().add(R.id.main_layout, fragmentoAmigosAbierto).commit();
         fragmentoClubsAbierto = new FragmentClubs();
         fragmentManager.beginTransaction().add(R.id.main_layout, fragmentoClubsAbierto).commit();
-
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -140,15 +124,13 @@ public class MainActivity extends AppCompatActivity {
                     reemplazarFragmento(fragmentoClubsAbierto, fragmentManager.beginTransaction());
                     fragmentoActual = 4;
                     break;
-
             }
 
             return true;
         });
 
-
-        fabEscuchando = (FloatingActionButton) findViewById(R.id.botonEscuchando);
-        findViewById(R.id.botonEscuchando).setOnClickListener(new View.OnClickListener() {
+        fabEscuchando = findViewById(R.id.botonEscuchando);
+        fabEscuchando.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 esconderTeclado();
@@ -159,9 +141,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-        FloatingActionButton botonCerrarSesion = (FloatingActionButton) findViewById(R.id.botonCerrarSesion);
+        FloatingActionButton botonCerrarSesion = findViewById(R.id.botonCerrarSesion);
         botonCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton botonMiPerfil = (FloatingActionButton) findViewById(R.id.botonMiPerfil);
+        FloatingActionButton botonMiPerfil = findViewById(R.id.botonMiPerfil);
         botonMiPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -188,15 +168,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(abrirEscuchando){
+        if (abrirEscuchando) {
             fabEscuchando.performClick();
         }
-
         abrirEscuchando = false;
     }
 
     public void abrirAlertaCerrarSesion() {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Cerrar sesión");
         builder.setMessage("¿Estás seguro de que quieres cerrar la sesión?");
@@ -227,19 +205,17 @@ public class MainActivity extends AppCompatActivity {
         Call<GenericMessageResult> llamada = retrofitInterface.ejecutarUsersLogout(ApiClient.getUserCookie());
         llamada.enqueue(new Callback<GenericMessageResult>() {
             @Override
-            public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
+            public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
                 int codigo = response.code();
 
-                if (response.code() == 200) {
+                if (codigo == 200) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setMessage("Cerrando sesión...");
                     alertDialog = builder.create();
                     alertDialog.show();
                     cierreSesionLocal();
 
-                } else if (response.code() == 401){
-                    /*Toast.makeText(MainActivity.this, "No hay sesión iniciada",
-                            Toast.LENGTH_LONG).show();*/
+                } else if (codigo == 401){
                     cierreSesionLocal();
                 } else {
                     try {
@@ -248,30 +224,30 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, error, Toast.LENGTH_LONG).show();
 
                     } catch (Exception e) {
-                        Toast.makeText(MainActivity.this, "Algo ha fallado obteniendo el error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "Algo ha fallado obteniendo el error",
+                                        Toast.LENGTH_LONG).show();
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<GenericMessageResult> call, Throwable t) {
+            public void onFailure(@NonNull Call<GenericMessageResult> call, @NonNull Throwable t) {
                 Toast.makeText(MainActivity.this, "No se ha conectado con el servidor (cerrando sesión)",
                         Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private void abrirMiPerfil(){
+    private void abrirMiPerfil() {
         LayoutInflater inflater= (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View viewMiPerfil=inflater.inflate(R.layout.popup_mi_perfil, null);
 
         int width= ViewGroup.LayoutParams.MATCH_PARENT;
         int height= ViewGroup.LayoutParams.MATCH_PARENT;
 
-
         TextView textViewCambiarContrasena = viewMiPerfil.findViewById(R.id.textViewCambiarContrasenaMiPerfil) ;
-        SpannableString content = new SpannableString( "Cambiar contraseña" ) ;
-        content.setSpan( new UnderlineSpan() , 0 , content.length() , 0 ) ;
+        SpannableString content = new SpannableString("Cambiar contraseña" ) ;
+        content.setSpan(new UnderlineSpan() , 0 , content.length() , 0 ) ;
         textViewCambiarContrasena.setText(content);
 
         imageViewFotoPerfil = viewMiPerfil.findViewById(R.id.imageViewMiPerfil);
@@ -279,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
         imageViewFotoPerfil.setClickable(true);
 
         TextView textViewUsuarioMiPerfil = viewMiPerfil.findViewById(R.id.textViewRealNombreUsuarioMiPerfil);
-        textViewUsuarioMiPerfil.setText(getInfoMiPerfil().getUsername());
+        textViewUsuarioMiPerfil.setText(InfoMiPerfil.getUsername());
 
         TextView textViewMailMiPerfil = viewMiPerfil.findViewById(R.id.textViewRealCorreoElectronicoMiPerfil);
         textViewMailMiPerfil.setText(getInfoMiPerfil().getMail());
@@ -361,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
-    private void reemplazarFragmentoInicial(){
+    private void reemplazarFragmentoInicial() {
         fragmentoActual = 0;
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -373,63 +349,56 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void obtenerDatosMiPerfil(){
+    private void obtenerDatosMiPerfil() {
         infoMiPerfil = new InfoMiPerfil();
         peticionUsersProfile();
     }
-
 
     public static InfoMiPerfil getInfoMiPerfil() {
         return infoMiPerfil;
     }
 
-    public static void actualizarFotoPerfil(){
+    public static void actualizarFotoPerfil() {
         imageViewFotoPerfil.setImageResource(infoMiPerfil.getImgResource());
     }
 
-
-
-    public void peticionUsersProfile(){
+    public void peticionUsersProfile() {
         Call<MiPerfilResponse> llamada = retrofitInterface.ejecutarUsersProfile(ApiClient.getUserCookie());
         llamada.enqueue(new Callback<MiPerfilResponse>() {
             @Override
-            public void onResponse(Call<MiPerfilResponse> call, Response<MiPerfilResponse> response) {
+            public void onResponse(@NonNull Call<MiPerfilResponse> call, @NonNull Response<MiPerfilResponse> response) {
                 int codigo = response.code();
 
-                if (response.code() == 200) {
+                if (codigo == 200) {
                     InfoMiPerfil infoMiPerfil = getInfoMiPerfil();
-
                     infoMiPerfil.setUsername(response.body().getUsername());
                     infoMiPerfil.setMail(response.body().getMail());
                     infoMiPerfil.setImg(response.body().getImg());
-
                 } else if(codigo == 401) {
                     cerrarSesion();
                 }else if(codigo == 500) {
                     Toast.makeText(MainActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "Error desconocido (UsersProfile): " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Error desconocido (UsersProfile): "
+                                    + codigo, Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<MiPerfilResponse> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
+            public void onFailure(@NonNull Call<MiPerfilResponse> call, @NonNull Throwable t) {
+                Toast.makeText(MainActivity.this, "No se ha conectado con el servidor",
+                                Toast.LENGTH_LONG).show();
             }
         });
     }
-
 
     private void vaciarInformacionSesionActual(){
         ApiClient.setUserCookie(null);
         infoMiPerfil = null;
         InfoAudiolibros.setTodoANull();
         InfoClubes.setTodosLosClubes(null);
-
-        // toda la informacion de CLUBES a null
         // toda la informacion de AMIGOS a null
     }
-
 
     private void esconderTeclado() {
         if(this.getCurrentFocus() != null){
@@ -447,7 +416,6 @@ public class MainActivity extends AppCompatActivity {
         }
         finish();
     }
-
 
     private void abrirCambioContrasena() {
         Intent intent = new Intent(this, CambioContrasenaActivity.class);
@@ -478,7 +446,6 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         abrirMenuHomeSinRegistro();
                     }
-                }
-                , 1000);
+                }, 1000);
     }
 }

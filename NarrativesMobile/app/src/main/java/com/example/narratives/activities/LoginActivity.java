@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
@@ -28,16 +29,12 @@ import io.socket.client.Socket;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-
 
 public class LoginActivity extends AppCompatActivity {
-    private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    Socket socket;
-    String cookie;
-
-    AlertDialog alertDialog;
+    private Socket socket;
+    private String cookie;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.inicio_sesion);
         super.onCreate(savedInstanceState);
 
-        retrofit = ApiClient.getLoginRetrofit();
         retrofitInterface = ApiClient.getRetrofitInterface();
 
         Button botonIniciarSesion = (Button) findViewById(R.id.botonConfirmarLogin);
@@ -91,13 +87,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void peticionLogin(LoginRequest request) {
-
         Call<LoginResult> llamada = retrofitInterface.ejecutarUsersLogin(ApiClient.getUserCookie(), request);
         llamada.enqueue(new Callback<LoginResult>() {
             @Override
-            public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
+            public void onResponse(@NonNull Call<LoginResult> call, @NonNull Response<LoginResult> response) {
                 if (response.code() == 200) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.ExitoAlertDialogStyle);
                         builder.setMessage("Iniciando sesión...");
 
@@ -116,36 +111,31 @@ public class LoginActivity extends AppCompatActivity {
                                     public void run() {
                                         abrirMenuMain();
                                     }
-                                }
-                                , 1000);
-                    }else{
-                        Toast.makeText(LoginActivity.this, "Código correcto, pero sesión no exitosa", Toast.LENGTH_LONG).show();
+                                }, 1000);
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Código correcto, pero sesión no exitosa",
+                                        Toast.LENGTH_LONG).show();
                     }
-
-
-                } else if (response.code() == 404){
+                } else if (response.code() == 404) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.ErrorAlertDialogStyle);
                     builder.setTitle("ERROR");
                     builder.setMessage("Usuario no encontrado");
                     builder.show();
-
                 } else if (response.code() == 401){
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.ErrorAlertDialogStyle);
                     builder.setTitle("ERROR");
                     builder.setMessage("Contraseña incorrecta");
                     builder.show();
-
                 } else if (response.code() == 500){
                     Toast.makeText(LoginActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
-
                 } else {
-                    Toast.makeText(LoginActivity.this, "Código error " + String.valueOf(response.code()),
+                    Toast.makeText(LoginActivity.this, "Código error " + response.code(),
                             Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<LoginResult> call, Throwable t) {
+            public void onFailure(@NonNull Call<LoginResult> call, @NonNull Throwable t) {
                 Toast.makeText(LoginActivity.this, "Algo ha fallado",
                         Toast.LENGTH_LONG).show();
             }
@@ -157,22 +147,18 @@ public class LoginActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("COOKIE", cookie);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-        if(alertDialog != null && alertDialog.isShowing()){
+        if (alertDialog != null && alertDialog.isShowing()) {
             alertDialog.dismiss();
         }
         finish();
     }
 
     public void abrirHomeSinRegistro() {
-
-
-
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void abrirMenuRegistro() {
-
         Intent intent = new Intent(this, RegistroActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
@@ -184,5 +170,4 @@ public class LoginActivity extends AppCompatActivity {
         editor.putInt("user_id", user_id);
         editor.apply();
     }
-
 }
