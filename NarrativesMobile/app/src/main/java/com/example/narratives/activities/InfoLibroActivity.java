@@ -78,7 +78,11 @@ public class InfoLibroActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_info_libro);
         super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         audiolibroActual = InfoAudiolibros.getAudiolibroActual();
 
         marcapaginas = audiolibroActual.getMarcapaginas();

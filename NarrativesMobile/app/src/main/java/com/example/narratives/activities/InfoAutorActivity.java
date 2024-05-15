@@ -168,7 +168,7 @@ public class InfoAutorActivity extends AppCompatActivity {
                 int codigo = response.code();
 
                 if (response.code() == 200) {
-                    InfoLibroActivity.audiolibroActual = response.body();
+                    InfoAudiolibros.setAudiolibroActual(response.body());
                     abrirInfoLibro();
 
                 } else if(codigo == 409) {
