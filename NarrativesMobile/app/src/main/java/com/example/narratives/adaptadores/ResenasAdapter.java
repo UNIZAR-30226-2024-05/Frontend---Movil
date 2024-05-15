@@ -51,6 +51,7 @@ public class ResenasAdapter extends ArrayAdapter<GenericReview> {
 
         RatingBar ratingBarListaResenas = view.findViewById(R.id.ratingBarListaResenas);
         ratingBarListaResenas.setRating((float) resenasList.get(position).getPuntuacion());
+        ratingBarListaResenas.setIsIndicator(true);
 
         return view;
     }

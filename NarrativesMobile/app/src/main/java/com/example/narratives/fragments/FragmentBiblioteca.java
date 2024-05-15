@@ -167,7 +167,6 @@ public class FragmentBiblioteca extends Fragment {
 
                 if (response.code() == 200) {
                     InfoAudiolibros.setAudiolibroActual(response.body());
-                    InfoAudiolibros.getAudiolibroActual().setPuntuacion(((AudiolibroItem) adaptadorActual.getItem(position)).getPuntuacion());
                     abrirInfoLibro();
 
                 } else if(codigo == 409) {

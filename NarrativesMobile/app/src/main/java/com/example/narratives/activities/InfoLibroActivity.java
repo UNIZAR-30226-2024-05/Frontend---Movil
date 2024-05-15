@@ -61,6 +61,7 @@ public class InfoLibroActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
 
+    static RatingBar ratingBarInfoLibro;
     MaterialButton escucharAudiolibro;
     MaterialButton comprarAudiolibro;
 
@@ -117,8 +118,9 @@ public class InfoLibroActivity extends AppCompatActivity {
         TextView textViewGeneros = findViewById(R.id.textViewGeneroInfoLibro);
         textViewGeneros.setText(getFormattedGenres(audiolibroActual.getGeneros()));
 
-        RatingBar ratingBarInfoLibro = findViewById(R.id.ratingBarInfoLibro);
-        ratingBarInfoLibro.setRating(audiolibroActual.getPuntuacion());
+        ratingBarInfoLibro = findViewById(R.id.ratingBarInfoLibro);
+        ratingBarInfoLibro.setRating(audiolibroActual.getAudiolibro().getPuntuacion());
+        ratingBarInfoLibro.setIsIndicator(true);
 
         TextView textViewResenasInfoLibro = findViewById(R.id.textViewResenasInfoLibro);
         textViewResenasInfoLibro.setPaintFlags(textViewResenasInfoLibro.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
