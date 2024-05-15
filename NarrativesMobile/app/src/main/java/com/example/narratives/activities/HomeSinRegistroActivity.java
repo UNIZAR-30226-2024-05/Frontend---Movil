@@ -45,7 +45,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     private ConstraintLayout cargandoNarrativesLayout;
     private TextView textViewGenero1, textViewGenero2, textViewGenero3, textViewGenero4, textViewGenero5;
-
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
@@ -56,24 +56,13 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
 
         retrofitInterface = ApiClient.getRetrofitInterface();
 
-        SharedPreferences sharedPreferences = getSharedPreferences("session", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("session", Context.MODE_PRIVATE);
         if (sharedPreferences.contains("cookie")) {
             haySesion = true;
             if (InfoAudiolibros.getTodosLosAudiolibros() == null) {
                 obtenerTodosLosAudiolibros();
             }
-            InfoMiPerfil.setId(sharedPreferences.getInt("user_id", -1));
 
-            ApiClient.setUserCookie(sharedPreferences.getString("cookie", null));
-            Socket mSocket = SocketManager.getInstance();
-            mSocket.connect();
-            new Handler().postDelayed(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            abrirMenuMain(sharedPreferences);
-                        }
-                    }, 1000);
         } else {
             haySesion = false;
             cargandoNarrativesLayout = findViewById(R.id.constraintLayoutCargandoNarratives);
@@ -126,6 +115,8 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                 if (codigo == 200) {
                     ArrayList<AudiolibroItem> audiolibrosResult = response.body().getAudiolibros();
 
+
+
                     if (audiolibrosResult == null) {
                         Toast.makeText(HomeSinRegistroActivity.this, "Resultado de audiolibros nulo",
                                         Toast.LENGTH_LONG).show();
@@ -133,6 +124,18 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                         InfoAudiolibros.setTodosLosAudiolibros(audiolibrosResult);
                         if (!haySesion) {
                             mostrarMenuInicio(true);
+                        } else {
+                            InfoMiPerfil.setId(sharedPreferences.getInt("user_id", -1));
+                            ApiClient.setUserCookie(sharedPreferences.getString("cookie", null));
+                            Socket mSocket = SocketManager.getInstance();
+                            mSocket.connect();
+                            new Handler().postDelayed(
+                                    new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            abrirMenuMain(sharedPreferences);
+                                        }
+                                    }, 1000);
                         }
                     }
 

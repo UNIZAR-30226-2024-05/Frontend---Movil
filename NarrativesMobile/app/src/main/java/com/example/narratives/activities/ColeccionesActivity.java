@@ -558,32 +558,37 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
         builder.create().show();
     }
 
-    private void mostrarInfoLibro(int audiolibroId) {
-        obtenerInfoLibro(audiolibroId, new Callback<AudiolibroEspecificoResponse>() {
+
+
+    private void mostrarInfoLibro(int id) {
+
+        Call<AudiolibroEspecificoResponse> llamada = retrofitInterface.ejecutarAudiolibrosId(ApiClient.getUserCookie(), id);
+        llamada.enqueue(new Callback<AudiolibroEspecificoResponse>() {
             @Override
             public void onResponse(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Response<AudiolibroEspecificoResponse> response) {
                 int codigo = response.code();
 
-                if (response.code() == 200) {
-                    InfoLibroActivity.audiolibroActual = response.body();
-                    Intent intent = new Intent(ColeccionesActivity.this, InfoLibroActivity.class);
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ColeccionesActivity.this).toBundle());
-                } else if(codigo == 409) {
-                    Toast.makeText(ColeccionesActivity.this, "No hay ningún audiolibro con ese ID",
-                                    Toast.LENGTH_LONG).show();
-                } else if(codigo == 500) {
+                if (codigo == 200) {
+                    InfoAudiolibros.setAudiolibroActual(response.body());
+                    abrirInfoLibro();
+                } else if (codigo == 409) {
+                    Toast.makeText(ColeccionesActivity.this , "No hay ningún audiolibro con ese ID", Toast.LENGTH_LONG).show();
+                } else if (codigo == 500) {
                     Toast.makeText(ColeccionesActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ColeccionesActivity.this, "Error desconocido (AudiolibrosId): " + codigo,
-                                    Toast.LENGTH_LONG).show();
+                    Toast.makeText(ColeccionesActivity.this, "Error desconocido (AudiolibrosId): " + codigo, Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Throwable t) {
-                Toast.makeText(ColeccionesActivity.this, "No se ha conectado con el servidor",
-                                Toast.LENGTH_LONG).show();
+                Toast.makeText(ColeccionesActivity.this, "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void abrirInfoLibro() {
+        Intent intent = new Intent(this, InfoLibroActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }
