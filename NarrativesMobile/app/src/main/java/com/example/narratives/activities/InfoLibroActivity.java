@@ -122,9 +122,8 @@ public class InfoLibroActivity extends AppCompatActivity {
         ratingBarInfoLibro.setRating(audiolibroActual.getAudiolibro().getPuntuacion());
         ratingBarInfoLibro.setIsIndicator(true);
 
-        TextView textViewResenasInfoLibro = findViewById(R.id.textViewResenasInfoLibro);
-        textViewResenasInfoLibro.setPaintFlags(textViewResenasInfoLibro.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        textViewResenasInfoLibro.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton botonResenasInfoLibro = findViewById(R.id.botonResenasInfoLibro);
+        botonResenasInfoLibro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mostrarResenas();

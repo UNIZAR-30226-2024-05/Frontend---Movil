@@ -1,29 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/info_libro_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    >
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/botonMarcapaginas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="326dp"
-        android:layout_marginBottom="30dp"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/icono_marcapaginas2"
-        android:text="Mis marcapaginas"
-        app:backgroundTint="@color/teal_claro"
-        app:borderWidth="2.5dp"
-        app:elevation="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:maxImageSize="30dp"
-        app:tint="@color/teal_700" />
+    android:background="@color/white" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewResenasInfoLibro"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBarInfoLibro"
         app:layout_constraintVertical_bias="0.1"
         >
 
@@ -98,9 +79,7 @@
             android:layout_gravity="center"
             />
 
-
     </LinearLayout>
-
 
     <TextView
         android:id="@+id/textViewTituloGeneroInfoLibro"
@@ -168,7 +147,6 @@
         android:layout_marginTop="125dp"
         android:layout_marginBottom="15dp"
         app:layout_constraintHorizontal_bias="0.9"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
@@ -177,16 +155,14 @@
             android:id="@+id/textViewDescripcionInfoLibro"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="12dp"
             android:text="Descripción vacía."
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageViewMiPerfil"
-            />
+            app:layout_constraintTop_toTopOf="@+id/imageViewMiPerfil" />
 
     </ScrollView>
-
 
     <TextView
         android:id="@+id/textViewTituloAutorInfoLibro"
@@ -213,7 +189,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewPortadaInfoLibro" />
 
-
     <TextView
         android:id="@+id/textViewGeneroInfoLibro"
         android:layout_width="wrap_content"
@@ -237,15 +212,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewGeneroInfoLibro" />
 
-    <TextView
-        android:id="@+id/textViewResenasInfoLibro"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonMarcapaginas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Reseñas de usuarios"
-        android:layout_marginBottom="10dp"
-        android:textSize="16sp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="25dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/icono_marcapaginas2"
+        android:text="Mis marcapaginas"
+        app:backgroundTint="@color/teal_claro"
+        app:borderWidth="2.5dp"
+        app:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBarInfoLibro" />
+        app:maxImageSize="30dp"
+        app:tint="@color/teal_700" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonResenasInfoLibro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/icono_resenas"
+        app:backgroundTint="@color/teal_claro"
+        app:borderWidth="2.5dp"
+        app:elevation="2dp"
+        app:layout_constraintEnd_toStartOf="@id/botonMarcapaginas"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:maxImageSize="30dp"
+        app:tint="@color/teal_700" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
