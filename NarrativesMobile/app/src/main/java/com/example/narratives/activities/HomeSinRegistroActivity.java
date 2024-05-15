@@ -242,14 +242,6 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
             rvGenero5.setAdapter(adapter5);
             textViewGenero5.setText(generos[4]);
 
-        } else {
-            adapterRecomendados = new MenuInicioAdapter(HomeSinRegistroActivity.this,
-                                                    InfoAudiolibros.getTodosLosAudiolibrosEjemplo());
-            rvGenero1.setAdapter(adapterRecomendados);
-            rvGenero2.setAdapter(adapterRecomendados);
-            rvGenero3.setAdapter(adapterRecomendados);
-            rvGenero4.setAdapter(adapterRecomendados);
-            rvGenero5.setAdapter(adapterRecomendados);
         }
     }
     public void abrirMenuMain(SharedPreferences sharedPreferences) {
