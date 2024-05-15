@@ -31,7 +31,6 @@ import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.adaptadores.AudiolibrosColeccionAdapter;
 import com.example.narratives.adaptadores.ColeccionesAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
-import com.example.narratives.informacion.InfoColecciones;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
@@ -50,7 +49,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ColeccionesActivity extends AppCompatActivity implements ColeccionesAdapter.OnMenuItemClickListener, AudiolibrosColeccionAdapter.OnMenuItemClickListener {
+public class ColeccionesActivity extends AppCompatActivity implements ColeccionesAdapter.OnMenuItemClickListener,
+                    AudiolibrosColeccionAdapter.OnMenuItemClickListener {
     public static String username;
     public static ArrayList<ColeccionesItem> coleccionesList = new ArrayList<>();
     public static ColeccionEspecificaResult coleccionActual;
@@ -93,16 +93,6 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
         }
 
         EditText editTextBuscadorColecciones = findViewById(R.id.editTextBuscadorColecciones);
-        ListView listViewListaColecciones = findViewById(R.id.listViewListaColecciones);
-        listViewListaColecciones.setAdapter(coleccionesAdapter);
-
-        listViewListaColecciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                obtenerInfoColeccion(coleccionesList.get(position).getId());
-            }
-        });
-
         editTextBuscadorColecciones.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -114,6 +104,15 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
 
             @Override
             public void afterTextChanged(Editable s) {}
+        });
+
+        ListView listViewListaColecciones = findViewById(R.id.listViewListaColecciones);
+        listViewListaColecciones.setAdapter(coleccionesAdapter);
+        listViewListaColecciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                obtenerInfoColeccion(coleccionesList.get(position).getId());
+            }
         });
 
         FloatingActionButton botonVolver = findViewById(R.id.botonVolverDesdeListaColecciones);
@@ -133,7 +132,8 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                 if (response.isSuccessful()) {
                     ArrayList<ColeccionesItem> coleccionesResult = response.body().getCollections();
                     if (coleccionesResult.isEmpty()) {
-                        Toast.makeText(ColeccionesActivity.this, "Resultado de colecciones nulo", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ColeccionesActivity.this, "Resultado de colecciones nulo",
+                                        Toast.LENGTH_LONG).show();
                     } else {
                         coleccionesList.clear();
                         coleccionesList.addAll(coleccionesResult);
@@ -157,7 +157,8 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
         Call<ColeccionEspecificaResult> call = retrofitInterface.ejecutarColeccionesId(ApiClient.getUserCookie(), coleccion);
         call.enqueue(new Callback<ColeccionEspecificaResult>() {
             @Override
-            public void onResponse(@NonNull Call<ColeccionEspecificaResult> call, @NonNull Response<ColeccionEspecificaResult> response) {
+            public void onResponse(@NonNull Call<ColeccionEspecificaResult> call,
+                                   @NonNull Response<ColeccionEspecificaResult> response) {
                 if (response.isSuccessful()) {
                     coleccionActual = response.body();
                     mostrarPopUpInfoColeccion();
@@ -223,7 +224,8 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
 
     private boolean tituloOk(String titulo) {
         if (titulo.isEmpty()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(ColeccionesActivity.this, R.style.ErrorAlertDialogStyle);
+            AlertDialog.Builder builder = new AlertDialog.Builder(ColeccionesActivity.this,
+                                                                    R.style.ErrorAlertDialogStyle);
             builder.setTitle("ERROR");
             builder.setMessage("El título no puede estar vacío");
             builder.show();
@@ -248,7 +250,8 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                 } else if (response.code() == 500) {
                     Toast.makeText(ColeccionesActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ColeccionesActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ColeccionesActivity.this, "Error desconocido " + response.code(),
+                                    Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -290,7 +293,8 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
         textViewGuardadaSiNo = viewInfoColeccion.findViewById(R.id.textViewGuardadaSiNo);
         buttonGuardarQuitarColeccion = viewInfoColeccion.findViewById(R.id.buttonGuardarQuitarColeccion);
 
-        if (coleccionActual.getColeccion().getTitulo().equals("Escuchar mas tarde") || coleccionActual.getColeccion().getTitulo().equals("Favoritos")) {
+        if (coleccionActual.getColeccion().getTitulo().equals("Escuchar mas tarde")
+                || coleccionActual.getColeccion().getTitulo().equals("Favoritos")) {
             TextView textViewTextoGuardada = viewInfoColeccion.findViewById(R.id.textViewTextoGuardada);
             textViewTextoGuardada.setVisibility(View.GONE);
             textViewGuardadaSiNo.setVisibility(View.GONE);
@@ -322,7 +326,8 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
         if (!audiolibrosColeccionList.isEmpty()) {
             textViewSinAudiolibrosEnColeccion.setVisibility(View.GONE);
 
-            audiolibrosColeccionAdapter = new AudiolibrosColeccionAdapter(this, R.layout.item_audiolibros_coleccion, audiolibrosColeccionList);
+            audiolibrosColeccionAdapter = new AudiolibrosColeccionAdapter(this,
+                                                    R.layout.item_audiolibros_coleccion, audiolibrosColeccionList);
             audiolibrosColeccionAdapter.setOnMenuEliminarAudiolibroClickListener(this);
             audiolibrosColeccionAdapter.setColeccionAmigo(!username.equals(InfoMiPerfil.getUsername()));
 
@@ -367,7 +372,8 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                 } else if (response.code() == 500) {
                     Toast.makeText(ColeccionesActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ColeccionesActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ColeccionesActivity.this, "Error desconocido " + response.code(),
+                                    Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -405,7 +411,8 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                 } else if (response.code() == 500) {
                     Toast.makeText(ColeccionesActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ColeccionesActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ColeccionesActivity.this, "Error desconocido " + response.code(),
+                                    Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -436,7 +443,8 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                 } else if (response.code() == 500) {
                     Toast.makeText(ColeccionesActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ColeccionesActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ColeccionesActivity.this, "Error desconocido " + response.code(),
+                                    Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -449,6 +457,11 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                         Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void obtenerInfoLibro(int audiolibroId, Callback<AudiolibroEspecificoResponse> callback) {
+        Call<AudiolibroEspecificoResponse> llamada = retrofitInterface.ejecutarAudiolibrosId(ApiClient.getUserCookie(), audiolibroId);
+        llamada.enqueue(callback);
     }
 
     @Override
@@ -481,17 +494,20 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                     MainActivity.abrirEscuchando = true;
                     abrirMenuMain();
                 } else if(codigo == 409) {
-                    Toast.makeText(ColeccionesActivity.this, "No hay ningún audiolibro con ese ID", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ColeccionesActivity.this, "No hay ningún audiolibro con ese ID",
+                                    Toast.LENGTH_LONG).show();
                 } else if(codigo == 500) {
                     Toast.makeText(ColeccionesActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ColeccionesActivity.this, "Error desconocido (AudiolibrosId): " + codigo, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ColeccionesActivity.this, "Error desconocido (AudiolibrosId): " + codigo,
+                                    Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<AudiolibroEspecificoResponse> call, Throwable t) {
-                Toast.makeText(ColeccionesActivity.this, "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
+                Toast.makeText(ColeccionesActivity.this, "No se ha conectado con el servidor",
+                                Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -523,7 +539,8 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
 
     private void mostrarConfirmacionEliminarAudiolibro(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ColeccionesActivity.this);
-        builder.setTitle("¿Está seguro de quitar el audiolibro " + coleccionActual.getAudiolibros().get(position).getTitulo() + "?");
+        builder.setTitle("¿Está seguro de quitar el audiolibro "
+                        + coleccionActual.getAudiolibros().get(position).getTitulo() + "?");
         builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -539,11 +556,6 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
         builder.create().show();
     }
 
-    private void obtenerInfoLibro(int audiolibroId, Callback<AudiolibroEspecificoResponse> callback) {
-        Call<AudiolibroEspecificoResponse> llamada = retrofitInterface.ejecutarAudiolibrosId(ApiClient.getUserCookie(), audiolibroId);
-        llamada.enqueue(callback);
-    }
-
     private void mostrarInfoLibro(int audiolibroId) {
         obtenerInfoLibro(audiolibroId, new Callback<AudiolibroEspecificoResponse>() {
             @Override
@@ -555,17 +567,20 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                     Intent intent = new Intent(ColeccionesActivity.this, InfoLibroActivity.class);
                     startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ColeccionesActivity.this).toBundle());
                 } else if(codigo == 409) {
-                    Toast.makeText(ColeccionesActivity.this, "No hay ningún audiolibro con ese ID", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ColeccionesActivity.this, "No hay ningún audiolibro con ese ID",
+                                    Toast.LENGTH_LONG).show();
                 } else if(codigo == 500) {
                     Toast.makeText(ColeccionesActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ColeccionesActivity.this, "Error desconocido (AudiolibrosId): " + codigo, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ColeccionesActivity.this, "Error desconocido (AudiolibrosId): " + codigo,
+                                    Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<AudiolibroEspecificoResponse> call, Throwable t) {
-                Toast.makeText(ColeccionesActivity.this, "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
+                Toast.makeText(ColeccionesActivity.this, "No se ha conectado con el servidor",
+                                Toast.LENGTH_LONG).show();
             }
         });
     }

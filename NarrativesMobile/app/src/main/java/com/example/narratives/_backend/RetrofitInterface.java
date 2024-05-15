@@ -92,7 +92,6 @@ public interface RetrofitInterface {
     @POST("/colecciones/eliminarAudiolibro")
     Call<GenericMessageResult> ejecutarColeccionesEliminarAudiolibro(@Header("Cookie") String userCookie, @Body AnadirEliminarAudiolibroDeColeccionRequest request);
 
-
     @POST("/amistad/send")
     Call<GenericMessageResult> ejecutarAmistadSend(@Header("Cookie") String userCookie, @Body GenericOtherIdRequest other_id);
 
@@ -114,13 +113,11 @@ public interface RetrofitInterface {
     @GET("/amistad/lista")
     Call<AmistadListaResponse> ejecutarAmistadLista(@Header("Cookie") String userCookie);
 
-
     @POST("/marcapaginas/listening")
     Call<GenericMessageResult> ejecutarMarcapaginasListening(@Header("Cookie") String userCookie, @Body ListeningRequest request);
 
     @GET("/amistad/peticiones")
     Call<AmistadPeticionesResponse> ejecutarAmistadPeticiones(@Header("Cookie") String userCookie);
-
 
     @GET("/club/lista")
     Call<ClubesResult> ejecutarMyClubes(@Header("Cookie") String userCookie);
@@ -133,19 +130,25 @@ public interface RetrofitInterface {
     
     @GET("/club/datos/{id}")
     Call<ClubResult> ejecutarInfoClub(@Header("Cookie") String userCookie, @Path("id") int id);
+
     @POST("/club/join")
     Call<GenericMessageResult> ejecutarJoinClub(@Header("Cookie") String userCookie, @Body ClubRequest request);
+
     @POST("/club/left")
     Call<GenericMessageResult> ejecutarLeaveClub(@Header("Cookie") String userCookie, @Body ClubRequest request);
+
     @POST("/club/delete")
     Call<GenericMessageResult> ejecutarDeleteClub(@Header("Cookie") String userCookie, @Body ClubRequest request);
 
     @POST("/review/post_review")
     Call<OwnReview> ejecutarReviewPostReview(@Header("Cookie") String userCookie, @Body ResenaPostRequest request);
+
     @POST("/review/edit_review")
     Call<OwnReview> ejecutarReviewEditReview(@Header("Cookie") String userCookie, @Body ResenaEditRequest request);
+
     @POST("/review/delete_review")
     Call<GenericMessageResult> ejecutarReviewDeleteReview(@Header("Cookie") String userCookie, @Body ResenaDeleteRequest request);
+
     @POST("/marcapaginas/create")
     Call<GenericMessageResult> ejecutarCreateMarcapaginas(@Header("Cookie") String userCookie, @Body CrearMarcapaginasRequest request);
 

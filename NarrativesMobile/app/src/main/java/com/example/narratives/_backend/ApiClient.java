@@ -10,43 +10,32 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
     private static String userCookie;
 
-    public static Retrofit getLoginRetrofit(){
-
+    public static Retrofit getLoginRetrofit() {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
 
-        Retrofit retrofit = new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .baseUrl(URL_BASE)
                 .build();
-        return retrofit;
     }
 
-    public static Retrofit getRetrofit(){
-
-        Retrofit retrofit = new Retrofit.Builder()
+    public static Retrofit getRetrofit() {
+        return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(URL_BASE)
                 .build();
-
-        return retrofit;
     }
 
-    public static RetrofitInterface getRetrofitInterface(){
-
-        RetrofitInterface retrofitInterface = getRetrofit().create(RetrofitInterface.class);
-
-        return retrofitInterface;
+    public static RetrofitInterface getRetrofitInterface() {
+        return getRetrofit().create(RetrofitInterface.class);
     }
 
     public static String getUserCookie() {
-        if(userCookie == null){
-            return "";
-        }
-        return userCookie;
+        return (userCookie == null) ? "" : userCookie;
     }
 
     public static void setUserCookie(String cookie) {

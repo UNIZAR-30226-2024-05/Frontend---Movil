@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ColeccionesAdapter extends ArrayAdapter<ColeccionesItem> implements Filterable {
-    private Context context;
-    private int resourceLayout;
+    private final Context context;
+    private final int resourceLayout;
     private List<ColeccionesItem> coleccionesList;
-    private List<ColeccionesItem> tmpColeccionesList;
+    private final List<ColeccionesItem> tmpColeccionesList;
     private OnMenuItemClickListener listener;
     private boolean coleccionAmigo;
     private ColeccionesFilter filter;
@@ -74,15 +74,13 @@ public class ColeccionesAdapter extends ArrayAdapter<ColeccionesItem> implements
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.menu_eliminar:
-                                if (listener != null) {
-                                    listener.onMenuEliminarColeccionClick(position);
-                                }
-                                return true;
-                            default:
-                                return false;
+                        if (item.getItemId() == R.id.menu_eliminar) {
+                            if (listener != null) {
+                                listener.onMenuEliminarColeccionClick(position);
+                            }
+                            return true;
                         }
+                        return false;
                     }
                 });
                 popupMenu.show();

@@ -1,7 +1,5 @@
 package com.example.narratives.peticiones.colecciones;
 
-import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
-
 import java.util.ArrayList;
 
 public class ColeccionesResult {

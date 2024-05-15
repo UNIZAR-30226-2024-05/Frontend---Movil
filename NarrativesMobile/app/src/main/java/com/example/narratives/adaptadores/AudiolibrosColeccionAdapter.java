@@ -21,9 +21,9 @@ import com.google.android.material.imageview.ShapeableImageView;
 import java.util.List;
 
 public class AudiolibrosColeccionAdapter extends ArrayAdapter<AudiolibrosColeccionItem>  {
-    private Context context;
-    private int resourceLayout;
-    private List<AudiolibrosColeccionItem> audiolibrosList;
+    private final Context context;
+    private final int resourceLayout;
+    private final List<AudiolibrosColeccionItem> audiolibrosList;
     private AudiolibrosColeccionAdapter.OnMenuItemClickListener listener;
     private boolean coleccionAmigo;
 
@@ -83,15 +83,13 @@ public class AudiolibrosColeccionAdapter extends ArrayAdapter<AudiolibrosColecci
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.menu_eliminar:
-                                if (listener != null) {
-                                    listener.onMenuEliminarAudiolibroClick(position);
-                                }
-                                return true;
-                            default:
-                                return false;
+                        if (item.getItemId() == R.id.menu_eliminar) {
+                            if (listener != null) {
+                                listener.onMenuEliminarAudiolibroClick(position);
+                            }
+                            return true;
                         }
+                        return false;
                     }
                 });
                 popupMenu.show();
