@@ -1,6 +1,7 @@
 package com.example.narratives.adaptadores;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.narratives.R;
+import com.example.narratives.informacion.InfoAmigos;
 import com.example.narratives.peticiones.clubes.Club.UserMember;
 import com.google.android.material.imageview.ShapeableImageView;
 
@@ -49,18 +51,11 @@ public class UserMemberAdapter extends ArrayAdapter<UserMember> implements Filte
 
         UserMember user = userList.get(position);
 
-        TextView nombre = view.findViewById(R.id.textViewAmigoNombre);
+        TextView nombre = view.findViewById(R.id.textViewMemberNombre);
         nombre.setText(user.getUsername());
 
-        //Modificar
-        ShapeableImageView foto = view.findViewById(R.id.imageViewAmigoFoto);
-        if (position % 2 == 0) {
-            foto.setImageResource(R.drawable.pfp_gato);
-        } else {
-            foto.setImageResource(R.drawable.pfp_rana);
-        }
-
-
+        ShapeableImageView foto = view.findViewById(R.id.imageViewMemberFoto);
+        foto.setImageResource(InfoAmigos.getImageResourceFromImgCode(user.getImg()));
 
         return view;
     }

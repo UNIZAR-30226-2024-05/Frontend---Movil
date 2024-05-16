@@ -2,12 +2,14 @@ package com.example.narratives.activities.clubes;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.transition.TransitionSet;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,6 +41,7 @@ import retrofit2.Retrofit;
 
 public class InfoClubActivity extends AppCompatActivity {
     private Club club;
+    private int club_id = -1;
     Retrofit retrofit;
     RetrofitInterface retrofitInterface;
     ImageView img;
@@ -46,6 +49,7 @@ public class InfoClubActivity extends AppCompatActivity {
     TextView desc;
     TextView audiolibro;
     ListView members;
+    ImageButton back;
     UserMemberAdapter mAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +57,27 @@ public class InfoClubActivity extends AppCompatActivity {
         getWindow().setExitTransition(new TransitionSet());
 
         super.onCreate(savedInstanceState);
+        handleDeepLink(getIntent());
         setContentView(R.layout.info_club);
 
         // Registrar la vista para el menú contextual
-        //registerForContextMenu(findViewById(R.id.infoClub_contextMenu));
+        ImageButton contextMenuButton = findViewById(R.id.infoClub_contextMenu);
+        registerForContextMenu(contextMenuButton);
+
+        // Configurar el evento de clic normal para mostrar el menú contextual
+        contextMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openContextMenu(v);
+            }
+        });
 
         img = findViewById(R.id.infoClub_img);
         name = findViewById(R.id.infoClub_name);
         desc = findViewById(R.id.infoClub_desc);
         audiolibro = findViewById(R.id.infoClub_audiolibro);
         members = findViewById(R.id.infoClub_members);
+        back = findViewById(R.id.infoClub_back);
 
         retrofit = ApiClient.getLoginRetrofit();
         retrofitInterface = ApiClient.getRetrofitInterface();
@@ -72,6 +87,13 @@ public class InfoClubActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
+                closeActivity();
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 closeActivity();
             }
         });
@@ -131,24 +153,11 @@ public class InfoClubActivity extends AppCompatActivity {
         }
     }
 
-    /*private ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                int requestCode = result.getData().getIntExtra("requestCode", -1);
-                if (requestCode == FragmentClubs.CHAT_CLUB) {
-                    Boolean update = getIntent().getBooleanExtra("update", false);
-                    if (update) {
-                        Intent resultIntent = new Intent();
-                        resultIntent.putExtra("requestCode", FragmentClubs.INFO_CLUB);
-                        resultIntent.putExtra("update", true);
-                        setResult(Activity.RESULT_OK, resultIntent);
-                        finish();
-                    }
-                }
-            });*/
-
     private void cargarDatos(boolean guardar) {
-        Call<ClubResult> llamada = retrofitInterface.ejecutarInfoClub(ApiClient.getUserCookie(), getIntent().getIntExtra("club_id", -1));
+        if (club_id <= 0) {
+            club_id = getIntent().getIntExtra("club_id", -1);
+        }
+        Call<ClubResult> llamada = retrofitInterface.ejecutarInfoClub(ApiClient.getUserCookie(), club_id);
         llamada.enqueue(new Callback<ClubResult>() {
             @Override
             public void onResponse(Call<ClubResult> call, Response<ClubResult> response) {
@@ -164,11 +173,11 @@ public class InfoClubActivity extends AppCompatActivity {
                         Glide
                                 .with(InfoClubActivity.this)
                                 .load(club.getAudiolibro().getImg())
-                                .centerCrop()
+                                .fitCenter()
                                 .placeholder(R.drawable.icono_libro)
                                 .into(img);
                     }
-                    mAdapter = new UserMemberAdapter(InfoClubActivity.this,R.layout.item_lista_amigos, club.getMembers());
+                    mAdapter = new UserMemberAdapter(InfoClubActivity.this,R.layout.item_lista_members, club.getMembers());
                     members.setAdapter(mAdapter);
                     registerForContextMenu(findViewById(R.id.infoClub_contextMenu));
                 } else if (response.code() == 500) {
@@ -270,6 +279,19 @@ public class InfoClubActivity extends AppCompatActivity {
                 Toast.makeText(InfoClubActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void handleDeepLink(Intent intent) {
+        Uri data = intent.getData();
+        if (data != null) {
+            String path = data.getPath();
+            // Verificar si el path coincide con tu deep link esperado
+            if ("/club".equals(path)) {
+                // Obtener el parámetro id del deep link
+                String id = data.getQueryParameter("id");
+                club_id = Integer.parseInt(id);
+            }
+        }
     }
 
     private void closeActivity() {

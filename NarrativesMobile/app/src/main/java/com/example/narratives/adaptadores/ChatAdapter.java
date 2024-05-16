@@ -92,8 +92,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
             LocalDateTime localDate = LocalDateTime.parse(message.getDate(), formatter);
             ZonedDateTime zonedDate = localDate.atZone(ZoneOffset.UTC);
-            zonedDate.withZoneSameInstant(ZoneId.systemDefault());
-            date.setText(zonedDate.toString());
+            zonedDate = zonedDate.withZoneSameInstant(ZoneId.systemDefault());
+            DateTimeFormatter stringFormatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
+            date.setText(zonedDate.format(stringFormatter));
         }
     }
 
@@ -115,8 +116,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
             LocalDateTime localDate = LocalDateTime.parse(message.getDate(), formatter);
             ZonedDateTime zonedDate = localDate.atZone(ZoneOffset.UTC);
-            zonedDate.withZoneSameInstant(ZoneId.systemDefault());
-            date.setText(zonedDate.toString());
+            zonedDate = zonedDate.withZoneSameInstant(ZoneId.systemDefault());
+            DateTimeFormatter stringFormatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
+            date.setText(zonedDate.format(stringFormatter));
         }
     }
 }

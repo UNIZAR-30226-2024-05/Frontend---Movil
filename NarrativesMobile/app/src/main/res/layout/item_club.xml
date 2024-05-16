@@ -22,7 +22,6 @@
             android:id="@+id/textView_clubName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/black"
             android:textSize="18sp"

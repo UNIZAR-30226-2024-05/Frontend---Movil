@@ -181,18 +181,17 @@ public class FragmentClubs extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == CHAT_CLUB) {
-            if (data.getBooleanExtra("update", true)){
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == CHAT_CLUB) {
+                if (data.getBooleanExtra("update", true)) {
+                    mAdapter.notifyDataSetChanged();
+                }
+            } else if (requestCode == CREAR_CLUB) {
                 mAdapter.notifyDataSetChanged();
-            }
-        } else if (requestCode == CREAR_CLUB) {
-            if (resultCode == Activity.RESULT_OK) {
-                mAdapter.notifyDataSetChanged();
-            }
-        } else if (requestCode == BUSCAR_CLUB) {
-            if (data.getBooleanExtra("update", true)){
-                mAdapter.notifyDataSetChanged();
+            } else if (requestCode == BUSCAR_CLUB) {
+                if (data.getBooleanExtra("update", true)) {
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         }
     }

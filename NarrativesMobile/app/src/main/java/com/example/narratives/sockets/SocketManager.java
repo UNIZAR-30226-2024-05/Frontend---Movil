@@ -34,6 +34,12 @@ public class SocketManager {
         return mSocket;
     }
 
+    public static void deleteInstance() {
+        mSocket = null;
+        cookie = null;
+        messageListeners = null;
+    }
+
     private static void createSocket() {
         try {
             IO.Options opts = new IO.Options();
@@ -82,32 +88,6 @@ public class SocketManager {
     public static void removeMessageListener() {
         messageListeners = null;
     }
-
-    /*public static void onMessageReceived() {
-        mSocket.on("message", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                if (args.length > 0 && args[0] instanceof JSONObject) {
-                    JSONObject json = (JSONObject) args[0];
-                    try {
-                        Message msg = new Message();
-                        if (InfoClubes.getClubById(json.getInt("club_id")).getMessages() != null) {
-                            msg.setId(json.getInt("id"));
-                            msg.setUserId(json.getInt("user_id"));
-                            msg.setUsername(json.getString("username"));
-                            msg.setMessage(json.getString("mensaje"));
-                            msg.setDate(json.getString("fecha"));
-                            InfoClubes.getClubById(json.getInt("club_id")).addMessage(msg);
-                            messageListeners.onMessageReceived();
-                        }
-                        // Luego puedes procesar los datos recibidos como desees
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-    }*/
 
     public static void IOSendMessage(String event, JSONObject message) {
         mSocket.emit(event, message);

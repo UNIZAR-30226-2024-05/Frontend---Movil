@@ -45,6 +45,7 @@ import com.example.narratives.informacion.InfoClubes;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.users.perfiles.MiPerfilResponse;
+import com.example.narratives.sockets.SocketManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
@@ -422,7 +423,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void vaciarInformacionSesionActual(){
         ApiClient.setUserCookie(null);
+        SocketManager.deleteInstance();
         infoMiPerfil = null;
+        InfoMiPerfil.setId(-1);
         InfoAudiolibros.setTodoANull();
         InfoClubes.setTodosLosClubes(null);
 

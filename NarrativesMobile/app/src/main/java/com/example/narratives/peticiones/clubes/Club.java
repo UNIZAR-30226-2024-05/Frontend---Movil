@@ -50,7 +50,7 @@ public class Club implements Serializable {
     public class UserMember implements Serializable {
         private int id;
         private String username;
-        private char img;
+        private int img;
         private boolean isAdmin;
 
         public int getId() {
@@ -61,7 +61,7 @@ public class Club implements Serializable {
             return this.username;
         }
 
-        public char getImg() {
+        public int getImg() {
             return this.img;
         }
         public boolean isAdmin() {

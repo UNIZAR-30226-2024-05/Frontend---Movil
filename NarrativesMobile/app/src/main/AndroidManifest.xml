@@ -30,7 +30,20 @@
         <activity android:name=".activities.CambioFotoPerfilActivity"></activity>
         <activity android:name=".activities.clubes.CrearClubActivity"></activity>
         <activity android:name=".activities.clubes.BuscarClubActivity"></activity>
-        <activity android:name=".activities.clubes.InfoClubActivity"></activity>
+        <activity android:name=".activities.clubes.InfoClubActivity"
+                    android:exported="true">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.narratives.es"
+                    android:pathPrefix="/club"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.clubes.ChatClubActivity"></activity>
         <activity android:name=".activities.CrearMarcapaginasActivity"></activity>
         <activity android:name=".activities.EditMarcapaginasActivity"></activity>

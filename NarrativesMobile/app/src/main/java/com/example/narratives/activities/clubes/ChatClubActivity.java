@@ -115,16 +115,6 @@ public class ChatClubActivity extends AppCompatActivity/* implements SocketManag
         //SocketManager.onMessageReceived();
     }
 
-    /*@Override
-    public void onMessageReceived() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-    }*/
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -140,22 +130,6 @@ public class ChatClubActivity extends AppCompatActivity/* implements SocketManag
             }
         }
     }
-
-    /*private ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                int requestCode = result.getData().getIntExtra("requestCode", -1);
-                if (requestCode == FragmentClubs.INFO_CLUB) {
-                    Boolean update = getIntent().getBooleanExtra("update", false);
-                    if (update) {
-                        Intent resultIntent = new Intent();
-                        resultIntent.putExtra("requestCode", FragmentClubs.INFO_CLUB);
-                        resultIntent.putExtra("update", true);
-                        setResult(Activity.RESULT_OK, resultIntent);
-                        finish();
-                    }
-                }
-            });*/
 
     private void cargarDatos() {
         club_id = getIntent().getIntExtra("club_id", -1);
@@ -182,6 +156,7 @@ public class ChatClubActivity extends AppCompatActivity/* implements SocketManag
                     msgsView.setLayoutManager(new LinearLayoutManager(ChatClubActivity.this));
                     mAdapter = new ChatAdapter(ChatClubActivity.this, club.getMessages());
                     msgsView.setAdapter(mAdapter);
+                    scrollToBottom(msgsView);
                     mSocket.on("message", new Emitter.Listener() {
                         @Override
                         public void call(Object... args) {
@@ -203,9 +178,9 @@ public class ChatClubActivity extends AppCompatActivity/* implements SocketManag
                                             @Override
                                             public void run() {
                                                 mAdapter.notifyDataSetChanged();
+                                                scrollToBottom(msgsView);
                                             }
                                         });
-                                        //messageListeners.onMessageReceived();
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -229,11 +204,20 @@ public class ChatClubActivity extends AppCompatActivity/* implements SocketManag
         });
     }
 
+    private void scrollToBottom(RecyclerView recyclerView) {
+        RecyclerView.Adapter adapter = recyclerView.getAdapter();
+        if (adapter != null && adapter.getItemCount() > 0) {
+            int lastItemIndex = adapter.getItemCount() - 1;
+            recyclerView.smoothScrollToPosition(lastItemIndex);
+        }
+    }
+
     private void sendMessage() {
         JSONObject messageData = new JSONObject();
         try {
             messageData.put("club_id", club_id);
             messageData.put("msg", inputText.getText());
+            inputText.setText("");
         } catch (JSONException e) {
             e.printStackTrace();
         }
