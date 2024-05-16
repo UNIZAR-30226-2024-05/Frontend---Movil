@@ -383,7 +383,7 @@ public class InfoLibroActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 popupWindow.dismiss();
-                abrirEditarMarcapaginas(marcapaginas.get(position).getId(),marcapaginas.get(position).getCapitulo(),marcapaginas.get(position).getTitulo(),marcapaginas.get(position).getFecha());
+                abrirEditarMarcapaginas(marcapaginas.get(position).getId(),marcapaginas.get(position).getCapitulo(),marcapaginas.get(position).getTitulo(),marcapaginas.get(position).getFecha(),position);
                 return true; // Devuelve true para indicar que el evento de clic largo ha sido manejado
             }
         });
@@ -399,7 +399,7 @@ public class InfoLibroActivity extends AppCompatActivity {
 
     }
 
-    public void abrirEditarMarcapaginas(int id, int capituloActual, String nombre, String fecha) {
+    public void abrirEditarMarcapaginas(int id, int capituloActual, String nombre, String fecha, int position) {
         Intent intent = new Intent(this, EditMarcapaginasActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("listaCapitulos", audiolibroActual.getCapitulos());
@@ -407,6 +407,7 @@ public class InfoLibroActivity extends AppCompatActivity {
         intent.putExtra("capituloActual", capituloActual);
         intent.putExtra("nombreMarcapaginas", nombre);
         intent.putExtra("timestamp", fecha);
+        intent.putExtra("posicion", position);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }
