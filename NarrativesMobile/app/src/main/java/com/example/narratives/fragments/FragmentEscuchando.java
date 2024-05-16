@@ -416,6 +416,7 @@ public class FragmentEscuchando extends Fragment {
 
                     if (cp < mediaPlayer.getDuration() - 1000) {
                         Toast.makeText(getContext(), "ERROR: no hagas saltos de audio tan grandes", Toast.LENGTH_LONG).show();
+                        ponerBarraACeroManualmente();
                         pararMusica();
                     } else {
                         prepararAudio(capituloActual+1);

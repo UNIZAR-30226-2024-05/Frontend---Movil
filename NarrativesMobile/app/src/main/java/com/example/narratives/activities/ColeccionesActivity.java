@@ -331,7 +331,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
             audiolibrosColeccionAdapter = new AudiolibrosColeccionAdapter(this,
                                                     R.layout.item_audiolibros_coleccion, audiolibrosColeccionList);
             audiolibrosColeccionAdapter.setOnMenuEliminarAudiolibroClickListener(this);
-            audiolibrosColeccionAdapter.setColeccionAmigo(!username.equals(InfoMiPerfil.getUsername()));
+            audiolibrosColeccionAdapter.setColeccionAmigo(!coleccionActual.getPropietarioUsername().equals(InfoMiPerfil.getUsername()));
 
             ListView listViewListaAudiolibrosColeccion = viewInfoColeccion.findViewById(R.id.listViewListaAudiolibrosColeccion);
             listViewListaAudiolibrosColeccion.setAdapter(audiolibrosColeccionAdapter);
