@@ -5,9 +5,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.transition.TransitionSet;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -43,11 +45,13 @@ import retrofit2.Response;
 
 public class HomeSinRegistroActivity extends AppCompatActivity {
     private boolean haySesion;
+    private int club_id = -1;
     private RecyclerView rvRecomendados, rvGenero1, rvGenero2, rvGenero3, rvGenero4, rvGenero5;
     private RetrofitInterface retrofitInterface;
     private ConstraintLayout cargandoNarrativesLayout;
     private TextView textViewGenero1, textViewGenero2, textViewGenero3, textViewGenero4, textViewGenero5;
     SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
@@ -56,15 +60,23 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
         setContentView(R.layout.home_sin_registro);
         super.onCreate(savedInstanceState);
 
+        handleDeepLink(getIntent());
+
         retrofitInterface = ApiClient.getRetrofitInterface();
 
         sharedPreferences = getSharedPreferences("session", Context.MODE_PRIVATE);
         if (sharedPreferences.contains("cookie")) {
+            //Hay sesión
             haySesion = true;
+            InfoMiPerfil.setId(sharedPreferences.getInt("user_id", -1));
+            ApiClient.setUserCookie(sharedPreferences.getString("cookie", null));
+            Socket mSocket = SocketManager.getInstance();
+            mSocket.connect();
             if (InfoAudiolibros.getTodosLosAudiolibros() == null) {
                 obtenerTodosLosAudiolibros();
+            } else {
+                peticionHome();
             }
-
         } else {
             haySesion = false;
             cargandoNarrativesLayout = findViewById(R.id.constraintLayoutCargandoNarratives);
@@ -118,19 +130,18 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                     ArrayList<AudiolibroItem> audiolibrosResult = response.body().getAudiolibros();
 
 
-
                     if (audiolibrosResult == null) {
                         Toast.makeText(HomeSinRegistroActivity.this, "Resultado de audiolibros nulo",
-                                        Toast.LENGTH_LONG).show();
+                                Toast.LENGTH_LONG).show();
                     } else {
                         InfoAudiolibros.setTodosLosAudiolibros(audiolibrosResult);
                         if (!haySesion) {
-                            mostrarMenuInicio(true);
+                            if (club_id > 0) {
+                                abrirMenuLogin();
+                            } else {
+                                mostrarMenuInicio(true);
+                            }
                         } else {
-                            InfoMiPerfil.setId(sharedPreferences.getInt("user_id", -1));
-                            ApiClient.setUserCookie(sharedPreferences.getString("cookie", null));
-                            Socket mSocket = SocketManager.getInstance();
-                            mSocket.connect();
                             peticionHome();
                         }
                     }
@@ -140,7 +151,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 } else if (codigo == 404) {
                     Toast.makeText(HomeSinRegistroActivity.this, "Error 404 /audiolibros",
-                                    Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_LONG).show();
                 } else {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
@@ -148,7 +159,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                         Toast.makeText(HomeSinRegistroActivity.this, error, Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         Toast.makeText(HomeSinRegistroActivity.this, "Error desconocido (audiolibros): "
-                                        + response.code(), Toast.LENGTH_LONG).show();
+                                + response.code(), Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -179,7 +190,10 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                                     abrirMenuMain(sharedPreferences);
                                 }
                             }, 1000);
-
+                } else if (codigo == 401) {
+                    Toast.makeText(HomeSinRegistroActivity.this, "La sesión ha cadudado, vuevlva a iniciar sesión.",
+                            Toast.LENGTH_LONG).show();
+                    hayFalsaSesion();
                 } else if (codigo == 500) {
                     Toast.makeText(HomeSinRegistroActivity.this, "Error del servidor",
                             Toast.LENGTH_LONG).show();
@@ -211,7 +225,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
         });
     }
 
-    private void mostrarMenuInicio (boolean wait) {
+    private void mostrarMenuInicio(boolean wait) {
         cargarCarruselesConGeneros();
 
         if (wait) {
@@ -231,7 +245,8 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
         Animation fadeOutAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
         fadeOutAnim.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) { }
+            public void onAnimationStart(Animation animation) {
+            }
 
             @Override
             public void onAnimationEnd(Animation animation) {
@@ -239,63 +254,67 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) { }
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
         cargandoNarrativesLayout.startAnimation(fadeOutAnim);
     }
 
     private void cargarCarruselesConGeneros() {
         rvRecomendados.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this,
-                                        LinearLayoutManager.HORIZONTAL, false));
+                LinearLayoutManager.HORIZONTAL, false));
         rvGenero1.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this,
-                                    LinearLayoutManager.HORIZONTAL, false));
+                LinearLayoutManager.HORIZONTAL, false));
         rvGenero2.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this,
-                                    LinearLayoutManager.HORIZONTAL, false));
+                LinearLayoutManager.HORIZONTAL, false));
         rvGenero3.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this,
-                                    LinearLayoutManager.HORIZONTAL, false));
+                LinearLayoutManager.HORIZONTAL, false));
         rvGenero4.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this,
-                                    LinearLayoutManager.HORIZONTAL, false));
+                LinearLayoutManager.HORIZONTAL, false));
         rvGenero5.setLayoutManager(new LinearLayoutManager(HomeSinRegistroActivity.this,
-                                    LinearLayoutManager.HORIZONTAL, false));
+                LinearLayoutManager.HORIZONTAL, false));
 
         MenuInicioAdapter adapterRecomendados;
         if (InfoAudiolibros.getTodosLosAudiolibros() != null) {
             String[] generos = InfoAudiolibros.getGenerosSeleccionados();
 
             adapterRecomendados = new MenuInicioAdapter(HomeSinRegistroActivity.this,
-                                                InfoAudiolibros.getAudiolibrosRecomendados(10));
+                    InfoAudiolibros.getAudiolibrosRecomendados(10));
             rvRecomendados.setAdapter(adapterRecomendados);
 
             MenuInicioAdapter adapter1 = new MenuInicioAdapter(HomeSinRegistroActivity.this,
-                                                InfoAudiolibros.getAudiolibrosPorGenero(generos[0]));
+                    InfoAudiolibros.getAudiolibrosPorGenero(generos[0]));
             rvGenero1.setAdapter(adapter1);
             textViewGenero1.setText(generos[0]);
 
             MenuInicioAdapter adapter2 = new MenuInicioAdapter(HomeSinRegistroActivity.this,
-                                                InfoAudiolibros.getAudiolibrosPorGenero(generos[1]));
+                    InfoAudiolibros.getAudiolibrosPorGenero(generos[1]));
             rvGenero2.setAdapter(adapter2);
             textViewGenero2.setText(generos[1]);
 
             MenuInicioAdapter adapter3 = new MenuInicioAdapter(HomeSinRegistroActivity.this,
-                                                InfoAudiolibros.getAudiolibrosPorGenero(generos[2]));
+                    InfoAudiolibros.getAudiolibrosPorGenero(generos[2]));
             rvGenero3.setAdapter(adapter3);
             textViewGenero3.setText(generos[2]);
 
             MenuInicioAdapter adapter4 = new MenuInicioAdapter(HomeSinRegistroActivity.this,
-                                                InfoAudiolibros.getAudiolibrosPorGenero(generos[3]));
+                    InfoAudiolibros.getAudiolibrosPorGenero(generos[3]));
             rvGenero4.setAdapter(adapter4);
             textViewGenero4.setText(generos[3]);
 
             MenuInicioAdapter adapter5 = new MenuInicioAdapter(HomeSinRegistroActivity.this,
-                                                InfoAudiolibros.getAudiolibrosPorGenero(generos[4]));
+                    InfoAudiolibros.getAudiolibrosPorGenero(generos[4]));
             rvGenero5.setAdapter(adapter5);
             textViewGenero5.setText(generos[4]);
 
         }
     }
+
     public void abrirMenuMain(SharedPreferences sharedPreferences) {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("user_id", sharedPreferences.getInt("user_id", -1));
+        if (club_id > 0) {
+            intent.putExtra("club_id", club_id);
+        }
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         finish();
     }
@@ -307,6 +326,30 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
 
     public void abrirMenuLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
+        if (club_id > 0) {
+            intent.putExtra("club_id", club_id);
+        }
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    private void hayFalsaSesion() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("cookie");
+        editor.remove("user_id");
+        editor.apply();
+        abrirMenuLogin();
+    }
+
+    private void handleDeepLink(Intent intent) {
+        Uri data = intent.getData();
+        if (data != null) {
+            String path = data.getPath();
+            // Verificar si el path coincide con tu deep link esperado
+            if ("/club".equals(path)) {
+                // Obtener el parámetro id del deep link
+                String id = data.getQueryParameter("id");
+                club_id = Integer.parseInt(id);
+            }
+        }
     }
 }

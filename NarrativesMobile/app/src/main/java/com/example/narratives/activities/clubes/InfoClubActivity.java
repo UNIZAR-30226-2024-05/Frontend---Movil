@@ -57,7 +57,6 @@ public class InfoClubActivity extends AppCompatActivity {
         getWindow().setExitTransition(new TransitionSet());
 
         super.onCreate(savedInstanceState);
-        handleDeepLink(getIntent());
         setContentView(R.layout.info_club);
 
         // Registrar la vista para el menú contextual
@@ -279,19 +278,6 @@ public class InfoClubActivity extends AppCompatActivity {
                 Toast.makeText(InfoClubActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    private void handleDeepLink(Intent intent) {
-        Uri data = intent.getData();
-        if (data != null) {
-            String path = data.getPath();
-            // Verificar si el path coincide con tu deep link esperado
-            if ("/club".equals(path)) {
-                // Obtener el parámetro id del deep link
-                String id = data.getQueryParameter("id");
-                club_id = Integer.parseInt(id);
-            }
-        }
     }
 
     private void closeActivity() {

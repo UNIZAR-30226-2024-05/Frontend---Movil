@@ -95,11 +95,15 @@ public class LoginActivity extends AppCompatActivity {
                         alertDialog.show();
 
                         cookie = response.headers().get("Set-Cookie");
+
+                        InfoMiPerfil.setId(response.body().getId());
                         ApiClient.setUserCookie(cookie);
+
                         socket = SocketManager.getInstance();
                         socket.connect();
+
                         guardarSesion(cookie, response.body().getId());
-                        InfoMiPerfil.setId(response.body().getId());
+
                         new Handler().postDelayed(
                                 new Runnable() {
                                     @Override
@@ -185,7 +189,10 @@ public class LoginActivity extends AppCompatActivity {
     public void abrirMenuMain() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra("COOKIE", cookie);
+        int club_id = getIntent().getIntExtra("club_id", -1);
+        if (club_id > 0) {
+            intent.putExtra("club_id", club_id);
+        }
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         if (alertDialog != null && alertDialog.isShowing()) {
             alertDialog.dismiss();
@@ -196,6 +203,7 @@ public class LoginActivity extends AppCompatActivity {
     public void abrirHomeSinRegistro() {
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        finish();
     }
 
     public void abrirMenuRegistro() {

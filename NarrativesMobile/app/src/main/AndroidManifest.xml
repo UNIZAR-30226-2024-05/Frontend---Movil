@@ -22,16 +22,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".activities.MainActivity"></activity>
-        <activity android:name=".activities.LoginActivity"></activity>
-        <activity android:name=".activities.RegistroActivity"></activity>
-        <activity android:name=".activities.CambioContrasenaActivity"></activity>
-        <activity android:name=".activities.CambioFotoPerfilActivity"></activity>
-        <activity android:name=".activities.clubes.CrearClubActivity"></activity>
-        <activity android:name=".activities.clubes.BuscarClubActivity"></activity>
-        <activity android:name=".activities.clubes.InfoClubActivity"
-                    android:exported="true">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -44,6 +34,14 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.MainActivity"></activity>
+        <activity android:name=".activities.LoginActivity"></activity>
+        <activity android:name=".activities.RegistroActivity"></activity>
+        <activity android:name=".activities.CambioContrasenaActivity"></activity>
+        <activity android:name=".activities.CambioFotoPerfilActivity"></activity>
+        <activity android:name=".activities.clubes.CrearClubActivity"></activity>
+        <activity android:name=".activities.clubes.BuscarClubActivity"></activity>
+        <activity android:name=".activities.clubes.InfoClubActivity"></activity>
         <activity android:name=".activities.clubes.ChatClubActivity"></activity>
         <activity android:name=".activities.CrearMarcapaginasActivity"></activity>
         <activity android:name=".activities.EditMarcapaginasActivity"></activity>

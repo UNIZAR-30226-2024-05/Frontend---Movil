@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.transition.TransitionSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.activities.clubes.InfoClubActivity;
 import com.example.narratives.databinding.ActivityMainBinding;
 import com.example.narratives.fragments.FragmentAmigos;
 import com.example.narratives.fragments.FragmentBiblioteca;
@@ -44,12 +46,18 @@ import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.informacion.InfoClubes;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
+import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
+import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
+import com.example.narratives.peticiones.home.HomeResult;
 import com.example.narratives.peticiones.users.perfiles.MiPerfilResponse;
 import com.example.narratives.sockets.SocketManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import io.socket.client.Socket;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -158,6 +166,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        gestionarDeepLinks();
+
     }
 
     @Override
@@ -214,10 +224,10 @@ public class MainActivity extends AppCompatActivity {
                     builder.setMessage("Cerrando sesión...");
                     alertDialog = builder.create();
                     alertDialog.show();
-                    cierreSesionLocal();
+                    cierreSesionLocal(false);
 
                 } else if (codigo == 401){
-                    cierreSesionLocal();
+                    cierreSesionLocal(true);
                 } else {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
@@ -376,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
                     infoMiPerfil.setMail(response.body().getMail());
                     infoMiPerfil.setImg(response.body().getImg());
                 } else if(codigo == 401) {
-                    cerrarSesion();
+                    cierreSesionLocal(true);
                 }else if(codigo == 500) {
                     Toast.makeText(MainActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
@@ -433,7 +443,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
-    private void cierreSesionLocal() {
+    public void abrirMenuLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    private void cierreSesionLocal(boolean forced) {
         ApiClient.setUserCookie(null);
 
         SharedPreferences sharedPreferences = getSharedPreferences("session", Context.MODE_PRIVATE);
@@ -447,8 +462,23 @@ public class MainActivity extends AppCompatActivity {
                 new Runnable() {
                     @Override
                     public void run() {
-                        abrirMenuHomeSinRegistro();
+                        if (forced) {
+                            abrirMenuLogin();
+                        } else {
+                            abrirMenuHomeSinRegistro();
+                        }
                     }
                 }, 1000);
+    }
+
+    private void gestionarDeepLinks() {
+        Intent intentData = getIntent();
+        int club_id = intentData.getIntExtra("club_id", -1);
+        if (club_id > 0) {
+            Intent intent = new Intent(this, InfoClubActivity.class);
+            intent.putExtra("club_id", club_id);
+            Log.d("DEEPLINK", "Lanzar actividad");
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        }
     }
 }
