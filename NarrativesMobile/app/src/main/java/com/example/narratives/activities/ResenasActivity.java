@@ -26,8 +26,10 @@ import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.adaptadores.ResenasAdapter;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
+import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.GenericReview;
 import com.example.narratives.peticiones.audiolibros.especifico.OwnReview;
 import com.example.narratives.peticiones.resenas.ResenaDeleteRequest;
@@ -42,8 +44,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ResenasActivity extends AppCompatActivity {
-    ArrayList<GenericReview> resenasPublicasList = InfoLibroActivity.audiolibroActual.getPublicReviews();
-    ArrayList<GenericReview> resenasAmigosList = InfoLibroActivity.audiolibroActual.getFriendsReviews();
+    private final ArrayList<GenericReview> resenasPublicasList = InfoLibroActivity.audiolibroActual.getPublicReviews();
+    private final ArrayList<GenericReview> resenasAmigosList = InfoLibroActivity.audiolibroActual.getFriendsReviews();
     private PopupWindow popupWindow;
     private RadioGroup radioGroupMiResena;
     private RatingBar ratingBarMiResena;
@@ -83,19 +85,21 @@ public class ResenasActivity extends AppCompatActivity {
         Switch switchVisibilidad = findViewById(R.id.switchVisibilidad);
         switchVisibilidad.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                final ResenasAdapter adapterAmigos = new ResenasAdapter(ResenasActivity.this, R.layout.item_lista_resenas, resenasAmigosList);
+                final ResenasAdapter adapterAmigos = new ResenasAdapter(ResenasActivity.this,
+                                                    R.layout.item_lista_resenas, resenasAmigosList);
                 listViewListaResenas.setAdapter(adapterAmigos);
 
-                if (resenasAmigosList == null || resenasAmigosList.isEmpty()) {
+                if (resenasAmigosList.isEmpty()) {
                     textViewNingunaResena.setVisibility(View.VISIBLE);
                 } else {
                     textViewNingunaResena.setVisibility(View.GONE);
                 }
             } else {
-                final ResenasAdapter adapterPublicas = new ResenasAdapter(ResenasActivity.this, R.layout.item_lista_resenas, resenasPublicasList);
+                final ResenasAdapter adapterPublicas = new ResenasAdapter(ResenasActivity.this,
+                                                    R.layout.item_lista_resenas, resenasPublicasList);
                 listViewListaResenas.setAdapter(adapterPublicas);
 
-                if (resenasPublicasList == null || resenasPublicasList.isEmpty()) {
+                if (resenasPublicasList.isEmpty()) {
                     textViewNingunaResena.setVisibility(View.VISIBLE);
                 } else {
                     textViewNingunaResena.setVisibility(View.GONE);
@@ -180,7 +184,8 @@ public class ResenasActivity extends AppCompatActivity {
                             default:
                                 break;
                         }
-                        publicarResena(editTextComentarioMiResena.getText().toString(), (int) ratingBarMiResena.getRating(), visibilidad);
+                        publicarResena(editTextComentarioMiResena.getText().toString(),
+                                                (int) ratingBarMiResena.getRating(), visibilidad);
                     } else {
                         Toast.makeText(ResenasActivity.this, "Campos vacíos", Toast.LENGTH_LONG).show();
                     }
@@ -203,7 +208,8 @@ public class ResenasActivity extends AppCompatActivity {
                             default:
                                 break;
                         }
-                        editarResena(editTextComentarioMiResena.getText().toString(), ratingBarMiResena.getRating(), visibilidad);
+                        editarResena(editTextComentarioMiResena.getText().toString(),
+                                                    ratingBarMiResena.getRating(), visibilidad);
                     } else {
                         Toast.makeText(ResenasActivity.this, "Campos vacíos", Toast.LENGTH_LONG).show();
                     }
@@ -268,7 +274,8 @@ public class ResenasActivity extends AppCompatActivity {
                             default:
                                 break;
                         }
-                        publicarResena(editTextComentarioMiResena.getText().toString(), (int) ratingBarMiResena.getRating(), visibilidad);
+                        publicarResena(editTextComentarioMiResena.getText().toString(),
+                                                (int) ratingBarMiResena.getRating(), visibilidad);
                     } else {
                         Toast.makeText(ResenasActivity.this, "Campos vacíos", Toast.LENGTH_LONG).show();
                     }
@@ -291,7 +298,8 @@ public class ResenasActivity extends AppCompatActivity {
                             default:
                                 break;
                         }
-                        editarResena(editTextComentarioMiResena.getText().toString(), ratingBarMiResena.getRating(), visibilidad);
+                        editarResena(editTextComentarioMiResena.getText().toString(),
+                                                    ratingBarMiResena.getRating(), visibilidad);
                     } else {
                         Toast.makeText(ResenasActivity.this, "Campos vacíos", Toast.LENGTH_LONG).show();
                     }
@@ -327,13 +335,7 @@ public class ResenasActivity extends AppCompatActivity {
     }
 
     private boolean camposResenaOk() {
-        if (ratingBarMiResena.getRating() == 0) {
-            return false;
-        }
-        if (radioGroupMiResena.getCheckedRadioButtonId() == -1) {
-            return false;
-        }
-        return true;
+        return ratingBarMiResena.getRating() != 0 && radioGroupMiResena.getCheckedRadioButtonId() != -1;
     }
 
     private void publicarResena(String comentario, int puntuacion, int visibilidad) {
@@ -348,6 +350,7 @@ public class ResenasActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<OwnReview> call, @NonNull Response<OwnReview> response) {
                 if (response.isSuccessful()) {
+                    actualizarPuntuacionAudiolibro();
                     InfoLibroActivity.audiolibroActual.setOwnReview(response.body());
                     actualizarListas(visibilidad);
                     fabNuevaResena.setVisibility(View.GONE);
@@ -359,7 +362,8 @@ public class ResenasActivity extends AppCompatActivity {
                 } else if (response.code() == 500) {
                     Toast.makeText(ResenasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ResenasActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ResenasActivity.this, "Error desconocido " + response.code(),
+                                    Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -386,6 +390,7 @@ public class ResenasActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<OwnReview> call, @NonNull Response<OwnReview> response) {
                 if (response.isSuccessful()) {
+                    actualizarPuntuacionAudiolibro();
                     InfoLibroActivity.audiolibroActual.setOwnReview(response.body());
                     actualizarListas(visibilidad);
                     popupWindow.dismiss();
@@ -397,7 +402,8 @@ public class ResenasActivity extends AppCompatActivity {
                 } else if (response.code() == 500) {
                     Toast.makeText(ResenasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ResenasActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ResenasActivity.this, "Error desconocido " + response.code(),
+                                    Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -439,6 +445,7 @@ public class ResenasActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
                 if (response.isSuccessful()) {
+                    actualizarPuntuacionAudiolibro();
                     actualizarListas(2);
                     InfoLibroActivity.audiolibroActual.setOwnReview(null);
                     fabNuevaResena.setVisibility(View.VISIBLE);
@@ -452,7 +459,8 @@ public class ResenasActivity extends AppCompatActivity {
                 } else if (response.code() == 500) {
                     Toast.makeText(ResenasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ResenasActivity.this, "Error desconocido " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ResenasActivity.this, "Error desconocido " + response.code(),
+                                    Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -467,12 +475,45 @@ public class ResenasActivity extends AppCompatActivity {
         });
     }
 
+    private void actualizarPuntuacionAudiolibro(){
+        Call<AudiolibroEspecificoResponse> llamada = retrofitInterface.ejecutarAudiolibrosId(ApiClient.getUserCookie(),
+                                                    InfoLibroActivity.audiolibroActual.getAudiolibro().getId());
+        llamada.enqueue(new Callback<AudiolibroEspecificoResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Response<AudiolibroEspecificoResponse> response) {
+                int codigo = response.code();
+
+                if (response.code() == 200) {
+                    InfoAudiolibros.setAudiolibroActual(response.body());
+                    InfoLibroActivity.audiolibroActual = response.body();
+                } else if(codigo == 409) {
+                    Toast.makeText(ResenasActivity.this, "No hay ningún audiolibro con ese ID (reseñas)",
+                                    Toast.LENGTH_LONG).show();
+                } else if(codigo == 500) {
+                    Toast.makeText(ResenasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(ResenasActivity.this, "Error desconocido (AudiolibrosId): "
+                                    + codigo, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Throwable t) {
+                Toast.makeText(ResenasActivity.this, "No se ha conectado con el servidor",
+                                Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     private void actualizarListas(int visibilidad) {
+        eliminarResenaAnterior();
+
         review.setId(InfoLibroActivity.audiolibroActual.getOwnReview().getId());
         review.setUsername(InfoMiPerfil.getUsername());
         review.setUser_id(InfoMiPerfil.getId());
         review.setPuntuacion(InfoLibroActivity.audiolibroActual.getOwnReview().getPuntuacion());
         review.setComentario(InfoLibroActivity.audiolibroActual.getOwnReview().getComentario());
+        review.setFecha(InfoLibroActivity.audiolibroActual.getOwnReview().getFecha());
 
         if (visibilidad == 0) {
             resenasPublicasList.add(review);
@@ -488,5 +529,14 @@ public class ResenasActivity extends AppCompatActivity {
         }
 
         resenasAdapter.notifyDataSetChanged();
+    }
+
+    private void eliminarResenaAnterior() {
+        for (GenericReview resena: resenasPublicasList) {
+            if (resena.getId() == InfoLibroActivity.audiolibroActual.getOwnReview().getId()) {
+                resenasPublicasList.remove(resena);
+                return;
+            }
+        }
     }
 }

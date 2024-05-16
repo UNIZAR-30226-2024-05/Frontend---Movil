@@ -18,19 +18,13 @@ import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
 import java.util.List;
 
 public class CapitulosAdapter  extends ArrayAdapter<Capitulo> implements Filterable {
-    private List<Capitulo> capitulos;
-
-    private List<Capitulo> tempCapitulos;
-
-    private Context context;
-
-    private int resourceLayout;
-    private LayoutInflater layoutInflater;
+    private final List<Capitulo> capitulos;
+    private final Context context;
+    private final int resourceLayout;
 
     public CapitulosAdapter(@NonNull Context _context, int _resource, @NonNull List<Capitulo> _objects) {
         super(_context, _resource, _objects);
         this.capitulos = _objects;
-        this.tempCapitulos = _objects;
         this.context = _context;
         this.resourceLayout = _resource;
     }
@@ -65,9 +59,4 @@ public class CapitulosAdapter  extends ArrayAdapter<Capitulo> implements Filtera
     public int getCount() {
         return capitulos.size();
     }
-
-
-
-
-
 }

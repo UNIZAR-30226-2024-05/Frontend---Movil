@@ -9,8 +9,6 @@ public class AudiolibroEspecificoResponse {
     private ArrayList<Capitulo> capitulos;
     private ArrayList<GenericReview> public_reviews;
     private ArrayList<GenericReview> friends_reviews;
-
-    private float puntuacion;
     private OwnReview own_review;
     private UltimoMomento ultimo_momento;
     private ArrayList<Marcapaginas> mp_personalizados;
@@ -96,13 +94,6 @@ public class AudiolibroEspecificoResponse {
         this.colecciones = colecciones;
     }
 
-    public float getPuntuacion() {
-        return puntuacion;
-    }
-
-    public void setPuntuacion(float puntuacion) {
-        this.puntuacion = puntuacion;
-    }
     public String getNombreCap(int num) {
         for (Capitulo capitulo : capitulos) {
             if(capitulo.getId() == num){

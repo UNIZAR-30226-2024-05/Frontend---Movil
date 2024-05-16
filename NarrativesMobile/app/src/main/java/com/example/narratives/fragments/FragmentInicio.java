@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,10 +29,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FragmentInicio extends Fragment {
-
-    RetrofitInterface retrofitInterface;
-    RecyclerView rvSeguirEscuchando, rvGenero1, rvGenero2, rvGenero3, rvGenero4, rvGenero5;
-    MenuInicioAdapter adapterRecomendados, adapter1, adapter2, adapter3, adapter4, adapter5;
+    private RetrofitInterface retrofitInterface;
+    private RecyclerView rvSeguirEscuchando, rvGenero1, rvGenero2, rvGenero3, rvGenero4, rvGenero5;
 
     TextView textViewGenero1, textViewGenero2, textViewGenero3, textViewGenero4, textViewGenero5;
     @Override
@@ -41,10 +40,10 @@ public class FragmentInicio extends Fragment {
         return inflater.inflate(R.layout.fragment_inicio, container, false);
     }
 
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         inicializarObjetos();
 
-        if(InfoAudiolibros.getTodosLosAudiolibros() == null || InfoAudiolibros.getTodosLosAudiolibros().size() == 0){
+        if (InfoAudiolibros.getTodosLosAudiolibros() == null || InfoAudiolibros.getTodosLosAudiolibros().isEmpty()) {
             obtenerTodosLosAudiolibros();
         } else {
             cargarCarruselesConGeneros();
@@ -73,28 +72,25 @@ public class FragmentInicio extends Fragment {
     }
 
 
-    public void obtenerTodosLosAudiolibros(){
+    public void obtenerTodosLosAudiolibros() {
         Call<AudiolibrosResult> llamada = retrofitInterface.ejecutarAudiolibros(ApiClient.getUserCookie());
         llamada.enqueue(new Callback<AudiolibrosResult>() {
             @Override
-            public void onResponse(Call<AudiolibrosResult> call, Response<AudiolibrosResult> response) {
+            public void onResponse(@NonNull Call<AudiolibrosResult> call, @NonNull Response<AudiolibrosResult> response) {
                 int codigo = response.code();
 
-                if (codigo == 200){
+                if (codigo == 200) {
                     ArrayList<AudiolibroItem> audiolibrosResult = response.body().getAudiolibros();
 
-                    if(audiolibrosResult == null){
+                    if (audiolibrosResult == null) {
                         Toast.makeText(getContext(), "Resultado de audiolibros nulo", Toast.LENGTH_LONG).show();
                     } else {
-                        //Toast.makeText(getContext(), "TodosAudiolibros OK, size = " + String.valueOf(audiolibrosResult.size()), Toast.LENGTH_LONG).show();
                         InfoAudiolibros.setTodosLosAudiolibros(audiolibrosResult);
                         cargarCarruselesConGeneros();
                     }
-
                 } else if (codigo == 500){
                     Toast.makeText(getContext(), "Error del servidor",
                             Toast.LENGTH_LONG).show();
-
                 } else if (codigo == 404){
                     Toast.makeText(getContext(), "Error 404 /audiolibros", Toast.LENGTH_LONG).show();
                 } else {
@@ -110,17 +106,14 @@ public class FragmentInicio extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<AudiolibrosResult> call, Throwable t) {
+            public void onFailure(@NonNull Call<AudiolibrosResult> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "No se ha conectado con el servidor (audiolibros)",
                         Toast.LENGTH_LONG).show();
-
-                //Toast.makeText(HomeSinRegistroActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void cargarCarruselesConGeneros() {
-
         rvSeguirEscuchando.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         rvGenero1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -129,41 +122,33 @@ public class FragmentInicio extends Fragment {
         rvGenero4.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rvGenero5.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        if(InfoAudiolibros.getTodosLosAudiolibros() != null){
+        MenuInicioAdapter adapterRecomendados;
+        if (InfoAudiolibros.getTodosLosAudiolibros() != null) {
             String[] generos = InfoAudiolibros.getGenerosSeleccionados();
 
             adapterRecomendados = new MenuInicioAdapter(getContext(), InfoAudiolibros.getAudiolibrosSeguirEscuchando());
             rvSeguirEscuchando.setAdapter(adapterRecomendados);
 
-            adapter1 = new MenuInicioAdapter(getContext(), InfoAudiolibros.getAudiolibrosPorGenero(generos[0]));
+            MenuInicioAdapter adapter1 = new MenuInicioAdapter(getContext(), InfoAudiolibros.getAudiolibrosPorGenero(generos[0]));
             rvGenero1.setAdapter(adapter1);
             textViewGenero1.setText(generos[0]);
 
-            adapter2 = new MenuInicioAdapter(getContext(), InfoAudiolibros.getAudiolibrosPorGenero(generos[1]));
+            MenuInicioAdapter adapter2 = new MenuInicioAdapter(getContext(), InfoAudiolibros.getAudiolibrosPorGenero(generos[1]));
             rvGenero2.setAdapter(adapter2);
             textViewGenero2.setText(generos[1]);
 
-            adapter3 = new MenuInicioAdapter(getContext(), InfoAudiolibros.getAudiolibrosPorGenero(generos[2]));
+            MenuInicioAdapter adapter3 = new MenuInicioAdapter(getContext(), InfoAudiolibros.getAudiolibrosPorGenero(generos[2]));
             rvGenero3.setAdapter(adapter3);
             textViewGenero3.setText(generos[2]);
 
-            adapter4 = new MenuInicioAdapter(getContext(), InfoAudiolibros.getAudiolibrosPorGenero(generos[3]));
+            MenuInicioAdapter adapter4 = new MenuInicioAdapter(getContext(), InfoAudiolibros.getAudiolibrosPorGenero(generos[3]));
             rvGenero4.setAdapter(adapter4);
             textViewGenero4.setText(generos[3]);
 
-            adapter5 = new MenuInicioAdapter(getContext(), InfoAudiolibros.getAudiolibrosPorGenero(generos[4]));
+            MenuInicioAdapter adapter5 = new MenuInicioAdapter(getContext(), InfoAudiolibros.getAudiolibrosPorGenero(generos[4]));
             rvGenero5.setAdapter(adapter5);
             textViewGenero5.setText(generos[4]);
 
-        } else {
-            adapterRecomendados = new MenuInicioAdapter(getContext(), InfoAudiolibros.getTodosLosAudiolibrosEjemplo());
-            rvGenero1.setAdapter(adapterRecomendados);
-            rvGenero2.setAdapter(adapterRecomendados);
-            rvGenero3.setAdapter(adapterRecomendados);
-            rvGenero4.setAdapter(adapterRecomendados);
-            rvGenero5.setAdapter(adapterRecomendados);
         }
     }
 }
-
-

@@ -14,30 +14,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.informacion.InfoMiPerfil;
+import com.example.narratives.peticiones.home.HomeResult;
 import com.example.narratives.peticiones.users.login.LoginRequest;
 import com.example.narratives.peticiones.users.login.LoginResult;
 import com.example.narratives.sockets.SocketManager;
+
+import org.json.JSONObject;
 
 import io.socket.client.Socket;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-
 
 public class LoginActivity extends AppCompatActivity {
-    private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    Socket socket;
-    String cookie;
-
-    AlertDialog alertDialog;
+    private Socket socket;
+    private String cookie;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.inicio_sesion);
         super.onCreate(savedInstanceState);
 
-        retrofit = ApiClient.getLoginRetrofit();
         retrofitInterface = ApiClient.getRetrofitInterface();
 
         Button botonIniciarSesion = (Button) findViewById(R.id.botonConfirmarLogin);
@@ -78,26 +78,16 @@ public class LoginActivity extends AppCompatActivity {
                 abrirHomeSinRegistro();
             }
         });
-        findViewById(R.id.botonDirecto).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LoginRequest request = new LoginRequest(); // hace un login automático con una cuenta de prueba
-                request.setUsername("directo");
-                request.setPassword("Directo1");
 
-                peticionLogin(request);
-            }
-        });
     }
 
     private void peticionLogin(LoginRequest request) {
-
         Call<LoginResult> llamada = retrofitInterface.ejecutarUsersLogin(ApiClient.getUserCookie(), request);
         llamada.enqueue(new Callback<LoginResult>() {
             @Override
-            public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
+            public void onResponse(@NonNull Call<LoginResult> call, @NonNull Response<LoginResult> response) {
                 if (response.code() == 200) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.ExitoAlertDialogStyle);
                         builder.setMessage("Iniciando sesión...");
 
@@ -114,39 +104,79 @@ public class LoginActivity extends AppCompatActivity {
                                 new Runnable() {
                                     @Override
                                     public void run() {
-                                        abrirMenuMain();
+                                        peticionHome();
                                     }
-                                }
-                                , 1000);
-                    }else{
-                        Toast.makeText(LoginActivity.this, "Código correcto, pero sesión no exitosa", Toast.LENGTH_LONG).show();
+                                }, 1000);
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Código correcto, pero sesión no exitosa",
+                                        Toast.LENGTH_LONG).show();
                     }
-
-
-                } else if (response.code() == 404){
+                } else if (response.code() == 404) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.ErrorAlertDialogStyle);
                     builder.setTitle("ERROR");
                     builder.setMessage("Usuario no encontrado");
                     builder.show();
-
                 } else if (response.code() == 401){
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.ErrorAlertDialogStyle);
                     builder.setTitle("ERROR");
                     builder.setMessage("Contraseña incorrecta");
                     builder.show();
-
                 } else if (response.code() == 500){
                     Toast.makeText(LoginActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
-
                 } else {
-                    Toast.makeText(LoginActivity.this, "Código error " + String.valueOf(response.code()),
+                    Toast.makeText(LoginActivity.this, "Código error " + response.code(),
                             Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<LoginResult> call, Throwable t) {
+            public void onFailure(@NonNull Call<LoginResult> call, @NonNull Throwable t) {
                 Toast.makeText(LoginActivity.this, "Algo ha fallado",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void peticionHome() {
+        Call<HomeResult> llamada = retrofitInterface.ejecutarHome(ApiClient.getUserCookie());
+        llamada.enqueue(new Callback<HomeResult>() {
+            @Override
+            public void onResponse(@NonNull Call<HomeResult> call, @NonNull Response<HomeResult> response) {
+                int codigo = response.code();
+
+                if (codigo == 200) {
+                    InfoAudiolibros.setAudiolibrosSeguirEscuchando(response.body().getSeguir_escuchando(), response.body().getUltimo());
+                    InfoAudiolibros.setUltimoLibro(response.body().getUltimo());
+
+                    new Handler().postDelayed(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    abrirMenuMain();
+                                }
+                            }, 1000);
+
+                } else if (codigo == 500) {
+                    Toast.makeText(LoginActivity.this, "Error del servidor",
+                            Toast.LENGTH_LONG).show();
+                } else if (codigo == 404) {
+                    Toast.makeText(LoginActivity.this, "Error 404 /audiolibros",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String error = jObjError.getString("error");
+                        Toast.makeText(LoginActivity.this, error, Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        Toast.makeText(LoginActivity.this, "Error desconocido (audiolibros): "
+                                + response.code(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<HomeResult> call, @NonNull Throwable t) {
+                Toast.makeText(LoginActivity.this, "No se ha conectado con el servidor (home)",
                         Toast.LENGTH_LONG).show();
             }
         });
@@ -157,22 +187,18 @@ public class LoginActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("COOKIE", cookie);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-        if(alertDialog != null && alertDialog.isShowing()){
+        if (alertDialog != null && alertDialog.isShowing()) {
             alertDialog.dismiss();
         }
         finish();
     }
 
     public void abrirHomeSinRegistro() {
-
-
-
         Intent intent = new Intent(this, HomeSinRegistroActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void abrirMenuRegistro() {
-
         Intent intent = new Intent(this, RegistroActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
@@ -184,5 +210,4 @@ public class LoginActivity extends AppCompatActivity {
         editor.putInt("user_id", user_id);
         editor.apply();
     }
-
 }

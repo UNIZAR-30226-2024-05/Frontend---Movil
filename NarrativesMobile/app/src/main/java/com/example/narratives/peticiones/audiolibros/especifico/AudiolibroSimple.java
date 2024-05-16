@@ -5,7 +5,7 @@ public class AudiolibroSimple {
     String titulo;
     String descripcion;
     String img;
-    double puntuacion;
+    float puntuacion;
 
     public String getImg() {
         return img;
@@ -38,11 +38,11 @@ public class AudiolibroSimple {
     public void setId(int id) {
         this.id = id;
     }
-    public double getPuntuacion() {
+    public float getPuntuacion() {
         return puntuacion;
     }
 
-    public void setPuntuacion(double puntuacion) {
+    public void setPuntuacion(float puntuacion) {
         this.puntuacion = puntuacion;
     }
 }

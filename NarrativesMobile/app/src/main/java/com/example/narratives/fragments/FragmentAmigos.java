@@ -1,5 +1,6 @@
 package com.example.narratives.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
@@ -134,22 +135,21 @@ public class FragmentAmigos extends Fragment {
             }
         });
 
+
         mSocket.on("peticionReceived", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 if (args.length > 0 && args[0] instanceof JSONObject) {
-                    Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo recibido", Toast.LENGTH_LONG).show();
 
                     getActivity().runOnUiThread(new Runnable() {
+                        @SuppressLint("MissingPermission")
                         @Override
                         public void run() {
-                            Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo recibido: actualizo", Toast.LENGTH_LONG).show();
                             peticionAmigos();
                             peticionAmistadLista();
+
                         }
                     });
-                    //messageListeners.onMessageReceived();
-
                 }
             }
         });
@@ -158,18 +158,14 @@ public class FragmentAmigos extends Fragment {
             @Override
             public void call(Object... args) {
                 if (args.length > 0 && args[0] instanceof JSONObject) {
-                    Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo aceptado", Toast.LENGTH_LONG).show();
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo aceptado: actualizo", Toast.LENGTH_LONG).show();
                             peticionAmigos();
                             peticionAmistadLista();
                         }
                     });
-                    //messageListeners.onMessageReceived();
-
                 }
             }
         });
@@ -178,18 +174,46 @@ public class FragmentAmigos extends Fragment {
             @Override
             public void call(Object... args) {
                 if (args.length > 0 && args[0] instanceof JSONObject) {
-                    Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo rechazado", Toast.LENGTH_LONG).show();
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(FragmentAmigos.amigosAdapter.getContext(), "Socket amigo rechazado: actualizo", Toast.LENGTH_LONG).show();
                             peticionAmigos();
                             peticionAmistadLista();
                         }
                     });
-                    //messageListeners.onMessageReceived();
+                }
+            }
+        });
 
+        mSocket.on("peticionCancelled", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                if (args.length > 0 && args[0] instanceof JSONObject) {
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            peticionAmigos();
+                            peticionAmistadLista();
+                        }
+                    });
+                }
+            }
+        });
+
+        mSocket.on("friendshipRemoved", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                if (args.length > 0 && args[0] instanceof JSONObject) {
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            peticionAmigos();
+                            peticionAmistadLista();
+                        }
+                    });
                 }
             }
         });
@@ -253,17 +277,11 @@ public class FragmentAmigos extends Fragment {
 
                 if (codigo == 200){
 
-                    //TODO: quitar ejemplo
                     if(response.body().getAmigos() == null){
                         Toast.makeText(getContext(), "Amigos null", Toast.LENGTH_LONG).show();
 
-                        ArrayList<AmigoSimple> amigosEjemplo = new ArrayList<AmigoSimple>();
-                        amigosEjemplo.add(new AmigoSimple(1, "Buri", 6));
-                        amigosEjemplo.add(new AmigoSimple(2, "Jaume", 7));
-                        amigosEjemplo.add(new AmigoSimple(3, "Manu", 5));
-                        amigosEjemplo.add(new AmigoSimple(4, "Marti", 1));
 
-                        InfoAmigos.setAmigos(amigosEjemplo);
+                        InfoAmigos.setAmigos(new ArrayList<>());
                     } else {
                         InfoAmigos.setAmigos(response.body().getAmigos());
                     }

@@ -17,13 +17,10 @@ import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import java.util.ArrayList;
 
 public class BibliotecaTagsGridAdapter extends BaseAdapter implements Filterable {
-
     private LibroTagsFilter libroTagsFilter;
     private ArrayList<AudiolibroItem> audiolibros;
-    private ArrayList<AudiolibroItem> tempAudiolibros;
-
-    private Context context;
-
+    private final ArrayList<AudiolibroItem> tempAudiolibros;
+    private final Context context;
     private LayoutInflater layoutInflater;
 
     public BibliotecaTagsGridAdapter(Context context, ArrayList<AudiolibroItem> audiolibros) {
@@ -31,7 +28,6 @@ public class BibliotecaTagsGridAdapter extends BaseAdapter implements Filterable
         this.audiolibros = audiolibros;
         this.tempAudiolibros = audiolibros;
     }
-
 
     @Override   
     public int getCount() {
@@ -63,14 +59,12 @@ public class BibliotecaTagsGridAdapter extends BaseAdapter implements Filterable
 
         textView.setText(audiolibros.get(i).getTitulo());
 
-
         Glide
                 .with(context)
                 .load(audiolibros.get(i).getImg())
                 .centerCrop()
                 .placeholder(R.drawable.icono_imagen_estandar_foreground)
                 .into(imageView);
-
 
         return view;
     }
@@ -83,9 +77,7 @@ public class BibliotecaTagsGridAdapter extends BaseAdapter implements Filterable
         return libroTagsFilter;
     }
 
-
     class LibroTagsFilter extends Filter {
-
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             FilterResults filterResults = new FilterResults();

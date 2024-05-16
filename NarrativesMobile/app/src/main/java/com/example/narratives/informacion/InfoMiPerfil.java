@@ -4,122 +4,92 @@ import com.example.narratives.R;
 
 public class InfoMiPerfil {
     private static int user_id;
-
     private static String username;
     private String mail;
-
     private String img = "0";
 
-    public int getImgResource(){
-        if(img == null){
+    public int getImgResource() {
+        if (img == null) {
             return R.drawable.icono_imagen_estandar_foreground;
         }
 
-        if(img.equals("0")){
-            return R.drawable.pfp_perro;
-
-        } else if(img.equals("2")){
-            return R.drawable.pfp_rana;
-
-        } else if(img.equals("4")){
-            return R.drawable.pfp_pollo;
-
-        } else if(img.equals("6")){
-            return R.drawable.pfp_buho;
-
-        } else if(img.equals("8")){
-            return R.drawable.pfp_doraemon;
-
-        } else if(img.equals("1")){
-            return R.drawable.pfp_gato;
-
-        } else if(img.equals("3")){
-            return R.drawable.pfp_leon;
-
-        } else if(img.equals("5")){
-            return R.drawable.pfp_vaca;
-
-        } else if(img.equals("7")){
-            return R.drawable.pfp_perezoso;
-
-        } else if(img.equals("9")){
-            return R.drawable.pfp_pikachu;
-
+        switch (img) {
+            case "0":
+                return R.drawable.pfp_perro;
+            case "2":
+                return R.drawable.pfp_rana;
+            case "4":
+                return R.drawable.pfp_pollo;
+            case "6":
+                return R.drawable.pfp_buho;
+            case "8":
+                return R.drawable.pfp_doraemon;
+            case "1":
+                return R.drawable.pfp_gato;
+            case "3":
+                return R.drawable.pfp_leon;
+            case "5":
+                return R.drawable.pfp_vaca;
+            case "7":
+                return R.drawable.pfp_perezoso;
+            case "9":
+                return R.drawable.pfp_pikachu;
         }
 
         return R.drawable.icono_imagen_estandar_foreground;
     }
 
-    public int getImgImageView(){
-        if(img == null){
+    public int getImgImageView() {
+        if (img == null) {
             return -1;
         }
 
-        if(img.equals("0")){
-            return R.id.imageViewFotoPerfilPerro;
-
-        } else if(img.equals("2")){
-            return R.id.imageViewFotoPerfilRana;
-
-        } else if(img.equals("4")){
-            return R.id.imageViewFotoPerfilPollo;
-
-        } else if(img.equals("6")){
-            return R.id.imageViewFotoPerfilBuho;
-
-        } else if(img.equals("8")){
-            return R.id.imageViewFotoPerfilDoraemon;
-
-        } else if(img.equals("1")){
-            return R.id.imageViewFotoPerfilGato;
-
-        } else if(img.equals("3")){
-            return R.id.imageViewFotoPerfilLeon;
-
-        } else if(img.equals("5")){
-            return R.id.imageViewFotoPerfilVaca;
-
-        } else if(img.equals("7")){
-            return R.id.imageViewFotoPerfilPerezoso;
-
-        } else if(img.equals("9")){
-            return R.id.imageViewFotoPerfilPikachu;
-
+        switch (img) {
+            case "0":
+                return R.id.imageViewFotoPerfilPerro;
+            case "2":
+                return R.id.imageViewFotoPerfilRana;
+            case "4":
+                return R.id.imageViewFotoPerfilPollo;
+            case "6":
+                return R.id.imageViewFotoPerfilBuho;
+            case "8":
+                return R.id.imageViewFotoPerfilDoraemon;
+            case "1":
+                return R.id.imageViewFotoPerfilGato;
+            case "3":
+                return R.id.imageViewFotoPerfilLeon;
+            case "5":
+                return R.id.imageViewFotoPerfilVaca;
+            case "7":
+                return R.id.imageViewFotoPerfilPerezoso;
+            case "9":
+                return R.id.imageViewFotoPerfilPikachu;
         }
 
         return -1;
     }
 
-    public static String getImgString(int id){
-
-        if(id == R.id.imageViewFotoPerfilPerro){
+    public static String getImgString(int id) {
+        if (id == R.id.imageViewFotoPerfilPerro) {
             return "0";
-
-        } else if(id == R.id.imageViewFotoPerfilRana){
+        } else if (id == R.id.imageViewFotoPerfilRana) {
             return "2";
-
-        } else if(id == R.id.imageViewFotoPerfilPollo){
+        } else if (id == R.id.imageViewFotoPerfilPollo) {
             return "4";
-
-        } else if(id == R.id.imageViewFotoPerfilBuho){
+        } else if (id == R.id.imageViewFotoPerfilBuho) {
             return "6";
-
-        } else if(id == R.id.imageViewFotoPerfilDoraemon){
+        } else if (id == R.id.imageViewFotoPerfilDoraemon) {
             return "8";
-
-        } else if(id == R.id.imageViewFotoPerfilGato){
+        } else if (id == R.id.imageViewFotoPerfilGato) {
             return "1";
-
-        } else if(id == R.id.imageViewFotoPerfilLeon){
+        } else if (id == R.id.imageViewFotoPerfilLeon) {
             return "3";
-
-        } else if(id == R.id.imageViewFotoPerfilVaca){
+        } else if (id == R.id.imageViewFotoPerfilVaca) {
             return "5";
-
-        } else if(id == R.id.imageViewFotoPerfilPerezoso){
+        } else if (id == R.id.imageViewFotoPerfilPerezoso) {
             return "7";
-
-        } else if(id == R.id.imageViewFotoPerfilPikachu) {
+        } else if (id == R.id.imageViewFotoPerfilPikachu) {
             return "9";
         }
 
@@ -129,6 +99,7 @@ public class InfoMiPerfil {
     public static void setId(int _user_id) {
         user_id = _user_id;
     }
+
     public static int getId() {
         return user_id;
     }
@@ -162,5 +133,5 @@ public class InfoMiPerfil {
         this.setUsername(null);
         this.setImg(null);
         this.setMail(null);
-    };
+    }
 }

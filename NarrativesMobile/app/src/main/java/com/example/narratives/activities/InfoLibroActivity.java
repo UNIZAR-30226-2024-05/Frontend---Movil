@@ -13,39 +13,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.informacion.InfoAudiolibros;
-import com.example.narratives.adaptadores.CapitulosAdapter;
 import com.example.narratives.adaptadores.MarcapaginasAdapter;
-import com.example.narratives.fragments.FragmentEscuchando;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
-import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
 import com.example.narratives.peticiones.audiolibros.especifico.Coleccion;
 import com.example.narratives.peticiones.audiolibros.especifico.Genero;
 import com.example.narratives.peticiones.audiolibros.especifico.Marcapaginas;
-import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
 import com.example.narratives.peticiones.autores.AutorDatosResponse;
+import com.example.narratives.peticiones.colecciones.AnadirEliminarAudiolibroDeColeccionRequest;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -61,6 +53,7 @@ public class InfoLibroActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
 
+    static RatingBar ratingBarInfoLibro;
     MaterialButton escucharAudiolibro;
     MaterialButton comprarAudiolibro;
 
@@ -78,7 +71,11 @@ public class InfoLibroActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_info_libro);
         super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         audiolibroActual = InfoAudiolibros.getAudiolibroActual();
 
         marcapaginas = audiolibroActual.getMarcapaginas();
@@ -93,6 +90,8 @@ public class InfoLibroActivity extends AppCompatActivity {
                 .centerCrop()
                 .placeholder(R.drawable.icono_imagen_estandar_foreground)
                 .into(imageViewPortada);
+
+
 
         TextView textViewTitulo = findViewById(R.id.textViewTituloInfoLibro);
         textViewTitulo.setText(audiolibroActual.getAudiolibro().getTitulo());
@@ -113,12 +112,12 @@ public class InfoLibroActivity extends AppCompatActivity {
         TextView textViewGeneros = findViewById(R.id.textViewGeneroInfoLibro);
         textViewGeneros.setText(getFormattedGenres(audiolibroActual.getGeneros()));
 
-        RatingBar ratingBarInfoLibro = findViewById(R.id.ratingBarInfoLibro);
-        ratingBarInfoLibro.setRating(audiolibroActual.getPuntuacion());
+        ratingBarInfoLibro = findViewById(R.id.ratingBarInfoLibro);
+        ratingBarInfoLibro.setRating(audiolibroActual.getAudiolibro().getPuntuacion());
+        ratingBarInfoLibro.setIsIndicator(true);
 
-        TextView textViewResenasInfoLibro = findViewById(R.id.textViewResenasInfoLibro);
-        textViewResenasInfoLibro.setPaintFlags(textViewResenasInfoLibro.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        textViewResenasInfoLibro.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton botonResenasInfoLibro = findViewById(R.id.botonResenasInfoLibro);
+        botonResenasInfoLibro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mostrarResenas();
@@ -142,6 +141,9 @@ public class InfoLibroActivity extends AppCompatActivity {
         });
 
         escucharAudiolibro = findViewById(R.id.botonEscucharAudiolibroInfoLibro);
+        if(audiolibroActual.getUltimoMomento() != null){
+            escucharAudiolibro.setText("CONTINUAR");
+        }
         escucharAudiolibro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -381,7 +383,7 @@ public class InfoLibroActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 popupWindow.dismiss();
-                abrirEditarMarcapaginas(marcapaginas.get(position).getId(),marcapaginas.get(position).getCapitulo(),marcapaginas.get(position).getTitulo(),marcapaginas.get(position).getFecha());
+                abrirEditarMarcapaginas(marcapaginas.get(position).getId(),marcapaginas.get(position).getCapitulo(),marcapaginas.get(position).getTitulo(),marcapaginas.get(position).getFecha(),position);
                 return true; // Devuelve true para indicar que el evento de clic largo ha sido manejado
             }
         });
@@ -397,7 +399,7 @@ public class InfoLibroActivity extends AppCompatActivity {
 
     }
 
-    public void abrirEditarMarcapaginas(int id, int capituloActual, String nombre, String fecha) {
+    public void abrirEditarMarcapaginas(int id, int capituloActual, String nombre, String fecha, int position) {
         Intent intent = new Intent(this, EditMarcapaginasActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("listaCapitulos", audiolibroActual.getCapitulos());
@@ -405,6 +407,7 @@ public class InfoLibroActivity extends AppCompatActivity {
         intent.putExtra("capituloActual", capituloActual);
         intent.putExtra("nombreMarcapaginas", nombre);
         intent.putExtra("timestamp", fecha);
+        intent.putExtra("posicion", position);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }

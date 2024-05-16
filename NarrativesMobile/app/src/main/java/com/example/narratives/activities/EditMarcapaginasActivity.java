@@ -17,6 +17,7 @@ import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.adaptadores.SelectorCapitulosAdapter;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
 import com.example.narratives.peticiones.marcapaginas.CrearMarcapaginasRequest;
@@ -48,6 +49,7 @@ public class EditMarcapaginasActivity extends AppCompatActivity {
     Button buttDelete;
     ArrayList<Capitulo> listaCapitulos;
     private int capituloActual;
+    private int posicion;
 
     private int id;
 
@@ -57,6 +59,7 @@ public class EditMarcapaginasActivity extends AppCompatActivity {
         listaCapitulos = (ArrayList<Capitulo>) getIntent().getSerializableExtra("listaCapitulos");
         capituloActual = getIntent().getIntExtra("capituloActual", 1);
         id =getIntent().getIntExtra("IdMarcapaginas", 1);
+        posicion = getIntent().getIntExtra("posicion", 1);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_marcapaginas);
 
@@ -172,7 +175,10 @@ public class EditMarcapaginasActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
                     if (response.code() == 200) {
-                        Toast.makeText(EditMarcapaginasActivity.this, "Marcapaginas editado. Salga del audiolibro para aplicar los cambios", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditMarcapaginasActivity.this, "Marcapaginas editado.", Toast.LENGTH_LONG).show();
+                        InfoAudiolibros.getAudiolibroActual().getMarcapaginas().get(posicion).setCapitulo(request.getCapitulo());
+                        InfoAudiolibros.getAudiolibroActual().getMarcapaginas().get(posicion).setTitulo(request.getTitulo());
+                        InfoAudiolibros.getAudiolibroActual().getMarcapaginas().get(posicion).setFecha(request.getTiempo());
                         finish();
 
                     } else if (response.code() == 404) {
@@ -208,7 +214,8 @@ public class EditMarcapaginasActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
                     if (response.code() == 200) {
-                        Toast.makeText(EditMarcapaginasActivity.this, "Marcapaginas borrado. Salga del audiolibro para aplicar los cambios", Toast.LENGTH_LONG).show();
+                        InfoLibroActivity.audiolibroActual.getMarcapaginas().remove(posicion);
+                        Toast.makeText(EditMarcapaginasActivity.this, "Marcapaginas borrado.", Toast.LENGTH_LONG).show();
                         finish();
 
                     } else if (response.code() == 404) {

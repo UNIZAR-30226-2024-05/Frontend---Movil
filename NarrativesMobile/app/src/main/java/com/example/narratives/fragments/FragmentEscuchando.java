@@ -23,6 +23,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -31,8 +32,9 @@ import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.activities.CrearMarcapaginasActivity;
-import com.example.narratives.activities.InfoAutorActivity;
+import com.example.narratives.activities.MainActivity;
 import com.example.narratives.adaptadores.CapitulosAdapter;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
@@ -48,84 +50,62 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class FragmentEscuchando extends Fragment {
-
-    MediaPlayer mediaPlayer;
-
-    FloatingActionButton fabPlay;
-    FloatingActionButton fabPause;
-
-    FloatingActionButton fabAvanzar;
-
-    FloatingActionButton fabRetrasar;
-    FloatingActionButton fabSiguienteCap;
-    FloatingActionButton fabAnteriorCap;
-    MaterialButton fabMarcapaginas;
-
-
-    MaterialButton selectorCapitulos;
-    CapitulosAdapter capitulosAdapter;
-    ListView listaCapitulos;
-
-
-    TextView numerosIzquierda;
-    TextView numerosDerecha;
-
-    ImageView portada;
-
-    TextView titulo_libro;
-    TextView titulo_cap;
-
-    TextView num_cap;
-
-    static ConstraintLayout reproduceUnAudiolibro;
-    static ConstraintLayout cargandoAudiolibro;
-
-    ConstraintLayout reproductor;
-
-    ImageView iconoCargando;
-
-    SeekBar seekBar;
-
-    Handler handler;
-
-    UpdateSeekBar updateSeekBar;
-    UpdateUltimoMomento updateUltimoMomento;
-
-    ArrayList<Capitulo> capitulos;
-    UltimoMomento ultimoMomento;
-
-    Animation animacionCargando;
-
-    RetrofitInterface retrofitInterface;
-
-    boolean primerAudio = true;
-    boolean primerLibro = true;
-    boolean libroReiniciado = false;
-    boolean libroEnUltimoMomento = true;
-    int capituloActual = 0;
-
-
-
+    private MediaPlayer mediaPlayer;
+    private FloatingActionButton fabPlay;
+    private FloatingActionButton fabPause;
+    private FloatingActionButton fabAvanzar;
+    private FloatingActionButton fabRetrasar;
+    private FloatingActionButton fabSiguienteCap;
+    private FloatingActionButton fabAnteriorCap;
+    private MaterialButton fabMarcapaginas;
+    private MaterialButton selectorCapitulos;
+    private TextView numerosIzquierda;
+    private TextView numerosDerecha;
+    private ImageView portada;
+    private TextView titulo_libro;
+    private TextView titulo_cap;
+    private TextView num_cap;
+    private static ConstraintLayout reproduceUnAudiolibro;
+    private static ConstraintLayout cargandoAudiolibro;
+    private ConstraintLayout reproductor;
+    private ImageView iconoCargando;
+    private SeekBar seekBar;
+    private Handler handler;
+    private UpdateSeekBar updateSeekBar;
+    private UpdateUltimoMomento updateUltimoMomento;
+    private ArrayList<Capitulo> capitulos;
+    private UltimoMomento ultimoMomento;
+    private Animation animacionCargando;
+    private RetrofitInterface retrofitInterface;
+    private boolean primerAudio = true;
+    private boolean primerLibro = true;
+    private boolean libroReiniciado = false;
+    private boolean libroEnUltimoMomento = true;
+    private int capituloActual = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_escuchando, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_escuchando, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         inicializarElementosReproductor();
 
-        mostrarReproduceUnAudiolibro();
-        esconderReproductor();
-        esconderCargandoAudiolibro();
+        if(InfoAudiolibros.getUltimoLibro() == null || InfoAudiolibros.getUltimoLibro().getId_audiolibro() < 0){
+            mostrarReproduceUnAudiolibro();
+            esconderReproductor();
+            esconderCargandoAudiolibro();
+            fabPlay.setClickable(false);
+            fabPause.setClickable(false);
+        } else {
+            peticionAudiolibrosId(InfoAudiolibros.getUltimoLibro().getId_audiolibro());
+        }
 
-        fabPlay.setClickable(false);
-        fabPause.setClickable(false);
+
+
 
         fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +134,6 @@ public class FragmentEscuchando extends Fragment {
                 mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 10000);
             }
         });
-
 
         fabSiguienteCap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,8 +165,6 @@ public class FragmentEscuchando extends Fragment {
         });
     }
 
-
-
     private void inicializarElementosReproductor() {
         numerosIzquierda = getView().findViewById(R.id.textViewSeekBarIzquierdaEscuchando);
         numerosDerecha= getView().findViewById(R.id.textViewSeekBarDerechaEscuchando);
@@ -197,26 +174,24 @@ public class FragmentEscuchando extends Fragment {
         titulo_cap = getView().findViewById(R.id.textViewTituloCapituloEscuchando);
         num_cap = getView().findViewById(R.id.textViewNumeroCapituloEscuchando);
 
+        fabPlay = getView().findViewById(R.id.botonPlayEscuchando);
+        fabPause = getView().findViewById(R.id.botonPauseEscuchando);
+        fabAvanzar =  getView().findViewById(R.id.botonAvanzarDiezEscuchando);
+        fabRetrasar = getView().findViewById(R.id.botonRetrasarDiezEscuchando);
+        fabSiguienteCap = getView().findViewById(R.id.botonSiguienteCapituloEscuchando);
+        fabAnteriorCap = getView().findViewById(R.id.botonAnteriorCapituloEscuchando);
+        fabMarcapaginas = getView().findViewById(R.id.botonCrearMarcapaginas);
+        selectorCapitulos = getView().findViewById(R.id.botonSelectorDeCapitulos);
 
-
-        fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
-        fabPause = (FloatingActionButton) getView().findViewById(R.id.botonPauseEscuchando);
-        fabAvanzar = (FloatingActionButton) getView().findViewById(R.id.botonAvanzarDiezEscuchando);
-        fabRetrasar = (FloatingActionButton) getView().findViewById(R.id.botonRetrasarDiezEscuchando);
-        fabSiguienteCap = (FloatingActionButton) getView().findViewById(R.id.botonSiguienteCapituloEscuchando);
-        fabAnteriorCap = (FloatingActionButton) getView().findViewById(R.id.botonAnteriorCapituloEscuchando);
-        fabMarcapaginas = (MaterialButton) getView().findViewById(R.id.botonCrearMarcapaginas);
-        selectorCapitulos = (MaterialButton) getView().findViewById(R.id.botonSelectorDeCapitulos);
-
-        fabPause = (FloatingActionButton) getView().findViewById(R.id.botonPauseEscuchando);
-        fabPlay = (FloatingActionButton) getView().findViewById(R.id.botonPlayEscuchando);
+        fabPause = getView().findViewById(R.id.botonPauseEscuchando);
+        fabPlay = getView().findViewById(R.id.botonPlayEscuchando);
         fabPause.setEnabled(false);
 
         reproductor = getView().findViewById(R.id.constraintLayoutReproductor);
         reproduceUnAudiolibro = getView().findViewById(R.id.constraintLayoutReproduceUnAudiolibro);
         cargandoAudiolibro = getView().findViewById(R.id.constraintLayoutCargandoAudiolibro);
 
-        iconoCargando = (ImageView) getView().findViewById(R.id.imageViewCargandoAudiolibro);
+        iconoCargando = getView().findViewById(R.id.imageViewCargandoAudiolibro);
         iconoCargando.animate().rotation(-720f).setDuration(3000);
 
         animacionCargando = AnimationUtils.loadAnimation(getContext(), R.anim.rotation_animation);
@@ -228,7 +203,6 @@ public class FragmentEscuchando extends Fragment {
         updateUltimoMomento = new UpdateUltimoMomento();
     }
 
-
     private void abrirPopupCapitulos() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View viewCapitulos = inflater.inflate(R.layout.popup_capitulos, null);
@@ -236,8 +210,8 @@ public class FragmentEscuchando extends Fragment {
         int width= ViewGroup.LayoutParams.MATCH_PARENT;
         int height= ViewGroup.LayoutParams.MATCH_PARENT;
 
-        listaCapitulos = (ListView) viewCapitulos.findViewById(R.id.listViewListaCapitulos);
-        capitulosAdapter = new CapitulosAdapter(getContext(),R.layout.item_capitulo,capitulos);
+        ListView listaCapitulos = viewCapitulos.findViewById(R.id.listViewListaCapitulos);
+        CapitulosAdapter capitulosAdapter = new CapitulosAdapter(getContext(), R.layout.item_capitulo, capitulos);
         listaCapitulos.setAdapter(capitulosAdapter);
 
         PopupWindow popupWindow = new PopupWindow(viewCapitulos,width,height, true);
@@ -260,20 +234,16 @@ public class FragmentEscuchando extends Fragment {
             }
         });
 
-
-        FloatingActionButton botonCerrar = (FloatingActionButton) viewCapitulos.findViewById(R.id.botonCerrarCapitulos);
+        FloatingActionButton botonCerrar = viewCapitulos.findViewById(R.id.botonCerrarCapitulos);
         botonCerrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
             }
         });
-
-
     }
 
-
-    private void mostrarReproductor(){
+    private void mostrarReproductor() {
         reproductor.setVisibility(View.VISIBLE);
 
         fabPause.setClickable(true);
@@ -295,7 +265,7 @@ public class FragmentEscuchando extends Fragment {
         fabSiguienteCap.setClickable(false);
     }
 
-    private void mostrarReproduceUnAudiolibro(){
+    private void mostrarReproduceUnAudiolibro() {
         reproduceUnAudiolibro.setVisibility(View.VISIBLE);
     }
 
@@ -303,7 +273,7 @@ public class FragmentEscuchando extends Fragment {
         reproduceUnAudiolibro.setVisibility(View.INVISIBLE);
     }
 
-    private void mostrarCargandoAudiolibro(){
+    private void mostrarCargandoAudiolibro() {
         cargandoAudiolibro.setVisibility(View.VISIBLE);
         iconoCargando.startAnimation(animacionCargando);
     }
@@ -312,44 +282,40 @@ public class FragmentEscuchando extends Fragment {
         cargandoAudiolibro.setVisibility(View.INVISIBLE);
     }
 
-
-
-    public void actualizarDuracionAudio(){
+    public void actualizarDuracionAudio() {
         int duracion = mediaPlayer.getDuration();
 
         numerosDerecha.setText(getBarFormattedTime(duracion));
     }
 
-    public void actualizarAudioReproducido(){
+    public void actualizarAudioReproducido() {
         int posicionActual = mediaPlayer.getCurrentPosition();
 
         numerosIzquierda.setText(getBarFormattedTime(posicionActual));
     }
 
-
-
-    public void inicializarLibro(AudiolibroEspecificoResponse audiolibro){
-
-        if(updateUltimoMomento != null){
+    public void inicializarLibro(AudiolibroEspecificoResponse audiolibro) {
+        if (updateUltimoMomento != null) {
             handler.removeCallbacks(updateUltimoMomento);
         }
 
         capitulos = audiolibro.getCapitulos();
         primerAudio = true;
 
+        ultimoMomento = null;
         ultimoMomento = audiolibro.getUltimoMomento();
-        if(ultimoMomento == null ) {
-            //Toast.makeText(getContext(), "ultimoMomento es null", Toast.LENGTH_LONG).show();
-            capituloActual = 0;
 
+        if(ultimoMomento == null ) {
+            capituloActual = 0;
+            libroEnUltimoMomento = true;
         } else if (getIndiceCapituloFromId(ultimoMomento.getCapitulo()) < 0){
-            Toast.makeText(getContext(), "Cap con id \"" + ultimoMomento.getCapitulo() + "\" no existe en este audiolibro", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Cap con id \"" + ultimoMomento.getCapitulo()
+                                + "\" no existe en este audiolibro", Toast.LENGTH_LONG).show();
             capituloActual = 0;
 
         } else {
-            int indice = getIndiceCapituloFromId(ultimoMomento.getCapitulo());
-            //Toast.makeText(getContext(), "Cap " + (indice+1) + ", " + ultimoMomento.getFecha(), Toast.LENGTH_LONG).show();
-            capituloActual = indice;
+            capituloActual = getIndiceCapituloFromId(ultimoMomento.getCapitulo());
+            libroEnUltimoMomento = false;
         }
 
         titulo_libro.setText(audiolibro.getAudiolibro().getTitulo());
@@ -360,26 +326,26 @@ public class FragmentEscuchando extends Fragment {
                 .placeholder(R.drawable.icono_imagen_estandar_foreground)
                 .into(portada);
 
-        if(primerLibro){
+        if (primerLibro) {
             esconderReproduceUnAudiolibro();
         }
 
         prepararAudio(capituloActual);
     }
 
-    public void prepararAudio(int capitulo){
+    public void prepararAudio(int capitulo) {
         mostrarCargandoAudiolibro();
         esconderReproductor();
 
-        if(mediaPlayer != null && mediaPlayer.isPlaying()){
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             fabPause.performClick();
         }
 
-        if(!primerLibro){
+        if (!primerLibro) {
             mediaPlayer.reset();
         }
 
-        if(capitulo < 0){
+        if (capitulo < 0) {
             capituloActual = 0;
         } else if(capitulo >= capitulos.size()){
             Toast.makeText(getContext(), "FIN DEL LIBRO | Reiniciando...", Toast.LENGTH_LONG).show();
@@ -403,12 +369,11 @@ public class FragmentEscuchando extends Fragment {
                         .build()
         );
 
-        try{
+        try {
             mediaPlayer.setDataSource(capitulos.get(capituloActual).getAudio());
             mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
 
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     fabPlay.setClickable(true);
@@ -417,13 +382,10 @@ public class FragmentEscuchando extends Fragment {
                     actualizarDuracionAudio();
                     setActualizacionSeekBar();
 
-
-                    if(primerAudio){
+                    if (primerAudio) {
                         primerAudio = false;
 
-                        if (ultimoMomento != null){  // primer audio y ya escuchado anteriormente
-                            libroEnUltimoMomento = false;
-                        } else {
+                        if(libroEnUltimoMomento){
                             peticionActualizarUltimoMomento();
                             esconderCargandoAudiolibro();
                             mostrarReproductor();
@@ -433,15 +395,14 @@ public class FragmentEscuchando extends Fragment {
                         reanudarMusica();
                     }
 
-                    if(libroReiniciado){
+                    if (libroReiniciado) {
                         libroReiniciado = false;
                         mediaPlayer.seekTo(0);
                         ponerBarraACeroManualmente();
                         pararMusica();
                     }
 
-
-                    if(primerLibro){
+                    if (primerLibro) {
                         primerLibro = false;
                     }
                 }
@@ -453,8 +414,7 @@ public class FragmentEscuchando extends Fragment {
                     int cp = mp.getCurrentPosition();
                     mp.seekTo(0);
 
-
-                    if(cp < mediaPlayer.getDuration() - 1000){
+                    if (cp < mediaPlayer.getDuration() - 1000) {
                         Toast.makeText(getContext(), "ERROR: no hagas saltos de audio tan grandes", Toast.LENGTH_LONG).show();
                         pararMusica();
                     } else {
@@ -463,7 +423,7 @@ public class FragmentEscuchando extends Fragment {
                 }
             });
 
-        } catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(getContext(), "Error preparando audio", Toast.LENGTH_LONG).show();
         }
     }
@@ -477,7 +437,7 @@ public class FragmentEscuchando extends Fragment {
     public class UpdateUltimoMomento implements Runnable {
         @Override
         public void run(){
-            if(libroEnUltimoMomento){
+            if (libroEnUltimoMomento) {
                 peticionActualizarUltimoMomento();
             }
 
@@ -485,9 +445,7 @@ public class FragmentEscuchando extends Fragment {
         }
     }
 
-
-
-    public void reanudarMusica(){
+    public void reanudarMusica() {
         fabPause.setEnabled(true);
         fabPause.setVisibility(View.VISIBLE);
         fabPause.setClickable(true);
@@ -502,7 +460,7 @@ public class FragmentEscuchando extends Fragment {
         handler.post(updateUltimoMomento);
     }
 
-    public void pararMusica(){
+    public void pararMusica() {
         peticionActualizarUltimoMomento();
 
         fabPlay.setEnabled(true);
@@ -525,10 +483,6 @@ public class FragmentEscuchando extends Fragment {
         }
     }
 
-    public void reiniciarMusica(){
-        mediaPlayer.reset();
-    }
-
     public class UpdateSeekBar implements Runnable {
         @Override
         public void run(){
@@ -548,14 +502,11 @@ public class FragmentEscuchando extends Fragment {
                     mediaPlayer.seekTo(progress);
                 }
             }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) { }
         });
 
         mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
@@ -565,27 +516,26 @@ public class FragmentEscuchando extends Fragment {
                 int bufferingLevel = (int)(mp.getDuration() * ratio);
                 seekBar.setSecondaryProgress(bufferingLevel);
 
-
-                if(!libroEnUltimoMomento){
+                if (!libroEnUltimoMomento) {
                     int momentoTarget = getPetitionDeformattedTime(ultimoMomento.getFecha());
 
                     mp.seekTo(bufferingLevel - 5000);
 
-                    if((bufferingLevel - 5000) > momentoTarget){
+                    if ((bufferingLevel - 5000) > momentoTarget) {
                         mp.seekTo(momentoTarget);
                         peticionActualizarUltimoMomento();
                         esconderCargandoAudiolibro();
                         mostrarReproductor();
                         libroEnUltimoMomento = true;
                     }
-                } else if(cargandoAudiolibro.getVisibility() == View.VISIBLE){
+                } else if (cargandoAudiolibro.getVisibility() == View.VISIBLE) {
                     esconderCargandoAudiolibro();
                     mostrarReproductor();
                 }
             }
         });
 
-        if(updateSeekBar != null){
+        if (updateSeekBar != null) {
             handler.removeCallbacks(updateSeekBar);
         }
 
@@ -594,10 +544,8 @@ public class FragmentEscuchando extends Fragment {
     }
 
     public String getCapituloWithNumberString(int num) {
-        return "Capítulo " + String.valueOf(num);
+        return "Capítulo " + num;
     }
-
-
 
     private void peticionActualizarUltimoMomento() {
         ListeningRequest request = new ListeningRequest();
@@ -605,34 +553,27 @@ public class FragmentEscuchando extends Fragment {
         request.setTiempo(getPetitionFormattedTime(mediaPlayer.getCurrentPosition()));
 
         Call<GenericMessageResult> llamada = retrofitInterface.ejecutarMarcapaginasListening(ApiClient.getUserCookie(), request);
+
         llamada.enqueue(new Callback<GenericMessageResult>() {
             @Override
-            public void onResponse(Call<GenericMessageResult> call, Response<GenericMessageResult> response) {
-                if (response.code() == 200) {
-                    //Toast.makeText(getContext(), "Actualización listening correcta\n" + "Cap " + (getIndiceCapituloFromId(request.getCapitulo())+1) + ", " + request.getTiempo(), Toast.LENGTH_LONG).show();
-
-                } else if (response.code() == 500){
+            public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
+                if (response.code() == 500){
                     Toast.makeText(getContext(), "Error del servidor (audiolibros/listening)", Toast.LENGTH_LONG).show();
-
-                } else {
-                    Toast.makeText(getContext(), "Error desconocido (audiolibros/listening): " + String.valueOf(response.code()),
+                } else if(response.code() != 200) {
+                    Toast.makeText(getContext(), "Error desconocido (audiolibros/listening): " + response.code(),
                             Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<GenericMessageResult> call, Throwable t) {
+            public void onFailure(@NonNull Call<GenericMessageResult> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "Algo ha fallado (audiolibros/listening)",
                         Toast.LENGTH_LONG).show();
             }
         });
-
-
-
-
     }
 
-    private String getBarFormattedTime(int duration){
+    private String getBarFormattedTime(int duration) {
         if(duration >= 6000000){
             return String.format("%01d:%02d:%02d",
                     TimeUnit.MILLISECONDS.toHours(duration),
@@ -657,7 +598,7 @@ public class FragmentEscuchando extends Fragment {
         }
     }
 
-    private String getPetitionFormattedTime(int duration){
+    private String getPetitionFormattedTime(int duration) {
             return String.format("%02d:%02d:%02d",
                     TimeUnit.MILLISECONDS.toHours(duration),
                     TimeUnit.MILLISECONDS.toMinutes(duration),
@@ -666,7 +607,7 @@ public class FragmentEscuchando extends Fragment {
             );
     }
 
-    private int getPetitionDeformattedTime(String time){
+    private int getPetitionDeformattedTime(String time) {
         String[] strArray  = time.split(":");
 
         // strArray tendrá 3 valores: hora, minuto y segundo;
@@ -679,7 +620,7 @@ public class FragmentEscuchando extends Fragment {
         return duration;
     }
 
-    private int getIndiceCapituloFromId(int id){
+    private int getIndiceCapituloFromId(int id) {
         for(int i = 0; i < capitulos.size(); i++){
             if(capitulos.get(i).getId() == id){
                 return i;
@@ -699,5 +640,32 @@ public class FragmentEscuchando extends Fragment {
         intent.putExtra("listaCapitulos", capitulos);
         intent.putExtra("capituloActual", capituloActual);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+    }
+
+
+    private void peticionAudiolibrosId(int id) {
+        Call<AudiolibroEspecificoResponse> llamada = retrofitInterface.ejecutarAudiolibrosId(ApiClient.getUserCookie(), id);
+        llamada.enqueue(new Callback<AudiolibroEspecificoResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Response<AudiolibroEspecificoResponse> response) {
+                int codigo = response.code();
+
+                if (codigo == 200) {
+                    MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(response.body());
+
+                } else if (codigo == 409) {
+                    //Toast.makeText(MainActivity.fragmentoInicioAbierto.getContext(), "No hay ningún audiolibro con ese ID (escuchando)", Toast.LENGTH_LONG).show();
+                } else if (codigo == 500) {
+                    Toast.makeText(MainActivity.fragmentoInicioAbierto.getContext(), "Error del servidor", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MainActivity.fragmentoInicioAbierto.getContext(), "Error desconocido (AudiolibrosId): " + codigo, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Throwable t) {
+                Toast.makeText(MainActivity.fragmentoInicioAbierto.getContext(), "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
