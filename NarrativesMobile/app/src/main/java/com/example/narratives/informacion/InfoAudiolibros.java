@@ -4,6 +4,7 @@ import static java.lang.Math.max;
 
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
+import com.example.narratives.peticiones.home.LibroEscuchado;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,7 +12,11 @@ import java.util.Comparator;
 
 public class InfoAudiolibros {
     private static AudiolibroEspecificoResponse audiolibroActual;
+    private static LibroEscuchado ultimoLibro;
     private static ArrayList<AudiolibroItem> todosLosAudiolibros;
+
+    private static ArrayList<AudiolibroItem> audiolibrosSeguirEscuchando;
+
     private static String[] generos = {"Todos", "Misterio", "Fantasía", "Romance", "Terror",
             "Ciencia ficción", "Histórico", "Infantil", "Autoayuda", "Poesía", "Aventuras"};
 
@@ -131,8 +136,49 @@ public class InfoAudiolibros {
         return  audiolibrosRecomendados;
     }
 
-    //TODO: cuando se actualice, cambiar el return
     public static ArrayList<AudiolibroItem> getAudiolibrosSeguirEscuchando(){
-        return new ArrayList<>();
+        return InfoAudiolibros.audiolibrosSeguirEscuchando;
+    }
+
+
+
+
+    public static void setAudiolibrosSeguirEscuchando(ArrayList<LibroEscuchado> audiolibrosSeguirEscuchando) {
+        ArrayList<AudiolibroItem> result = new ArrayList<AudiolibroItem>();
+
+        for(LibroEscuchado l : audiolibrosSeguirEscuchando){
+            AudiolibroItem i = InfoAudiolibros.getLibroItemById(l.getId_audiolibro());
+            if(i != null){
+                result.add(i);
+            }
+        }
+
+        InfoAudiolibros.audiolibrosSeguirEscuchando = result;
+    }
+
+    private static AudiolibroItem getLibroItemById(int id){
+        for(AudiolibroItem libro : todosLosAudiolibros){
+            if(libro.getId() == id){
+                return libro;
+            }
+        }
+        return null;
+    }
+
+    private static boolean isInSeguirEscuchando(int id){
+        for(AudiolibroItem libro : audiolibrosSeguirEscuchando){
+            if(libro.getId() == id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static LibroEscuchado getUltimoLibro() {
+        return ultimoLibro;
+    }
+
+    public static void setUltimoLibro(LibroEscuchado ultimoLibro) {
+        InfoAudiolibros.ultimoLibro = ultimoLibro;
     }
 }

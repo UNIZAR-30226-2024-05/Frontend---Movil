@@ -1,5 +1,6 @@
 package com.example.narratives.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
@@ -134,20 +135,21 @@ public class FragmentAmigos extends Fragment {
             }
         });
 
+
         mSocket.on("peticionReceived", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 if (args.length > 0 && args[0] instanceof JSONObject) {
 
                     getActivity().runOnUiThread(new Runnable() {
+                        @SuppressLint("MissingPermission")
                         @Override
                         public void run() {
                             peticionAmigos();
                             peticionAmistadLista();
+
                         }
                     });
-                    //messageListeners.onMessageReceived();
-
                 }
             }
         });
@@ -164,8 +166,6 @@ public class FragmentAmigos extends Fragment {
                             peticionAmistadLista();
                         }
                     });
-                    //messageListeners.onMessageReceived();
-
                 }
             }
         });
@@ -182,8 +182,38 @@ public class FragmentAmigos extends Fragment {
                             peticionAmistadLista();
                         }
                     });
-                    //messageListeners.onMessageReceived();
+                }
+            }
+        });
 
+        mSocket.on("peticionCancelled", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                if (args.length > 0 && args[0] instanceof JSONObject) {
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            peticionAmigos();
+                            peticionAmistadLista();
+                        }
+                    });
+                }
+            }
+        });
+
+        mSocket.on("friendshipRemoved", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                if (args.length > 0 && args[0] instanceof JSONObject) {
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            peticionAmigos();
+                            peticionAmistadLista();
+                        }
+                    });
                 }
             }
         });

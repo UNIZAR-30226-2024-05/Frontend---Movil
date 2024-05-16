@@ -91,6 +91,8 @@ public class InfoLibroActivity extends AppCompatActivity {
                 .placeholder(R.drawable.icono_imagen_estandar_foreground)
                 .into(imageViewPortada);
 
+
+
         TextView textViewTitulo = findViewById(R.id.textViewTituloInfoLibro);
         textViewTitulo.setText(audiolibroActual.getAudiolibro().getTitulo());
 
@@ -139,6 +141,9 @@ public class InfoLibroActivity extends AppCompatActivity {
         });
 
         escucharAudiolibro = findViewById(R.id.botonEscucharAudiolibroInfoLibro);
+        if(audiolibroActual.getUltimoMomento() != null){
+            escucharAudiolibro.setText("CONTINUAR");
+        }
         escucharAudiolibro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

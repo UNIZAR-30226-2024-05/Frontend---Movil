@@ -17,6 +17,7 @@ import com.example.narratives.peticiones.colecciones.ColeccionEspecificaResult;
 import com.example.narratives.peticiones.colecciones.ColeccionesRequest;
 import com.example.narratives.peticiones.colecciones.ColeccionesResult;
 import com.example.narratives.peticiones.autores.AutorDatosResponse;
+import com.example.narratives.peticiones.home.HomeResult;
 import com.example.narratives.peticiones.marcapaginas.CrearMarcapaginasRequest;
 import com.example.narratives.peticiones.marcapaginas.ListeningRequest;
 import com.example.narratives.peticiones.resenas.ResenaDeleteRequest;
@@ -157,4 +158,7 @@ public interface RetrofitInterface {
 
     @POST("/marcapaginas/delete")
     Call<GenericMessageResult> ejecutarDeleteMarcapaginas(@Header("Cookie") String userCookie, @Body CrearMarcapaginasRequest request);
+
+    @GET("/home")
+    Call<HomeResult> ejecutarHome(@Header("Cookie") String userCookie);
 }

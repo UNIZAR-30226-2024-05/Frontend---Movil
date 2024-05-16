@@ -20,10 +20,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.informacion.InfoMiPerfil;
+import com.example.narratives.peticiones.home.HomeResult;
 import com.example.narratives.peticiones.users.login.LoginRequest;
 import com.example.narratives.peticiones.users.login.LoginResult;
 import com.example.narratives.sockets.SocketManager;
+
+import org.json.JSONObject;
 
 import io.socket.client.Socket;
 import retrofit2.Call;
@@ -109,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                                 new Runnable() {
                                     @Override
                                     public void run() {
-                                        abrirMenuMain();
+                                        peticionHome();
                                     }
                                 }, 1000);
                     } else {
@@ -137,6 +141,51 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<LoginResult> call, @NonNull Throwable t) {
                 Toast.makeText(LoginActivity.this, "Algo ha fallado",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void peticionHome() {
+        Call<HomeResult> llamada = retrofitInterface.ejecutarHome(ApiClient.getUserCookie());
+        llamada.enqueue(new Callback<HomeResult>() {
+            @Override
+            public void onResponse(@NonNull Call<HomeResult> call, @NonNull Response<HomeResult> response) {
+                int codigo = response.code();
+
+                if (codigo == 200) {
+                    InfoAudiolibros.setAudiolibrosSeguirEscuchando(response.body().getSeguir_escuchando());
+                    InfoAudiolibros.setUltimoLibro(response.body().getUltimo());
+
+                    new Handler().postDelayed(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    abrirMenuMain();
+                                }
+                            }, 1000);
+
+                } else if (codigo == 500) {
+                    Toast.makeText(LoginActivity.this, "Error del servidor",
+                            Toast.LENGTH_LONG).show();
+                } else if (codigo == 404) {
+                    Toast.makeText(LoginActivity.this, "Error 404 /audiolibros",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String error = jObjError.getString("error");
+                        Toast.makeText(LoginActivity.this, error, Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        Toast.makeText(LoginActivity.this, "Error desconocido (audiolibros): "
+                                + response.code(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<HomeResult> call, @NonNull Throwable t) {
+                Toast.makeText(LoginActivity.this, "No se ha conectado con el servidor (home)",
                         Toast.LENGTH_LONG).show();
             }
         });

@@ -487,7 +487,7 @@ public class ResenasActivity extends AppCompatActivity {
                     InfoAudiolibros.setAudiolibroActual(response.body());
                     InfoLibroActivity.audiolibroActual = response.body();
                 } else if(codigo == 409) {
-                    Toast.makeText(ResenasActivity.this, "No hay ningún audiolibro con ese ID",
+                    Toast.makeText(ResenasActivity.this, "No hay ningún audiolibro con ese ID (reseñas)",
                                     Toast.LENGTH_LONG).show();
                 } else if(codigo == 500) {
                     Toast.makeText(ResenasActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();

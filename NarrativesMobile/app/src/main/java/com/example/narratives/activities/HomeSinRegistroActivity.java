@@ -1,6 +1,7 @@
 package com.example.narratives.activities;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,6 +29,7 @@ import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
+import com.example.narratives.peticiones.home.HomeResult;
 import com.example.narratives.sockets.SocketManager;
 
 import org.json.JSONObject;
@@ -129,13 +131,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                             ApiClient.setUserCookie(sharedPreferences.getString("cookie", null));
                             Socket mSocket = SocketManager.getInstance();
                             mSocket.connect();
-                            new Handler().postDelayed(
-                                    new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            abrirMenuMain(sharedPreferences);
-                                        }
-                                    }, 1000);
+                            peticionHome();
                         }
                     }
 
@@ -159,8 +155,58 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<AudiolibrosResult> call, @NonNull Throwable t) {
-                Toast.makeText(HomeSinRegistroActivity.this, "No se ha conectado con el servidor (audiolibros)",
+                Toast.makeText(HomeSinRegistroActivity.this, "No se ha conectado con el servidor (todosAudiolibros)",
                         Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void peticionHome() {
+        Call<HomeResult> llamada = retrofitInterface.ejecutarHome(ApiClient.getUserCookie());
+        llamada.enqueue(new Callback<HomeResult>() {
+            @Override
+            public void onResponse(@NonNull Call<HomeResult> call, @NonNull Response<HomeResult> response) {
+                int codigo = response.code();
+
+                if (codigo == 200) {
+                    InfoAudiolibros.setAudiolibrosSeguirEscuchando(response.body().getSeguir_escuchando());
+                    InfoAudiolibros.setUltimoLibro(response.body().getUltimo());
+
+                    new Handler().postDelayed(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    abrirMenuMain(sharedPreferences);
+                                }
+                            }, 1000);
+
+                } else if (codigo == 500) {
+                    Toast.makeText(HomeSinRegistroActivity.this, "Error del servidor",
+                            Toast.LENGTH_LONG).show();
+                } else if (codigo == 404) {
+                    Toast.makeText(HomeSinRegistroActivity.this, "Error 404 /audiolibros",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String error = jObjError.getString("error");
+                        Toast.makeText(HomeSinRegistroActivity.this, error, Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        Toast.makeText(HomeSinRegistroActivity.this, "Error desconocido (audiolibros): "
+                                + response.code(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<HomeResult> call, @NonNull Throwable t) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeSinRegistroActivity.this, R.style.ErrorAlertDialogStyle);
+                builder.setMessage(t.getMessage());
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
             }
         });
     }

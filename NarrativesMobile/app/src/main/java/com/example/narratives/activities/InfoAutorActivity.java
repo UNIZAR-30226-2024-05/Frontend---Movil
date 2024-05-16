@@ -15,14 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.narratives._backend.ApiClient;
-import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.adaptadores.BibliotecaTituloGridAdapter;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.example.narratives.R;
+import com.example.narratives._backend.ApiClient;
+import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.adaptadores.BibliotecaTituloGridAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
@@ -172,7 +171,7 @@ public class InfoAutorActivity extends AppCompatActivity {
                     abrirInfoLibro();
 
                 } else if(codigo == 409) {
-                    Toast.makeText(InfoAutorActivity.this, "No hay ningún audiolibro con ese ID", Toast.LENGTH_LONG).show();
+                    Toast.makeText(InfoAutorActivity.this, "No hay ningún audiolibro con ese ID (autor)", Toast.LENGTH_LONG).show();
 
                 } else if(codigo == 500) {
                     Toast.makeText(InfoAutorActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();

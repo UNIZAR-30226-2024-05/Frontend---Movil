@@ -153,7 +153,7 @@ public class FragmentBiblioteca extends Fragment {
                     InfoAudiolibros.setAudiolibroActual(response.body());
                     abrirInfoLibro();
                 } else if (codigo == 409) {
-                    Toast.makeText(getContext(), "No hay ningún audiolibro con ese ID", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "No hay ningún audiolibro con ese ID (bilbio)", Toast.LENGTH_LONG).show();
                 } else if (codigo == 500) {
                     Toast.makeText(getContext(), "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {

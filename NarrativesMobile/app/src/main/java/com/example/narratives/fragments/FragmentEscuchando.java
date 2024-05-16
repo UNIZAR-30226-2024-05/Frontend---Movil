@@ -32,7 +32,9 @@ import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.activities.CrearMarcapaginasActivity;
+import com.example.narratives.activities.MainActivity;
 import com.example.narratives.adaptadores.CapitulosAdapter;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
@@ -92,12 +94,20 @@ public class FragmentEscuchando extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         inicializarElementosReproductor();
 
-        mostrarReproduceUnAudiolibro();
-        esconderReproductor();
-        esconderCargandoAudiolibro();
+        if(InfoAudiolibros.getUltimoLibro().getId_audiolibro() >= 0){
+            mostrarReproduceUnAudiolibro();
+            esconderReproductor();
+            esconderCargandoAudiolibro();
+            fabPlay.setClickable(false);
+            fabPause.setClickable(false);
+        } else {
 
-        fabPlay.setClickable(false);
-        fabPause.setClickable(false);
+            peticionAudiolibrosId(InfoAudiolibros.getUltimoLibro().getId_audiolibro());
+
+        }
+
+
+
 
         fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -294,10 +304,12 @@ public class FragmentEscuchando extends Fragment {
         capitulos = audiolibro.getCapitulos();
         primerAudio = true;
 
+        ultimoMomento = null;
         ultimoMomento = audiolibro.getUltimoMomento();
+
         if(ultimoMomento == null ) {
             capituloActual = 0;
-
+            libroEnUltimoMomento = true;
         } else if (getIndiceCapituloFromId(ultimoMomento.getCapitulo()) < 0){
             Toast.makeText(getContext(), "Cap con id \"" + ultimoMomento.getCapitulo()
                                 + "\" no existe en este audiolibro", Toast.LENGTH_LONG).show();
@@ -305,6 +317,7 @@ public class FragmentEscuchando extends Fragment {
 
         } else {
             capituloActual = getIndiceCapituloFromId(ultimoMomento.getCapitulo());
+            libroEnUltimoMomento = false;
         }
 
         titulo_libro.setText(audiolibro.getAudiolibro().getTitulo());
@@ -374,9 +387,7 @@ public class FragmentEscuchando extends Fragment {
                     if (primerAudio) {
                         primerAudio = false;
 
-                        if (ultimoMomento != null) {  // primer audio y ya escuchado anteriormente
-                            libroEnUltimoMomento = false;
-                        } else {
+                        if(libroEnUltimoMomento){
                             peticionActualizarUltimoMomento();
                             esconderCargandoAudiolibro();
                             mostrarReproductor();
@@ -544,6 +555,7 @@ public class FragmentEscuchando extends Fragment {
         request.setTiempo(getPetitionFormattedTime(mediaPlayer.getCurrentPosition()));
 
         Call<GenericMessageResult> llamada = retrofitInterface.ejecutarMarcapaginasListening(ApiClient.getUserCookie(), request);
+
         llamada.enqueue(new Callback<GenericMessageResult>() {
             @Override
             public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
@@ -630,5 +642,32 @@ public class FragmentEscuchando extends Fragment {
         intent.putExtra("listaCapitulos", capitulos);
         intent.putExtra("capituloActual", capituloActual);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+    }
+
+
+    private void peticionAudiolibrosId(int id) {
+        Call<AudiolibroEspecificoResponse> llamada = retrofitInterface.ejecutarAudiolibrosId(ApiClient.getUserCookie(), id);
+        llamada.enqueue(new Callback<AudiolibroEspecificoResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Response<AudiolibroEspecificoResponse> response) {
+                int codigo = response.code();
+
+                if (codigo == 200) {
+                    MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(response.body());
+
+                } else if (codigo == 409) {
+                    Toast.makeText(MainActivity.fragmentoInicioAbierto.getContext(), "No hay ningún audiolibro con ese ID (escuchando)", Toast.LENGTH_LONG).show();
+                } else if (codigo == 500) {
+                    Toast.makeText(MainActivity.fragmentoInicioAbierto.getContext(), "Error del servidor", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MainActivity.fragmentoInicioAbierto.getContext(), "Error desconocido (AudiolibrosId): " + codigo, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Throwable t) {
+                Toast.makeText(MainActivity.fragmentoInicioAbierto.getContext(), "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

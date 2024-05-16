@@ -496,7 +496,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                     MainActivity.abrirEscuchando = true;
                     abrirMenuMain();
                 } else if(codigo == 409) {
-                    Toast.makeText(ColeccionesActivity.this, "No hay ningún audiolibro con ese ID",
+                    Toast.makeText(ColeccionesActivity.this, "No hay ningún audiolibro con ese ID (colecciones)",
                                     Toast.LENGTH_LONG).show();
                 } else if(codigo == 500) {
                     Toast.makeText(ColeccionesActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
@@ -572,7 +572,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
                     InfoAudiolibros.setAudiolibroActual(response.body());
                     abrirInfoLibro();
                 } else if (codigo == 409) {
-                    Toast.makeText(ColeccionesActivity.this , "No hay ningún audiolibro con ese ID", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ColeccionesActivity.this , "No hay ningún audiolibro con ese ID (colecciones)", Toast.LENGTH_LONG).show();
                 } else if (codigo == 500) {
                     Toast.makeText(ColeccionesActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {
