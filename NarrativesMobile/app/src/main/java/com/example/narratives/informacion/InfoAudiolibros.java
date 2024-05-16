@@ -143,7 +143,7 @@ public class InfoAudiolibros {
 
 
 
-    public static void setAudiolibrosSeguirEscuchando(ArrayList<LibroEscuchado> audiolibrosSeguirEscuchando) {
+    public static void setAudiolibrosSeguirEscuchando(ArrayList<LibroEscuchado> audiolibrosSeguirEscuchando, LibroEscuchado ultimoLibro) {
         ArrayList<AudiolibroItem> result = new ArrayList<AudiolibroItem>();
 
         for(LibroEscuchado l : audiolibrosSeguirEscuchando){
@@ -153,7 +153,15 @@ public class InfoAudiolibros {
             }
         }
 
+        AudiolibroItem i = InfoAudiolibros.getLibroItemById(ultimoLibro.getId_audiolibro());
+        if(i != null){
+            result.add(i);
+        }
+
+        Collections.reverse(result);
+
         InfoAudiolibros.audiolibrosSeguirEscuchando = result;
+
     }
 
     private static AudiolibroItem getLibroItemById(int id){

@@ -94,16 +94,14 @@ public class FragmentEscuchando extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         inicializarElementosReproductor();
 
-        if(InfoAudiolibros.getUltimoLibro().getId_audiolibro() >= 0){
+        if(InfoAudiolibros.getUltimoLibro() == null || InfoAudiolibros.getUltimoLibro().getId_audiolibro() < 0){
             mostrarReproduceUnAudiolibro();
             esconderReproductor();
             esconderCargandoAudiolibro();
             fabPlay.setClickable(false);
             fabPause.setClickable(false);
         } else {
-
             peticionAudiolibrosId(InfoAudiolibros.getUltimoLibro().getId_audiolibro());
-
         }
 
 
@@ -656,7 +654,7 @@ public class FragmentEscuchando extends Fragment {
                     MainActivity.fragmentoEscuchandoAbierto.inicializarLibro(response.body());
 
                 } else if (codigo == 409) {
-                    Toast.makeText(MainActivity.fragmentoInicioAbierto.getContext(), "No hay ningún audiolibro con ese ID (escuchando)", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(MainActivity.fragmentoInicioAbierto.getContext(), "No hay ningún audiolibro con ese ID (escuchando)", Toast.LENGTH_LONG).show();
                 } else if (codigo == 500) {
                     Toast.makeText(MainActivity.fragmentoInicioAbierto.getContext(), "Error del servidor", Toast.LENGTH_LONG).show();
                 } else {

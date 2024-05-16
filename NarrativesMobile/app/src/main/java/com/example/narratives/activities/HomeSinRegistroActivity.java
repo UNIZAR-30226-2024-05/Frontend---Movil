@@ -169,8 +169,8 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                 int codigo = response.code();
 
                 if (codigo == 200) {
-                    InfoAudiolibros.setAudiolibrosSeguirEscuchando(response.body().getSeguir_escuchando());
                     InfoAudiolibros.setUltimoLibro(response.body().getUltimo());
+                    InfoAudiolibros.setAudiolibrosSeguirEscuchando(response.body().getSeguir_escuchando(), response.body().getUltimo());
 
                     new Handler().postDelayed(
                             new Runnable() {

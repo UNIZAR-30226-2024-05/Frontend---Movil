@@ -78,16 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 abrirHomeSinRegistro();
             }
         });
-        findViewById(R.id.botonDirecto).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LoginRequest request = new LoginRequest(); // hace un login automático con una cuenta de prueba
-                request.setUsername("directo");
-                request.setPassword("Directo1");
 
-                peticionLogin(request);
-            }
-        });
     }
 
     private void peticionLogin(LoginRequest request) {
@@ -154,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                 int codigo = response.code();
 
                 if (codigo == 200) {
-                    InfoAudiolibros.setAudiolibrosSeguirEscuchando(response.body().getSeguir_escuchando());
+                    InfoAudiolibros.setAudiolibrosSeguirEscuchando(response.body().getSeguir_escuchando(), response.body().getUltimo());
                     InfoAudiolibros.setUltimoLibro(response.body().getUltimo());
 
                     new Handler().postDelayed(

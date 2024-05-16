@@ -277,17 +277,11 @@ public class FragmentAmigos extends Fragment {
 
                 if (codigo == 200){
 
-                    //TODO: quitar ejemplo
                     if(response.body().getAmigos() == null){
                         Toast.makeText(getContext(), "Amigos null", Toast.LENGTH_LONG).show();
 
-                        ArrayList<AmigoSimple> amigosEjemplo = new ArrayList<AmigoSimple>();
-                        amigosEjemplo.add(new AmigoSimple(1, "Buri", 6));
-                        amigosEjemplo.add(new AmigoSimple(2, "Jaume", 7));
-                        amigosEjemplo.add(new AmigoSimple(3, "Manu", 5));
-                        amigosEjemplo.add(new AmigoSimple(4, "Marti", 1));
 
-                        InfoAmigos.setAmigos(amigosEjemplo);
+                        InfoAmigos.setAmigos(new ArrayList<>());
                     } else {
                         InfoAmigos.setAmigos(response.body().getAmigos());
                     }
