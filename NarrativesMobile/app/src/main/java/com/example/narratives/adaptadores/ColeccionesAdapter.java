@@ -76,7 +76,8 @@ public class ColeccionesAdapter extends ArrayAdapter<ColeccionesItem> implements
                 Menu menu = popupMenu.getMenu();
                 MenuItem itemEliminar = menu.findItem(R.id.menu_eliminar);
 
-                if (coleccionAmigo) {
+                if (coleccionAmigo || coleccionesList.get(position).getTitulo().equals("Escuchar mas tarde")
+                    || coleccionesList.get(position).getTitulo().equals("Favoritos")) {
                     itemEliminar.setVisible(false);
                 }
 
