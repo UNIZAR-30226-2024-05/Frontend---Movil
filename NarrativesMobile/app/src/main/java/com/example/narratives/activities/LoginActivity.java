@@ -193,6 +193,10 @@ public class LoginActivity extends AppCompatActivity {
         if (club_id > 0) {
             intent.putExtra("club_id", club_id);
         }
+        int coleccion_id = getIntent().getIntExtra("coleccion_id", -1);
+        if (coleccion_id > 0) {
+            intent.putExtra("coleccion_id", coleccion_id);
+        }
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         if (alertDialog != null && alertDialog.isShowing()) {
             alertDialog.dismiss();

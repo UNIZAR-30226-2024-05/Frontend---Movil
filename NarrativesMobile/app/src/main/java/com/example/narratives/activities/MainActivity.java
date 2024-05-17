@@ -477,7 +477,12 @@ public class MainActivity extends AppCompatActivity {
         if (club_id > 0) {
             Intent intent = new Intent(this, InfoClubActivity.class);
             intent.putExtra("club_id", club_id);
-            Log.d("DEEPLINK", "Lanzar actividad");
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        }
+        int coleccion_id = intentData.getIntExtra("coleccion_id", -1);
+        if (coleccion_id > 0) {
+            Intent intent = new Intent(this, ColeccionesActivity.class);
+            intent.putExtra("coleccion_id", coleccion_id);
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         }
     }

@@ -1,7 +1,11 @@
 package com.example.narratives.activities.clubes;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.transition.TransitionSet;
@@ -9,6 +13,7 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,6 +23,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,13 +31,24 @@ import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.activities.AnadirAmigoActivity;
+import com.example.narratives.activities.ColeccionesActivity;
+import com.example.narratives.activities.InfoAmigoActivity;
+import com.example.narratives.activities.InfoLibroActivity;
+import com.example.narratives.activities.MainActivity;
 import com.example.narratives.adaptadores.UserMemberAdapter;
 import com.example.narratives.fragments.FragmentClubs;
+import com.example.narratives.informacion.InfoAmigos;
+import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.informacion.InfoClubes;
+import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
+import com.example.narratives.peticiones.amistad.lista.UsuarioEstado;
+import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.clubes.Club;
 import com.example.narratives.peticiones.clubes.ClubRequest;
 import com.example.narratives.peticiones.clubes.ClubResult;
+import com.example.narratives.peticiones.users.perfiles.UserResponse;
 import com.example.narratives.sockets.SocketManager;
 
 import retrofit2.Call;
@@ -90,10 +107,34 @@ public class InfoClubActivity extends AppCompatActivity {
             }
         });
 
+        audiolibro.setPaintFlags(audiolibro.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        audiolibro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarInfoLibro(club.getAudiolibro().getId());
+            }
+        });
+
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarInfoLibro(club.getAudiolibro().getId());
+            }
+        });
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 closeActivity();
+            }
+        });
+
+        members.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+                if (((Club.UserMember) members.getItemAtPosition(pos)).getId() != InfoMiPerfil.getId()) {
+                    getPerfilUsuario(pos);
+                }
             }
         });
     }
@@ -116,7 +157,7 @@ public class InfoClubActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.context_menu_compartir:
-                //compartirClub();
+                compartirClub();
                 return true;
             case R.id.context_menu_unirse:
                 unirseClub();
@@ -193,6 +234,77 @@ public class InfoClubActivity extends AppCompatActivity {
                 Toast.makeText(InfoClubActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void getPerfilUsuario(int position) {
+        Club.UserMember usuario = (Club.UserMember) mAdapter.getItem(position);
+
+        Call<UserResponse> llamada = retrofitInterface.ejecutarUsersId(ApiClient.getUserCookie(), usuario.getId());
+        llamada.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                int codigo = response.code();
+
+                if (response.code() == 200) {
+                    InfoAmigos.setAmigoActual(response.body());
+                    startActivity(new Intent(InfoClubActivity.this,
+                                    InfoAmigoActivity.class), ActivityOptions.makeSceneTransitionAnimation(InfoClubActivity.this).toBundle());
+
+                } else if(codigo == 409) {
+                    Toast.makeText(InfoClubActivity.this, "No hay ningún usuario con ese ID", Toast.LENGTH_LONG).show();
+
+                } else if(codigo == 500) {
+                    Toast.makeText(InfoClubActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(InfoClubActivity.this, "Error desconocido (usersId): " + String.valueOf(codigo), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Toast.makeText(InfoClubActivity.this, "No se ha conectado con el servidor (usersId)", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void mostrarInfoLibro(int id) {
+
+        Call<AudiolibroEspecificoResponse> llamada = retrofitInterface.ejecutarAudiolibrosId(ApiClient.getUserCookie(), id);
+        llamada.enqueue(new Callback<AudiolibroEspecificoResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Response<AudiolibroEspecificoResponse> response) {
+                int codigo = response.code();
+
+                if (codigo == 200) {
+                    InfoAudiolibros.setAudiolibroActual(response.body());
+                    Intent intent = new Intent(InfoClubActivity.this, InfoLibroActivity.class);
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(InfoClubActivity.this).toBundle());
+                } else if (codigo == 409) {
+                    Toast.makeText(InfoClubActivity.this , "No hay ningún audiolibro con ese ID (colecciones)", Toast.LENGTH_LONG).show();
+                } else if (codigo == 500) {
+                    Toast.makeText(InfoClubActivity.this, "Error del servidor", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(InfoClubActivity.this, "Error desconocido (AudiolibrosId): " + codigo, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AudiolibroEspecificoResponse> call, @NonNull Throwable t) {
+                Toast.makeText(InfoClubActivity.this, "No se ha conectado con el servidor", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void compartirClub() {
+        // Crea un Intent para compartir el enlace
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        String mensaje = "Únete al club de lectura " +  club.getName() + ".\n\n" + "https://www.narratives.es/club?id=" + String.valueOf(club_id);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mensaje);
+
+        // Inicia el Intent
+        startActivity(Intent.createChooser(shareIntent, "Compartir club"));
     }
 
     private void unirseClub() {

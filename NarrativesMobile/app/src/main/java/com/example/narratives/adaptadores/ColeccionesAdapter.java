@@ -1,7 +1,9 @@
 package com.example.narratives.adaptadores;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,15 +63,22 @@ public class ColeccionesAdapter extends ArrayAdapter<ColeccionesItem> implements
 
         ImageView imageViewTresPuntosColeccion = view.findViewById(R.id.imageViewTresPuntosColeccion);
 
-        if (coleccionAmigo) {
+        /*if (coleccionAmigo) {
             imageViewTresPuntosColeccion.setVisibility(View.GONE);
-        }
+        }*/
 
         imageViewTresPuntosColeccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PopupMenu popupMenu = new PopupMenu(context, v);
                 popupMenu.getMenuInflater().inflate(R.menu.menu_lista_coleccion_audiolibros, popupMenu.getMenu());
+
+                Menu menu = popupMenu.getMenu();
+                MenuItem itemEliminar = menu.findItem(R.id.menu_eliminar);
+
+                if (coleccionAmigo) {
+                    itemEliminar.setVisible(false);
+                }
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -79,6 +88,16 @@ public class ColeccionesAdapter extends ArrayAdapter<ColeccionesItem> implements
                                 listener.onMenuEliminarColeccionClick(position);
                             }
                             return true;
+                        } else if (item.getItemId() == R.id.menu_compartir) {
+                            // Crea un Intent para compartir el enlace
+                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            String mensaje = "Mira esta colección: " +  getItem(position).getTitulo()
+                                                + ".\n\n" + "https://www.narratives.es/coleccion?id="
+                                                + String.valueOf(getItem(position).getId());
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, mensaje);
+                            // Inicia el Intent
+                            context.startActivity(Intent.createChooser(shareIntent, "Compartir colección"));
                         }
                         return false;
                     }

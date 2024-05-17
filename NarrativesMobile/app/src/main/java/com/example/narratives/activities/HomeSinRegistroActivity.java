@@ -46,6 +46,7 @@ import retrofit2.Response;
 public class HomeSinRegistroActivity extends AppCompatActivity {
     private boolean haySesion;
     private int club_id = -1;
+    private int coleccion_id = -1;
     private RecyclerView rvRecomendados, rvGenero1, rvGenero2, rvGenero3, rvGenero4, rvGenero5;
     private RetrofitInterface retrofitInterface;
     private ConstraintLayout cargandoNarrativesLayout;
@@ -136,7 +137,7 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                     } else {
                         InfoAudiolibros.setTodosLosAudiolibros(audiolibrosResult);
                         if (!haySesion) {
-                            if (club_id > 0) {
+                            if (club_id > 0 || coleccion_id > 0) {
                                 abrirMenuLogin();
                             } else {
                                 mostrarMenuInicio(true);
@@ -314,6 +315,8 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         if (club_id > 0) {
             intent.putExtra("club_id", club_id);
+        } else if (coleccion_id > 0) {
+            intent.putExtra("coleccion_id", coleccion_id);
         }
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         finish();
@@ -328,6 +331,8 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         if (club_id > 0) {
             intent.putExtra("club_id", club_id);
+        } else if (coleccion_id > 0) {
+            intent.putExtra("coleccion_id", coleccion_id);
         }
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
@@ -349,6 +354,9 @@ public class HomeSinRegistroActivity extends AppCompatActivity {
                 // Obtener el parámetro id del deep link
                 String id = data.getQueryParameter("id");
                 club_id = Integer.parseInt(id);
+            } else if ("/coleccion".equals(path)) {
+                String id = data.getQueryParameter("id");
+                coleccion_id = Integer.parseInt(id);
             }
         }
     }

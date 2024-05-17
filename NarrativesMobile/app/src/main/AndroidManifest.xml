@@ -32,6 +32,10 @@
                     android:host="www.narratives.es"
                     android:pathPrefix="/club"
                     android:scheme="https" />
+                <data
+                    android:host="www.narratives.es"
+                    android:pathPrefix="/coleccion"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity android:name=".activities.MainActivity"></activity>

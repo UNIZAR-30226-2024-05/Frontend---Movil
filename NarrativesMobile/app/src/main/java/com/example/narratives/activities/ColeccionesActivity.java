@@ -51,7 +51,7 @@ import retrofit2.Response;
 
 public class ColeccionesActivity extends AppCompatActivity implements ColeccionesAdapter.OnMenuItemClickListener,
                     AudiolibrosColeccionAdapter.OnMenuItemClickListener {
-    public static String username;
+    public static String username = "";
     public static ArrayList<ColeccionesItem> coleccionesList = new ArrayList<>();
     public static ColeccionEspecificaResult coleccionActual;
     private ColeccionesAdapter coleccionesAdapter;
@@ -76,6 +76,8 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
 
         coleccionesAdapter = new ColeccionesAdapter(this, R.layout.item_lista_colecciones, coleccionesList);
         coleccionesAdapter.setOnMenuEliminarColeccionClickListener(this);
+
+        handleDeepLink();
 
         if (!username.equals(InfoMiPerfil.getUsername())) {      // Amigo
             textViewTituloColecciones.setText("Colecciones de " + username);
@@ -364,9 +366,7 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
             @Override
             public void onResponse(@NonNull Call<GenericMessageResult> call, @NonNull Response<GenericMessageResult> response) {
                 if (response.isSuccessful()) {
-                    if (!username.equals(InfoMiPerfil.getUsername())) {
-                        obtenerColecciones();
-                    }
+                    obtenerColecciones();
                     coleccionActual.setGuardada(true);
                     textViewGuardadaSiNo.setText("SI");
                     buttonGuardarQuitarColeccion.setText("QUITAR");
@@ -590,5 +590,13 @@ public class ColeccionesActivity extends AppCompatActivity implements Coleccione
     private void abrirInfoLibro() {
         Intent intent = new Intent(this, InfoLibroActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    private void handleDeepLink() {
+        int coleccion_id = getIntent().getIntExtra("coleccion_id", -1);
+        if (coleccion_id > 0) {
+            username = InfoMiPerfil.getUsername();
+            obtenerInfoColeccion(coleccion_id);
+        }
     }
 }
