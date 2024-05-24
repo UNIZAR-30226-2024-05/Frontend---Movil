@@ -1,10 +1,7 @@
 package com.example.narratives.sockets;
 
 import com.example.narratives._backend.ApiClient;
-import com.example.narratives.informacion.InfoClubes;
-import com.example.narratives.peticiones.clubes.Message;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
@@ -15,7 +12,6 @@ import java.util.Map;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 
 public class SocketManager {
     private static final String SERVER_URL = "https://server.narratives.es";
