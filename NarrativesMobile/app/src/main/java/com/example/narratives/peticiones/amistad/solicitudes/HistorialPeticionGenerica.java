@@ -1,4 +1,4 @@
-package com.example.narratives.peticiones.amistad.peticiones;
+package com.example.narratives.peticiones.amistad.solicitudes;
 
 public class HistorialPeticionGenerica {
     int user_id;

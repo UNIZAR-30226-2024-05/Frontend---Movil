@@ -14,7 +14,7 @@ import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.informacion.InfoPeticiones;
-import com.example.narratives.peticiones.amistad.peticiones.HistorialPeticionConTipo;
+import com.example.narratives.peticiones.amistad.solicitudes.HistorialPeticionConTipo;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.Collections;

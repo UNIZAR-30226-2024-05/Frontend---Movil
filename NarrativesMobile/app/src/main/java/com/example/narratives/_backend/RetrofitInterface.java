@@ -4,7 +4,7 @@ import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.GenericOtherIdRequest;
 import com.example.narratives.peticiones.amistad.amigos.AmigosResponse;
 import com.example.narratives.peticiones.amistad.lista.AmistadListaResponse;
-import com.example.narratives.peticiones.amistad.peticiones.AmistadPeticionesResponse;
+import com.example.narratives.peticiones.amistad.solicitudes.AmistadPeticionesResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.audiolibros.especifico.OwnReview;
 import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;

@@ -1,9 +1,9 @@
 package com.example.narratives.informacion;
 
 import com.example.narratives.R;
-import com.example.narratives.peticiones.amistad.peticiones.AmistadPeticionesResponse;
-import com.example.narratives.peticiones.amistad.peticiones.HistorialPeticionConTipo;
-import com.example.narratives.peticiones.amistad.peticiones.HistorialPeticionGenerica;
+import com.example.narratives.peticiones.amistad.solicitudes.AmistadPeticionesResponse;
+import com.example.narratives.peticiones.amistad.solicitudes.HistorialPeticionConTipo;
+import com.example.narratives.peticiones.amistad.solicitudes.HistorialPeticionGenerica;
 
 import java.util.ArrayList;
 

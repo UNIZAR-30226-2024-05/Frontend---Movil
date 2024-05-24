@@ -36,8 +36,6 @@ import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.activities.clubes.InfoClubActivity;
 import com.example.narratives.activities.colecciones.ColeccionesActivity;
-import com.example.narratives.activities.info.CambioContrasenaActivity;
-import com.example.narratives.activities.info.CambioFotoPerfilActivity;
 import com.example.narratives.activities.pre_session.HomeSinRegistroActivity;
 import com.example.narratives.activities.pre_session.LoginActivity;
 import com.example.narratives.databinding.ActivityMainBinding;

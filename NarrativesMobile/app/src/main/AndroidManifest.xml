@@ -41,8 +41,8 @@
         <activity android:name=".activities.main.MainActivity"></activity>
         <activity android:name=".activities.pre_session.LoginActivity"></activity>
         <activity android:name=".activities.pre_session.RegistroActivity"></activity>
-        <activity android:name=".activities.info.CambioContrasenaActivity"></activity>
-        <activity android:name=".activities.info.CambioFotoPerfilActivity"></activity>
+        <activity android:name=".activities.main.CambioContrasenaActivity"></activity>
+        <activity android:name=".activities.main.CambioFotoPerfilActivity"></activity>
         <activity android:name=".activities.clubes.CrearClubActivity"></activity>
         <activity android:name=".activities.clubes.BuscarClubActivity"></activity>
         <activity android:name=".activities.clubes.InfoClubActivity"></activity>

@@ -1,4 +1,4 @@
-package com.example.narratives.peticiones.amistad.peticiones;
+package com.example.narratives.peticiones.amistad.solicitudes;
 
 import static com.google.common.math.IntMath.mod;
 

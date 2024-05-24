@@ -17,8 +17,8 @@ import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.activities.main.MainActivity;
 import com.example.narratives.adaptadores.HistorialPeticionAdapter;
 import com.example.narratives.informacion.InfoPeticiones;
-import com.example.narratives.peticiones.amistad.peticiones.AmistadPeticionesResponse;
-import com.example.narratives.peticiones.amistad.peticiones.HistorialPeticionConTipo;
+import com.example.narratives.peticiones.amistad.solicitudes.AmistadPeticionesResponse;
+import com.example.narratives.peticiones.amistad.solicitudes.HistorialPeticionConTipo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
