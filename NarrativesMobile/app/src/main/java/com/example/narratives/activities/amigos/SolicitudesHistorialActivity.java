@@ -1,4 +1,4 @@
-package com.example.narratives.activities;
+package com.example.narratives.activities.amigos;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.activities.main.MainActivity;
 import com.example.narratives.adaptadores.HistorialPeticionAdapter;
 import com.example.narratives.informacion.InfoPeticiones;
 import com.example.narratives.peticiones.amistad.peticiones.AmistadPeticionesResponse;

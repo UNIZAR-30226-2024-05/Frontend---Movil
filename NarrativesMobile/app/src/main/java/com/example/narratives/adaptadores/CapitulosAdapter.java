@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.narratives.R;
-import com.example.narratives.activities.MainActivity;
+import com.example.narratives.activities.main.MainActivity;
 import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
 
 import java.util.List;

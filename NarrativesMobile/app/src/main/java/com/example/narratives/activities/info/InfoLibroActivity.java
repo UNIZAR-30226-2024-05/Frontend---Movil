@@ -1,4 +1,4 @@
-package com.example.narratives.activities;
+package com.example.narratives.activities.info;
 
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
@@ -29,6 +29,9 @@ import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.activities.main.MainActivity;
+import com.example.narratives.activities.resenas.ResenasActivity;
+import com.example.narratives.activities.marcapaginas.EditMarcapaginasActivity;
 import com.example.narratives.adaptadores.MarcapaginasAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.GenericMessageResult;

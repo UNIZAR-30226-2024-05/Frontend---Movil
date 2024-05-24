@@ -1,4 +1,4 @@
-package com.example.narratives.activities;
+package com.example.narratives.activities.amigos;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.activities.info.InfoAmigoActivity;
+import com.example.narratives.activities.main.MainActivity;
 import com.example.narratives.adaptadores.UsuarioEstadoAnadirAdapter;
 import com.example.narratives.informacion.InfoAmigos;
 import com.example.narratives.peticiones.amistad.amigos.AmigosResponse;

@@ -1,4 +1,4 @@
-package com.example.narratives.activities;
+package com.example.narratives.activities.pre_session;
 
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.transition.TransitionSet;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -26,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.activities.main.MainActivity;
 import com.example.narratives.adaptadores.MenuInicioAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.informacion.InfoMiPerfil;

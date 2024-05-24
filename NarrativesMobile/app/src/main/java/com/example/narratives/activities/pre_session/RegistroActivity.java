@@ -1,4 +1,4 @@
-package com.example.narratives.activities;
+package com.example.narratives.activities.pre_session;
 
 import android.app.ActivityOptions;
 import android.app.AlertDialog;

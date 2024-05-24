@@ -23,7 +23,7 @@ import androidx.fragment.app.Fragment;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.activities.InfoLibroActivity;
+import com.example.narratives.activities.info.InfoLibroActivity;
 import com.example.narratives.adaptadores.BibliotecaAutorGridAdapter;
 import com.example.narratives.adaptadores.BibliotecaTagsGridAdapter;
 import com.example.narratives.adaptadores.BibliotecaTituloGridAdapter;

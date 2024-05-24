@@ -1,4 +1,4 @@
-package com.example.narratives.activities;
+package com.example.narratives.activities.info;
 
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.activities.main.MainActivity;
 import com.example.narratives.peticiones.GenericMessageResult;
 import com.example.narratives.peticiones.users.cambio_datos.CambioContrasenaRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

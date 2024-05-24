@@ -15,7 +15,7 @@
         android:enableOnBackInvokedCallback="true"
         android:theme="@style/Theme.Narratives">
         <activity
-            android:name="com.example.narratives.activities.HomeSinRegistroActivity"
+            android:name="com.example.narratives.activities.pre_session.HomeSinRegistroActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,26 +38,26 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity"></activity>
-        <activity android:name=".activities.LoginActivity"></activity>
-        <activity android:name=".activities.RegistroActivity"></activity>
-        <activity android:name=".activities.CambioContrasenaActivity"></activity>
-        <activity android:name=".activities.CambioFotoPerfilActivity"></activity>
+        <activity android:name=".activities.main.MainActivity"></activity>
+        <activity android:name=".activities.pre_session.LoginActivity"></activity>
+        <activity android:name=".activities.pre_session.RegistroActivity"></activity>
+        <activity android:name=".activities.info.CambioContrasenaActivity"></activity>
+        <activity android:name=".activities.info.CambioFotoPerfilActivity"></activity>
         <activity android:name=".activities.clubes.CrearClubActivity"></activity>
         <activity android:name=".activities.clubes.BuscarClubActivity"></activity>
         <activity android:name=".activities.clubes.InfoClubActivity"></activity>
         <activity android:name=".activities.clubes.ChatClubActivity"></activity>
-        <activity android:name=".activities.CrearMarcapaginasActivity"></activity>
-        <activity android:name=".activities.EditMarcapaginasActivity"></activity>
-        <activity android:name=".activities.InfoAutorActivity"/>
-        <activity android:name=".activities.InfoLibroActivity"></activity>
-        <activity android:name=".activities.InfoAmigoActivity"></activity>
-        <activity android:name=".activities.AnadirAmigoActivity"></activity>
-        <activity android:name=".activities.SolicitudesEnviadasActivity"></activity>
-        <activity android:name=".activities.SolicitudesRecibidasActivity"></activity>
-        <activity android:name=".activities.SolicitudesHistorialActivity"></activity>
-        <activity android:name=".activities.ColeccionesActivity"></activity>
-        <activity android:name=".activities.ResenasActivity"></activity>
+        <activity android:name=".activities.marcapaginas.CrearMarcapaginasActivity"></activity>
+        <activity android:name=".activities.marcapaginas.EditMarcapaginasActivity"></activity>
+        <activity android:name=".activities.info.InfoAutorActivity"/>
+        <activity android:name=".activities.info.InfoLibroActivity"></activity>
+        <activity android:name=".activities.info.InfoAmigoActivity"></activity>
+        <activity android:name=".activities.amigos.AnadirAmigoActivity"></activity>
+        <activity android:name=".activities.amigos.SolicitudesEnviadasActivity"></activity>
+        <activity android:name=".activities.amigos.SolicitudesRecibidasActivity"></activity>
+        <activity android:name=".activities.amigos.SolicitudesHistorialActivity"></activity>
+        <activity android:name=".activities.colecciones.ColeccionesActivity"></activity>
+        <activity android:name=".activities.resenas.ResenasActivity"></activity>
        
 
 

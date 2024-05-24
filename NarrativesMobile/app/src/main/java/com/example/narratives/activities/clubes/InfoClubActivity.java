@@ -1,12 +1,9 @@
 package com.example.narratives.activities.clubes;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.transition.TransitionSet;
 import android.view.ContextMenu;
@@ -21,8 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,11 +26,8 @@ import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.activities.AnadirAmigoActivity;
-import com.example.narratives.activities.ColeccionesActivity;
-import com.example.narratives.activities.InfoAmigoActivity;
-import com.example.narratives.activities.InfoLibroActivity;
-import com.example.narratives.activities.MainActivity;
+import com.example.narratives.activities.info.InfoAmigoActivity;
+import com.example.narratives.activities.info.InfoLibroActivity;
 import com.example.narratives.adaptadores.UserMemberAdapter;
 import com.example.narratives.fragments.FragmentClubs;
 import com.example.narratives.informacion.InfoAmigos;
@@ -43,7 +35,6 @@ import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.informacion.InfoClubes;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
-import com.example.narratives.peticiones.amistad.lista.UsuarioEstado;
 import com.example.narratives.peticiones.audiolibros.especifico.AudiolibroEspecificoResponse;
 import com.example.narratives.peticiones.clubes.Club;
 import com.example.narratives.peticiones.clubes.ClubRequest;

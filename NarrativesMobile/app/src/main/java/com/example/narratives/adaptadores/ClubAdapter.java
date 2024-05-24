@@ -19,7 +19,7 @@ import com.example.narratives.R;
 import com.example.narratives.activities.clubes.BuscarClubActivity;
 import com.example.narratives.activities.clubes.ChatClubActivity;
 import com.example.narratives.activities.clubes.InfoClubActivity;
-import com.example.narratives.activities.MainActivity;
+import com.example.narratives.activities.main.MainActivity;
 import com.example.narratives.fragments.FragmentClubs;
 import com.example.narratives.peticiones.clubes.Club;
 

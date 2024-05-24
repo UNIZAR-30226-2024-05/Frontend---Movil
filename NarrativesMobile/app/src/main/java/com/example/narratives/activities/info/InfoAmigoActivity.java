@@ -1,4 +1,4 @@
-package com.example.narratives.activities;
+package com.example.narratives.activities.info;
 
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
@@ -17,6 +17,8 @@ import com.bumptech.glide.Glide;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.activities.colecciones.ColeccionesActivity;
+import com.example.narratives.activities.main.MainActivity;
 import com.example.narratives.fragments.FragmentAmigos;
 import com.example.narratives.informacion.InfoAmigos;
 import com.example.narratives.peticiones.GenericMessageResult;

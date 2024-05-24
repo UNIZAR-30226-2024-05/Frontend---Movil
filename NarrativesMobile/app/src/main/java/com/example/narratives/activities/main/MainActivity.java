@@ -1,4 +1,4 @@
-package com.example.narratives.activities;
+package com.example.narratives.activities.main;
 
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.transition.TransitionSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +35,11 @@ import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
 import com.example.narratives.activities.clubes.InfoClubActivity;
+import com.example.narratives.activities.colecciones.ColeccionesActivity;
+import com.example.narratives.activities.info.CambioContrasenaActivity;
+import com.example.narratives.activities.info.CambioFotoPerfilActivity;
+import com.example.narratives.activities.pre_session.HomeSinRegistroActivity;
+import com.example.narratives.activities.pre_session.LoginActivity;
 import com.example.narratives.databinding.ActivityMainBinding;
 import com.example.narratives.fragments.FragmentAmigos;
 import com.example.narratives.fragments.FragmentBiblioteca;
@@ -46,18 +50,12 @@ import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.informacion.InfoClubes;
 import com.example.narratives.informacion.InfoMiPerfil;
 import com.example.narratives.peticiones.GenericMessageResult;
-import com.example.narratives.peticiones.audiolibros.todos.AudiolibroItem;
-import com.example.narratives.peticiones.audiolibros.todos.AudiolibrosResult;
-import com.example.narratives.peticiones.home.HomeResult;
 import com.example.narratives.peticiones.users.perfiles.MiPerfilResponse;
 import com.example.narratives.sockets.SocketManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
-import io.socket.client.Socket;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

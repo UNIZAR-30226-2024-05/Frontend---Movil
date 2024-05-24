@@ -1,4 +1,4 @@
-package com.example.narratives.activities;
+package com.example.narratives.activities.resenas;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.activities.info.InfoLibroActivity;
 import com.example.narratives.adaptadores.ResenasAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.informacion.InfoMiPerfil;

@@ -1,4 +1,4 @@
-package com.example.narratives.activities;
+package com.example.narratives.activities.colecciones;
 
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
@@ -28,6 +28,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
+import com.example.narratives.activities.main.MainActivity;
+import com.example.narratives.activities.info.InfoLibroActivity;
 import com.example.narratives.adaptadores.AudiolibrosColeccionAdapter;
 import com.example.narratives.adaptadores.ColeccionesAdapter;
 import com.example.narratives.informacion.InfoAudiolibros;

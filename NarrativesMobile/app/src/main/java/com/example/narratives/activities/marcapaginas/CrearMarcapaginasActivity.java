@@ -1,11 +1,7 @@
-package com.example.narratives.activities;
+package com.example.narratives.activities.marcapaginas;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.transition.TransitionSet;
 import android.util.Log;
 import android.view.View;
@@ -20,9 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.narratives.R;
 import com.example.narratives._backend.ApiClient;
 import com.example.narratives._backend.RetrofitInterface;
-import com.example.narratives.adaptadores.AudiolibroAdapter;
 import com.example.narratives.adaptadores.SelectorCapitulosAdapter;
-import com.example.narratives.informacion.InfoAudiolibros;
 import com.example.narratives.peticiones.audiolibros.especifico.Capitulo;
 import com.example.narratives.peticiones.marcapaginas.CrearMarcapaginasRequest;
 import com.example.narratives.peticiones.GenericMessageResult;
